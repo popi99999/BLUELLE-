@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bluelle — Luxury Second Hand</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--teal:#3EC8BC;--teal-dark:#2AA89D;--teal-pale:#E8F8F7;--gold:#C9A46E;--gold-light:#E8D5B0;--dark:#1C2826;--muted:#6B8884;--white:#FDFFFE;--cream:#F7FAFA}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--dark);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cur{width:8px;height:8px;background:var(--teal);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.curR{width:32px;height:32px;border:1px solid rgba(62,200,188,.55);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+@media(max-width:900px){.cur,.curR{display:none}body{cursor:auto}}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:1000;background:#030f0e;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.bar-t,.bar-b{position:absolute;left:0;right:0;height:50vh;background:#000;transition:height 1.6s cubic-bezier(.76,0,.24,1)}
+.bar-t{top:0}.bar-b{bottom:0}
+#intro.open .bar-t,#intro.open .bar-b{height:0}
+.ilogo{position:relative;z-index:2;opacity:0;transform:scale(.88);transition:opacity .9s .4s,transform .9s .4s;text-align:center}
+#intro.open .ilogo{opacity:1;transform:scale(1)}
+#intro.done .ilogo{opacity:0;transform:scale(1.08);transition:opacity .5s,transform .5s}
+#intro.done{opacity:0;transition:opacity .65s}
+.ilogo img{height:90px;filter:brightness(0) invert(1);display:block;margin:0 auto}
+.ilogo-txt{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:300;color:var(--white);display:none}
+.ilogo-txt em{font-style:italic;color:var(--teal)}
+.ilogo-sub{font-size:.62rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1rem}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.8rem 4rem;transition:background .6s,padding .4s}
+nav.s{background:rgba(253,255,254,.95);backdrop-filter:blur(20px);padding:1rem 4rem;box-shadow:0 1px 0 rgba(62,200,188,.1)}
+.nlogo{text-decoration:none;display:flex;align-items:center}
+.nlogo img{height:32px;object-fit:contain;filter:brightness(0) invert(1);transition:filter .4s}
+nav.s .nlogo img{filter:none}
+.nlogo-txt{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:300;display:none}
+.nlogo-txt em{font-style:italic;color:var(--teal)}
+.nlinks{display:flex;gap:2.6rem;list-style:none}
+.nlinks a{text-decoration:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75);transition:color .3s;position:relative}
+nav.s .nlinks a{color:var(--muted)}
+.nlinks a:hover{color:var(--teal)}
+.nlinks a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nlinks a:hover::after{transform:scaleX(1)}
+@media(max-width:900px){nav{padding:1.2rem 1.5rem}nav.s{padding:.9rem 1.5rem}.nlinks{display:none}}
+
+/* HERO */
+#hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#oc{position:absolute;inset:0;width:100%;height:100%}
+.ho{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,15,14,.58) 0%,rgba(3,15,14,.06) 45%,rgba(3,15,14,.68) 100%)}
+.hcont{position:relative;z-index:4;text-align:center;opacity:0;transform:translateY(26px);transition:opacity 1.2s,transform 1.2s}
+.hcont.show{opacity:1;transform:translateY(0)}
+.heye{font-size:.65rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1.6rem}
+.htitle{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,6.8rem);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:.8rem}
+.htitle em{font-style:italic;color:var(--gold-light)}
+.hsub{font-size:clamp(.85rem,1.4vw,1rem);color:rgba(255,255,255,.58);margin-bottom:3rem;line-height:1.8}
+.hcta{display:inline-block;background:var(--white);color:var(--teal-dark);padding:.9rem 2.8rem;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;border:none;cursor:none;transition:transform .3s,box-shadow .3s;box-shadow:0 8px 30px rgba(0,0,0,.2);text-decoration:none}
+.hcta:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(0,0,0,.28)}
+.hscroll{position:absolute;bottom:2.8rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.6rem;color:rgba(255,255,255,.3);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;opacity:0;transition:opacity 1s}
+.hscroll.show{opacity:1}
+.sline{width:1px;height:38px;background:rgba(255,255,255,.22);animation:slp 2s ease infinite}
+@keyframes slp{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(.5)}}
+
+/* STRIP */
+.strip{background:var(--dark);padding:1rem 0;overflow:hidden}
+.strip-in{display:flex;gap:5rem;white-space:nowrap;animation:mq 24s linear infinite;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+.strip-in span{color:var(--gold);opacity:.45}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+section{padding:7rem 5rem}
+@media(max-width:900px){section{padding:5rem 1.5rem}}
+.sl{font-size:.65rem;letter-spacing:.32em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.sl::before{content:'';display:block;width:2rem;height:1px;background:var(--teal)}
+.st{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:300;line-height:1.15;color:var(--dark);margin-bottom:1rem}
+.st em{font-style:italic;color:var(--teal)}
+
+/* OBJECT SECTION */
+#objsec{background:var(--dark);display:grid;grid-template-columns:1fr 1fr;align-items:center;min-height:90vh;overflow:hidden;padding:0}
+@media(max-width:900px){#objsec{grid-template-columns:1fr;min-height:auto}}
+.objtxt{padding:7rem 5rem}
+@media(max-width:900px){.objtxt{padding:4rem 1.5rem}}
+.objtxt .st{color:var(--white)}
+.objtxt p{font-size:.9rem;line-height:2;color:rgba(255,255,255,.38);max-width:380px;margin-bottom:2rem}
+.objlist{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.objlist li{font-size:.84rem;color:rgba(255,255,255,.4);display:flex;gap:.8rem;line-height:1.6}
+.objlist li::before{content:'✦';color:var(--gold);font-size:.54rem;flex-shrink:0;margin-top:.4rem}
+
+/* 3D OBJECT STAGE */
+.objstage{position:relative;display:flex;align-items:center;justify-content:center;height:90vh;perspective:1000px}
+@media(max-width:900px){.objstage{height:70vw;min-height:320px}}
+#obj3d{transform-style:preserve-3d}
+.objshadow{position:absolute;bottom:10%;left:50%;transform:translateX(-50%);height:20px;background:radial-gradient(ellipse,rgba(0,0,0,.5) 0%,transparent 70%);filter:blur(8px);width:120px}
+
+/* ABOUT */
+#about{background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+@media(max-width:900px){#about{grid-template-columns:1fr;gap:3rem}}
+.adesc{font-size:.92rem;line-height:2;color:var(--muted);margin-bottom:2.4rem}
+.astats{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.astat{padding:1.6rem;background:var(--white);border-left:3px solid var(--teal)}
+.astat-n{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:300;color:var(--teal);line-height:1;margin-bottom:.3rem}
+.astat-l{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.acard{background:var(--dark);padding:2.8rem;position:relative;overflow:hidden}
+.acard::before{content:'';position:absolute;top:-40px;right:-40px;width:170px;height:170px;border-radius:50%;background:rgba(62,200,188,.07)}
+.acard-t{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:1.4rem;line-height:1.3}
+.acard-t em{font-style:italic;color:var(--teal)}
+.alist{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.alist li{font-size:.82rem;color:rgba(255,255,255,.42);line-height:1.6;display:flex;gap:.75rem}
+.alist li::before{content:'✦';color:var(--gold);font-size:.52rem;flex-shrink:0;margin-top:.36rem}
+.apill{position:absolute;bottom:-1px;right:2rem;background:var(--teal);color:var(--white);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.42rem 1rem}
+
+/* PRODUCTS */
+#prodotti{background:var(--white)}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:2rem}
+.ftabs{display:flex;gap:.5rem}
+.ftab{padding:.4rem 1.2rem;font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(62,200,188,.22);background:transparent;color:var(--muted);cursor:none;transition:all .3s;font-family:'Outfit',sans-serif}
+.ftab.on,.ftab:hover{background:var(--teal);color:var(--white);border-color:var(--teal)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr;gap:1rem}}
+@media(max-width:500px){.pgrid{grid-template-columns:1fr}}
+.pc{background:var(--cream);cursor:none;transition:transform .5s,box-shadow .4s;overflow:hidden}
+.pc:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(62,200,188,.1)}
+.pc.sold{cursor:not-allowed;opacity:.65}
+.pi{aspect-ratio:3/4;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.pibg{width:100%;height:100%;transition:transform .7s;display:flex;align-items:center;justify-content:center}
+.pc:not(.sold):hover .pibg{transform:scale(1.06)}
+.bg-g{background:linear-gradient(135deg,#E8F5F3,#B8EAE6)}
+.bg-b{background:linear-gradient(135deg,#EFF8F7,#C5E8E5)}
+.pph{font-size:5rem;opacity:.13;user-select:none}
+.ptag{position:absolute;top:1rem;left:1rem;background:var(--dark);color:var(--white);font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;padding:.25rem .78rem}
+.ptag.sold{background:var(--muted)}
+.pinfo{padding:1.2rem 1.4rem 1.6rem}
+.pbrand{font-size:.57rem;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin-bottom:.28rem}
+.pname{font-family:'Playfair Display',serif;font-size:1.06rem;color:var(--dark);margin-bottom:.26rem}
+.psize{font-size:.7rem;color:var(--muted);margin-bottom:.78rem}
+.pfooter{display:flex;justify-content:space-between;align-items:center}
+.pprice{font-size:.96rem;font-weight:500;color:var(--dark)}
+.porig{font-size:.7rem;color:var(--muted);text-decoration:line-through;margin-left:.5rem}
+.pbtn{background:var(--teal);color:var(--white);border:none;padding:.46rem 1rem;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:background .3s;font-family:'Outfit',sans-serif}
+.pbtn:hover{background:var(--teal-dark)}
+.pbtn:disabled{background:var(--muted);cursor:not-allowed}
+
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(4,18,16,.84);backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1.5rem}
+.mov.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);max-width:740px;width:100%;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transform:translateY(22px) scale(.98);transition:transform .4s;max-height:90vh;position:relative}
+.mov.open .modal{transform:translateY(0) scale(1)}
+@media(max-width:640px){.modal{grid-template-columns:1fr;overflow-y:auto}}
+.mimg{display:flex;align-items:center;justify-content:center;min-height:260px}
+.mbody{padding:2.4rem 2.2rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem}
+.mbrand{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+.mname{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:300;color:var(--dark);line-height:1.2}
+.mprices{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+.mprice{font-size:1.4rem;font-weight:500;color:var(--dark)}
+.morig{font-size:.88rem;color:var(--muted);text-decoration:line-through}
+.msave{font-size:.65rem;background:var(--teal-pale);color:var(--teal-dark);padding:.2rem .65rem;font-weight:500}
+.mdiv{height:1px;background:rgba(62,200,188,.13)}
+.mchips{display:flex;gap:.5rem;flex-wrap:wrap}
+.mchip{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(62,200,188,.2);padding:.25rem .78rem;color:var(--muted)}
+.mdesc{font-size:.84rem;color:var(--muted);line-height:1.85}
+.mwhy{background:var(--cream);padding:1.1rem 1.3rem;border-left:3px solid var(--teal)}
+.mwhy-t{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+.mwhy ul{list-style:none;display:flex;flex-direction:column;gap:.42rem}
+.mwhy li{font-size:.78rem;color:var(--muted);display:flex;gap:.58rem}
+.mwhy li::before{content:'✦';color:var(--gold);font-size:.5rem;flex-shrink:0;margin-top:.26rem}
+.mbuy{background:var(--teal);color:var(--white);border:none;padding:1rem;font-family:'Outfit',sans-serif;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:none;transition:background .3s,transform .3s;width:100%}
+.mbuy:hover{background:var(--teal-dark);transform:translateY(-2px)}
+.msec{font-size:.65rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.mclose{position:absolute;top:1rem;right:1.1rem;background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:none;z-index:10;transition:color .3s}
+.mclose:hover{color:var(--dark)}
+
+/* STEPS */
+#steps{background:var(--dark)}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:4rem;background:rgba(255,255,255,.05)}
+@media(max-width:900px){.sgrid{grid-template-columns:1fr 1fr}}
+.step{background:var(--dark);padding:2.4rem 1.8rem;border-top:2px solid transparent;transition:border-color .4s,background .4s}
+.step:hover{border-color:var(--teal);background:rgba(62,200,188,.04)}
+.snum{font-family:'Playfair Display',serif;font-size:3.4rem;font-weight:300;color:rgba(62,200,188,.11);line-height:1;margin-bottom:1.2rem}
+.sico{font-size:1.4rem;margin-bottom:.75rem}
+.stit{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.62rem;font-weight:500}
+.stxt{font-size:.8rem;line-height:1.8;color:rgba(255,255,255,.35)}
+
+/* REVIEWS */
+#reviews{background:var(--teal-pale)}
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+@media(max-width:900px){.rgrid{grid-template-columns:1fr}}
+.rc{background:var(--white);padding:2.2rem;border-bottom:3px solid transparent;transition:border-color .4s,transform .4s}
+.rc:hover{border-color:var(--teal);transform:translateY(-4px)}
+.rstars{color:var(--gold);font-size:.8rem;margin-bottom:1rem}
+.rtxt{font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;line-height:1.8;color:var(--dark);margin-bottom:1.5rem;opacity:.7}
+.rauth{display:flex;align-items:center;gap:.9rem}
+.ravt{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal-dark));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.82rem;color:var(--white);flex-shrink:0}
+.rname{font-size:.73rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dark);font-weight:500}
+.rsub{font-size:.65rem;color:var(--muted)}
+
+/* CONTACT */
+#contatti{background:var(--dark)}
+.ci{max-width:360px;margin:3.5rem auto 0;display:flex;flex-direction:column;align-items:center;gap:1.7rem;text-align:center}
+.iglink{display:flex;flex-direction:column;align-items:center;gap:.85rem;text-decoration:none}
+.igico{opacity:.55;transition:opacity .3s,transform .3s}
+.iglink:hover .igico{opacity:1;transform:scale(1.07)}
+.igat{font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.ighandle{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:300;color:rgba(255,255,255,.65);font-style:italic;transition:color .3s}
+.iglink:hover .ighandle{color:var(--teal)}
+.igcap{font-size:.78rem;color:rgba(255,255,255,.2);line-height:1.8}
+
+footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
+@media(max-width:900px){footer{padding:1.8rem 1.5rem;flex-direction:column;text-align:center}}
+.flogo{font-family:'Playfair Display',serif;font-size:1.2rem;color:rgba(255,255,255,.28);font-weight:300}
+.flogo em{font-style:italic;color:var(--teal)}
+.flinks{display:flex;gap:1.8rem;flex-wrap:wrap;justify-content:center}
+.flinks a{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);text-decoration:none;transition:color .3s}
+.flinks a:hover{color:var(--teal)}
+.fcopy{font-size:.6rem;color:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="bar-t"></div><div class="bar-b"></div>
+  <div class="ilogo" id="ilogo">
+    <img src="logo.png" alt="Bluelle" onerror="this.style.display='none';document.querySelector('.ilogo-txt').style.display='block'"/>
+    <div class="ilogo-txt">Blue<em>lle</em></div>
+    <div class="ilogo-sub">Luxury Second Hand</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nlogo">
+    <img src="logo.png" alt="Bluelle" onerror="this.style.display='none';document.querySelector('.nlogo-txt').style.display='block'"/>
+    <span class="nlogo-txt">Blue<em>lle</em></span>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#about">Chi siamo</a></li>
+    <li><a href="#prodotti">Collezione</a></li>
+    <li><a href="#steps">Come funziona</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="oc"></canvas>
+  <div class="ho"></div>
+  <div class="hcont" id="hc">
+    <p class="heye">Gucci · Balenciaga — Second Hand</p>
+    <h1 class="htitle">Lusso autentico.<br><em>Prezzo onesto.</em></h1>
+    <p class="hsub">Capi firmati selezionati uno per uno.<br>Risparmi fino al 60% sul listino originale.</p>
+    <a href="#prodotti" class="hcta">Esplora la collezione</a>
+  </div>
+  <div class="hscroll" id="hs"><div class="sline"></div><span>Scorri</span></div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-in">
+    <span>100% Autenticità garantita</span> ✦ <span>Risparmio fino al 60%</span> ✦ <span>Solo Gucci &amp; Balenciaga</span> ✦
+    <span>Pagamento sicuro Stripe</span> ✦ <span>Reso entro 14 giorni</span> ✦ <span>Capi verificati</span> ✦
+    <span>100% Autenticità garantita</span> ✦ <span>Risparmio fino al 60%</span> ✦ <span>Solo Gucci &amp; Balenciaga</span> ✦
+    <span>Pagamento sicuro Stripe</span> ✦ <span>Reso entro 14 giorni</span> ✦ <span>Capi verificati</span> ✦
+  </div>
+</div>
+
+<!-- 3D OBJECT SECTION -->
+<section id="objsec">
+  <div class="objtxt">
+    <div class="sl" style="color:rgba(62,200,188,.5)">Ogni capo racconta una storia</div>
+    <h2 class="st" style="color:var(--white)">Verified.<br><em>Authentic.</em></h2>
+    <p>Ogni articolo che mettiamo in vendita viene controllato, fotografato e certificato personalmente. Una promessa di lusso e onestà: quello che vedi è esattamente quello che ricevi.</p>
+    <ul class="objlist">
+      <li>Autenticità verificata prima di ogni messa in vendita</li>
+      <li>Risparmio garantito minimo del 50% sul prezzo originale</li>
+      <li>Foto reali ad alta risoluzione, nessun filtro</li>
+      <li>Reso gratuito entro 14 giorni, senza domande</li>
+    </ul>
+  </div>
+  <div class="objstage" id="objstage">
+    <div style="perspective:1000px;display:flex;align-items:center;justify-content:center;width:100%;height:100%">
+      <svg id="obj3d" width="260" height="260" viewBox="0 0 260 260" style="overflow:visible;filter:drop-shadow(0 30px 60px rgba(0,0,0,.7))">
+        <!-- Gem / diamond luxury shape -->
+        <defs>
+          <radialGradient id="gFace" cx="50%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#b8f0eb"/>
+            <stop offset="40%" stop-color="#3EC8BC"/>
+            <stop offset="100%" stop-color="#0d4840"/>
+          </radialGradient>
+          <radialGradient id="gLeft" cx="20%" cy="50%" r="80%">
+            <stop offset="0%" stop-color="#2bada0"/>
+            <stop offset="100%" stop-color="#062220"/>
+          </radialGradient>
+          <radialGradient id="gRight" cx="80%" cy="50%" r="80%">
+            <stop offset="0%" stop-color="#5dddd5"/>
+            <stop offset="100%" stop-color="#1a8075"/>
+          </radialGradient>
+          <radialGradient id="gBottom" cx="50%" cy="80%" r="70%">
+            <stop offset="0%" stop-color="#1a8075"/>
+            <stop offset="100%" stop-color="#030f0e"/>
+          </radialGradient>
+          <radialGradient id="gGold" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#f0d898"/>
+            <stop offset="60%" stop-color="#C9A46E"/>
+            <stop offset="100%" stop-color="#7a5a30"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="glow2">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer glow ring -->
+        <ellipse cx="130" cy="130" rx="118" ry="118" fill="none" stroke="rgba(62,200,188,.12)" stroke-width="1"/>
+        <ellipse cx="130" cy="130" rx="108" ry="108" fill="none" stroke="rgba(62,200,188,.08)" stroke-width="1"/>
+
+        <!-- Gold outer ring -->
+        <circle cx="130" cy="130" r="100" fill="none" stroke="url(#gGold)" stroke-width="3" opacity=".6"/>
+        <!-- tick marks around ring -->
+        <g stroke="#C9A46E" stroke-width="1.2" opacity=".5">
+          <line x1="130" y1="32" x2="130" y2="42"/>
+          <line x1="130" y1="218" x2="130" y2="228"/>
+          <line x1="32" y1="130" x2="42" y2="130"/>
+          <line x1="218" y1="130" x2="228" y2="130"/>
+          <line x1="60" y1="60" x2="67" y2="67"/>
+          <line x1="193" y1="193" x2="200" y2="200"/>
+          <line x1="200" y1="60" x2="193" y2="67"/>
+          <line x1="67" y1="193" x2="60" y2="200"/>
+        </g>
+
+        <!-- Main gem body — octagon diamond shape -->
+        <!-- Top face (brightest) -->
+        <polygon points="130,45 175,80 175,180 130,215 85,180 85,80" fill="url(#gFace)" opacity=".95"/>
+        <!-- Left facet -->
+        <polygon points="85,80 130,45 130,130" fill="url(#gLeft)" opacity=".85"/>
+        <!-- Right facet -->
+        <polygon points="175,80 130,45 130,130" fill="url(#gRight)" opacity=".8"/>
+        <!-- Bottom left facet -->
+        <polygon points="85,180 130,215 130,130" fill="url(#gBottom)" opacity=".9"/>
+        <!-- Bottom right facet -->
+        <polygon points="175,180 130,215 130,130" fill="url(#gBottom)" opacity=".7"/>
+        <!-- Left side -->
+        <polygon points="85,80 85,180 130,130" fill="url(#gLeft)" opacity=".6"/>
+        <!-- Right side -->
+        <polygon points="175,80 175,180 130,130" fill="url(#gRight)" opacity=".55"/>
+
+        <!-- Edge lines for 3D facets -->
+        <g stroke="rgba(255,255,255,.18)" stroke-width="0.8" fill="none">
+          <polygon points="130,45 175,80 175,180 130,215 85,180 85,80"/>
+          <line x1="130" y1="45" x2="130" y2="130"/>
+          <line x1="85" y1="80" x2="130" y2="130"/>
+          <line x1="175" y1="80" x2="130" y2="130"/>
+          <line x1="85" y1="180" x2="130" y2="130"/>
+          <line x1="175" y1="180" x2="130" y2="130"/>
+          <line x1="130" y1="215" x2="130" y2="130"/>
+        </g>
+
+        <!-- Bright highlight specular -->
+        <ellipse cx="112" cy="88" rx="22" ry="14" fill="white" opacity=".22" transform="rotate(-20,112,88)"/>
+        <ellipse cx="108" cy="82" rx="10" ry="6" fill="white" opacity=".35" transform="rotate(-20,108,82)"/>
+
+        <!-- Center B monogram -->
+        <circle cx="130" cy="130" r="28" fill="rgba(0,0,0,.35)" stroke="rgba(201,164,110,.4)" stroke-width="1.2"/>
+        <text x="130" y="138" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-weight="400" fill="rgba(201,164,110,.9)" filter="url(#glow)">B</text>
+
+        <!-- Small gold dots at hex points -->
+        <g fill="#C9A46E" opacity=".7" filter="url(#glow)">
+          <circle cx="130" cy="45" r="3.5"/>
+          <circle cx="175" cy="80" r="3.5"/>
+          <circle cx="175" cy="180" r="3.5"/>
+          <circle cx="130" cy="215" r="3.5"/>
+          <circle cx="85" cy="180" r="3.5"/>
+          <circle cx="85" cy="80" r="3.5"/>
+        </g>
+
+        <!-- Sparkle stars -->
+        <g fill="white" opacity=".7" filter="url(#glow2)">
+          <polygon points="155,58 157,63 162,63 158,66 160,71 155,68 150,71 152,66 148,63 153,63" transform="scale(.5) translate(155,56)"/>
+          <polygon points="95,175 96,178 99,178 97,180 98,183 95,181 92,183 93,180 91,178 94,178" transform="scale(.7) translate(35,68)"/>
+        </g>
+      </svg>
+    </div>
+    <div class="objshadow" id="objshadow"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="sl">Chi siamo</div>
+    <h2 class="st">Second hand.<br><em>First class.</em></h2>
+    <p class="adesc">Bluelle nasce da una passione semplice: rendere il lusso accessibile senza compromessi. Ogni capo è selezionato personalmente, verificato nell'autenticità e descritto con onestà. Niente sorprese, solo moda firmata a prezzi che ha senso pagare.</p>
+    <div class="astats">
+      <div class="astat"><div class="astat-n">−50%</div><div class="astat-l">Risparmio medio sul listino</div></div>
+      <div class="astat"><div class="astat-n">100%</div><div class="astat-l">Autenticità garantita</div></div>
+      <div class="astat"><div class="astat-n">2</div><div class="astat-l">Brand iconici selezionati</div></div>
+      <div class="astat"><div class="astat-n">14g</div><div class="astat-l">Reso gratuito garantito</div></div>
+    </div>
+  </div>
+  <div>
+    <div class="acard">
+      <div class="acard-t">Perché comprare<br>da <em>Bluelle?</em></div>
+      <ul class="alist">
+        <li>Ogni capo ispezionato e fotografato dal vivo — niente inganni</li>
+        <li>Prezzi fissi e onesti. Nessuna asta, nessuna trattativa</li>
+        <li>Gucci e Balenciaga: i brand più richiesti del momento</li>
+        <li>Sostenibilità reale — prolungare la vita di un capo di lusso è il gesto più green</li>
+        <li>Assistenza diretta via Instagram — parliamo con te, non con un bot</li>
+      </ul>
+      <div class="apill">Verified Store</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="prodotti">
+  <div class="ph">
+    <div><div class="sl">Disponibile ora</div><h2 class="st">La <em>collezione</em></h2></div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="fp('all',this)">Tutti</button>
+      <button class="ftab" onclick="fp('gucci',this)">Gucci</button>
+      <button class="ftab" onclick="fp('balenciaga',this)">Balenciaga</button>
+    </div>
+  </div>
+  <div class="pgrid" id="grid"></div>
+</section>
+
+<!-- STEPS -->
+<section id="steps">
+  <div class="sl" style="color:var(--teal)">Semplice e sicuro</div>
+  <h2 class="st" style="color:var(--white)">Come <em>funziona</em></h2>
+  <div class="sgrid">
+    <div class="step"><div class="snum">01</div><div class="sico">🔍</div><div class="stit">Scegli</div><p class="stxt">Esplora la collezione. Ogni capo ha foto reali e una descrizione onesta.</p></div>
+    <div class="step"><div class="snum">02</div><div class="sico">💳</div><div class="stit">Acquista</div><p class="stxt">Checkout sicuro con Stripe. Carte, Apple Pay e Google Pay.</p></div>
+    <div class="step"><div class="snum">03</div><div class="sico">📦</div><div class="stit">Ricevi</div><p class="stxt">Il capo arriva imballato con cura. Tracking via email.</p></div>
+    <div class="step"><div class="snum">04</div><div class="sico">✨</div><div class="stit">Indossa</div><p class="stxt">Non ti convince? Rimborso completo entro 14 giorni.</p></div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="sl">Clienti reali</div>
+  <h2 class="st">Cosa dicono di <em>Bluelle</em></h2>
+  <div class="rgrid">
+    <div class="rc"><div class="rstars">★★★★★</div><p class="rtxt">Ho comprato una felpa Gucci e sono rimasta senza parole. Condizioni perfette, imballaggio curatissimo. Finalmente un sito di cui mi fido davvero.</p><div class="rauth"><div class="ravt">SC</div><div><div class="rname">Sofia C.</div><div class="rsub">Milano · Acquisto verificato</div></div></div></div>
+    <div class="rc"><div class="rstars">★★★★★</div><p class="rtxt">La maglietta Balenciaga è esattamente come descritta. Prezzo imbattibile, spedizione velocissima. Tornerò sicuramente.</p><div class="rauth"><div class="ravt">LM</div><div><div class="rname">Luca M.</div><div class="rsub">Roma · Acquisto verificato</div></div></div></div>
+    <div class="rc"><div class="rstars">★★★★★</div><p class="rtxt">Pensavo fosse uno dei soliti siti truffa, invece è tutto al contrario. Comunicazione perfetta, prodotto autentico. Consigliato.</p><div class="rauth"><div class="ravt">AR</div><div><div class="rname">Anna R.</div><div class="rsub">Napoli · Acquisto verificato</div></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contatti">
+  <div class="sl" style="justify-content:center;color:rgba(255,255,255,.3)">Scrivici</div>
+  <h2 class="st" style="color:var(--white);text-align:center">Trovaci su <em>Instagram</em></h2>
+  <div class="ci">
+    <a href="https://instagram.com/bluelle____" target="_blank" class="iglink">
+      <svg class="igico" width="42" height="42" viewBox="0 0 42 42" fill="none">
+        <rect x="4.5" y="4.5" width="33" height="33" rx="9.5" stroke="white" stroke-width="1.1"/>
+        <circle cx="21" cy="21" r="7" stroke="white" stroke-width="1.1"/>
+        <circle cx="31.5" cy="10.5" r="1.8" fill="white"/>
+      </svg>
+      <span class="igat">seguici su</span>
+      <span class="ighandle">@bluelle____</span>
+    </a>
+    <p class="igcap">Nuovi arrivi in anteprima, dietro le quinte<br>e DM sempre aperti per qualsiasi domanda.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">Blue<em>lle</em></div>
+  <div class="flinks"><a href="#">Privacy</a><a href="#">Termini</a><a href="#">Autenticità</a><a href="#">Resi</a></div>
+  <div class="fcopy">© 2025 Bluelle</div>
+</footer>
+
+<!-- MODAL -->
+<div class="mov" id="mov" onclick="cmo(event)">
+  <div class="modal">
+    <button class="mclose" onclick="closeM()">✕</button>
+    <div class="mimg" id="mimg"></div>
+    <div class="mbody">
+      <div class="mbrand" id="mbrand"></div>
+      <div class="mname" id="mname"></div>
+      <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+      <div class="mdiv"></div>
+      <div class="mchips" id="mchips"></div>
+      <div class="mdesc" id="mdesc"></div>
+      <div class="mdiv"></div>
+      <div class="mwhy">
+        <div class="mwhy-t">Perché acquistare da Bluelle</div>
+        <ul>
+          <li>Capo autenticato personalmente prima della vendita</li>
+          <li>Risparmio minimo del 50% rispetto al listino</li>
+          <li>Foto reali — quello che vedi è quello che ricevi</li>
+          <li>Reso gratuito entro 14 giorni se non sei soddisfatto</li>
+        </ul>
+      </div>
+      <button class="mbuy" id="mbuy">Acquista ora</button>
+      <div class="msec">🔒 <span>Pagamento sicuro via Stripe</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const prods=[
+  {id:1,brand:'gucci',name:'T-Shirt Logo Print',sz:'M',cond:'Ottima',price:180,orig:450,e:'👕',desc:'T-shirt in cotone pesante con stampa logo GG sul petto. Nessun difetto visibile, lavata pochissime volte. Cartellino originale incluso.'},
+  {id:2,brand:'gucci',name:'Felpa GG Embroidered',sz:'L',cond:'Molto Buona',price:320,orig:780,e:'🧥',desc:'Felpa in cotone con ricamo GG e polsini a costine. Piccolo segno di usura interno, non visibile indossandola.'},
+  {id:3,brand:'balenciaga',name:'Oversized Logo Tee',sz:'S',cond:'Ottima',price:210,orig:520,e:'👕',desc:'T-shirt oversize con stampa logo Balenciaga sulla schiena. Cotone pesante 100%. Impeccabile, indossata pochissime volte.'},
+  {id:4,brand:'balenciaga',name:'Hoodie Political Campaign',sz:'XL',cond:'Buona',price:380,orig:895,e:'🧥',desc:'La celebre hoodie della collezione Political Campaign. Segno di usura interno al cappuccio, esternamente perfetta. Pezzo iconico.'},
+  {id:5,brand:'gucci',name:'Maglione Web Stripe',sz:'M',cond:'Ottima',price:260,orig:620,e:'🧣',desc:'Maglione in lana con le classiche righe verde/rosso Gucci. Nessun buco, nessun pellet. Include sacchetto originale.'},
+  {id:6,brand:'balenciaga',name:'Speed Trainer Crew Neck',sz:'L',cond:'Eccellente',price:290,orig:680,e:'🧥',desc:'Felpa girocollo Speed Trainer. Cotone organico, come nuova.',sold:true},
+];
+function render(f='all'){
+  const g=document.getElementById('grid');g.innerHTML='';
+  prods.filter(p=>f==='all'||p.brand===f).forEach(p=>{
+    const d=document.createElement('div');
+    d.className='pc'+(p.sold?' sold':'');
+    d.innerHTML=`<div class="pi"><div class="pibg ${p.brand==='gucci'?'bg-g':'bg-b'}"><span class="pph">${p.e}</span></div><div class="ptag${p.sold?' sold':''}">${p.sold?'Venduto':'Disponibile'}</div></div><div class="pinfo"><div class="pbrand">${p.brand[0].toUpperCase()+p.brand.slice(1)}</div><div class="pname">${p.name}</div><div class="psize">Taglia ${p.sz} · ${p.cond}</div><div class="pfooter"><div><span class="pprice">€ ${p.price}</span><span class="porig">€ ${p.orig}</span></div><button class="pbtn"${p.sold?' disabled':''}>${p.sold?'Venduto':'Vedi'}</button></div></div>`;
+    if(!p.sold)d.onclick=()=>openM(p);
+    g.appendChild(d);
+  });
+}
+render();
+function fp(f,b){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));b.classList.add('on');render(f);}
+
+function openM(p){
+  const sv=Math.round((1-p.price/p.orig)*100);
+  document.getElementById('mimg').style.background=p.brand==='gucci'?'linear-gradient(135deg,#E8F5F3,#B8EAE6)':'linear-gradient(135deg,#EFF8F7,#C5E8E5)';
+  document.getElementById('mimg').innerHTML=`<span style="font-size:7rem;opacity:.14">${p.e}</span>`;
+  document.getElementById('mbrand').textContent=p.brand[0].toUpperCase()+p.brand.slice(1);
+  document.getElementById('mname').textContent=p.name;
+  document.getElementById('mprice').textContent=`€ ${p.price}`;
+  document.getElementById('morig').textContent=`€ ${p.orig}`;
+  document.getElementById('msave').textContent=`−${sv}%`;
+  document.getElementById('mchips').innerHTML=`<div class="mchip">Taglia ${p.sz}</div><div class="mchip">${p.cond}</div><div class="mchip">${p.brand[0].toUpperCase()+p.brand.slice(1)}</div>`;
+  document.getElementById('mdesc').textContent=p.desc;
+  document.getElementById('mbuy').textContent=`Acquista · € ${p.price}`;
+  document.getElementById('mov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){document.getElementById('mov').classList.remove('open');document.body.style.overflow='';}
+function cmo(e){if(e.target===document.getElementById('mov'))closeM();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+
+// CURSOR
+const c1=document.getElementById('cur'),c2=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c1.style.left=mx+'px';c1.style.top=my+'px';});
+(function a(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;c2.style.left=rx+'px';c2.style.top=ry+'px';requestAnimationFrame(a);})();
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>60));
+
+// INTRO
+window.addEventListener('load',()=>{
+  const intro=document.getElementById('intro');
+  setTimeout(()=>intro.classList.add('open'),120);
+  setTimeout(()=>intro.classList.add('done'),2200);
+  setTimeout(()=>{intro.style.display='none';document.getElementById('hc').classList.add('show');document.getElementById('hs').classList.add('show');},2900);
+});
+
+// 3D GEM SCROLL ROTATION
+(function(){
+  const obj=document.getElementById('obj3d');
+  const stage=document.getElementById('objstage');
+  const shadow=document.getElementById('objshadow');
+  if(!obj)return;
+  let st=0,sh=0,idle=0;
+  function measure(){const r=stage.getBoundingClientRect();st=r.top+scrollY;sh=r.height;}
+  measure();window.addEventListener('resize',measure);
+  function frame(){
+    idle+=.005;
+    const prog=Math.max(0,Math.min(1,(scrollY-st+innerHeight*.5)/(sh+innerHeight*.5)));
+    const rotY=prog*360+Math.sin(idle)*4;
+    const rotX=Math.sin(prog*Math.PI)*12;
+    const sc=1+Math.sin(prog*Math.PI)*.08;
+    const ty=Math.sin(idle)*8;
+    obj.style.transform=`rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${sc}) translateY(${ty}px)`;
+    const sw=0.5+0.5*Math.abs(Math.cos(rotY*Math.PI/180));
+    shadow.style.width=(80+sw*80)+'px';
+    shadow.style.opacity=0.2+sw*.25;
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// OCEAN CANVAS
+(function(){
+  const cv=document.getElementById('oc'),ctx=cv.getContext('2d');
+  let W,H,t=0;
+  const resize=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;};
+  resize();window.addEventListener('resize',resize);
+  const waves=[
+    {a:48,f:.0065,s:.009,y:.58,op:.52,rgb:'255,255,255'},
+    {a:36,f:.010,s:.014,y:.64,op:.34,rgb:'200,240,238'},
+    {a:26,f:.0155,s:.022,y:.70,op:.22,rgb:'255,255,255'},
+    {a:18,f:.021,s:.030,y:.76,op:.15,rgb:'180,235,232'},
+    {a:12,f:.027,s:.039,y:.81,op:.10,rgb:'255,255,255'},
+    {a:8,f:.034,s:.050,y:.86,op:.07,rgb:'255,255,255'},
+  ];
+  const orbs=Array.from({length:8},()=>({x:Math.random(),y:.2+Math.random()*.5,r:80+Math.random()*120,ph:Math.random()*Math.PI*2}));
+  const foam=Array.from({length:90},()=>({x:Math.random(),yR:.55+Math.random()*.35,sz:Math.random()*2.5+.8,sp:Math.random()*.004+.002,ph:Math.random()*Math.PI*2,a:Math.random()*.5+.15}));
+  function bg(){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#030f0e');g.addColorStop(.18,'#062220');g.addColorStop(.4,'#0b4840');g.addColorStop(.65,'#148078');g.addColorStop(.85,'#22b0a5');g.addColorStop(1,'#3ec8bc');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+  function orb(){orbs.forEach(o=>{const ox=o.x*W+Math.sin(t*.004+o.ph)*W*.06,oy=o.y*H+Math.sin(t*.006+o.ph*1.3)*H*.04;const gr=ctx.createRadialGradient(ox,oy,0,ox,oy,o.r);gr.addColorStop(0,'rgba(100,220,212,.09)');gr.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);});}
+  function caust(){for(let i=0;i<12;i++){const x=W*(.05+i*.08+Math.sin(t*.008+i*.7)*.04);const gr=ctx.createLinearGradient(x,0,x+30,H*.7);gr.addColorStop(0,'rgba(180,240,235,0)');gr.addColorStop(.3,'rgba(180,240,235,.04)');gr.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gr;ctx.fillRect(x-15,0,30,H*.7);}}
+  function wave(w){ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W;x+=2){const wx=x*w.f;const y=w.y*H+Math.sin(wx+t*w.s)*w.a+Math.sin(wx*1.9+t*w.s*1.5)*w.a*.35+Math.sin(wx*.6+t*w.s*.7)*w.a*.25+Math.sin(wx*3.1+t*w.s*2.1)*w.a*.12;ctx.lineTo(x,y);}ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=`rgba(${w.rgb},${w.op})`;ctx.fill();}
+  function drawfoam(){foam.forEach(f=>{const w=waves[Math.floor(f.yR*waves.length*.9)%waves.length];const wx=f.x*W,wy=f.yR*H+Math.sin(wx*w.f+t*w.s+f.ph)*w.a;ctx.beginPath();ctx.arc(wx+Math.sin(t*f.sp+f.ph)*20,wy,f.sz,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${f.a*(.5+.5*Math.sin(t*1.6+f.ph))})`;ctx.fill();f.x+=f.sp*.03;if(f.x>1)f.x=0;});}
+  function frame(){t+=.4;ctx.clearRect(0,0,W,H);bg();orb();caust();waves.forEach(wave);drawfoam();requestAnimationFrame(frame);}
+  frame();
+})();
+</script>
+</body>
+</html>
