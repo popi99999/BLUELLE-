@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Bluèlle — Luxury Second Hand</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--teal:#3EC8BC;--teal-dark:#2AA89D;--teal-pale:#E8F8F7;--gold:#C9A46E;--gold-light:#E8D5B0;--dark:#1C2826;--muted:#6B8884;--white:#FDFFFE;--cream:#F7FAFA}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--dark);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;cursor:none}
+.cur{width:8px;height:8px;background:var(--teal);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+.curR{width:32px;height:32px;border:1px solid rgba(62,200,188,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+@media(max-width:900px){.cur,.curR{display:none}body{cursor:auto}}
+
+/* TOPBAR lingua/valuta */
+#topbar{background:#111e1c;padding:.45rem 4rem;display:flex;justify-content:flex-end;align-items:center;gap:1.2rem;position:fixed;top:0;left:0;right:0;z-index:300}
+@media(max-width:900px){#topbar{padding:.45rem 1.2rem}}
+.tb-sel{background:transparent;border:none;color:rgba(255,255,255,.4);font-family:'Outfit',sans-serif;font-size:.65rem;letter-spacing:.14em;cursor:pointer;outline:none;transition:color .3s}
+.tb-sel:hover,.tb-sel:focus{color:var(--teal)}
+.tb-sep{color:rgba(255,255,255,.15);font-size:.7rem}
+.tb-rate{font-size:.6rem;color:rgba(255,255,255,.2);letter-spacing:.08em}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:1000;background:#030f0e;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.bar-t,.bar-b{position:absolute;left:0;right:0;height:50vh;background:#000;transition:height 1.6s cubic-bezier(.76,0,.24,1)}
+.bar-t{top:0}.bar-b{bottom:0}
+#intro.open .bar-t,#intro.open .bar-b{height:0}
+.ilogo{position:relative;z-index:2;opacity:0;transform:scale(.88);transition:opacity .9s .4s,transform .9s .4s;text-align:center}
+#intro.open .ilogo{opacity:1;transform:scale(1)}
+#intro.done .ilogo{opacity:0;transform:scale(1.08);transition:opacity .5s,transform .5s}
+#intro.done{opacity:0;transition:opacity .65s}
+.ilogo-sub{font-size:.62rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:1rem}
+
+/* NAV */
+nav{position:fixed;top:28px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 4rem;transition:background .6s,padding .4s,top .4s}
+nav.s{background:rgba(253,255,254,.96);backdrop-filter:blur(20px);padding:1rem 4rem;box-shadow:0 1px 0 rgba(62,200,188,.12)}
+.nlogo{text-decoration:none}
+.nlinks{display:flex;gap:2.4rem;list-style:none}
+.nlinks a{text-decoration:none;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.75);transition:color .3s;position:relative}
+nav.s .nlinks a{color:var(--muted)}
+.nlinks a:hover{color:var(--teal)}
+.nlinks a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:1px;background:var(--teal);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nlinks a:hover::after{transform:scaleX(1)}
+@media(max-width:900px){nav{padding:1rem 1.2rem;top:26px}nav.s{padding:.8rem 1.2rem}.nlinks{display:none}}
+
+/* HERO */
+#hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#oc{position:absolute;inset:0;width:100%;height:100%}
+.ho{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,15,14,.62) 0%,rgba(3,15,14,.04) 45%,rgba(3,15,14,.72) 100%)}
+.hcont{position:relative;z-index:4;text-align:center;opacity:0;transform:translateY(26px);transition:opacity 1.2s,transform 1.2s}
+.hcont.show{opacity:1;transform:translateY(0)}
+.heye{font-size:.65rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1.6rem}
+.htitle{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,6.8rem);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:.8rem}
+.htitle em{font-style:italic;color:var(--gold-light)}
+.hsub{font-size:clamp(.85rem,1.4vw,1rem);color:rgba(255,255,255,.55);margin-bottom:3rem;line-height:1.8}
+.hcta{display:inline-block;background:var(--white);color:var(--teal-dark);padding:.9rem 2.8rem;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;border:none;cursor:none;transition:transform .3s,box-shadow .3s;box-shadow:0 8px 30px rgba(0,0,0,.25);text-decoration:none}
+.hcta:hover{transform:translateY(-3px);box-shadow:0 16px 44px rgba(0,0,0,.32)}
+.hscroll{position:absolute;bottom:2.8rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:.6rem;color:rgba(255,255,255,.28);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;opacity:0;transition:opacity 1s}
+.hscroll.show{opacity:1}
+.sline{width:1px;height:38px;background:rgba(255,255,255,.2);animation:slp 2s ease infinite}
+@keyframes slp{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* STRIP */
+.strip{background:var(--dark);padding:1rem 0;overflow:hidden}
+.strip-in{display:flex;gap:5rem;white-space:nowrap;animation:mq 24s linear infinite;font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;color:var(--teal)}
+.strip-in span{color:var(--gold);opacity:.45}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+section{padding:7rem 5rem}
+@media(max-width:900px){section{padding:5rem 1.5rem}}
+.sl{font-size:.65rem;letter-spacing:.32em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.sl::before{content:'';display:block;width:2rem;height:1px;background:var(--teal)}
+.st{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:300;line-height:1.15;color:var(--dark);margin-bottom:1rem}
+.st em{font-style:italic;color:var(--teal)}
+
+/* AUTH SECTION — seamless full bleed */
+#authsec{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:85vh;overflow:hidden;padding:0;background:var(--dark)}
+@media(max-width:900px){#authsec{grid-template-columns:1fr}}
+.authtxt{padding:7rem 5rem;display:flex;flex-direction:column;justify-content:center;background:var(--dark)}
+@media(max-width:900px){.authtxt{padding:4rem 1.5rem}}
+.authtxt .st{color:var(--white)}
+.authtxt .sl{color:rgba(62,200,188,.5)}
+.authtxt .sl::before{background:var(--teal)}
+.authtxt p{font-size:.9rem;line-height:2;color:rgba(255,255,255,.36);max-width:380px;margin-bottom:2rem}
+.authlist{list-style:none;display:flex;flex-direction:column;gap:.9rem}
+.authlist li{font-size:.84rem;color:rgba(255,255,255,.38);display:flex;gap:.8rem;line-height:1.6}
+.authlist li::before{content:'✦';color:var(--gold);font-size:.54rem;flex-shrink:0;margin-top:.4rem}
+
+/* Ocean right panel — fully transparent canvas, blends into dark bg */
+.ocean-panel{position:relative;overflow:hidden;background:var(--dark)}
+@media(max-width:900px){.ocean-panel{min-height:60vw}}
+#oc2{position:absolute;inset:0;width:100%;height:100%}
+/* fade top and bottom edges into the dark background */
+.ocean-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:35%;background:linear-gradient(to bottom,var(--dark),transparent);z-index:3;pointer-events:none}
+.ocean-panel::after{content:'';position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(to top,var(--dark),transparent);z-index:3;pointer-events:none}
+.ocean-stats{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem;z-index:4}
+.ostat{border:1px solid rgba(62,200,188,.18);padding:1.8rem 2.4rem;text-align:center;background:rgba(3,15,14,.5);backdrop-filter:blur(8px);min-width:200px}
+.ostat-lbl{font-size:.55rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(62,200,188,.5);margin-bottom:.6rem}
+.ostat-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:300;color:var(--white);line-height:1}
+.ostat-sub{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:.4rem}
+
+/* ABOUT */
+#about{background:var(--cream);display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+@media(max-width:900px){#about{grid-template-columns:1fr;gap:3rem}}
+.adesc{font-size:.92rem;line-height:2;color:var(--muted);margin-bottom:2.4rem}
+.astats{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.astat{padding:1.6rem;background:var(--white);border-left:3px solid var(--teal)}
+.astat-n{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:300;color:var(--teal);line-height:1;margin-bottom:.3rem}
+.astat-l{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.acard{background:var(--dark);padding:2.8rem;position:relative;overflow:hidden}
+.acard::before{content:'';position:absolute;top:-40px;right:-40px;width:170px;height:170px;border-radius:50%;background:rgba(62,200,188,.06)}
+.acard-t{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:1.4rem;line-height:1.3}
+.acard-t em{font-style:italic;color:var(--teal)}
+.alist{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.alist li{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.6;display:flex;gap:.75rem}
+.alist li::before{content:'✦';color:var(--gold);font-size:.52rem;flex-shrink:0;margin-top:.36rem}
+.apill{position:absolute;bottom:-1px;right:2rem;background:var(--teal);color:var(--white);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.42rem 1rem}
+
+/* PRODUCTS */
+#prodotti{background:var(--white)}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:2rem}
+.ftabs{display:flex;gap:.5rem}
+.ftab{padding:.4rem 1.2rem;font-size:.67rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(62,200,188,.22);background:transparent;color:var(--muted);cursor:none;transition:all .3s;font-family:'Outfit',sans-serif}
+.ftab.on,.ftab:hover{background:var(--teal);color:var(--white);border-color:var(--teal)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr;gap:1rem}}
+@media(max-width:500px){.pgrid{grid-template-columns:1fr}}
+.pc{background:var(--cream);cursor:none;transition:transform .5s,box-shadow .4s;overflow:hidden}
+.pc:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(62,200,188,.1)}
+.pc.sold{cursor:not-allowed;opacity:.65}
+.pi{aspect-ratio:3/4;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.pibg{width:100%;height:100%;transition:transform .7s;display:flex;align-items:center;justify-content:center}
+.pc:not(.sold):hover .pibg{transform:scale(1.06)}
+.bg-g{background:linear-gradient(135deg,#E8F5F3,#B8EAE6)}
+.bg-b{background:linear-gradient(135deg,#EFF8F7,#C5E8E5)}
+.pph{font-size:5rem;opacity:.13;user-select:none}
+.ptag{position:absolute;top:1rem;left:1rem;background:var(--dark);color:var(--white);font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;padding:.25rem .78rem}
+.ptag.sold{background:var(--muted)}
+.pinfo{padding:1.2rem 1.4rem 1.6rem}
+.pname{font-family:'Playfair Display',serif;font-size:1.06rem;color:var(--dark);margin-bottom:.26rem}
+.psize{font-size:.7rem;color:var(--muted);margin-bottom:.78rem}
+.pfooter{display:flex;justify-content:space-between;align-items:center}
+.pprice{font-size:.96rem;font-weight:500;color:var(--dark)}
+.porig{font-size:.7rem;color:var(--muted);text-decoration:line-through;margin-left:.5rem}
+.pbtn{background:var(--teal);color:var(--white);border:none;padding:.46rem 1rem;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:background .3s;font-family:'Outfit',sans-serif}
+.pbtn:hover{background:var(--teal-dark)}
+.pbtn:disabled{background:var(--muted);cursor:not-allowed}
+
+/* MODAL */
+.mov{position:fixed;inset:0;background:rgba(4,18,16,.85);backdrop-filter:blur(12px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1.5rem}
+.mov.open{opacity:1;pointer-events:all}
+.modal{background:var(--white);max-width:740px;width:100%;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;transform:translateY(22px) scale(.98);transition:transform .4s;max-height:90vh;position:relative}
+.mov.open .modal{transform:translateY(0) scale(1)}
+@media(max-width:640px){.modal{grid-template-columns:1fr;overflow-y:auto}}
+.mimg{display:flex;align-items:center;justify-content:center;min-height:260px}
+.mbody{padding:2.4rem 2.2rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem}
+.mname{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:300;color:var(--dark);line-height:1.2}
+.mprices{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap}
+.mprice{font-size:1.4rem;font-weight:500;color:var(--dark)}
+.morig{font-size:.88rem;color:var(--muted);text-decoration:line-through}
+.msave{font-size:.65rem;background:var(--teal-pale);color:var(--teal-dark);padding:.2rem .65rem;font-weight:500}
+.mdiv{height:1px;background:rgba(62,200,188,.13)}
+.mchips{display:flex;gap:.5rem;flex-wrap:wrap}
+.mchip{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(62,200,188,.2);padding:.25rem .78rem;color:var(--muted)}
+.mdesc{font-size:.84rem;color:var(--muted);line-height:1.85}
+.mwhy{background:var(--cream);padding:1.1rem 1.3rem;border-left:3px solid var(--teal)}
+.mwhy-t{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+.mwhy ul{list-style:none;display:flex;flex-direction:column;gap:.42rem}
+.mwhy li{font-size:.78rem;color:var(--muted);display:flex;gap:.58rem}
+.mwhy li::before{content:'✦';color:var(--gold);font-size:.5rem;flex-shrink:0;margin-top:.26rem}
+.mbuy{background:var(--teal);color:var(--white);border:none;padding:1rem;font-family:'Outfit',sans-serif;font-size:.76rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500;cursor:none;transition:background .3s,transform .3s;width:100%}
+.mbuy:hover{background:var(--teal-dark);transform:translateY(-2px)}
+.msec{font-size:.65rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.mclose{position:absolute;top:1rem;right:1.1rem;background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:none;z-index:10}
+.mclose:hover{color:var(--dark)}
+
+/* STEPS */
+#steps{background:var(--dark)}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:4rem;background:rgba(255,255,255,.05)}
+@media(max-width:900px){.sgrid{grid-template-columns:1fr 1fr}}
+.step{background:var(--dark);padding:2.4rem 1.8rem;border-top:2px solid transparent;transition:border-color .4s,background .4s}
+.step:hover{border-color:var(--teal);background:rgba(62,200,188,.04)}
+.snum{font-family:'Playfair Display',serif;font-size:3.4rem;font-weight:300;color:rgba(62,200,188,.1);line-height:1;margin-bottom:1.2rem}
+.sico{font-size:1.4rem;margin-bottom:.75rem}
+.stit{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:.62rem;font-weight:500}
+.stxt{font-size:.8rem;line-height:1.8;color:rgba(255,255,255,.35)}
+
+/* FAQ */
+#faq{background:var(--cream)}
+.faq-list{margin-top:3rem;display:flex;flex-direction:column;gap:1px;max-width:780px}
+.faq-item{background:var(--white);border-left:3px solid transparent;transition:border-color .3s}
+.faq-item.open{border-color:var(--teal)}
+.faq-q{padding:1.4rem 1.6rem;font-family:'Playfair Display',serif;font-size:1rem;font-weight:300;color:var(--dark);cursor:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q:hover{color:var(--teal)}
+.faq-arrow{font-size:.8rem;color:var(--teal);transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-item.open .faq-a{max-height:200px}
+.faq-a-inner{padding:0 1.6rem 1.4rem;font-size:.86rem;line-height:1.9;color:var(--muted)}
+
+/* TRACKING */
+#tracking{background:var(--dark)}
+.track-box{max-width:500px;margin:3rem auto 0;text-align:center}
+.track-box p{font-size:.88rem;color:rgba(255,255,255,.35);line-height:1.8;margin-bottom:2rem}
+.track-row{display:flex;gap:.5rem}
+.track-in{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(62,200,188,.2);color:var(--white);padding:.85rem 1.2rem;font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s}
+.track-in::placeholder{color:rgba(255,255,255,.22)}
+.track-in:focus{border-color:var(--teal)}
+.track-btn{background:var(--teal);color:var(--white);border:none;padding:.85rem 1.6rem;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;cursor:none;transition:background .3s;white-space:nowrap}
+.track-btn:hover{background:var(--teal-dark)}
+.track-res{margin-top:1.2rem;font-size:.82rem;color:rgba(255,255,255,.4);min-height:1.5rem}
+
+/* CONTACT */
+#contatti{background:var(--dark)}
+.ci{max-width:360px;margin:3.5rem auto 0;display:flex;flex-direction:column;align-items:center;gap:1.7rem;text-align:center}
+.iglink{display:flex;flex-direction:column;align-items:center;gap:.85rem;text-decoration:none}
+.igico{opacity:.5;transition:opacity .3s,transform .3s}
+.iglink:hover .igico{opacity:1;transform:scale(1.07)}
+.igat{font-size:.63rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.ighandle{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:300;color:rgba(255,255,255,.6);font-style:italic;transition:color .3s}
+.iglink:hover .ighandle{color:var(--teal)}
+.igcap{font-size:.78rem;color:rgba(255,255,255,.2);line-height:1.8}
+
+footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem}
+@media(max-width:900px){footer{padding:1.8rem 1.5rem;flex-direction:column;text-align:center}}
+.flogo{font-family:'Playfair Display',serif;font-size:1.2rem;color:rgba(255,255,255,.28);font-weight:300}
+.flogo em{font-style:italic;color:var(--teal)}
+.flinks{display:flex;gap:1.8rem;flex-wrap:wrap;justify-content:center}
+.flinks a{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);text-decoration:none;transition:color .3s}
+.flinks a:hover{color:var(--teal)}
+.fcopy{font-size:.6rem;color:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="curR" id="curR"></div>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <span class="tb-rate" id="rateLabel"></span>
+  <span class="tb-sep">|</span>
+  <select class="tb-sel" id="currSel" onchange="setCurr(this.value)">
+    <option value="EUR">€ EUR</option>
+    <option value="USD">$ USD</option>
+    <option value="GBP">£ GBP</option>
+    <option value="CHF">Fr CHF</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="CNY">¥ CNY</option>
+  </select>
+  <span class="tb-sep">|</span>
+  <select class="tb-sel" id="langSel" onchange="setLang(this.value)">
+    <option value="it">🇮🇹 IT</option>
+    <option value="en">🇬🇧 EN</option>
+    <option value="fr">🇫🇷 FR</option>
+    <option value="es">🇪🇸 ES</option>
+    <option value="zh">🇨🇳 中文</option>
+  </select>
+</div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="bar-t"></div><div class="bar-b"></div>
+  <div class="ilogo">
+    <svg width="240" height="68" viewBox="0 0 240 68">
+      <text x="8" y="52" font-family="Georgia,serif" font-size="54" font-weight="300" fill="white">Blu</text>
+      <text x="94" y="52" font-family="Georgia,serif" font-size="54" font-style="italic" fill="#3EC8BC">è</text>
+      <text x="120" y="52" font-family="Georgia,serif" font-size="54" font-weight="300" fill="white">lle</text>
+    </svg>
+    <div class="ilogo-sub" data-i="tagline">Luxury Second Hand</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nlogo">
+    <svg width="150" height="42" viewBox="0 0 150 42">
+      <text x="4" y="32" font-family="Georgia,serif" font-size="30" font-weight="300" fill="white" id="nt1">Blu</text>
+      <text x="58" y="32" font-family="Georgia,serif" font-size="30" font-style="italic" fill="#3EC8BC">è</text>
+      <text x="76" y="32" font-family="Georgia,serif" font-size="30" font-weight="300" fill="white" id="nt2">lle</text>
+    </svg>
+  </a>
+  <ul class="nlinks">
+    <li><a href="#about" data-i="nav_about">Chi siamo</a></li>
+    <li><a href="#prodotti" data-i="nav_coll">Collezione</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#tracking">Tracking</a></li>
+    <li><a href="#contatti" data-i="nav_contact">Contatti</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="oc"></canvas>
+  <div class="ho"></div>
+  <div class="hcont" id="hc">
+    <p class="heye" data-i="tagline">Luxury Second Hand</p>
+    <h1 class="htitle" data-i="hero_title">Lusso autentico.<br><em>Prezzo onesto.</em></h1>
+    <p class="hsub" data-i="hero_sub">Capi firmati selezionati uno per uno.<br>Risparmia fino al 60% sul listino originale.</p>
+    <a href="#prodotti" class="hcta" data-i="hero_cta">Esplora la collezione</a>
+  </div>
+  <div class="hscroll" id="hs"><div class="sline"></div><span data-i="scroll">Scorri</span></div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-in" id="stripIn">
+    <span data-i="s1">100% Autenticità garantita</span> ✦ <span data-i="s2">Risparmio fino al 60%</span> ✦ <span data-i="s3">Capi di lusso selezionati</span> ✦
+    <span data-i="s4">Pagamento sicuro Stripe</span> ✦ <span data-i="s5">Spedizione tracciabile</span> ✦ <span data-i="s6">Qualità verificata</span> ✦
+    <span data-i="s1">100% Autenticità garantita</span> ✦ <span data-i="s2">Risparmio fino al 60%</span> ✦ <span data-i="s3">Capi di lusso selezionati</span> ✦
+    <span data-i="s4">Pagamento sicuro Stripe</span> ✦ <span data-i="s5">Spedizione tracciabile</span> ✦ <span data-i="s6">Qualità verificata</span> ✦
+  </div>
+</div>
+
+<!-- AUTH SECTION -->
+<section id="authsec">
+  <div class="authtxt">
+    <div class="sl" data-i="auth_eye">Ogni capo racconta una storia</div>
+    <h2 class="st" style="color:var(--white)">Verified.<br><em>Authentic.</em></h2>
+    <p data-i="auth_p">Ogni articolo viene controllato, fotografato e certificato personalmente. Una promessa di lusso e onestà: quello che vedi è esattamente quello che ricevi.</p>
+    <ul class="authlist">
+      <li data-i="al1">Autenticità verificata prima di ogni messa in vendita</li>
+      <li data-i="al2">Risparmio garantito minimo del 50% sul prezzo originale</li>
+      <li data-i="al3">Foto reali ad alta risoluzione, nessun filtro</li>
+      <li data-i="al4">Capi selezionati con cura, uno per uno</li>
+    </ul>
+  </div>
+  <div class="ocean-panel">
+    <canvas id="oc2"></canvas>
+    <div class="ocean-stats">
+      <div class="ostat">
+        <div class="ostat-lbl" data-i="stat1_lbl">Risparmio medio</div>
+        <div class="ostat-num">−50%</div>
+        <div class="ostat-sub" data-i="stat1_sub">sul listino originale</div>
+      </div>
+      <div class="ostat">
+        <div class="ostat-lbl" data-i="stat2_lbl">Autenticità</div>
+        <div class="ostat-num">100%</div>
+        <div class="ostat-sub" data-i="stat2_sub">garantita su ogni capo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="sl" data-i="about_eye">Chi siamo</div>
+    <h2 class="st" data-i="about_title">Second hand.<br><em>First class.</em></h2>
+    <p class="adesc" data-i="about_p">Bluèlle nasce da una passione semplice: rendere il lusso accessibile senza compromessi. Ogni capo è selezionato personalmente, verificato nell'autenticità e descritto con onestà.</p>
+    <div class="astats">
+      <div class="astat"><div class="astat-n">−50%</div><div class="astat-l" data-i="stat_a">Risparmio medio</div></div>
+      <div class="astat"><div class="astat-n">100%</div><div class="astat-l" data-i="stat_b">Autenticità garantita</div></div>
+      <div class="astat"><div class="astat-n">2</div><div class="astat-l" data-i="stat_c">Brand selezionati</div></div>
+      <div class="astat"><div class="astat-n">100%</div><div class="astat-l" data-i="stat_d">Soddisfazione clienti</div></div>
+    </div>
+  </div>
+  <div>
+    <div class="acard">
+      <div class="acard-t" data-i="why_title">Perché comprare<br>da <em>Bluèlle?</em></div>
+      <ul class="alist">
+        <li data-i="why1">Ogni capo ispezionato e fotografato dal vivo</li>
+        <li data-i="why2">Prezzi fissi e onesti. Nessuna trattativa</li>
+        <li data-i="why3">Solo i migliori brand del lusso</li>
+        <li data-i="why4">Sostenibilità reale — dare nuova vita al lusso</li>
+        <li data-i="why5">Assistenza diretta via Instagram</li>
+      </ul>
+      <div class="apill">Verified Store</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="prodotti">
+  <div class="ph">
+    <div>
+      <div class="sl" data-i="coll_eye">Disponibile ora</div>
+      <h2 class="st" data-i="coll_title">La <em>collezione</em></h2>
+    </div>
+    <div class="ftabs">
+      <button class="ftab on" onclick="fp('all',this)" data-i="all">Tutti</button>
+      <button class="ftab" onclick="fp('gucci',this)">Gucci</button>
+      <button class="ftab" onclick="fp('balenciaga',this)">Balenciaga</button>
+    </div>
+  </div>
+  <div class="pgrid" id="grid"></div>
+</section>
+
+<!-- STEPS -->
+<section id="steps">
+  <div class="sl" data-i="how_eye">Semplice e sicuro</div>
+  <h2 class="st" style="color:var(--white)" data-i="how_title">Come <em>funziona</em></h2>
+  <div class="sgrid">
+    <div class="step"><div class="snum">01</div><div class="sico">🔍</div><div class="stit" data-i="s01t">Scegli</div><p class="stxt" data-i="s01p">Esplora la collezione. Ogni capo ha foto reali e descrizione onesta.</p></div>
+    <div class="step"><div class="snum">02</div><div class="sico">💳</div><div class="stit" data-i="s02t">Acquista</div><p class="stxt" data-i="s02p">Checkout sicuro con Stripe. Carte, Apple Pay e Google Pay.</p></div>
+    <div class="step"><div class="snum">03</div><div class="sico">📦</div><div class="stit" data-i="s03t">Ricevi</div><p class="stxt" data-i="s03p">Il capo arriva imballato con cura, con codice di tracciamento.</p></div>
+    <div class="step"><div class="snum">04</div><div class="sico">✨</div><div class="stit" data-i="s04t">Indossa</div><p class="stxt" data-i="s04p">Luxury second hand. Qualità reale, prezzo onesto.</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="sl" data-i="faq_eye">Hai domande?</div>
+  <h2 class="st" data-i="faq_title">Domande <em>frequenti</em></h2>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span data-i="fq1">I prodotti sono originali?</span><span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner" data-i="fa1">Sì, al 100%. Ogni capo viene verificato personalmente prima di essere messo in vendita. Controlliamo etichette, materiali e cuciture. Se un articolo non supera la verifica, non viene pubblicato.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span data-i="fq2">Quanto tempo ci vuole per ricevere l'ordine?</span><span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner" data-i="fa2">Dipende dalla spedizione scelta. Standard: 3–5 giorni lavorativi. Express: 1–2 giorni. Riceverai un codice di tracciamento non appena il pacco viene spedito.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span data-i="fq3">I prezzi sono fissi? Posso fare offerte?</span><span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner" data-i="fa3">I prezzi sono fissi, non accettiamo offerte. I prezzi sono già scontati rispetto al listino originale — spesso del 50% o più. Se ci saranno promozioni le annunceremo su Instagram.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span data-i="fq4">Come posso tracciare il mio ordine?</span><span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner" data-i="fa4">Dopo la spedizione riceverai via email il codice di tracciamento. Inseriscilo nella sezione Tracking di questo sito per monitorare la consegna in tempo reale.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span data-i="fq5">Il pagamento è sicuro?</span><span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner" data-i="fa5">Sì. I pagamenti sono gestiti da Stripe, uno dei sistemi più sicuri al mondo. Accettiamo carte, Apple Pay e Google Pay. I tuoi dati non vengono mai memorizzati da noi.</div></div></div>
+  </div>
+</section>
+
+<!-- TRACKING -->
+<section id="tracking">
+  <div class="sl" style="justify-content:center" data-i="track_eye">Hai già ordinato?</div>
+  <h2 class="st" style="color:var(--white);text-align:center" data-i="track_title">Traccia il tuo <em>ordine</em></h2>
+  <div class="track-box">
+    <p data-i="track_p">Inserisci il codice di tracciamento ricevuto via email dopo la spedizione.</p>
+    <div class="track-row">
+      <input class="track-in" id="trackIn" type="text" placeholder="Es. IT123456789IT"/>
+      <button class="track-btn" onclick="doTrack()" data-i="track_btn">Cerca</button>
+    </div>
+    <div class="track-res" id="trackRes"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contatti">
+  <div class="sl" style="justify-content:center;color:rgba(62,200,188,.4)" data-i="contact_eye">Scrivici</div>
+  <h2 class="st" style="color:var(--white);text-align:center" data-i="contact_title">Trovaci su <em>Instagram</em></h2>
+  <div class="ci">
+    <a href="https://instagram.com/bluelle____" target="_blank" class="iglink">
+      <svg class="igico" width="42" height="42" viewBox="0 0 42 42" fill="none">
+        <rect x="4.5" y="4.5" width="33" height="33" rx="9.5" stroke="white" stroke-width="1.1"/>
+        <circle cx="21" cy="21" r="7" stroke="white" stroke-width="1.1"/>
+        <circle cx="31.5" cy="10.5" r="1.8" fill="white"/>
+      </svg>
+      <span class="igat" data-i="ig_follow">seguici su</span>
+      <span class="ighandle">@bluelle____</span>
+    </a>
+    <p class="igcap" data-i="ig_cap">Nuovi arrivi in anteprima, dietro le quinte e DM sempre aperti.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="flogo">Blu<em>èlle</em></div>
+  <div class="flinks"><a href="#" data-i="f_privacy">Privacy</a><a href="#" data-i="f_terms">Termini</a><a href="#faq">FAQ</a><a href="#tracking">Tracking</a></div>
+  <div class="fcopy">© 2025 Bluèlle</div>
+</footer>
+
+<!-- MODAL -->
+<div class="mov" id="mov" onclick="cmo(event)">
+  <div class="modal">
+    <button class="mclose" onclick="closeM()">✕</button>
+    <div class="mimg" id="mimg"></div>
+    <div class="mbody">
+      <div class="mname" id="mname"></div>
+      <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+      <div class="mdiv"></div>
+      <div class="mchips" id="mchips"></div>
+      <div class="mdesc" id="mdesc"></div>
+      <div class="mdiv"></div>
+      <div class="mwhy">
+        <div class="mwhy-t" data-i="modal_why">Perché acquistare da Bluèlle</div>
+        <ul>
+          <li data-i="mw1">Capo autenticato personalmente prima della vendita</li>
+          <li data-i="mw2">Risparmio minimo del 50% rispetto al listino</li>
+          <li data-i="mw3">Foto reali — quello che vedi è quello che ricevi</li>
+          <li data-i="mw4">Spedizione tracciabile, pagamento sicuro</li>
+        </ul>
+      </div>
+      <button class="mbuy" id="mbuy">Acquista ora</button>
+      <div class="msec">🔒 <span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── TRANSLATIONS ───────────────────────────────────────
+const T={
+  it:{tagline:'Luxury Second Hand',hero_title:'Lusso autentico.<br><em>Prezzo onesto.</em>',hero_sub:'Capi firmati selezionati uno per uno.<br>Risparmia fino al 60% sul listino originale.',hero_cta:'Esplora la collezione',scroll:'Scorri',s1:'100% Autenticità garantita',s2:'Risparmio fino al 60%',s3:'Capi di lusso selezionati',s4:'Pagamento sicuro Stripe',s5:'Spedizione tracciabile',s6:'Qualità verificata',auth_eye:'Ogni capo racconta una storia',auth_p:'Ogni articolo viene controllato, fotografato e certificato personalmente. Una promessa di lusso e onestà.',al1:'Autenticità verificata prima di ogni messa in vendita',al2:'Risparmio garantito minimo del 50% sul prezzo originale',al3:'Foto reali ad alta risoluzione, nessun filtro',al4:'Capi selezionati con cura, uno per uno',stat1_lbl:'Risparmio medio',stat1_sub:'sul listino originale',stat2_lbl:'Autenticità',stat2_sub:'garantita su ogni capo',about_eye:'Chi siamo',about_title:'Second hand.<br><em>First class.</em>',about_p:'Bluèlle nasce da una passione semplice: rendere il lusso accessibile senza compromessi.',stat_a:'Risparmio medio',stat_b:'Autenticità garantita',stat_c:'Brand selezionati',stat_d:'Soddisfazione clienti',why_title:'Perché comprare<br>da <em>Bluèlle?</em>',why1:'Ogni capo ispezionato e fotografato dal vivo',why2:'Prezzi fissi e onesti. Nessuna trattativa',why3:'Solo i migliori brand del lusso',why4:'Sostenibilità reale — dare nuova vita al lusso',why5:'Assistenza diretta via Instagram',coll_eye:'Disponibile ora',coll_title:'La <em>collezione</em>',all:'Tutti',how_eye:'Semplice e sicuro',how_title:'Come <em>funziona</em>',s01t:'Scegli',s01p:'Esplora la collezione. Ogni capo ha foto reali e descrizione onesta.',s02t:'Acquista',s02p:'Checkout sicuro con Stripe. Carte, Apple Pay e Google Pay.',s03t:'Ricevi',s03p:'Il capo arriva imballato con cura, con codice di tracciamento.',s04t:'Indossa',s04p:'Luxury second hand. Qualità reale, prezzo onesto.',faq_eye:'Hai domande?',faq_title:'Domande <em>frequenti</em>',fq1:'I prodotti sono originali?',fa1:'Sì, al 100%. Ogni capo viene verificato personalmente prima di essere messo in vendita.',fq2:"Quanto tempo ci vuole per ricevere l'ordine?",fa2:'Standard: 3–5 giorni. Express: 1–2 giorni. Riceverai un codice di tracciamento via email.',fq3:'I prezzi sono fissi? Posso fare offerte?',fa3:'I prezzi sono fissi. Non accettiamo offerte. Se ci saranno promozioni le annunceremo su Instagram.',fq4:'Come posso tracciare il mio ordine?',fa4:'Inserisci il codice di tracciamento ricevuto via email nella sezione Tracking di questo sito.',fq5:'Il pagamento è sicuro?',fa5:'Sì. Pagamenti gestiti da Stripe. Accettiamo carte, Apple Pay e Google Pay.',track_eye:'Hai già ordinato?',track_title:'Traccia il tuo <em>ordine</em>',track_p:'Inserisci il codice di tracciamento ricevuto via email dopo la spedizione.',track_btn:'Cerca',contact_eye:'Scrivici',contact_title:'Trovaci su <em>Instagram</em>',ig_follow:'seguici su',ig_cap:'Nuovi arrivi in anteprima, dietro le quinte e DM sempre aperti.',nav_about:'Chi siamo',nav_coll:'Collezione',nav_contact:'Contatti',f_privacy:'Privacy',f_terms:'Termini',modal_why:'Perché acquistare da Bluèlle',mw1:'Capo autenticato personalmente',mw2:'Risparmio minimo del 50%',mw3:'Foto reali — quello che vedi è quello che ricevi',mw4:'Spedizione tracciabile, pagamento sicuro',secure_pay:'Pagamento sicuro via Stripe',buy:'Acquista',sold:'Venduto',avail:'Disponibile',see:'Vedi',size:'Taglia'},
+  en:{tagline:'Luxury Second Hand',hero_title:'Authentic luxury.<br><em>Honest price.</em>',hero_sub:'Designer pieces selected one by one.<br>Save up to 60% off the original retail price.',hero_cta:'Explore the collection',scroll:'Scroll',s1:'100% Authenticity guaranteed',s2:'Save up to 60%',s3:'Selected luxury pieces',s4:'Secure Stripe payment',s5:'Tracked shipping',s6:'Verified quality',auth_eye:'Every piece tells a story',auth_p:'Every item is personally checked, photographed and certified. A promise of luxury and honesty.',al1:'Authenticity verified before every listing',al2:'Guaranteed minimum 50% savings vs retail',al3:'Real high-resolution photos, no filters',al4:'Pieces selected with care, one by one',stat1_lbl:'Average saving',stat1_sub:'off original retail',stat2_lbl:'Authenticity',stat2_sub:'guaranteed on every piece',about_eye:'About us',about_title:'Second hand.<br><em>First class.</em>',about_p:'Bluèlle was born from a simple passion: making luxury accessible without compromise.',stat_a:'Average saving',stat_b:'Authenticity guaranteed',stat_c:'Selected brands',stat_d:'Customer satisfaction',why_title:'Why buy<br>from <em>Bluèlle?</em>',why1:'Every piece inspected and photographed in person',why2:'Fixed honest prices. No negotiation',why3:'Only the best luxury brands',why4:'Real sustainability — giving luxury a new life',why5:'Direct support via Instagram',coll_eye:'Available now',coll_title:'The <em>collection</em>',all:'All',how_eye:'Simple and secure',how_title:'How it <em>works</em>',s01t:'Choose',s01p:'Browse the collection. Every piece has real photos and an honest description.',s02t:'Buy',s02p:'Secure checkout with Stripe. Cards, Apple Pay and Google Pay.',s03t:'Receive',s03p:'Your item arrives carefully packaged with a tracking code.',s04t:'Wear',s04p:'Luxury second hand. Real quality, honest price.',faq_eye:'Got questions?',faq_title:'Frequently asked <em>questions</em>',fq1:'Are the products authentic?',fa1:'Yes, 100%. Every piece is personally verified before listing. We check labels, materials and stitching.',fq2:'How long does delivery take?',fa2:'Standard: 3–5 business days. Express: 1–2 days. You will receive a tracking code once shipped.',fq3:'Are prices fixed? Can I make an offer?',fa3:'Prices are fixed. No offers accepted. Prices are already discounted up to 50%+ vs retail. Promotions will be announced on Instagram.',fq4:'How do I track my order?',fa4:'Enter the tracking code received by email in the Tracking section of this website.',fq5:'Is payment secure?',fa5:'Yes. Payments are processed by Stripe. We accept cards, Apple Pay and Google Pay.',track_eye:'Already ordered?',track_title:'Track your <em>order</em>',track_p:'Enter the tracking code received by email after shipment.',track_btn:'Search',contact_eye:'Contact us',contact_title:'Find us on <em>Instagram</em>',ig_follow:'follow us on',ig_cap:'First look at new arrivals, behind the scenes and DMs always open.',nav_about:'About',nav_coll:'Collection',nav_contact:'Contact',f_privacy:'Privacy',f_terms:'Terms',modal_why:'Why buy from Bluèlle',mw1:'Personally authenticated before sale',mw2:'Minimum 50% saving vs retail',mw3:'Real photos — what you see is what you get',mw4:'Tracked shipping, secure payment',secure_pay:'Secure payment via Stripe',buy:'Buy now',sold:'Sold',avail:'Available',see:'View',size:'Size'},
+  fr:{tagline:'Luxe de Seconde Main',hero_title:'Luxe authentique.<br><em>Prix honnête.</em>',hero_sub:'Pièces de créateur sélectionnées une à une.<br>Économisez jusqu\'à 60% sur le prix de détail.',hero_cta:'Explorer la collection',scroll:'Défiler',s1:'100% Authenticité garantie',s2:'Économies jusqu\'à 60%',s3:'Pièces de luxe sélectionnées',s4:'Paiement sécurisé Stripe',s5:'Livraison suivie',s6:'Qualité vérifiée',auth_eye:'Chaque pièce raconte une histoire',auth_p:'Chaque article est personnellement vérifié, photographié et certifié.',al1:'Authenticité vérifiée avant chaque mise en vente',al2:'Économies garanties minimum 50% sur le prix de détail',al3:'Photos réelles haute résolution, sans filtre',al4:'Pièces sélectionnées avec soin, une par une',stat1_lbl:'Économie moyenne',stat1_sub:'sur le prix de détail',stat2_lbl:'Authenticité',stat2_sub:'garantie sur chaque pièce',about_eye:'Qui sommes-nous',about_title:'Seconde main.<br><em>Première classe.</em>',about_p:'Bluèlle est né d\'une passion simple : rendre le luxe accessible sans compromis.',stat_a:'Économie moyenne',stat_b:'Authenticité garantie',stat_c:'Marques sélectionnées',stat_d:'Satisfaction client',why_title:'Pourquoi acheter<br>chez <em>Bluèlle?</em>',why1:'Chaque pièce inspectée et photographiée en personne',why2:'Prix fixes et honnêtes. Aucune négociation',why3:'Seulement les meilleures marques de luxe',why4:'Durabilité réelle — donner une nouvelle vie au luxe',why5:'Assistance directe via Instagram',coll_eye:'Disponible maintenant',coll_title:'La <em>collection</em>',all:'Tous',how_eye:'Simple et sécurisé',how_title:'Comment ça <em>marche</em>',s01t:'Choisir',s01p:'Parcourez la collection. Chaque pièce a des photos réelles.',s02t:'Acheter',s02p:'Paiement sécurisé avec Stripe. Cartes, Apple Pay et Google Pay.',s03t:'Recevoir',s03p:'Votre article arrive soigneusement emballé avec un code de suivi.',s04t:'Porter',s04p:'Luxe de seconde main. Qualité réelle, prix honnête.',faq_eye:'Des questions?',faq_title:'Questions <em>fréquentes</em>',fq1:'Les produits sont-ils authentiques?',fa1:'Oui, à 100%. Chaque pièce est personnellement vérifiée avant la mise en vente.',fq2:'Combien de temps prend la livraison?',fa2:'Standard: 3–5 jours ouvrables. Express: 1–2 jours.',fq3:'Les prix sont-ils fixes? Puis-je faire une offre?',fa3:'Les prix sont fixes. Aucune offre acceptée. Les promotions seront annoncées sur Instagram.',fq4:'Comment suivre ma commande?',fa4:'Entrez le code de suivi reçu par email dans la section Tracking.',fq5:'Le paiement est-il sécurisé?',fa5:'Oui. Paiements traités par Stripe. Cartes, Apple Pay et Google Pay acceptés.',track_eye:'Déjà commandé?',track_title:'Suivre votre <em>commande</em>',track_p:'Entrez le code de suivi reçu par email après l\'expédition.',track_btn:'Rechercher',contact_eye:'Nous contacter',contact_title:'Retrouvez-nous sur <em>Instagram</em>',ig_follow:'suivez-nous sur',ig_cap:'Aperçu des nouvelles arrivées et DM toujours ouverts.',nav_about:'À propos',nav_coll:'Collection',nav_contact:'Contact',f_privacy:'Confidentialité',f_terms:'Conditions',modal_why:'Pourquoi acheter chez Bluèlle',mw1:'Authentifié personnellement avant la vente',mw2:'Économie minimum de 50%',mw3:'Photos réelles — ce que vous voyez est ce que vous recevez',mw4:'Livraison suivie, paiement sécurisé',secure_pay:'Paiement sécurisé via Stripe',buy:'Acheter',sold:'Vendu',avail:'Disponible',see:'Voir',size:'Taille'},
+  es:{tagline:'Lujo de Segunda Mano',hero_title:'Lujo auténtico.<br><em>Precio honesto.</em>',hero_sub:'Prendas de diseñador seleccionadas una a una.<br>Ahorra hasta un 60% sobre el precio de venta.',hero_cta:'Explorar la colección',scroll:'Desplazar',s1:'100% Autenticidad garantizada',s2:'Ahorro hasta el 60%',s3:'Piezas de lujo seleccionadas',s4:'Pago seguro Stripe',s5:'Envío rastreable',s6:'Calidad verificada',auth_eye:'Cada prenda cuenta una historia',auth_p:'Cada artículo es verificado, fotografiado y certificado personalmente.',al1:'Autenticidad verificada antes de cada publicación',al2:'Ahorro mínimo garantizado del 50% sobre precio de venta',al3:'Fotos reales en alta resolución, sin filtros',al4:'Prendas seleccionadas con cuidado, una a una',stat1_lbl:'Ahorro medio',stat1_sub:'sobre precio de venta',stat2_lbl:'Autenticidad',stat2_sub:'garantizada en cada prenda',about_eye:'Quiénes somos',about_title:'Segunda mano.<br><em>Primera clase.</em>',about_p:'Bluèlle nació de una pasión simple: hacer el lujo accesible sin compromisos.',stat_a:'Ahorro medio',stat_b:'Autenticidad garantizada',stat_c:'Marcas seleccionadas',stat_d:'Satisfacción del cliente',why_title:'¿Por qué comprar<br>en <em>Bluèlle?</em>',why1:'Cada prenda inspeccionada y fotografiada en persona',why2:'Precios fijos y honestos. Sin negociación',why3:'Solo las mejores marcas de lujo',why4:'Sostenibilidad real — dar nueva vida al lujo',why5:'Atención directa vía Instagram',coll_eye:'Disponible ahora',coll_title:'La <em>colección</em>',all:'Todos',how_eye:'Simple y seguro',how_title:'Cómo <em>funciona</em>',s01t:'Elige',s01p:'Explora la colección. Cada prenda tiene fotos reales.',s02t:'Compra',s02p:'Pago seguro con Stripe. Tarjetas, Apple Pay y Google Pay.',s03t:'Recibe',s03p:'Tu prenda llega cuidadosamente empaquetada con código de seguimiento.',s04t:'Viste',s04p:'Lujo de segunda mano. Calidad real, precio honesto.',faq_eye:'¿Tienes preguntas?',faq_title:'Preguntas <em>frecuentes</em>',fq1:'¿Los productos son auténticos?',fa1:'Sí, al 100%. Cada prenda es verificada personalmente antes de publicarse.',fq2:'¿Cuánto tarda la entrega?',fa2:'Estándar: 3–5 días hábiles. Express: 1–2 días.',fq3:'¿Los precios son fijos? ¿Puedo hacer ofertas?',fa3:'Los precios son fijos. No aceptamos ofertas. Las promociones se anunciarán en Instagram.',fq4:'¿Cómo puedo rastrear mi pedido?',fa4:'Introduce el código de seguimiento recibido por email en la sección Tracking.',fq5:'¿El pago es seguro?',fa5:'Sí. Pagos gestionados por Stripe. Aceptamos tarjetas, Apple Pay y Google Pay.',track_eye:'¿Ya pediste?',track_title:'Rastrea tu <em>pedido</em>',track_p:'Introduce el código de seguimiento recibido por email tras el envío.',track_btn:'Buscar',contact_eye:'Contáctanos',contact_title:'Encuéntranos en <em>Instagram</em>',ig_follow:'síguenos en',ig_cap:'Primeras miradas a nuevas llegadas y DMs siempre abiertos.',nav_about:'Nosotros',nav_coll:'Colección',nav_contact:'Contacto',f_privacy:'Privacidad',f_terms:'Términos',modal_why:'Por qué comprar en Bluèlle',mw1:'Autenticado personalmente antes de la venta',mw2:'Ahorro mínimo del 50%',mw3:'Fotos reales — lo que ves es lo que recibes',mw4:'Envío rastreable, pago seguro',secure_pay:'Pago seguro vía Stripe',buy:'Comprar',sold:'Vendido',avail:'Disponible',see:'Ver',size:'Talla'},
+  zh:{tagline:'奢侈品二手店',hero_title:'真品奢侈。<br><em>诚实定价。</em>',hero_sub:'精心挑选的设计师单品。<br>比原价节省高达60%。',hero_cta:'探索系列',scroll:'滚动',s1:'100%真品保证',s2:'节省高达60%',s3:'精选奢侈品',s4:'Stripe安全支付',s5:'可追踪配送',s6:'品质验证',auth_eye:'每件单品都有故事',auth_p:'每件商品都经过亲自检验、拍照和认证。',al1:'上架前验证真伪',al2:'保证至少节省原价50%',al3:'真实高清照片，无滤镜',al4:'精心挑选每一件单品',stat1_lbl:'平均节省',stat1_sub:'相比原价',stat2_lbl:'真品保证',stat2_sub:'每件商品均有保障',about_eye:'关于我们',about_title:'二手。<br><em>一流品质。</em>',about_p:'Bluèlle 源于一个简单的热情：让奢侈品变得触手可及。',stat_a:'平均节省',stat_b:'真品保证',stat_c:'精选品牌',stat_d:'客户满意度',why_title:'为什么在<br><em>Bluèlle</em>购买？',why1:'每件单品亲自检验并拍照',why2:'固定诚实价格，不议价',why3:'仅限顶级奢侈品牌',why4:'真正的可持续发展',why5:'通过Instagram直接客服',coll_eye:'现在可购',coll_title:'<em>系列</em>',all:'全部',how_eye:'简单安全',how_title:'如何<em>运作</em>',s01t:'选择',s01p:'浏览系列。每件单品均有真实照片和诚实描述。',s02t:'购买',s02p:'通过Stripe安全结账。支持银行卡、Apple Pay和Google Pay。',s03t:'收货',s03p:'商品精心包装并附有追踪码。',s04t:'穿戴',s04p:'奢侈品二手。真实品质，诚实价格。',faq_eye:'有疑问？',faq_title:'常见<em>问题</em>',fq1:'产品是正品吗？',fa1:'是的，100%正品。每件商品在上架前都经过亲自验证。',fq2:'收货需要多长时间？',fa2:'标准配送：3-5个工作日。快递：1-2天。',fq3:'价格固定吗？可以议价吗？',fa3:'价格固定，不接受议价。促销活动将在Instagram上公布。',fq4:'如何追踪我的订单？',fa4:'在追踪部分输入您通过电子邮件收到的追踪码。',fq5:'支付安全吗？',fa5:'是的。通过Stripe处理支付。接受银行卡、Apple Pay和Google Pay。',track_eye:'已经下单？',track_title:'追踪您的<em>订单</em>',track_p:'在发货后，输入您通过电子邮件收到的追踪码。',track_btn:'搜索',contact_eye:'联系我们',contact_title:'在<em>Instagram</em>上找到我们',ig_follow:'关注我们',ig_cap:'新品抢先看，幕后花絮，DM随时开放。',nav_about:'关于',nav_coll:'系列',nav_contact:'联系',f_privacy:'隐私',f_terms:'条款',modal_why:'为什么在Bluèlle购买',mw1:'销售前亲自认证',mw2:'最少节省50%',mw3:'真实照片——所见即所得',mw4:'可追踪配送，安全支付',secure_pay:'通过Stripe安全支付',buy:'立即购买',sold:'已售出',avail:'有货',see:'查看',size:'尺码'}
+};
+
+let curLang='it', curCurr='EUR';
+const rates={EUR:1,USD:1.08,GBP:0.86,CHF:0.96,JPY:163,CNY:7.82};
+const symbols={EUR:'€',USD:'$',GBP:'£',CHF:'Fr',JPY:'¥',CNY:'¥'};
+
+function setLang(l){
+  curLang=l;
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(T[l][k]!==undefined) el.innerHTML=T[l][k];
+  });
+  renderPrices();
+}
+function setCurr(c){
+  curCurr=c;
+  renderPrices();
+  updateRateLabel();
+}
+function fmt(eur){
+  const r=rates[curCurr];
+  const v=Math.round(eur*r);
+  if(curCurr==='JPY'||curCurr==='CNY') return symbols[curCurr]+v.toLocaleString();
+  return symbols[curCurr]+v;
+}
+function updateRateLabel(){
+  const r=rates[curCurr];
+  document.getElementById('rateLabel').textContent=curCurr==='EUR'?'':('1€ = '+symbols[curCurr]+(curCurr==='JPY'||curCurr==='CNY'?Math.round(r):r.toFixed(2)));
+}
+
+// ─── PRODUCTS ───────────────────────────────────────────
+const prods=[
+  {id:1,brand:'gucci',name:'T-Shirt Logo Print',sz:'M',cond:'Ottima',price:180,orig:450,e:'👕',desc:'T-shirt in cotone pesante con stampa logo sul petto. Nessun difetto visibile. Cartellino originale incluso.'},
+  {id:2,brand:'gucci',name:'Felpa GG Embroidered',sz:'L',cond:'Molto Buona',price:320,orig:780,e:'🧥',desc:'Felpa in cotone con ricamo e polsini a costine. Piccolo segno di usura interno, non visibile indossandola.'},
+  {id:3,brand:'balenciaga',name:'Oversized Logo Tee',sz:'S',cond:'Ottima',price:210,orig:520,e:'👕',desc:'T-shirt oversize con stampa logo sulla schiena. Cotone pesante 100%. Impeccabile.'},
+  {id:4,brand:'balenciaga',name:'Hoodie Political Campaign',sz:'XL',cond:'Buona',price:380,orig:895,e:'🧥',desc:'La celebre hoodie della collezione Political Campaign. Esternamente perfetta. Pezzo iconico.'},
+  {id:5,brand:'gucci',name:'Maglione Web Stripe',sz:'M',cond:'Ottima',price:260,orig:620,e:'🧣',desc:'Maglione in lana con righe classiche. Nessun buco, nessun pellet. Include sacchetto originale.'},
+  {id:6,brand:'balenciaga',name:'Speed Trainer Crew Neck',sz:'L',cond:'Eccellente',price:290,orig:680,e:'🧥',desc:'Felpa girocollo Speed Trainer. Cotone organico, come nuova.',sold:true},
+];
+
+function renderPrices(){
+  document.querySelectorAll('.pcard-price').forEach(el=>{
+    const id=+el.dataset.id;
+    const p=prods.find(x=>x.id===id);
+    if(p) el.textContent=fmt(p.price);
+  });
+  document.querySelectorAll('.pcard-orig').forEach(el=>{
+    const id=+el.dataset.id;
+    const p=prods.find(x=>x.id===id);
+    if(p) el.textContent=fmt(p.orig);
+  });
+}
+
+function render(f='all'){
+  const g=document.getElementById('grid');g.innerHTML='';
+  const l=T[curLang];
+  prods.filter(p=>f==='all'||p.brand===f).forEach(p=>{
+    const d=document.createElement('div');
+    d.className='pc'+(p.sold?' sold':'');
+    d.innerHTML=`<div class="pi"><div class="pibg ${p.brand==='gucci'?'bg-g':'bg-b'}"><span class="pph">${p.e}</span></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${p.cond}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${fmt(p.price)}</span><span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span></div><button class="pbtn"${p.sold?' disabled':''}>${p.sold?l.sold:l.see}</button></div></div>`;
+    if(!p.sold)d.onclick=()=>openM(p);
+    g.appendChild(d);
+  });
+}
+render();
+function fp(f,b){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));b.classList.add('on');render(f);}
+
+function openM(p){
+  const l=T[curLang];
+  const sv=Math.round((1-p.price/p.orig)*100);
+  document.getElementById('mimg').style.background=p.brand==='gucci'?'linear-gradient(135deg,#E8F5F3,#B8EAE6)':'linear-gradient(135deg,#EFF8F7,#C5E8E5)';
+  document.getElementById('mimg').innerHTML=`<span style="font-size:7rem;opacity:.14">${p.e}</span>`;
+  document.getElementById('mname').textContent=p.name;
+  document.getElementById('mprice').textContent=fmt(p.price);
+  document.getElementById('morig').textContent=fmt(p.orig);
+  document.getElementById('msave').textContent=`−${sv}%`;
+  document.getElementById('mchips').innerHTML=`<div class="mchip">${l.size} ${p.sz}</div><div class="mchip">${p.cond}</div>`;
+  document.getElementById('mdesc').textContent=p.desc;
+  document.getElementById('mbuy').textContent=`${l.buy} · ${fmt(p.price)}`;
+  document.getElementById('mov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){document.getElementById('mov').classList.remove('open');document.body.style.overflow='';}
+function cmo(e){if(e.target===document.getElementById('mov'))closeM();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();});
+
+function toggleFaq(el){
+  const item=el.parentElement;
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!was)item.classList.add('open');
+}
+
+function doTrack(){
+  const v=document.getElementById('trackIn').value.trim();
+  const r=document.getElementById('trackRes');
+  if(!v){r.textContent='Inserisci un codice.';return;}
+  r.textContent='…';
+  setTimeout(()=>{window.open('https://www.poste.it/cerca/index.html#/risultati-spedizioni/'+encodeURIComponent(v),'_blank');r.textContent='';},700);
+}
+
+// CURSOR
+const c1=document.getElementById('cur'),c2=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c1.style.left=mx+'px';c1.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;c2.style.left=rx+'px';c2.style.top=ry+'px';requestAnimationFrame(loop);})();
+
+// NAV
+window.addEventListener('scroll',()=>{
+  const s=scrollY>60;
+  document.getElementById('nav').classList.toggle('s',s);
+  document.getElementById('nt1').setAttribute('fill',s?'#1C2826':'white');
+  document.getElementById('nt2').setAttribute('fill',s?'#1C2826':'white');
+});
+
+// INTRO
+window.addEventListener('load',()=>{
+  const intro=document.getElementById('intro');
+  setTimeout(()=>intro.classList.add('open'),120);
+  setTimeout(()=>intro.classList.add('done'),2200);
+  setTimeout(()=>{intro.style.display='none';document.getElementById('hc').classList.add('show');document.getElementById('hs').classList.add('show');},2900);
+  updateRateLabel();
+});
+
+// OCEAN — shared renderer
+function makeOcean(id,cfg){
+  const cv=document.getElementById(id);if(!cv)return;
+  const ctx=cv.getContext('2d');
+  let W,H,t=0;
+  const res=()=>{const p=cv.parentElement;W=cv.width=p.offsetWidth||window.innerWidth;H=cv.height=p.offsetHeight||window.innerHeight;};
+  res();window.addEventListener('resize',res);
+  const orbs=Array.from({length:6},()=>({x:Math.random(),y:.15+Math.random()*.55,r:70+Math.random()*120,ph:Math.random()*Math.PI*2}));
+  const foam=cfg.foam?Array.from({length:75},()=>({x:Math.random(),yR:.52+Math.random()*.38,sz:Math.random()*2.2+.6,sp:Math.random()*.004+.002,ph:Math.random()*Math.PI*2,a:Math.random()*.5+.12})):[];
+  function bg(){const g=ctx.createLinearGradient(0,0,0,H);cfg.bg.forEach(([s,c])=>g.addColorStop(s,c));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+  function orb(){orbs.forEach(o=>{const ox=o.x*W+Math.sin(t*.004+o.ph)*W*.05,oy=o.y*H+Math.sin(t*.006+o.ph)*H*.04;const gr=ctx.createRadialGradient(ox,oy,0,ox,oy,o.r);gr.addColorStop(0,cfg.orb);gr.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);});}
+  function wave(w){ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W;x+=2){const wx=x*w.f;const y=w.y*H+Math.sin(wx+t*w.s)*w.a+Math.sin(wx*1.9+t*w.s*1.5)*w.a*.35+Math.sin(wx*.6+t*w.s*.7)*w.a*.22+Math.sin(wx*3.1+t*w.s*2.1)*w.a*.1;ctx.lineTo(x,y);}ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=`rgba(${w.rgb},${w.op})`;ctx.fill();}
+  function drawFoam(){foam.forEach(f=>{const w=cfg.waves[Math.floor(f.yR*cfg.waves.length*.9)%cfg.waves.length];const wx=f.x*W,wy=f.yR*H+Math.sin(wx*w.f+t*w.s+f.ph)*w.a;ctx.beginPath();ctx.arc(wx+Math.sin(t*f.sp+f.ph)*18,wy,f.sz,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${f.a*(.5+.5*Math.sin(t*1.6+f.ph))})`;ctx.fill();f.x+=f.sp*.03;if(f.x>1)f.x=0;});}
+  (function frame(){t+=.38;ctx.clearRect(0,0,W,H);bg();orb();cfg.waves.forEach(wave);drawFoam();requestAnimationFrame(frame);})();
+}
+
+makeOcean('oc',{
+  foam:true,
+  bg:[[0,'#030f0e'],[.18,'#062220'],[.4,'#0b4840'],[.65,'#148078'],[.85,'#22b0a5'],[1,'#3ec8bc']],
+  orb:'rgba(100,220,212,.09)',
+  waves:[
+    {a:48,f:.0065,s:.009,y:.58,op:.52,rgb:'255,255,255'},
+    {a:36,f:.010,s:.014,y:.64,op:.34,rgb:'200,240,238'},
+    {a:26,f:.0155,s:.022,y:.70,op:.22,rgb:'255,255,255'},
+    {a:18,f:.021,s:.030,y:.76,op:.15,rgb:'180,235,232'},
+    {a:12,f:.027,s:.039,y:.81,op:.10,rgb:'255,255,255'},
+    {a:8,f:.034,s:.050,y:.86,op:.07,rgb:'255,255,255'},
+  ]
+});
+
+// Section ocean — same deep teal palette, darker tones so it blends
+makeOcean('oc2',{
+  foam:true,
+  bg:[[0,'#1C2826'],[.1,'#1C2826'],[.25,'#0e3d38'],[.5,'#0b4840'],[.75,'#148078'],[.9,'#1C2826'],[1,'#1C2826']],
+  orb:'rgba(62,200,188,.08)',
+  waves:[
+    {a:52,f:.006,s:.008,y:.50,op:.42,rgb:'255,255,255'},
+    {a:38,f:.010,s:.013,y:.60,op:.28,rgb:'180,240,236'},
+    {a:26,f:.016,s:.020,y:.68,op:.18,rgb:'255,255,255'},
+    {a:16,f:.022,s:.028,y:.75,op:.12,rgb:'200,235,232'},
+    {a:10,f:.028,s:.038,y:.82,op:.07,rgb:'255,255,255'},
+    {a:6,f:.035,s:.050,y:.88,op:.04,rgb:'201,164,110'},
+  ]
+});
+</script>
+</body>
+</html>
