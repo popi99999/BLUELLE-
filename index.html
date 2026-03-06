@@ -285,7 +285,7 @@ section > *:not(canvas):not(.ho):not(.hcont):not(.hscroll) { max-width: 100%; }
 }
 
 @media(max-width:1000px){
-  #authsec, #savesec { 
+  #authsec, #savesec {
     grid-template-columns: 1fr !important;
     min-height: auto !important;
   }
@@ -299,6 +299,49 @@ section > *:not(canvas):not(.ho):not(.hcont):not(.hscroll) { max-width: 100%; }
     padding: 3rem 2rem !important;
   }
 }
+
+/* ── CHAT WIDGET ─────────────────────────────────────── */
+#chatBtn{position:fixed;bottom:2rem;right:2rem;z-index:500;width:52px;height:52px;border-radius:50%;background:var(--teal);border:none;cursor:none;box-shadow:0 4px 20px rgba(62,200,188,.45);display:flex;align-items:center;justify-content:center;transition:transform .3s,box-shadow .3s}
+#chatBtn:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(62,200,188,.55)}
+#chatBtn svg{width:22px;height:22px;fill:white;transition:opacity .2s}
+#chatBtn.open svg.ico-chat{opacity:0;position:absolute}
+#chatBtn.open svg.ico-close{opacity:1}
+#chatBtn svg.ico-close{opacity:0;position:absolute}
+@media(max-width:900px){#chatBtn{cursor:pointer}}
+
+#chatPanel{position:fixed;bottom:5.8rem;right:2rem;z-index:499;width:340px;max-width:calc(100vw - 2rem);background:var(--white);border-radius:12px;box-shadow:0 8px 40px rgba(28,40,38,.18);display:flex;flex-direction:column;overflow:hidden;transform:translateY(16px) scale(.97);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.34,1.56,.64,1),opacity .22s}
+#chatPanel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all}
+
+.chat-head{background:var(--dark);padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-shrink:0}
+.chat-head-info{display:flex;align-items:center;gap:.7rem}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.chat-name{font-family:'Playfair Display',serif;font-size:.88rem;color:var(--white);font-weight:300}
+.chat-status{font-size:.58rem;letter-spacing:.12em;color:rgba(62,200,188,.6);text-transform:uppercase}
+.chat-clear{background:transparent;border:none;cursor:pointer;color:rgba(255,255,255,.22);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .5rem;transition:color .2s;flex-shrink:0}
+.chat-clear:hover{color:rgba(255,255,255,.5)}
+
+#chatMsgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem;max-height:320px;min-height:160px;scroll-behavior:smooth}
+#chatMsgs::-webkit-scrollbar{width:4px}
+#chatMsgs::-webkit-scrollbar-track{background:transparent}
+#chatMsgs::-webkit-scrollbar-thumb{background:rgba(62,200,188,.25);border-radius:2px}
+
+.cmsg{max-width:82%;padding:.62rem .9rem;border-radius:12px;font-size:.82rem;line-height:1.6;word-break:break-word;animation:msgIn .2s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.cmsg.bot{background:var(--cream);color:var(--dark);border-bottom-left-radius:3px;align-self:flex-start}
+.cmsg.user{background:var(--teal);color:white;border-bottom-right-radius:3px;align-self:flex-end}
+.cmsg-time{font-size:.54rem;color:rgba(107,136,132,.55);margin-top:.25rem;display:block}
+.cmsg.user .cmsg-time{color:rgba(255,255,255,.45);text-align:right}
+
+.chat-input-wrap{border-top:1px solid rgba(62,200,188,.12);display:flex;align-items:center;padding:.7rem .8rem;gap:.5rem;flex-shrink:0}
+#chatIn{flex:1;border:none;outline:none;background:transparent;font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--dark);resize:none;line-height:1.5;max-height:80px;overflow-y:auto}
+#chatIn::placeholder{color:var(--muted);opacity:.5}
+#chatSend{width:32px;height:32px;border-radius:50%;background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s,background .2s}
+#chatSend:hover{transform:scale(1.1);background:var(--teal-dark)}
+#chatSend svg{width:14px;height:14px;fill:white}
+
+.chat-restore-bar{background:rgba(62,200,188,.07);border-bottom:1px solid rgba(62,200,188,.1);padding:.55rem 1rem;font-size:.68rem;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.chat-restore-bar button{background:var(--teal);border:none;color:white;font-size:.6rem;letter-spacing:.1em;padding:.25rem .6rem;border-radius:3px;cursor:pointer;font-family:'Outfit',sans-serif}
+/* ── END CHAT WIDGET ─────────────────────────────────── */
 </style>
 </head>
 <body>
@@ -906,6 +949,175 @@ makeOcean('oc2',{
     obs.observe(arc);
   }
 })();
+
+// ── CHAT WIDGET ─────────────────────────────────────────
+(function(){
+  const STORAGE_KEY = 'bluelle_chat_v1';
+  const WELCOME_MSG = 'Ciao! Sono l\'assistente di Bluèlle. Come posso aiutarti?';
+
+  // Simple FAQ responses
+  const FAQS = [
+    {k:['originali','autentici','veri','fake','falsi','verific'],r:'Sì, al 100%! Ogni capo viene verificato personalmente prima di essere messo in vendita. Etichette, cuciture, materiali — niente sfugge.'},
+    {k:['spedizione','consegna','arriv','quanto tempo','giorni'],r:'Spedizione standard: 3–5 giorni lavorativi. Express: 1–2 giorni. Riceverai un codice di tracciamento via email.'},
+    {k:['prezzi','fissi','offert','trattare','sconti'],r:'I prezzi sono fissi e onesti — nessuna trattativa. Se ci saranno promozioni le annunceremo su Instagram.'},
+    {k:['pagamento','stripe','carta','apple pay','google pay','sicuro'],r:'Il pagamento è gestito da Stripe, uno dei sistemi più sicuri al mondo. Accettiamo carta di credito, Apple Pay e Google Pay.'},
+    {k:['traccia','tracking','ordine','codice'],r:'Inserisci il codice di tracciamento ricevuto via email nella sezione "Traccia il tuo ordine" in basso nel sito.'},
+    {k:['instagram','contact','contatt','scriv','messaggio'],r:'Puoi trovarci su Instagram! Lasciaci un DM — rispondiamo sempre. Trovi il link nella sezione Contatti in fondo alla pagina.'},
+    {k:['gucci','balenciaga','brand','marchi','designer'],r:'Al momento trattiamo Gucci, Balenciaga, Dior, Louis Vuitton, Rick Owens, Supreme e altri brand selezionati del lusso.'},
+    {k:['risparmio','quanto','prezzo','costo'],r:'Risparmi mediamente il 50–60% rispetto al prezzo di boutique. Tutti i prezzi che vedi sono definitivi, senza commissioni nascoste.'},
+    {k:['co2','ambiente','sostenibil','green','ecolog'],r:'Ogni acquisto second hand riduce le emissioni di CO₂ dell\'82% rispetto a un capo prodotto da zero. Scegliere Bluèlle fa bene anche al pianeta.'},
+    {k:['taglia','size','misura'],r:'La taglia è indicata nella scheda di ogni capo. Se hai dubbi scrivi su Instagram — ti aiutiamo a scegliere.'},
+    {k:['reso','restituzione','rimborso','cambio'],r:'Per informazioni su resi e rimborsi contattaci direttamente su Instagram — troveremo la soluzione migliore per te.'},
+    {k:['ciao','salve','buongiorno','buonasera','hey','hi'],r:'Ciao! 👋 Come posso aiutarti oggi?'},
+    {k:['grazie','perfetto','ottimo','capito'],r:'Prego! Se hai altre domande sono qui. 😊'},
+  ];
+
+  function botReply(text){
+    const t = text.toLowerCase();
+    for(const f of FAQS){
+      if(f.k.some(k => t.includes(k))) return f.r;
+    }
+    return 'Per questa domanda ti consiglio di contattarci direttamente su Instagram — trovi il link in fondo alla pagina! Rispondiamo sempre.';
+  }
+
+  function fmtTime(ts){
+    const d = new Date(ts);
+    return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
+  }
+
+  function loadHistory(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }
+    catch(e){ return []; }
+  }
+  function saveHistory(msgs){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs.slice(-80))); }catch(e){}
+  }
+  function clearHistory(){
+    try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+  }
+
+  // Build DOM
+  document.body.insertAdjacentHTML('beforeend', `
+    <button id="chatBtn" aria-label="Apri chat" onclick="chatToggle()">
+      <svg class="ico-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      <svg class="ico-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <div id="chatPanel" role="dialog" aria-label="Chat Bluèlle">
+      <div class="chat-head">
+        <div class="chat-head-info">
+          <div class="chat-avatar">✦</div>
+          <div>
+            <div class="chat-name">Bluèlle</div>
+            <div class="chat-status">Assistente</div>
+          </div>
+        </div>
+        <button class="chat-clear" onclick="chatClear()" title="Nuova conversazione">Nuova chat</button>
+      </div>
+      <div id="chatRestoreBar" style="display:none" class="chat-restore-bar">
+        <span id="chatRestoreText"></span>
+        <button onclick="chatRestoreHide()">OK</button>
+      </div>
+      <div id="chatMsgs"></div>
+      <div class="chat-input-wrap">
+        <textarea id="chatIn" rows="1" placeholder="Scrivi un messaggio…" onkeydown="chatKey(event)"></textarea>
+        <button id="chatSend" onclick="chatSend()" aria-label="Invia">
+          <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  `);
+
+  const panel  = document.getElementById('chatPanel');
+  const btn    = document.getElementById('chatBtn');
+  const msgsEl = document.getElementById('chatMsgs');
+  const input  = document.getElementById('chatIn');
+  const rBar   = document.getElementById('chatRestoreBar');
+  const rText  = document.getElementById('chatRestoreText');
+
+  let msgs = [];
+  let isOpen = false;
+
+  function renderMsg(m, animate){
+    const div = document.createElement('div');
+    div.className = 'cmsg ' + m.who;
+    div.innerHTML = m.text.replace(/\n/g,'<br>') + `<span class="cmsg-time">${fmtTime(m.ts)}</span>`;
+    if(!animate) div.style.animation='none';
+    msgsEl.appendChild(div);
+  }
+
+  function scrollToBottom(){ msgsEl.scrollTop = msgsEl.scrollHeight; }
+
+  function appendMsg(text, who, save=true){
+    const m = {text, who, ts: Date.now()};
+    msgs.push(m);
+    renderMsg(m, true);
+    scrollToBottom();
+    if(save) saveHistory(msgs);
+    return m;
+  }
+
+  function initChat(){
+    msgs = loadHistory();
+    msgsEl.innerHTML = '';
+    if(msgs.length === 0){
+      appendMsg(WELCOME_MSG, 'bot', true);
+    } else {
+      msgs.forEach(m => renderMsg(m, false));
+      scrollToBottom();
+      const since = msgs[msgs.length-1].ts;
+      const minAgo = Math.round((Date.now()-since)/60000);
+      const label = minAgo < 60
+        ? (minAgo <= 1 ? 'pochi minuti fa' : `${minAgo} minuti fa`)
+        : minAgo < 1440
+          ? `${Math.round(minAgo/60)} ore fa`
+          : `${Math.round(minAgo/1440)} giorni fa`;
+      rText.textContent = `Cronologia recuperata · ultima attività ${label}`;
+      rBar.style.display = 'flex';
+    }
+  }
+
+  window.chatToggle = function(){
+    isOpen = !isOpen;
+    btn.classList.toggle('open', isOpen);
+    panel.classList.toggle('open', isOpen);
+    if(isOpen){
+      if(msgsEl.children.length === 0) initChat();
+      setTimeout(()=>input.focus(), 320);
+    }
+  };
+
+  window.chatSend = function(){
+    const txt = input.value.trim();
+    if(!txt) return;
+    input.value = '';
+    input.style.height = '';
+    appendMsg(txt, 'user');
+    setTimeout(()=> appendMsg(botReply(txt), 'bot'), 420);
+  };
+
+  window.chatKey = function(e){
+    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); chatSend(); }
+  };
+
+  window.chatClear = function(){
+    clearHistory();
+    msgs = [];
+    msgsEl.innerHTML = '';
+    rBar.style.display = 'none';
+    appendMsg(WELCOME_MSG, 'bot', true);
+  };
+
+  window.chatRestoreHide = function(){
+    rBar.style.display = 'none';
+  };
+
+  // Auto-resize textarea
+  input.addEventListener('input', function(){
+    this.style.height = '';
+    this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+  });
+})();
+// ── END CHAT WIDGET ─────────────────────────────────────
 
 // Countup animation on scroll
 (function(){
