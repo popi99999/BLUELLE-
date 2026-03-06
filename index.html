@@ -712,7 +712,16 @@ function render(){
     d.className='pc'+(p.sold?' sold':'');
     const imgs=p.images||[];
     d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}"></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro"></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${fmt(p.price)}</span><span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span></div></div></div>`;
-    if(!p.sold) d.onclick=()=>openM(p.id);
+    if(!p.sold) d.addEventListener('click',function(){
+      const fw=d.querySelector('.flip-wrap');
+      const isMobile=window.matchMedia('(hover:none)').matches;
+      if(isMobile&&!fw.classList.contains('flipped')){
+        document.querySelectorAll('.flip-wrap.flipped').forEach(el=>el.classList.remove('flipped'));
+        fw.classList.add('flipped');
+      } else {
+        openM(p.id);
+      }
+    });
     g.appendChild(d);
   });
 }
