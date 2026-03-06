@@ -43,6 +43,21 @@ nav.s .nlinks a{color:var(--muted)}
 .nlinks a:hover{color:var(--teal)}
 @media(max-width:900px){nav{padding:1rem 1.2rem;top:26px}.nlinks{display:none}}
 
+/* BURGER */
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:.4rem;z-index:201}
+.burger span{display:block;width:22px;height:1.5px;background:rgba(255,255,255,.75);transition:all .35s}
+nav.s .burger span{background:var(--dark)}
+.burger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.burger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+@media(max-width:900px){.burger{display:flex}}
+
+/* MOBILE NAV OVERLAY */
+.mnav{display:none;position:fixed;inset:0;background:rgba(3,15,14,.97);z-index:190;flex-direction:column;align-items:center;justify-content:center;gap:2.8rem;padding:2rem}
+.mnav.open{display:flex}
+.mnav a{text-decoration:none;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:300;font-style:italic;color:rgba(255,255,255,.6);transition:color .3s;letter-spacing:.02em}
+.mnav a:hover,.mnav a:active{color:var(--teal)}
+
 /* HERO */
 #hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
 #oc{position:absolute;inset:0;width:100%;height:100%}
@@ -341,7 +356,17 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     <li><a href="#" onclick="openTrack();return false">Tracking</a></li>
     <li><a href="#contatti" data-i="nav_contact">Contatti</a></li>
   </ul>
+  <button class="burger" id="burger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <a href="#about" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
+  <a href="#prodotti" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
+  <a href="#faq" onclick="closeMNav()">FAQ</a>
+  <a href="#" onclick="openTrack();closeMNav();return false">Tracking</a>
+  <a href="#contatti" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -731,6 +756,7 @@ function fmt(p){
 
 function setLang(l){
   curLang=l;
+  try{localStorage.setItem('bl_lang',l);}catch(e){}
   document.querySelectorAll('[data-i]').forEach(el=>{
     const k=el.getAttribute('data-i');
     if(T[l]&&T[l][k]!==undefined) el.innerHTML=T[l][k];
@@ -740,17 +766,33 @@ function setLang(l){
 
 function setCurr(c){
   curCurr=c;
+  try{localStorage.setItem('bl_curr',c);}catch(e){}
   renderPrices();
+}
+
+function toggleMenu(){
+  const b=document.getElementById('burger');
+  const m=document.getElementById('mnav');
+  b.classList.toggle('open');
+  m.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+function closeMNav(){
+  const b=document.getElementById('burger');
+  const m=document.getElementById('mnav');
+  b.classList.remove('open');
+  m.classList.remove('open');
+  document.body.style.overflow='';
 }
 
 function renderPrices(){
   document.querySelectorAll('.pcard-price').forEach(el=>{
     const p=prods.find(x=>x.id==el.dataset.id);
-    if(p) el.textContent=p.price===0?'—':fmt(p.price);
+    if(p) el.innerHTML=p.price===0?`<span class="price-req">${T[curLang].price_req||'—'}</span>`:fmt(p.price);
   });
   document.querySelectorAll('.pcard-orig').forEach(el=>{
     const p=prods.find(x=>x.id==el.dataset.id);
-    if(p) el.textContent=fmt(p.orig);
+    if(p) el.textContent=p.orig>0?fmt(p.orig):'';
   });
 }
 
@@ -772,7 +814,8 @@ function render(){
     const d=document.createElement('div');
     d.className='pc'+(p.sold?' sold':'');
     const imgs=p.images||[];
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}"></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro"></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${fmt(p.price)}</span><span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span></div></div></div>`;
+    const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}" ${imgErr}></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){
       const fw=d.querySelector('.flip-wrap');
       d.addEventListener('click',function(e){
@@ -812,10 +855,16 @@ function openM(id){
   mimg.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
   mimg.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)galMove(dx<0?1:-1);},{passive:true});
   document.getElementById('mname').textContent=p.name;
-  document.getElementById('mprice').textContent=p.price===0?(l.price_req||'On request'):fmt(p.price);
-  document.getElementById('morig').textContent=fmt(p.orig);
-  const pct=Math.round((1-p.price/p.orig)*100);
-  document.getElementById('msave').textContent=`-${pct}%`;
+  if(p.price===0){
+    document.getElementById('mprice').textContent=l.price_req||'Su richiesta';
+    document.getElementById('morig').textContent=p.orig>0?fmt(p.orig):'';
+    document.getElementById('msave').textContent='';
+  }else{
+    document.getElementById('mprice').textContent=fmt(p.price);
+    document.getElementById('morig').textContent=p.orig>0?fmt(p.orig):'';
+    const pct=p.orig>0?Math.round((1-p.price/p.orig)*100):0;
+    document.getElementById('msave').textContent=p.orig>0?`-${pct}%`:'';
+  }
   const condMap={'Ottima':'cond_great','Molto Buona':'cond_vgood','Buona':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
   const condTxt=l[condMap[p.cond]]||p.cond;
   document.getElementById('mchips').innerHTML=`<div class="mchip">${l.size} ${p.sz}</div><div class="mchip">${condTxt}</div>`;
@@ -830,21 +879,29 @@ function openM(id){
 function closeM(){document.getElementById('mov').classList.remove('open');document.body.style.overflow='';}
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
+const TT={
+  it:{searching:'Ricerca spedizione in corso...',err1:'Inserisci almeno il codice tracking.',err2:'Inserisci il codice tracking del corriere.',lbl_order:'Numero ordine',lbl_code:'Codice tracking',info:'Apri il tracking per vedere tutti i passaggi — funziona con DHL, BRT, GLS, Poste Italiane, FedEx e altri.',open_btn:'Vedi tutti i passaggi →',locale:'it'},
+  en:{searching:'Searching shipment...',err1:'Please enter at least the tracking code.',err2:'Please enter the courier tracking code.',lbl_order:'Order number',lbl_code:'Tracking code',info:'Open tracking to see all delivery updates — works with DHL, GLS, FedEx, UPS and more.',open_btn:'View all updates →',locale:'en'},
+  fr:{searching:'Recherche en cours...',err1:'Veuillez entrer au moins le code de suivi.',err2:'Veuillez entrer le code de suivi du transporteur.',lbl_order:'Numéro de commande',lbl_code:'Code de suivi',info:'Ouvrez le suivi pour voir toutes les étapes — compatible avec tous les transporteurs.',open_btn:'Voir toutes les étapes →',locale:'fr'},
+  es:{searching:'Buscando envío...',err1:'Por favor introduce al menos el código de seguimiento.',err2:'Por favor introduce el código de seguimiento del mensajero.',lbl_order:'Número de pedido',lbl_code:'Código de seguimiento',info:'Abre el seguimiento para ver todos los pasos — funciona con cualquier transportista.',open_btn:'Ver todos los pasos →',locale:'en'},
+  zh:{searching:'正在查询物流...',err1:'请至少输入快递单号。',err2:'请输入快递单号。',lbl_order:'订单号',lbl_code:'快递单号',info:'打开追踪页面查看所有物流更新 — 支持所有快递公司。',open_btn:'查看所有更新 →',locale:'en'}
+};
 function doTrack(){
   const order=document.getElementById('trin-order').value.trim();
   const code=document.getElementById('trin').value.trim();
   const r=document.getElementById('trres');
-  if(!order&&!code){r.innerHTML='<span style="color:rgba(255,100,100,.7)">Inserisci almeno il codice tracking.</span>';return;}
-  if(!code){r.innerHTML='<span style="color:rgba(255,100,100,.7)">Inserisci il codice tracking del corriere.</span>';return;}
-  r.innerHTML='<div class="track-spinner">Ricerca spedizione in corso...</div>';
+  const tt=TT[curLang]||TT.it;
+  if(!order&&!code){r.innerHTML=`<span style="color:rgba(255,100,100,.7)">${tt.err1}</span>`;return;}
+  if(!code){r.innerHTML=`<span style="color:rgba(255,100,100,.7)">${tt.err2}</span>`;return;}
+  r.innerHTML=`<div class="track-spinner">${tt.searching}</div>`;
   setTimeout(()=>{
-    const url='https://t.17track.net/it#nums='+encodeURIComponent(code);
+    const url=`https://t.17track.net/${tt.locale}#nums=`+encodeURIComponent(code);
     r.innerHTML=`<div class="track-card">`+
-      (order?`<div><div class="track-label">Numero ordine</div><div class="track-val">${order}</div></div>`:'') +
-      `<div><div class="track-label">Codice tracking</div><div class="track-val">${code}</div></div>`+
+      (order?`<div><div class="track-label">${tt.lbl_order}</div><div class="track-val">${order.replace(/</g,'&lt;')}</div></div>`:'') +
+      `<div><div class="track-label">${tt.lbl_code}</div><div class="track-val">${code.replace(/</g,'&lt;')}</div></div>`+
       `<div style="height:1px;background:rgba(62,200,188,.12)"></div>`+
-      `<div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.7">Apri il tracking per vedere tutti i passaggi fino alla consegna — funziona con qualsiasi corriere (DHL, BRT, GLS, Poste Italiane, FedEx e altri).</div>`+
-      `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">Vedi tutti i passaggi →</a>`+
+      `<div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.7">${tt.info}</div>`+
+      `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
       `</div>`;
   },1200);
 }
@@ -904,15 +961,32 @@ makeOcean('oc',{
 // INTRO
 (function(){
   const intro=document.getElementById('intro');
+  let skipped=false;
+  function skipIntro(){
+    if(skipped)return;skipped=true;
+    intro.classList.add('open');
+    setTimeout(()=>{intro.classList.add('done');},80);
+    setTimeout(()=>{intro.style.display='none';const hc=document.querySelector('.hcont');if(hc)hc.classList.add('show');},700);
+  }
+  intro.addEventListener('click',skipIntro);
+  intro.style.cursor='pointer';
   setTimeout(()=>intro.classList.add('open'),100);
   setTimeout(()=>intro.classList.add('done'),2200);
-  setTimeout(()=>{try{intro.style.display='none';const hc=document.querySelector('.hcont');const hs=document.querySelector('.hscroll');if(hc)hc.classList.add('show');if(hs)hs.classList.add('show');}catch(e){}},3000);
+  setTimeout(()=>{if(!skipped){intro.style.display='none';const hc=document.querySelector('.hcont');if(hc)hc.classList.add('show');}},3000);
 })();
 
-// INIT
+// INIT — restore saved preferences
+(function(){
+  try{
+    const sl=localStorage.getItem('bl_lang');
+    const sc=localStorage.getItem('bl_curr');
+    if(sl&&T[sl]){curLang=sl;const sel=document.getElementById('langSel');if(sel)sel.value=sl;}
+    if(sc&&rates[sc]){curCurr=sc;const sel=document.getElementById('currSel');if(sel)sel.value=sc;}
+  }catch(e){}
+})();
 render();
 buildFaq();
-setLang('it');
+setLang(curLang);
 
 // SCROLL REVEAL
 (function(){
