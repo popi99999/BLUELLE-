@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 38" width="60" height="38">
+  <rect width="60" height="38" rx="5" fill="#FF3C00"/>
+  <circle cx="22" cy="19" r="10" fill="white"/>
+  <text x="22" y="24" text-anchor="middle" fill="#FF3C00" font-family="Arial,sans-serif" font-size="15" font-weight="900">S</text>
+  <text x="42" y="22" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="8" font-weight="700">atispay</text>
+</svg>
