@@ -209,7 +209,16 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .track-in:focus{border-color:var(--teal)}
 .track-btn{background:var(--teal);color:var(--white);border:none;padding:.85rem 1.6rem;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .3s;white-space:nowrap}
 .track-btn:hover{background:var(--teal-dark)}
-.track-res{margin-top:1.2rem;font-size:.82rem;color:rgba(255,255,255,.4);min-height:1.5rem}
+.track-res{margin-top:1.4rem;font-size:.82rem;color:rgba(255,255,255,.4);min-height:1.5rem}
+.track-card{background:rgba(62,200,188,.06);border:1px solid rgba(62,200,188,.2);padding:1.4rem;display:flex;flex-direction:column;gap:1rem}
+.track-card-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.4rem}
+.track-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal)}
+.track-val{font-size:.85rem;color:var(--white);font-weight:300;word-break:break-all}
+.track-open-btn{display:block;width:100%;background:var(--teal);color:var(--white);border:none;padding:.9rem;font-family:'Outfit',sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .3s;text-align:center;text-decoration:none;margin-top:.4rem}
+.track-open-btn:hover{background:var(--teal-dark)}
+.track-spinner{display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.4);font-size:.8rem}
+.track-spinner::before{content:'';width:16px;height:16px;border:2px solid rgba(62,200,188,.3);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* TRACKING FLOAT BTN */
 #trackBtn{position:fixed;bottom:2rem;right:2rem;z-index:400;background:var(--teal);color:var(--white);border:none;padding:.75rem 1.4rem;font-family:'Outfit',sans-serif;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:.6rem;transition:background .3s,transform .3s;box-shadow:0 4px 20px rgba(62,200,188,.3)}
@@ -528,9 +537,12 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     <button class="mclose" onclick="closeTrack()" style="position:absolute;top:.8rem;right:.8rem">✕</button>
     <div class="sl" data-i="track_eye">Hai già ordinato?</div>
     <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:300;color:var(--white)" data-i="track_title">Traccia il tuo <em style="color:var(--teal)">ordine</em></h3>
-    <div class="track-row">
-      <input class="track-in" id="trin" placeholder="Codice tracciamento...">
-      <button class="track-btn" onclick="doTrack()">Cerca</button>
+    <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.7rem">
+      <input class="track-in" id="trin-order" placeholder="Numero ordine (es. BLU-0042)">
+      <div class="track-row" style="margin-top:0">
+        <input class="track-in" id="trin" placeholder="Codice tracking del corriere">
+        <button class="track-btn" onclick="doTrack()">Cerca</button>
+      </div>
     </div>
     <div class="track-res" id="trres"></div>
   </div>
@@ -726,10 +738,22 @@ function closeM(){document.getElementById('mov').classList.remove('open');docume
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
 function doTrack(){
-  const v=document.getElementById('trin').value.trim();
+  const order=document.getElementById('trin-order').value.trim();
+  const code=document.getElementById('trin').value.trim();
   const r=document.getElementById('trres');
-  r.textContent=v?'Ricerca in corso...':'Inserisci un codice di tracciamento.';
-  if(v) setTimeout(()=>r.textContent='Nessun ordine trovato con questo codice.',1200);
+  if(!order&&!code){r.innerHTML='<span style="color:rgba(255,100,100,.7)">Inserisci almeno il codice tracking.</span>';return;}
+  if(!code){r.innerHTML='<span style="color:rgba(255,100,100,.7)">Inserisci il codice tracking del corriere.</span>';return;}
+  r.innerHTML='<div class="track-spinner">Ricerca spedizione in corso...</div>';
+  setTimeout(()=>{
+    const url='https://t.17track.net/it#nums='+encodeURIComponent(code);
+    r.innerHTML=`<div class="track-card">`+
+      (order?`<div><div class="track-label">Numero ordine</div><div class="track-val">${order}</div></div>`:'') +
+      `<div><div class="track-label">Codice tracking</div><div class="track-val">${code}</div></div>`+
+      `<div style="height:1px;background:rgba(62,200,188,.12)"></div>`+
+      `<div style="font-size:.78rem;color:rgba(255,255,255,.35);line-height:1.7">Apri il tracking per vedere tutti i passaggi fino alla consegna — funziona con qualsiasi corriere (DHL, BRT, GLS, Poste Italiane, FedEx e altri).</div>`+
+      `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">Vedi tutti i passaggi →</a>`+
+      `</div>`;
+  },1200);
 }
 
 // FAQ
