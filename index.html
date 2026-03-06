@@ -310,18 +310,6 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .flip-back{transform:rotateY(180deg)}
 .flip-front img,.flip-back img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* VIRTUAL TRY-ON */
-.vt-try{display:flex;align-items:center;justify-content:center;gap:.55rem;background:transparent;border:1px solid rgba(62,200,188,.3);color:var(--teal);padding:.78rem;font-family:'Outfit',sans-serif;font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .3s;width:100%;margin-top:.5rem}
-.vt-try:hover{background:rgba(62,200,188,.07);border-color:var(--teal)}
-.vtov{position:fixed;inset:0;background:rgba(4,18,16,.97);backdrop-filter:blur(24px);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:2rem;text-align:center}
-.vtov.open{opacity:1;pointer-events:all}
-.vt-label{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem}
-.vt-scene{perspective:900px;cursor:grab;touch-action:none;user-select:none}
-.vt-scene:active{cursor:grabbing}
-.vt-fig{position:relative;width:220px;height:460px}
-.vt-hint{margin-top:1.8rem;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.2)}
-.vt-close{position:absolute;top:1.4rem;right:1.4rem;background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.5);cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .3s}
-.vt-close:hover{background:rgba(255,255,255,.15)}
 </style>
 </head>
 <body>
@@ -568,44 +556,12 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
       <div class="mdesc" id="mdesc"></div>
       <div class="mwhy"><div class="mwhy-t" data-i="modal_why">Perché acquistare da Bluèlle</div><ul id="mwhy"></ul></div>
       <button class="mbuy" id="mbuy" onclick="window.open('https://instagram.com/bluelle._','_blank')"></button>
-      <button class="vt-try" id="mvtbtn" onclick="openVT()">◈ <span id="mvtlbl">Prova virtuale</span></button>
-      <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
+<div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
       <div class="mpay" id="mpay"></div>
     </div>
   </div>
 </div>
 
-<!-- VIRTUAL TRY-ON OVERLAY -->
-<div class="vtov" id="vtov" onclick="if(event.target===this)closeVT()">
-  <button class="vt-close" onclick="closeVT()">✕</button>
-  <div class="vt-label" id="vtlabel">Come sta addosso</div>
-  <div class="vt-scene" id="vtscene">
-    <div class="vt-fig" id="vtfig">
-      <svg width="220" height="460" viewBox="0 0 220 460" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- Clip: torso + full sleeves (hoodie area) -->
-          <clipPath id="vclip">
-            <path d="M46 68 Q26 102 22 178 Q28 182 36 178 Q40 126 54 98 Q64 76 88 68 L88 272 L132 272 L132 68 Q156 76 166 98 Q180 126 184 178 Q192 182 198 178 Q194 102 174 68 Q156 58 110 56 Q64 58 46 68 Z"/>
-          </clipPath>
-        </defs>
-        <!-- Legs -->
-        <path d="M88 272 Q82 300 78 460 L106 460 L110 272 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <path d="M132 272 Q138 300 142 460 L114 460 L110 272 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <!-- Body silhouette fill -->
-        <path d="M46 68 Q26 102 22 178 Q28 182 36 178 Q40 126 54 98 Q64 76 88 68 L88 272 L132 272 L132 68 Q156 76 166 98 Q180 126 184 178 Q192 182 198 178 Q194 102 174 68 Q156 58 110 56 Q64 58 46 68 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
-        <!-- Clothing image clipped to torso+sleeves -->
-        <image id="vt-svg-img" href="" x="20" y="54" width="180" height="220" preserveAspectRatio="xMidYMid meet" clip-path="url(#vclip)"/>
-        <!-- Body outline on top (subtle integration) -->
-        <path d="M46 68 Q26 102 22 178 Q28 182 36 178 Q40 126 54 98 Q64 76 88 68 L88 272 L132 272 L132 68 Q156 76 166 98 Q180 126 184 178 Q192 182 198 178 Q194 102 174 68 Q156 58 110 56 Q64 58 46 68 Z" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1"/>
-        <!-- Neck -->
-        <rect x="104" y="57" width="12" height="13" rx="2" fill="rgba(255,255,255,0.08)"/>
-        <!-- Head (always on top) -->
-        <ellipse cx="110" cy="34" rx="19" ry="23" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.45)" stroke-width="1.2"/>
-      </svg>
-    </div>
-  </div>
-  <div class="vt-hint" id="vthint">Trascina per ruotare</div>
-</div>
 
 <!-- MODAL TRACKING -->
 <div class="tov" id="tov" onclick="if(event.target===this)closeTrack()">
@@ -807,8 +763,6 @@ function setLang(l){
     const k=el.getAttribute('data-i');
     if(T[l]&&T[l][k]!==undefined) el.innerHTML=T[l][k];
   });
-  const vtlbl=document.getElementById('mvtlbl');
-  if(vtlbl)vtlbl.textContent=(T[l]&&T[l].vt_btn)||'Prova virtuale';
   render();
 }
 
@@ -928,36 +882,7 @@ function closeM(){document.getElementById('mov').classList.remove('open');docume
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
 
-// VIRTUAL TRY-ON
-function openVT(){
-  const l=T[curLang];
-  const img=document.querySelector('#mimg .gal-img');
-  if(img){
-    const si=document.getElementById('vt-svg-img');
-    if(si){si.setAttribute('href',img.src);si.setAttribute('xlink:href',img.src);}
-  }
-  document.getElementById('vtlabel').textContent=l.vt_title||'Come sta addosso';
-  document.getElementById('vthint').textContent=l.vt_hint||'Trascina per ruotare';
-  document.getElementById('mvtlbl').textContent=l.vt_btn||'Prova virtuale';
-  document.getElementById('vtov').classList.add('open');
-}
-function closeVT(){document.getElementById('vtov').classList.remove('open');}
-(function(){
-  let drag=false,sx=0,ry=0,cr=0;
-  const sc=document.getElementById('vtscene');
-  const fg=document.getElementById('vtfig');
-  function applyRot(r){r=Math.max(-38,Math.min(38,r));fg.style.transform='rotateY('+r+'deg) perspective(900px)';}
-  sc.addEventListener('mousedown',function(e){drag=true;sx=e.clientX;cr=ry;});
-  window.addEventListener('mousemove',function(e){if(!drag)return;ry=cr+(e.clientX-sx)*0.42;applyRot(ry);});
-  window.addEventListener('mouseup',function(){drag=false;});
-  sc.addEventListener('touchstart',function(e){drag=true;sx=e.touches[0].clientX;cr=ry;},{passive:true});
-  window.addEventListener('touchmove',function(e){if(!drag)return;ry=cr+(e.touches[0].clientX-sx)*0.42;applyRot(ry);},{passive:true});
-  window.addEventListener('touchend',function(){drag=false;});
-  // reset rotation when overlay closes
-  document.getElementById('vtov').addEventListener('transitionend',function(){
-    if(!this.classList.contains('open')){ry=0;fg.style.transform='';}
-  });
-})();
+
 const TT={
   it:{searching:'Ricerca spedizione in corso...',err1:'Inserisci almeno il codice tracking.',err2:'Inserisci il codice tracking del corriere.',lbl_order:'Numero ordine',lbl_code:'Codice tracking',info:'Apri il tracking per vedere tutti i passaggi — funziona con DHL, BRT, GLS, Poste Italiane, FedEx e altri.',open_btn:'Vedi tutti i passaggi →',locale:'it'},
   en:{searching:'Searching shipment...',err1:'Please enter at least the tracking code.',err2:'Please enter the courier tracking code.',lbl_order:'Order number',lbl_code:'Tracking code',info:'Open tracking to see all delivery updates — works with DHL, GLS, FedEx, UPS and more.',open_btn:'View all updates →',locale:'en'},
