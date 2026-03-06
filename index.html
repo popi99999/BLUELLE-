@@ -218,6 +218,21 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .flinks a{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.18);text-decoration:none;transition:color .3s}
 .flinks a:hover{color:var(--teal)}
 .fcopy{font-size:.6rem;color:rgba(255,255,255,.12)}
+.fpay{display:flex;justify-content:center;align-items:center;gap:.4rem;flex-wrap:wrap;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.06);width:100%}
+.fpay-label{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-right:.3rem}
+
+/* PAYMENT ICONS */
+.pi{display:inline-flex;align-items:center;justify-content:center;border-radius:4px;height:20px;padding:0 7px;font-size:8px;font-weight:700;letter-spacing:.2px;font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0}
+.pi-visa{background:#1a1f71;color:#fff;font-style:italic;font-size:10px;letter-spacing:1.5px}
+.pi-mc{background:#1c1c1c;padding:1px 5px}
+.pi-amex{background:#016fcf;color:#fff}
+.pi-apple{background:#1d1d1f;color:#fff}
+.pi-google{background:#fff;color:#3c4043;border:1px solid #dadce0}
+.pi-klarna{background:#ffb3c7;color:#17120e}
+.pi-satis{background:#ff3900;color:#fff}
+.pi-revolut{background:#0075eb;color:#fff}
+.fpay .pi{opacity:.6}
+.fpay .pi-google{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
 
 /* TRACKING MODAL */
 .tov{position:fixed;inset:0;background:rgba(4,18,16,.92);backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1rem}
@@ -541,6 +556,7 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     <a href="https://instagram.com/bluelle._" target="_blank">@bluelle._</a>
   </div>
   <div class="fcopy">© 2025 Bluèlle — Curated Luxury Resale</div>
+  <div class="fpay"><span class="fpay-label">Pagamenti</span><span class="pi pi-visa">VISA</span><span class="pi pi-mc"><svg width="26" height="16" viewBox="0 0 26 16" aria-hidden="true"><circle cx="9" cy="8" r="7" fill="#eb001b"/><circle cx="17" cy="8" r="7" fill="#f79e1b"/><path d="M13 2.3a7 7 0 0 1 0 11.4A7 7 0 0 1 13 2.3z" fill="#ff5f00"/></svg></span><span class="pi pi-amex">AMEX</span><span class="pi pi-apple">Apple Pay</span><span class="pi pi-google">Google Pay</span><span class="pi pi-klarna">Klarna</span><span class="pi pi-satis">Satispay</span><span class="pi pi-revolut">Revolut</span></div>
 </footer>
 
 <!-- MODAL PRODOTTO -->
@@ -557,7 +573,7 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
       <div class="mwhy"><div class="mwhy-t" data-i="modal_why">Perché acquistare da Bluèlle</div><ul id="mwhy"></ul></div>
       <button class="mbuy" id="mbuy" onclick="window.open('https://instagram.com/bluelle._','_blank')"></button>
 <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
-      <div class="mpay" id="mpay"></div>
+      <div class="mpay" id="mpay"><span class="pi pi-visa">VISA</span><span class="pi pi-mc"><svg width="26" height="16" viewBox="0 0 26 16" aria-hidden="true"><circle cx="9" cy="8" r="7" fill="#eb001b"/><circle cx="17" cy="8" r="7" fill="#f79e1b"/><path d="M13 2.3a7 7 0 0 1 0 11.4A7 7 0 0 1 13 2.3z" fill="#ff5f00"/></svg></span><span class="pi pi-amex">AMEX</span><span class="pi pi-apple">Apple Pay</span><span class="pi pi-google">Google Pay</span><span class="pi pi-klarna">Klarna</span><span class="pi pi-satis">Satispay</span><span class="pi pi-revolut">Revolut</span></div>
     </div>
   </div>
 </div>
