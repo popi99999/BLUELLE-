@@ -14,9 +14,7 @@ body{background:var(--white);color:var(--dark);font-family:'Outfit',sans-serif;f
 .container{width:100%;max-width:920px;margin:0 auto;padding:0 2.5rem}
 
 /* CURSOR */
-.cur{width:8px;height:8px;background:var(--teal);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
-.curR{width:32px;height:32px;border:1px solid rgba(62,200,188,.5);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
-@media(max-width:900px){.cur,.curR{display:none}body{cursor:auto}}
+.cur,.curR{display:none!important}
 
 /* INTRO */
 #intro{position:fixed;inset:0;z-index:1000;background:#030f0e;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -154,6 +152,15 @@ nav.s .nlinks a{color:var(--muted)}
 .msec{font-size:.65rem;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding-top:.3rem}
 .mclose{position:absolute;top:1rem;right:1.1rem;background:rgba(0,0,0,.12);border:none;font-size:1rem;color:var(--white);cursor:pointer;z-index:10;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background .3s}
 .mclose:hover{background:rgba(0,0,0,.3)}
+
+/* GALLERY MODAL */
+.gal-img{width:100%;height:100%;object-fit:cover;display:block}
+.gal-arr{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);border:none;color:#fff;font-size:1.3rem;width:36px;height:36px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.gal-arr:hover{background:rgba(0,0,0,.7)}
+.gal-prev{left:.6rem}.gal-next{right:.6rem}
+.gal-dots{position:absolute;bottom:.7rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:5}
+.gal-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:background .2s}
+.gal-dot.on{background:#fff}
 
 /* STEPS */
 #steps{background:var(--dark);padding:7rem 0}
@@ -573,85 +580,84 @@ const prods = [
     sz:'S', cond:'Ottima', price:0, orig:1200,
     desc:'Maglione in lana con monogramma GG blu cobalto e arancione. Taglia S uomo, veste normale. Inclusa box Gucci originale. Piccoli pallini da usura invisibili indossandolo.',
     sold:false, hasBox:true,
-    imgFront:'img/gucci-sweater-f.jpg', imgBack:'img/gucci-sweater-b.jpg'
+    images:['img/gucci-sweater-f.jpg','img/gucci-sweater-b.jpg']
   },
   {
     id:2, brand:'gucci', name:'"Blind for Love" Football Tee — Bianca',
     sz:'M', cond:'Nuovo', price:0, orig:850,
     desc:'T-shirt oversize 100% cotone made in Italy. Stampa "25 / GG GG GG / 1921" fronte, "Gucci Blind for Love" retro. Taglia M oversize.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-bfl-f.jpg', imgBack:'img/gucci-bfl-b.jpg'
+    images:['img/gucci-bfl-f.jpg','img/gucci-bfl-b.jpg']
   },
   {
     id:3, brand:'balenciaga', name:'Metal Logo T-Shirt',
     sz:'XXS', cond:'Nuovo', price:0, orig:950,
     desc:'T-shirt Balenciaga stampa metal/rock all-over. Taglia XXS ma veste come una L. Effetto slavato e taglietti al collo sono parte del design originale, non difetti. Senza cartellino ma perfetta.',
     sold:false, hasBox:false,
-    imgFront:'img/bal-metal-f.jpg', imgBack:'img/bal-metal-b.jpg'
+    images:['img/bal-metal-f.jpg','img/bal-metal-b.jpg']
   },
   {
     id:4, brand:'gucci', name:'Floral Embroidered Logo Tee',
     sz:'L', cond:'Ottima', price:0, orig:1100,
     desc:'T-shirt Gucci nera tie-dye con logo vintage e ricami floreali 3D sulle spalle. Rose blu e foglie verde militare, made in Italy. Taglia L.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-floral-f.jpg', imgBack:'img/gucci-floral-b.jpg'
+    images:['img/gucci-floral-f.jpg','img/gucci-floral-b.jpg']
   },
   {
     id:5, brand:'balenciaga', name:'Tape Type T-Shirt',
     sz:'XXL', cond:'Nuovo', price:0, orig:750,
     desc:'Balenciaga Tape Type tee bianca con logo BB e scritta giallo fluo sul retro. Taglia XXL oversize. I taglietti al collo sono design originale Balenciaga.',
     sold:false, hasBox:false,
-    imgFront:'img/bal-tape-f.jpg', imgBack:'img/bal-tape-b.jpg'
+    images:['img/bal-tape-f.jpg','img/bal-tape-b.jpg']
   },
   {
     id:6, brand:'balenciaga', name:'Destroyed Hoodie',
     sz:'S', cond:'Nuovo', price:0, orig:950,
     desc:'Balenciaga Destroyed Hoodie lilla/lavanda. Taglia S ma veste come una XL/XXL — fit ultra oversize. I strappi e tagli sono parte integrante del design originale Balenciaga, non segni di usura. Condizione nuova.',
     sold:false, hasBox:false,
-    imgFront:'img/bal-hoodie-f.jpg', imgBack:'img/bal-hoodie-b.jpg'
+    images:['img/bal-hoodie-f.jpg','img/bal-hoodie-b.jpg']
   },
   {
     id:7, brand:'balenciaga', name:'DIY College T-Shirt',
     sz:'S', cond:'Nuovo', price:0, orig:0,
     desc:'Balenciaga DIY College T-shirt bianca. Stampa collegiata "Balenciaga Est. 1917" con stemma sul fronte. Taglia S, veste normale. Nuova con cartellino originale Balenciaga. I tagli al collo sono design originale.',
     sold:false, hasBox:false,
-    imgFront:'img/bal-college-f.jpg', imgBack:'img/bal-college-b.jpg'
+    images:['img/bal-college-f.jpg','img/bal-college-b.jpg']
   },
   {
     id:8, brand:'gucci', name:'"Blind for Love" Football Tee — Verde',
     sz:'M', cond:'Nuovo', price:0, orig:850,
     desc:'T-shirt Gucci verde kelly oversize 100% cotone made in Italy. Stampa "25 / Eschatology / GG GG GG / 1921" fronte, "Gucci Blind for Love" retro. Taglia M oversize.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-green-f.jpg', imgBack:'img/gucci-green-b.jpg'
+    images:['img/gucci-green-f.jpg','img/gucci-green-b.jpg']
   },
   {
     id:9, brand:'gucci', name:'GG Monogram Wool Sweater — Viola',
     sz:'M', cond:'Nuovo', price:0, orig:1200,
     desc:'Maglione in lana e cashmere (95% lana, 5% cashmere) con monogramma GG viola e fucsia. Made in Italy. Taglia M, veste M/L. Condizione nuova con cartellino.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-sw2-f.jpg', imgBack:'img/gucci-sw2-b.jpg'
-  }
-,
+    images:['img/gucci-sw2-f.jpg','img/gucci-sw2-b.jpg']
+  },
   {
     id:10, brand:'gucci', name:'GG Stripe Cotton Sweater',
     sz:'M', cond:'Ottima', price:0, orig:1300,
     desc:'Maglione Gucci in cotone 100% made in Italy. Design bicolore navy/bianco con righe nella parte superiore, fascia rossa e monogramma GG all-over nella parte inferiore. Taglia M, fit normale. Condizione ottima.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-stripe-sw-f.jpg', imgBack:'img/gucci-stripe-sw-b.jpg'
+    images:['img/gucci-stripe-sw-f.jpg','img/gucci-stripe-sw-b.jpg']
   },
   {
     id:11, brand:'gucci', name:'GG Striped Cotton Cardigan',
     sz:'L', cond:'Nuovo', price:0, orig:1500,
     desc:'Cardigan donna Gucci in cotone 100% made in Italy. Scollo a V profondo con bordini rossi, motivo a righe navy/bianco con pattern GG traforato. Bottoni con logo GG dorato. Taglia L, fit corretto. Nuovo con cartellino.',
     sold:false, hasBox:false,
-    imgFront:'img/gucci-cardigan-f.jpg', imgBack:'img/gucci-cardigan-b.jpg'
+    images:['img/gucci-cardigan-f.jpg','img/gucci-cardigan-b.jpg']
   },
   {
     id:12, brand:'balenciaga', name:'Unity Logo Cropped Hoodie — Sample',
     sz:'2 (M)', cond:'Nuovo', price:0, orig:0,
     desc:'Balenciaga Unity Logo Cropped Hoodie nera. Questo pezzo è un SAMPLE — il modello prototipo creato prima della messa in produzione. Probabilmente unico al mondo. Logo Unity circolare sul petto, fondo asimmetrico cropped, cuciture a vista. Taglia 2 (corrisponde a M), fit oversize. Condizione nuova.',
     sold:false, hasBox:false,
-    imgFront:'img/bal-unity-f.jpg', imgBack:'img/bal-unity-b.jpg'
+    images:['img/bal-unity-f.jpg','img/bal-unity-b.jpg']
   }
 ];;
 
@@ -707,7 +713,8 @@ function render(){
     const condTxt=l[condMap[p.cond]]||p.cond;
     const d=document.createElement('div');
     d.className='pc'+(p.sold?' sold':'');
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${p.imgFront}" alt="${p.name}"></div><div class="flip-back"><img src="${p.imgBack}" alt="${p.name} retro"></div></div><span class="flip-hint">hover ↺</span></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${fmt(p.price)}</span><span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span></div><button class="pbtn"${p.sold?' disabled':''}>${p.sold?l.sold:l.see}</button></div></div>`;
+    const imgs=p.images||[];
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}"></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro"></div></div><span class="flip-hint">hover ↺</span></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${fmt(p.price)}</span><span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span></div><button class="pbtn"${p.sold?' disabled':''}>${p.sold?l.sold:l.see}</button></div></div>`;
     if(!p.sold) d.querySelector('.pbtn').onclick=()=>openM(p.id);
     g.appendChild(d);
   });
@@ -718,7 +725,22 @@ function openM(id){
   const l=T[curLang];
   const mimg=document.getElementById('mimg');
   mimg.style.background='';
-  mimg.innerHTML=`<div class="flip-wrap" style="width:100%;height:100%"><div class="flip-inner"><div class="flip-front"><img src="${p.imgFront}" alt="${p.name}"></div><div class="flip-back"><img src="${p.imgBack}" alt="${p.name} retro"></div></div><span class="flip-hint">hover ↺</span></div>`;
+  const imgs=p.images||[];
+  let gi=0;
+  function buildGallery(){
+    mimg.innerHTML=`
+      <img class="gal-img" src="${imgs[gi]}" alt="${p.name}">
+      ${imgs.length>1?`<button class="gal-arr gal-prev" onclick="galMove(-1)">&#8592;</button><button class="gal-arr gal-next" onclick="galMove(1)">&#8594;</button>`:''}
+      ${imgs.length>1?`<div class="gal-dots">${imgs.map((_,i)=>`<span class="gal-dot${i===gi?' on':''}" onclick="galGo(${i})"></span>`).join('')}</div>`:''}
+    `;
+  }
+  window.galMove=function(d){gi=(gi+d+imgs.length)%imgs.length;buildGallery();};
+  window.galGo=function(i){gi=i;buildGallery();};
+  buildGallery();
+  // swipe support
+  let tx=0;
+  mimg.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+  mimg.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)galMove(dx<0?1:-1);},{passive:true});
   document.getElementById('mname').textContent=p.name;
   document.getElementById('mprice').textContent=p.price===0?(curLang==='it'?'Su richiesta':'On request'):fmt(p.price);
   document.getElementById('morig').textContent=fmt(p.orig);
