@@ -222,17 +222,9 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .fpay-label{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-right:.3rem}
 
 /* PAYMENT ICONS */
-.pi{display:inline-flex;align-items:center;justify-content:center;border-radius:4px;height:20px;padding:0 7px;font-size:8px;font-weight:700;letter-spacing:.2px;font-family:'Outfit',sans-serif;white-space:nowrap;flex-shrink:0}
-.pi-visa{background:#1a1f71;color:#fff;font-style:italic;font-size:10px;letter-spacing:1.5px}
-.pi-mc{background:#1c1c1c;padding:1px 5px}
-.pi-amex{background:#016fcf;color:#fff}
-.pi-apple{background:#1d1d1f;color:#fff}
-.pi-google{background:#fff;color:#3c4043;border:1px solid #dadce0}
-.pi-klarna{background:#ffb3c7;color:#17120e}
-.pi-satis{background:#ff3900;color:#fff}
-.pi-revolut{background:#0075eb;color:#fff}
-.fpay .pi{opacity:.6}
-.fpay .pi-google{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
+.pay-logo{display:inline-flex;align-items:center;justify-content:center;border-radius:5px;flex-shrink:0;overflow:hidden}
+.fpay .pay-logo{opacity:.7}
+.mpay .pay-logo{filter:drop-shadow(0 1px 2px rgba(0,0,0,.15))}
 
 /* TRACKING MODAL */
 .tov{position:fixed;inset:0;background:rgba(4,18,16,.92);backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1rem}
@@ -556,7 +548,17 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     <a href="https://instagram.com/bluelle._" target="_blank">@bluelle._</a>
   </div>
   <div class="fcopy">© 2025 Bluèlle — Curated Luxury Resale</div>
-  <div class="fpay"><span class="fpay-label">Pagamenti</span><span class="pi pi-visa">VISA</span><span class="pi pi-mc"><svg width="26" height="16" viewBox="0 0 26 16" aria-hidden="true"><circle cx="9" cy="8" r="7" fill="#eb001b"/><circle cx="17" cy="8" r="7" fill="#f79e1b"/><path d="M13 2.3a7 7 0 0 1 0 11.4A7 7 0 0 1 13 2.3z" fill="#ff5f00"/></svg></span><span class="pi pi-amex">AMEX</span><span class="pi pi-apple">Apple Pay</span><span class="pi pi-google">Google Pay</span><span class="pi pi-klarna">Klarna</span><span class="pi pi-satis">Satispay</span><span class="pi pi-revolut">Revolut</span></div>
+  <div class="fpay">
+    <span class="fpay-label">Pagamenti accettati</span>
+    <svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#1A1F71"/><text x="21" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" font-style="italic" letter-spacing="1">VISA</text></svg>
+    <svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#252525"/><circle cx="16" cy="14" r="8" fill="#EB001B"/><circle cx="26" cy="14" r="8" fill="#F79E1B"/><path d="M21 7.5a8 8 0 0 1 0 13A8 8 0 0 1 21 7.5z" fill="#FF5F00"/></svg>
+    <svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#007BC1"/><text x="21" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing="1">AMEX</text></svg>
+    <svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#000"/><path d="M17.5 10c.7-.8 1.1-1.9 1-3-.9.1-2 .6-2.6 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.4 2.6-1.3z" fill="white"/><path d="M20.3 11.2c-1.5-.1-2.7.8-3.4.8-.7 0-1.8-.8-3.1-.7-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1-.1 1.6-.7 2.9-.7 1.4 0 1.8.7 2.9.7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.2-2.7-2.8-1.1-2.4-5.2.4-6.5-.9-1.3-2.3-1.6-3-1.6z" fill="white"/><text x="34" y="18" text-anchor="middle" fill="white" font-family="-apple-system,Arial,sans-serif" font-size="9" font-weight="500">Pay</text></svg>
+    <svg class="pay-logo" width="58" height="28" viewBox="0 0 58 28" fill="none"><rect width="58" height="28" rx="4" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.15)" stroke-width="1"/><text x="10" y="19" fill="#4285F4" font-family="Arial,sans-serif" font-size="13" font-weight="700">G</text><text x="20" y="19" fill="rgba(255,255,255,.8)" font-family="Arial,sans-serif" font-size="10" font-weight="500">oogle Pay</text></svg>
+    <svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#FFB3C7"/><text x="26" y="19" text-anchor="middle" fill="#17120E" font-family="Arial,sans-serif" font-size="10" font-weight="700">Klarna</text></svg>
+    <svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#FF3C00"/><circle cx="14" cy="14" r="7" fill="white"/><text x="13.5" y="18.5" text-anchor="middle" fill="#FF3C00" font-family="Arial,sans-serif" font-size="11" font-weight="900">S</text><text x="33" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="8.5" font-weight="700">atispay</text></svg>
+    <svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#191C1F"/><text x="26" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing=".5">REVOLUT</text></svg>
+  </div>
 </footer>
 
 <!-- MODAL PRODOTTO -->
@@ -573,7 +575,16 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
       <div class="mwhy"><div class="mwhy-t" data-i="modal_why">Perché acquistare da Bluèlle</div><ul id="mwhy"></ul></div>
       <button class="mbuy" id="mbuy" onclick="window.open('https://instagram.com/bluelle._','_blank')"></button>
 <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
-      <div class="mpay" id="mpay"><span class="pi pi-visa">VISA</span><span class="pi pi-mc"><svg width="26" height="16" viewBox="0 0 26 16" aria-hidden="true"><circle cx="9" cy="8" r="7" fill="#eb001b"/><circle cx="17" cy="8" r="7" fill="#f79e1b"/><path d="M13 2.3a7 7 0 0 1 0 11.4A7 7 0 0 1 13 2.3z" fill="#ff5f00"/></svg></span><span class="pi pi-amex">AMEX</span><span class="pi pi-apple">Apple Pay</span><span class="pi pi-google">Google Pay</span><span class="pi pi-klarna">Klarna</span><span class="pi pi-satis">Satispay</span><span class="pi pi-revolut">Revolut</span></div>
+      <div class="mpay" id="mpay">
+        <!-- Visa --><svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#1A1F71"/><text x="21" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="12" font-weight="700" font-style="italic" letter-spacing="1">VISA</text></svg>
+        <!-- Mastercard --><svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#252525"/><circle cx="16" cy="14" r="8" fill="#EB001B"/><circle cx="26" cy="14" r="8" fill="#F79E1B"/><path d="M21 7.5a8 8 0 0 1 0 13A8 8 0 0 1 21 7.5z" fill="#FF5F00"/></svg>
+        <!-- Amex --><svg class="pay-logo" width="42" height="28" viewBox="0 0 42 28" fill="none"><rect width="42" height="28" rx="4" fill="#007BC1"/><text x="21" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing="1">AMEX</text></svg>
+        <!-- Apple Pay --><svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#000"/><path d="M17.5 10c.7-.8 1.1-1.9 1-3-.9.1-2 .6-2.6 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.4 2.6-1.3z" fill="white"/><path d="M20.3 11.2c-1.5-.1-2.7.8-3.4.8-.7 0-1.8-.8-3.1-.7-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.1-.1 1.6-.7 2.9-.7 1.4 0 1.8.7 2.9.7 1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.2-2.7-2.8-1.1-2.4-5.2.4-6.5-.9-1.3-2.3-1.6-3-1.6z" fill="white"/><text x="34" y="18" text-anchor="middle" fill="white" font-family="-apple-system,Arial,sans-serif" font-size="9" font-weight="500">Pay</text></svg>
+        <!-- Google Pay --><svg class="pay-logo" width="58" height="28" viewBox="0 0 58 28" fill="none"><rect width="58" height="28" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/><text x="10" y="19" fill="#4285F4" font-family="Arial,sans-serif" font-size="13" font-weight="700">G</text><text x="20" y="19" fill="#5F6368" font-family="Arial,sans-serif" font-size="10" font-weight="500">oogle Pay</text></svg>
+        <!-- Klarna --><svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#FFB3C7"/><text x="26" y="19" text-anchor="middle" fill="#17120E" font-family="Arial,sans-serif" font-size="10" font-weight="700">Klarna</text></svg>
+        <!-- Satispay --><svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#FF3C00"/><circle cx="14" cy="14" r="7" fill="white"/><text x="13.5" y="18.5" text-anchor="middle" fill="#FF3C00" font-family="Arial,sans-serif" font-size="11" font-weight="900">S</text><text x="33" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="8.5" font-weight="700">atispay</text></svg>
+        <!-- Revolut --><svg class="pay-logo" width="52" height="28" viewBox="0 0 52 28" fill="none"><rect width="52" height="28" rx="4" fill="#191C1F"/><text x="26" y="19" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="9" font-weight="700" letter-spacing=".5">REVOLUT</text></svg>
+      </div>
     </div>
   </div>
 </div>
