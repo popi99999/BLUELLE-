@@ -309,10 +309,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .par-line.visible { height: 60px; }
 
 /* FLIP CARD */
-.flip-wrap{width:100%;aspect-ratio:3/4;perspective:1000px;cursor:pointer;position:relative}
+.flip-wrap{width:100%;aspect-ratio:3/4;cursor:pointer;position:relative;isolation:isolate}
 .flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.22,1,.36,1)}
-@media(hover:hover){.flip-wrap:hover .flip-inner{transform:rotateY(180deg)}}
-.flip-wrap.flipped .flip-inner{transform:rotateY(180deg)}
+@media(hover:hover){.flip-wrap:hover .flip-inner{transform:perspective(900px) rotateY(180deg)}}
+.flip-wrap.flipped .flip-inner{transform:perspective(900px) rotateY(180deg)}
 .flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden}
 .flip-back{transform:rotateY(180deg)}
 .flip-front img,.flip-back img{width:100%;height:100%;object-fit:cover;display:block}
