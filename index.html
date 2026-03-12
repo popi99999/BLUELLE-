@@ -222,9 +222,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .fpay-label{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-right:.3rem}
 
 /* PAYMENT ICONS */
-.pay-logo{height:28px;width:auto;border-radius:5px;flex-shrink:0;display:block}
-.fpay .pay-logo{opacity:.65;height:22px}
-.mpay .pay-logo{height:30px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.2))}
+.pay-logo{height:32px;width:auto;border-radius:6px;flex-shrink:0;display:block;box-shadow:0 1px 4px rgba(0,0,0,.13)}
+.fpay .pay-logo{opacity:.8;height:26px;transition:opacity .2s}
+.fpay .pay-logo:hover{opacity:1}
+.mpay .pay-logo{height:34px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 
 /* TRACKING MODAL */
 .tov{position:fixed;inset:0;background:rgba(4,18,16,.92);backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1rem}
