@@ -95,11 +95,11 @@ nav.s .burger span{background:rgba(255,255,255,.45)}
 .hscroll.show{opacity:1}
 .sline{width:1px;height:40px;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.2),rgba(255,255,255,0));animation:slp 3s ease-in-out infinite}
 @keyframes slp{0%,100%{opacity:.25;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
-#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:220px;background:linear-gradient(to bottom,transparent,var(--cream));pointer-events:none;z-index:3}
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:160px;background:linear-gradient(to bottom,transparent,var(--deep));pointer-events:none;z-index:3}
 
 /* ── SHARED ──────────────────────────────────────────── */
-.sl{font-size:.55rem;letter-spacing:.38em;text-transform:uppercase;color:var(--teal);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;opacity:.55}
-.sl::before{content:'';display:block;width:2rem;height:1px;background:currentColor}
+.sl{font-size:.48rem;letter-spacing:.45em;text-transform:uppercase;color:var(--teal);margin-bottom:1.4rem;display:flex;align-items:center;gap:.7rem;opacity:.2}
+.sl::before{content:'';display:block;width:1.2rem;height:1px;background:currentColor}
 .sl.center{justify-content:center}.sl.center::before{display:none}
 .sec-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.8vw,3.2rem);font-weight:300;line-height:1.12;color:var(--ink);margin-bottom:1rem;letter-spacing:.01em}
 .sec-title em{font-style:italic;color:var(--teal)}
@@ -107,14 +107,14 @@ nav.s .burger span{background:rgba(255,255,255,.45)}
 .sec-title.gold em{color:var(--gold)}
 
 /* ── ABOUT — Chi sono ────────────────────────────────── */
-#about{background:var(--cream);padding:11rem 0 10rem;position:relative}
-#about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--dark));pointer-events:none;z-index:1}
+#about{background:linear-gradient(to bottom,var(--deep) 0,var(--cream) 200px,var(--cream) calc(100% - 220px),var(--dark) 100%);padding:13rem 0 12rem;position:relative}
+#about::after{display:none}
 .about-quote{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.4vw,3rem);font-weight:300;font-style:italic;color:var(--ink);line-height:1.52;margin:0 0 2.4rem;letter-spacing:.01em}
 .about-body{font-size:.94rem;line-height:2.2;color:var(--muted);margin:0 0 2.6rem;letter-spacing:.02em}
 
 /* ── AUTH — Autentico ────────────────────────────────── */
 #authsec{background:var(--dark);padding:10rem 0 9rem;position:relative}
-#authsec::after{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to bottom,transparent,var(--dark2));pointer-events:none}
+#authsec::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(to bottom,transparent,var(--dark2));pointer-events:none}
 .auth-word{font-family:'Playfair Display',serif;font-size:clamp(4rem,11vw,9.5rem);font-weight:300;color:var(--white);line-height:.85;letter-spacing:-.02em;margin-bottom:3.2rem}
 .auth-sub{font-size:clamp(.76rem,1.2vw,.88rem);color:rgba(255,255,255,.25);letter-spacing:.22em;text-transform:uppercase;margin-top:2.4rem}
 .auth-checks{display:flex;flex-direction:column;gap:1.6rem;max-width:520px;margin:0 auto 2rem;text-align:left}
@@ -123,7 +123,7 @@ nav.s .burger span{background:rgba(255,255,255,.45)}
 
 /* ── NUMERI ──────────────────────────────────────────── */
 #savesec{background:var(--dark2);padding:10rem 0 9rem;position:relative}
-#savesec::after{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to bottom,transparent,#0c1a17);pointer-events:none}
+#savesec::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(to bottom,transparent,#0c1a17);pointer-events:none}
 .save-num{font-family:'Playfair Display',serif;font-weight:300;line-height:.85;letter-spacing:-.03em}
 .save-lbl{font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-top:1rem}
 
@@ -201,7 +201,7 @@ nav.s .burger span{background:rgba(255,255,255,.45)}
 
 /* ── STEPS ───────────────────────────────────────────── */
 #steps{background:#0c1a17;padding:8rem 0;position:relative}
-#steps::after{content:'';position:absolute;bottom:0;left:0;right:0;height:180px;background:linear-gradient(to bottom,transparent,var(--cream));pointer-events:none}
+#steps::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55px;background:linear-gradient(to bottom,transparent,#0c1a17);pointer-events:none}
 .sgrid{display:flex;flex-direction:column;gap:0;margin-top:3.5rem}
 .step{display:grid;grid-template-columns:3.5rem 1fr;align-items:start;gap:1.2rem 2.2rem;padding:2.4rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .step:last-child{border-bottom:none}
@@ -212,9 +212,9 @@ nav.s .burger span{background:rgba(255,255,255,.45)}
 @media(max-width:900px){.step{padding:1.7rem 0}}
 
 /* ── FAQ ─────────────────────────────────────────────── */
-#faq{background:var(--cream);padding:9rem 0 8rem;position:relative}
-#faq::before{content:'';position:absolute;top:0;left:0;right:0;height:160px;background:linear-gradient(to bottom,#0c1a17,transparent);pointer-events:none}
-#faq::after{content:'';position:absolute;bottom:0;left:0;right:0;height:180px;background:linear-gradient(to bottom,transparent,var(--dark));pointer-events:none}
+#faq{background:linear-gradient(to bottom,#0c1a17 0,var(--cream) 200px,var(--cream) calc(100% - 220px),var(--dark) 100%);padding:12rem 0 13rem;position:relative}
+#faq::before{display:none}
+#faq::after{display:none}
 .faq-list{margin-top:3.5rem;display:flex;flex-direction:column;gap:1px;max-width:800px}
 .faq-item{background:var(--white);border-left:2px solid transparent;transition:border-color .35s}
 .faq-item.open{border-color:rgba(62,200,188,.35)}
@@ -314,6 +314,12 @@ footer{background:var(--deep);padding:2.4rem 5rem;display:flex;justify-content:s
   #about{padding:7rem 0 6rem}
   #faq{padding:7rem 0 6rem}
 }
+
+/* ── NARRATIVE PROGRESS LINE ─────────────────────────── */
+#pgline{position:fixed;left:clamp(.9rem,2vw,2rem);top:50%;transform:translateY(-50%);width:1px;height:clamp(80px,18vh,180px);background:rgba(62,200,188,.07);z-index:100;pointer-events:none;opacity:0;transition:opacity .8s}
+#pgline.vis{opacity:1}
+#pgfill{width:100%;height:0%;background:linear-gradient(to bottom,rgba(62,200,188,.06),rgba(62,200,188,.38));transition:height .18s linear}
+@media(max-width:900px){#pgline{display:none}}
 </style>
 </head>
 <body>
@@ -401,8 +407,8 @@ footer{background:var(--deep);padding:2.4rem 5rem;display:flex;justify-content:s
     <div style="max-width:620px;margin:0 auto;text-align:left">
       <p class="about-quote reveal" id="abt-quote" data-i="about_story_quote">"Sono sempre stato appassionato di moda di lusso.<br>Ho trovato un modo migliore."</p>
       <p class="about-body reveal delay-2" id="abt-body" data-i="about_story">Cerco pezzi autentici in condizioni impeccabili e li vendo al prezzo giusto. Nessuna piattaforma, nessuna commissione. Solo io, ogni capo selezionato personalmente.</p>
-      <div id="abt-mission" class="reveal delay-3" style="padding-top:1.8rem;margin-top:1.8rem;border-top:1px solid rgba(28,40,38,.08)">
-        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:300;color:var(--dark);font-style:italic;line-height:1.7" data-i="about_mission">"Rendere il lusso accessibile a chi lo sa riconoscere."</div>
+      <div id="abt-mission" class="reveal delay-3" style="padding-top:3rem;margin-top:3rem">
+        <div style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,1.55vw,1.3rem);font-weight:300;color:var(--dark);font-style:italic;line-height:1.85;opacity:.7" data-i="about_mission">"Rendere il lusso accessibile a chi lo sa riconoscere."</div>
       </div>
     </div>
   </div>
@@ -429,8 +435,7 @@ footer{background:var(--deep);padding:2.4rem 5rem;display:flex;justify-content:s
       <div class="save-num" style="font-size:clamp(5rem,14vw,11rem);color:var(--gold)">−40%</div>
       <div class="save-lbl" data-i="save_stat1_lbl">rispetto al prezzo in boutique</div>
     </div>
-    <div class="reveal delay-2" style="width:48px;height:1px;background:rgba(255,255,255,.12);margin:0 auto 1.6rem"></div>
-    <div id="save-num2" class="reveal delay-3">
+    <div id="save-num2" class="reveal delay-3" style="margin-top:1.2rem">
       <div class="save-num" style="font-size:clamp(4rem,10vw,8rem);color:var(--teal)">82% CO₂</div>
       <div class="save-lbl" data-i="save_co2_lbl">prodotta in meno rispetto a un capo nuovo</div>
     </div>
@@ -577,6 +582,9 @@ footer{background:var(--deep);padding:2.4rem 5rem;display:flex;justify-content:s
     <div class="track-res" id="trres"></div>
   </div>
 </div>
+
+<!-- NARRATIVE PROGRESS LINE -->
+<div id="pgline"><div id="pgfill"></div></div>
 
 <!-- TRACKING FLOAT -->
 <button id="trackBtn" onclick="openTrack()">
@@ -841,6 +849,26 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
 window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('s',scrollY>80);
 });
+
+// NARRATIVE PROGRESS LINE
+(function(){
+  const line=document.getElementById('pgline');
+  const fill=document.getElementById('pgfill');
+  if(!line||!fill)return;
+  function updPg(){
+    const start=document.getElementById('about');
+    const end=document.getElementById('contatti');
+    if(!start||!end)return;
+    const sTop=start.offsetTop;
+    const eBottom=end.offsetTop+end.offsetHeight;
+    const scrollMid=window.scrollY+window.innerHeight*.5;
+    const pct=Math.min(Math.max((scrollMid-sTop)/(eBottom-sTop)*100,0),100);
+    fill.style.height=pct+'%';
+    line.classList.toggle('vis',window.scrollY>window.innerHeight*.4);
+  }
+  window.addEventListener('scroll',updPg,{passive:true});
+  updPg();
+})();
 
 
 
