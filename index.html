@@ -950,7 +950,7 @@ makeOcean('oc',{
   ]
 });
 
-// WAVE INTRO
+// WAVE INTRO — crashing wave
 (function(){
   const intro=document.getElementById('intro');
   const cv=document.getElementById('icanvas');
@@ -960,35 +960,57 @@ makeOcean('oc',{
   const res=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;};
   res(); window.addEventListener('resize',res);
 
-  // Wave layers back→front, deep dark→bright teal
+  // 6 layers back(dark)→front(teal), large amplitude
   const layers=[
-    {amp:.055,f:.0060,s:.007,ph:0.0, r:6,  g:34, b:32, op:.97},
-    {amp:.044,f:.0088,s:.011,ph:1.8, r:10, g:58, b:52, op:.93},
-    {amp:.036,f:.0125,s:.016,ph:0.7, r:14, g:88, b:78, op:.88},
-    {amp:.028,f:.0165,s:.021,ph:2.4, r:18, g:115,b:102,op:.85},
-    {amp:.020,f:.0210,s:.028,ph:1.1, r:30, g:148,b:132,op:.82},
-    {amp:.014,f:.0260,s:.038,ph:3.2, r:52, g:188,b:174,op:.76},
+    {amp:.14,f:.0048,s:.008,ph:0.0,r:5,  g:28, b:26, op:.98},
+    {amp:.11,f:.0075,s:.013,ph:1.9,r:9,  g:52, b:46, op:.94},
+    {amp:.085,f:.0108,s:.019,ph:0.6,r:13,g:82, b:72, op:.89},
+    {amp:.065,f:.0145,s:.025,ph:2.5,r:17,g:108,b:96, op:.86},
+    {amp:.045,f:.0185,s:.033,ph:1.1,r:30,g:148,b:132,op:.82},
+    {amp:.030,f:.0230,s:.044,ph:3.2,r:52,g:188,b:172,op:.77},
   ];
 
-  // Foam particles on surface
-  const foam=Array.from({length:90},()=>({
-    x:Math.random(),sz:Math.random()*2.2+.4,
-    sp:Math.random()*.004+.001,ph:Math.random()*Math.PI*2,
-    a:Math.random()*.45+.12
+  // Foam on surface
+  const foam=Array.from({length:110},()=>({
+    x:Math.random(),sz:Math.random()*2.8+.5,
+    sp:Math.random()*.005+.001,ph:Math.random()*Math.PI*2,
+    a:Math.random()*.5+.15
   }));
 
-  const WAIT=700, DUR=3000;
+  // Spray burst at crash
+  let spray=[],spraySpawned=false;
+  function spawnSpray(tideY){
+    for(let i=0;i<500;i++){
+      const x=Math.random()*W;
+      const crestY=tideY-layers[5].amp*H*1.0;
+      spray.push({
+        x,y:crestY+(Math.random()-.5)*H*.08,
+        vx:(Math.random()-.5)*720,
+        vy:-(Math.random()*950+180),
+        a:.6+Math.random()*.4,
+        sz:Math.random()*3.5+.7,
+        decay:1.1+Math.random()*.9
+      });
+    }
+  }
+
+  // Phase timings ms
+  const WAIT=750,SURGE=1300,PEAK=350,CRASH=100,WASH=900;
   const T0=performance.now();
   let t=0,lastT=T0,running=true,done=false;
 
-  function ease(x){return x<.5?2*x*x:1-Math.pow(-2*x+2,3)/2;}
+  function eoC(x){return 1-Math.pow(1-x,3);}   // easeOutCubic: fast then decelerate
+  function eiC(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;}
 
-  function waveY(lyr,x){
-    return lyr.amp*H*(
-      Math.sin(x*lyr.f+t*lyr.s+lyr.ph)
-      +Math.sin(x*lyr.f*1.85+t*lyr.s*1.38+lyr.ph*.8)*.38
-      +Math.sin(x*lyr.f*.52+t*lyr.s*.62+lyr.ph*1.5)*.22
-    );
+  function waveY(lyr,x,crack){
+    const kx=x*lyr.f;
+    const s1=Math.sin(kx+t*lyr.s+lyr.ph);
+    const s2=Math.sin(kx*2.15+t*lyr.s*1.9+lyr.ph*1.1);
+    const s3=Math.sin(kx*.53+t*lyr.s*.6+lyr.ph*1.5);
+    let y=lyr.amp*H*(s1*.60+s2*.26+s3*.20);
+    // Sharpen crests at breaking: deepen upward peaks
+    if(crack>0){const n=Math.min(0,s1);y-=lyr.amp*H*crack*.55*n*n;}
+    return y;
   }
 
   function frame(){
@@ -998,15 +1020,31 @@ makeOcean('oc',{
     const dt=Math.min((now-lastT)/1000,.05);
     lastT=now; t+=dt;
     const el=now-T0;
-    const prog=Math.max(0,Math.min(1,(el-WAIT)/DUR));
-    // tide rises from below screen to above screen
-    const tide=H*1.45-ease(prog)*H*2.1;
 
-    // Dark background
+    let tide,crack=0,flash=0;
+    if(el<WAIT){
+      tide=H*1.45;
+    } else if(el<WAIT+SURGE){
+      tide=H*1.45-eoC((el-WAIT)/SURGE)*H*2.0; // surge: starts FAST, decelerates
+    } else if(el<WAIT+SURGE+PEAK){
+      const p=(el-WAIT-SURGE)/PEAK;
+      tide=H*1.45-H*2.0-p*H*.15;
+      crack=eiC(p);
+    } else if(el<WAIT+SURGE+PEAK+CRASH){
+      const p=(el-WAIT-SURGE-PEAK)/CRASH;
+      tide=H*1.45-H*2.15; crack=1;
+      flash=1-p;
+      if(!spraySpawned){spraySpawned=true;spawnSpray(tide);}
+    } else {
+      const p=Math.min(1,(el-WAIT-SURGE-PEAK-CRASH)/WASH);
+      tide=H*1.45-H*2.15-p*H*.1; crack=1;
+    }
+
+    // Background
     ctx.fillStyle='#030f0e';
     ctx.fillRect(0,0,W,H);
 
-    // Text — rendered first, ocean covers it as tide rises
+    // Text (ocean covers it as it rises)
     const fs=Math.min(W*.09,86);
     ctx.save();
     ctx.font=`300 ${fs}px Georgia,serif`;
@@ -1019,33 +1057,53 @@ makeOcean('oc',{
     ctx.fillText('LUXURY SECOND HAND',W/2,H/2+fs*.70);
     ctx.restore();
 
-    // Ocean layers — drawn on top of text
-    layers.forEach(lyr=>{
-      ctx.beginPath();
-      ctx.moveTo(0,H);
-      for(let x=0;x<=W;x+=2) ctx.lineTo(x,tide+waveY(lyr,x));
+    // Ocean layers
+    layers.forEach((lyr,i)=>{
+      ctx.beginPath(); ctx.moveTo(0,H);
+      const cf=crack*(i>=4?1:.45);
+      for(let x=0;x<=W;x+=2) ctx.lineTo(x,tide+waveY(lyr,x,cf));
       ctx.lineTo(W,H); ctx.closePath();
-      const top=Math.max(0,tide-lyr.amp*H*1.6);
+      const top=Math.max(0,tide-lyr.amp*H*2.2);
       const grd=ctx.createLinearGradient(0,top,0,H);
       grd.addColorStop(0,`rgba(${lyr.r},${lyr.g},${lyr.b},${lyr.op})`);
       grd.addColorStop(1,`rgba(3,12,11,${lyr.op})`);
       ctx.fillStyle=grd; ctx.fill();
     });
 
-    // Foam on surface of top layer
-    const surf=layers[layers.length-1];
+    // Foam on surface
+    const surf=layers[5];
     foam.forEach(f=>{
-      const wy=tide+waveY(surf,f.x*W+Math.sin(t*f.sp+f.ph)*28);
+      const wy=tide+waveY(surf,f.x*W+Math.sin(t*f.sp+f.ph)*30,crack);
       if(wy>0&&wy<H){
         ctx.beginPath();
-        ctx.arc(f.x*W+Math.sin(t*f.sp*2+f.ph)*18,wy,f.sz,0,Math.PI*2);
+        ctx.arc(f.x*W+Math.sin(t*f.sp*2+f.ph)*20,wy,f.sz,0,Math.PI*2);
         ctx.fillStyle=`rgba(255,255,255,${f.a*(.5+.5*Math.sin(t*1.3+f.ph))})`;
         ctx.fill();
       }
       f.x+=f.sp*.018; if(f.x>1)f.x=0;
     });
 
-    if(prog>=1&&!done) exit();
+    // Spray explosion
+    spray.forEach(p=>{
+      p.x+=p.vx*dt; p.y+=p.vy*dt;
+      p.vy+=1100*dt; p.vx*=.97;
+      p.a=Math.max(0,p.a-dt*p.decay);
+      if(p.a>0){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+        ctx.fillStyle=`rgba(255,255,255,${p.a})`;
+        ctx.fill();
+      }
+    });
+    spray=spray.filter(p=>p.a>0);
+
+    // Impact flash
+    if(flash>0){
+      ctx.fillStyle=`rgba(210,248,244,${flash*.6})`;
+      ctx.fillRect(0,0,W,H);
+    }
+
+    if(el>WAIT+SURGE+PEAK+CRASH+WASH&&!done) exit();
   }
 
   function exit(){
