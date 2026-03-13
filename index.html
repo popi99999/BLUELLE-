@@ -274,6 +274,15 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
   #authsec,#savesec,#about,#prodotti,#steps,#faq,#contatti{padding:5rem 0}
 }
 
+/* STORY SCROLL */
+.sstory-wrap{position:relative}
+.sstory-inner{position:sticky;top:0;height:100vh!important;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0!important}
+.sstory-drive{transition:none!important;will-change:transform,opacity}
+@media(max-width:900px){
+  .sstory-wrap{height:auto!important}
+  .sstory-inner{position:relative!important;height:auto!important;padding:5rem 0!important;display:block!important;overflow:visible!important}
+}
+
 /* SCROLL ANIMATIONS */
 .reveal {
   opacity: 0;
@@ -418,7 +427,8 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 </div>
 
 <!-- AUTENTICITÀ -->
-<section id="authsec">
+<div class="sstory-wrap" id="authsec-wrap" style="height:270vh">
+<section id="authsec" class="sstory-inner">
   <div class="container" style="text-align:center">
     <div class="sl center reveal" data-i="auth_eye">Ogni capo certificato</div>
     <h2 class="sec-title white reveal delay-1" style="margin-bottom:1.2rem"><span data-i="auth_h2">Autentico.</span><br><em style="color:var(--teal)" data-i="auth_h2e">Garantito.</em></h2>
@@ -483,9 +493,11 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     </ul>
   </div>
 </section>
+</div>
 
 <!-- RISPARMIO -->
-<section id="savesec">
+<div class="sstory-wrap" id="savesec-wrap" style="height:220vh">
+<section id="savesec" class="sstory-inner">
   <div class="container" style="text-align:center">
     <div class="sl center reveal" style="color:rgba(201,164,110,.5)" data-i="save_eye">Il lusso che conviene</div>
     <h2 class="sec-title gold white reveal delay-1" style="margin-bottom:1.2rem"><span data-i="save_h2">Risparmia.</span><br><em data-i="save_h2e">Consuma meno.</em></h2>
@@ -507,6 +519,7 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     </ul>
   </div>
 </section>
+</div>
 
 <!-- CHI SIAMO -->
 <section id="about">
@@ -1036,6 +1049,98 @@ setLang(curLang);
   function initCountup(){ document.querySelectorAll('.countup').forEach(el => obs.observe(el)); }
   initCountup();
   setTimeout(initCountup, 800);
+})();
+
+
+// SCROLL STORY DRIVER
+(function(){
+  function clamp(v,a,b){return v<a?a:v>b?b:v;}
+  function map(v,a,b,c,d){return c+(d-c)*clamp((v-a)/(b-a),0,1);}
+
+  function stickyP(wrap){
+    if(!wrap)return 0;
+    const rect=wrap.getBoundingClientRect();
+    const scrollable=wrap.offsetHeight-window.innerHeight;
+    return scrollable>0?clamp(-rect.top/scrollable,0,1):0;
+  }
+
+  const mq=window.matchMedia('(max-width:900px)');
+  const hero=document.getElementById('hero');
+  const hcont=document.querySelector('.hcont');
+  const authWrap=document.getElementById('authsec-wrap');
+  const saveWrap=document.getElementById('savesec-wrap');
+
+  // Elements to animate in authsec
+  const aEye=document.querySelector('#authsec .sl');
+  const aTitle=document.querySelector('#authsec .sec-title');
+  const aDesc=document.querySelector('#authsec [data-i="auth_p"]');
+  const aStats=document.querySelector('#authsec .reveal.delay-2');
+  const aList=document.querySelector('#authsec .cklist');
+
+  // Elements to animate in savesec
+  const sEye=document.querySelector('#savesec .sl');
+  const sTitle=document.querySelector('#savesec .sec-title');
+  const sDesc=document.querySelector('#savesec [data-i="save_p"]');
+  const sStats=document.querySelector('#savesec .reveal.delay-2');
+  const sList=document.querySelector('#savesec .cklist');
+
+  // Disable CSS transitions on all scroll-driven elements
+  [aEye,aTitle,aDesc,aStats,aList,sEye,sTitle,sDesc,sStats,sList,hcont].forEach(el=>{
+    if(el)el.classList.add('sstory-drive');
+  });
+
+  function set(el,op,ty){
+    if(!el)return;
+    if(op!==undefined)el.style.opacity=op;
+    if(ty!==undefined)el.style.transform='translateY('+ty+'px)';
+  }
+
+  function resetAll(){
+    [aEye,aTitle,aDesc,aStats,aList,sEye,sTitle,sDesc,sStats,sList,hcont].forEach(el=>{
+      if(el){el.style.transform='';el.style.opacity='';}
+    });
+  }
+
+  let ticking=false;
+  function drive(){
+    ticking=false;
+    if(mq.matches){resetAll();return;}
+
+    const sy=window.scrollY;
+    const wh=window.innerHeight;
+
+    // --- HERO PARALLAX ---
+    if(hero&&hcont){
+      const hh=hero.offsetHeight;
+      const p=clamp(sy/hh,0,1);
+      hcont.style.opacity=1-p*0.75;
+      hcont.style.transform='translateY('+(p*-70)+'px)';
+    }
+
+    // --- AUTH STICKY ---
+    if(authWrap){
+      const p=stickyP(authWrap);
+      set(aEye,  map(p,0,.12,0,1),   map(p,0,.12,45,0));
+      set(aTitle,map(p,.07,.27,0,1), map(p,.07,.27,65,0));
+      set(aDesc, map(p,.16,.36,0,1), map(p,.16,.36,40,0));
+      set(aStats,map(p,.28,.58,0,1), map(p,.28,.58,70,0));
+      set(aList, map(p,.52,.75,0,1), map(p,.52,.75,40,0));
+    }
+
+    // --- SAVE STICKY ---
+    if(saveWrap){
+      const p=stickyP(saveWrap);
+      set(sEye,  map(p,0,.12,0,1),  map(p,0,.12,45,0));
+      set(sTitle,map(p,.07,.3,0,1), map(p,.07,.3,65,0));
+      set(sDesc, map(p,.2,.42,0,1), map(p,.2,.42,40,0));
+      set(sStats,map(p,.3,.6,0,1),  map(p,.3,.6,70,0));
+      set(sList, map(p,.55,.78,0,1),map(p,.55,.78,40,0));
+    }
+  }
+
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(drive);ticking=true;}},{passive:true});
+  window.addEventListener('resize',()=>{if(mq.matches)resetAll();else drive();});
+  drive();
 })();
 
 } catch(e) { console.warn('Init error:', e); }
