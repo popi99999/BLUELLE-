@@ -63,7 +63,7 @@ nav.s .burger span{background:var(--dark)}
 .mnav a:hover,.mnav a:active{color:var(--teal)}
 
 /* HERO */
-#hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#030f0e}
 #oc{position:absolute;inset:0;width:100%;height:100%}
 .ho{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,15,14,.62) 0%,rgba(3,15,14,.04) 45%,rgba(3,15,14,.72) 100%)}
 .hcont{position:relative;z-index:4;text-align:center;opacity:0;transform:translateY(26px);transition:opacity 1.2s,transform 1.2s}
@@ -226,10 +226,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .fpay-label{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-right:.3rem}
 
 /* PAYMENT ICONS */
-.pay-logo{height:32px;width:auto;border-radius:6px;flex-shrink:0;display:block;box-shadow:0 1px 4px rgba(0,0,0,.13)}
-.fpay .pay-logo{opacity:.8;height:26px;transition:opacity .2s}
+.pay-logo{height:32px;width:auto;border-radius:5px;flex-shrink:0;display:block}
+.fpay .pay-logo{height:22px;background:rgba(255,255,255,.88);border-radius:4px;padding:2px 6px;opacity:.7;transition:opacity .2s;box-shadow:none}
 .fpay .pay-logo:hover{opacity:1}
-.mpay .pay-logo{height:34px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.mpay .pay-logo{height:34px;background:#fff;border-radius:5px;padding:2px 6px;box-shadow:0 1px 6px rgba(0,0,0,.1)}
 
 /* 3D AUTH BADGE */
 .badge3d-wrap{perspective:900px;width:150px;height:170px}
@@ -444,7 +444,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     <h1 class="htitle"><span data-i="hero_t1">Quello che hai sempre voluto,</span><br><em data-i="hero_t2">Al prezzo che hai sempre sognato.</em></h1>
     <a href="#prodotti" class="hcta" style="margin-top:3.2rem"><span data-i="hero_cta">Esplora la collezione</span></a>
   </div>
-  
+  <div class="hscroll show">
+    <span data-i="scroll" style="font-family:'Outfit',sans-serif">Scorri</span>
+    <div class="sline"></div>
+  </div>
 </section>
 
 <!-- ATTO 1 — CHI SONO -->
@@ -452,9 +455,9 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 <section id="about" class="sstory-inner">
   <div class="container">
     <div style="max-width:620px;margin:0 auto;text-align:left">
-      <p class="about-quote" id="abt-quote" data-i="about_story_quote">"Sono sempre stato appassionato di moda di lusso.<br>Ho trovato un modo migliore."</p>
-      <p class="about-body" id="abt-body" data-i="about_story">Cerco pezzi autentici in condizioni impeccabili e li vendo al prezzo giusto. Nessuna piattaforma, nessuna commissione. Solo io, ogni capo selezionato personalmente.</p>
-      <div id="abt-mission" style="padding-top:1.8rem;margin-top:1.8rem;border-top:1px solid rgba(28,40,38,.12)">
+      <p class="about-quote reveal" id="abt-quote" data-i="about_story_quote">"Sono sempre stato appassionato di moda di lusso.<br>Ho trovato un modo migliore."</p>
+      <p class="about-body reveal delay-2" id="abt-body" data-i="about_story">Cerco pezzi autentici in condizioni impeccabili e li vendo al prezzo giusto. Nessuna piattaforma, nessuna commissione. Solo io, ogni capo selezionato personalmente.</p>
+      <div id="abt-mission" class="reveal delay-3" style="padding-top:1.8rem;margin-top:1.8rem;border-top:1px solid rgba(28,40,38,.12)">
         <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:300;color:var(--dark);font-style:italic;line-height:1.7" data-i="about_mission">"Rendere il lusso accessibile a chi lo sa riconoscere."</div>
       </div>
     </div>
@@ -1099,7 +1102,7 @@ setLang(curLang);
   const sN2=document.getElementById('save-num2');
 
   // Disable CSS transitions on scroll-driven elements
-  [abtQ,abtB,abtM,aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
+  [aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
     if(el)el.classList.add('sstory-drive');
   });
 
@@ -1110,7 +1113,7 @@ setLang(curLang);
   }
 
   function resetAll(){
-    [abtQ,abtB,abtM,aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
+    [aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
       if(el){el.style.transform='';el.style.opacity='';}
     });
   }
@@ -1127,14 +1130,6 @@ setLang(curLang);
       const p=clamp(sy/hero.offsetHeight,0,1);
       hcont.style.opacity=1-p*0.78;
       hcont.style.transform='translateY('+(p*-70)+'px)';
-    }
-
-    // --- ATTO 1: CHI SONO ---
-    if(aboutWrap){
-      const p=stickyP(aboutWrap);
-      set(abtQ, map(p,0,.18,0,1),  map(p,0,.18,55,0));
-      set(abtB, map(p,.12,.32,0,1),map(p,.12,.32,40,0));
-      set(abtM, map(p,.28,.50,0,1),map(p,.28,.50,35,0));
     }
 
     // --- ATTO 2: AUTENTICO ---
