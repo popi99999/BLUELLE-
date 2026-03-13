@@ -64,7 +64,8 @@ nav.s .burger span{background:var(--dark)}
 
 /* HERO */
 #hero{position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#030f0e}
-#oc{position:absolute;inset:0;width:100%;height:100%}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 55% at 50% 78%,#1a6b63 0%,#0a3b37 32%,#030f0e 68%);animation:hbgpulse 10s ease-in-out infinite alternate;will-change:opacity}
+@keyframes hbgpulse{from{opacity:.65}to{opacity:1}}
 .ho{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(3,15,14,.62) 0%,rgba(3,15,14,.04) 45%,rgba(3,15,14,.72) 100%)}
 .hcont{position:relative;z-index:4;text-align:center;opacity:0;transform:translateY(26px);transition:opacity 1.2s,transform 1.2s}
 .hcont.show{opacity:1;transform:translateY(0)}
@@ -96,17 +97,10 @@ nav.s .burger span{background:var(--dark)}
 .ckico{width:22px;height:22px;border:1px solid rgba(62,200,188,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ckico.gold{border-color:rgba(201,164,110,.4)}
 
-/* SECTION AUTH */
-#authsec{background:var(--dark);padding:8rem 0;width:100%}
-/* SECTION SAVE */
-#savesec{background:#0b1c1a;padding:8rem 0;width:100%;border-bottom:none}
-
-/* ABOUT */
-#about{background:var(--cream);padding:8rem 0;width:100%;position:relative}
 
 /* GRADIENT BLEEDS */
-#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to bottom,transparent,var(--cream));pointer-events:none;z-index:2}
-#about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(to bottom,transparent,#030f0e);pointer-events:none;z-index:2}
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:160px;background:linear-gradient(to bottom,transparent,var(--cream));pointer-events:none;z-index:2}
+#about::after{content:'';position:absolute;bottom:0;left:0;right:0;height:160px;background:linear-gradient(to bottom,transparent,var(--dark));pointer-events:none;z-index:2}
 
 /* PRODUCTS */
 #prodotti{background:#0d1a18;padding:7rem 0}
@@ -231,22 +225,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .fpay .pay-logo:hover{opacity:1}
 .mpay .pay-logo{height:34px;background:#fff;border-radius:5px;padding:2px 6px;box-shadow:0 1px 6px rgba(0,0,0,.1)}
 
-/* 3D AUTH BADGE */
-.badge3d-wrap{perspective:900px;width:150px;height:170px}
-.badge3d{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:bspin 9s linear infinite}
-@keyframes bspin{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
-.badge3d-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;overflow:hidden}
-.badge3d-front{box-shadow:0 20px 60px rgba(0,0,0,.55)}
-.badge3d-back{transform:rotateY(180deg);box-shadow:0 20px 60px rgba(0,0,0,.55)}
-.b3d-ring{width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(201,164,110,.5);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:.7rem}
-.b3d-ring::before{content:'';position:absolute;inset:4px;border-radius:50%;border:1px solid rgba(62,200,188,.25)}
-.b3d-ring::after{content:'';position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle,rgba(62,200,188,.08),transparent)}
-.b3d-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.1rem;font-weight:400;color:var(--white);letter-spacing:.04em;line-height:1.1;text-align:center}
-.b3d-logo em{color:var(--teal);font-style:italic}
-.b3d-lbl{font-size:.42rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,164,110,.55);margin-top:.4rem}
-.b3d-line{width:36px;height:1px;background:linear-gradient(to right,transparent,rgba(201,164,110,.5),transparent);margin:.5rem auto}
-.b3d-tick{display:flex;align-items:center;gap:.35rem;font-size:.45rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35)}
-.b3d-seal{width:80px;height:80px}
+/* AUTH CHECKS */
+.auth-checks{display:flex;flex-direction:column;gap:1.4rem;max-width:500px;margin:2.8rem auto 2.4rem;text-align:left}
+.auth-check{display:flex;align-items:flex-start;gap:1.2rem;font-size:.9rem;color:rgba(255,255,255,.48);line-height:1.75}
+.auth-check-ico{width:18px;height:18px;border:1px solid rgba(201,164,110,.45);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.18rem;color:var(--gold);font-size:.48rem}
 
 /* TRACKING MODAL */
 .tov{position:fixed;inset:0;background:rgba(4,18,16,.92);backdrop-filter:blur(16px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1rem}
@@ -280,7 +262,6 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 
 /* ACT STYLES */
 /* Act 1 — Chi sono */
-#about{background:var(--cream);padding:10rem 0 8rem}
 .about-quote{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.8vw,3.2rem);font-weight:300;font-style:italic;color:var(--dark);line-height:1.55;margin:0 0 2.2rem}
 .about-body{font-size:.95rem;line-height:2.1;color:var(--muted);margin:0 0 2.5rem}
 /* Act 2 — Autentico */
@@ -290,14 +271,10 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 .save-num{font-family:'Playfair Display',serif;font-weight:300;line-height:.85;letter-spacing:-.03em}
 .save-lbl{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-top:.9rem}
 
-/* STORY SCROLL */
-.sstory-wrap{position:relative}
-.sstory-inner{position:sticky;top:0;height:100vh!important;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0!important}
-.sstory-drive{transition:none!important;will-change:transform,opacity}
-@media(max-width:900px){
-  .sstory-wrap{height:auto!important}
-  .sstory-inner{position:relative!important;height:auto!important;padding:5rem 0!important;display:block!important;overflow:visible!important}
-}
+/* STORY SECTIONS — normal flow */
+#about{background:var(--cream);padding:9rem 0 8rem}
+#authsec{background:var(--dark);padding:9rem 0}
+#savesec{background:#0b1c1a;padding:9rem 0}
 
 /* SCROLL ANIMATIONS */
 .reveal {
@@ -364,9 +341,6 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 #faq .sec-title{font-size:clamp(2.2rem,4.5vw,3.8rem)}
 #faq .sl{display:none}
 
-/* STORY PROGRESS LINE */
-#story-line{position:fixed;left:1.8rem;top:50%;transform:translateY(-50%);width:1px;height:0;background:var(--teal);opacity:0;transition:opacity .5s;z-index:50;pointer-events:none}
-#story-line.visible{opacity:.35}
 
 </style>
 </head>
@@ -374,7 +348,6 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 
 <div class="cur" id="cur"></div>
 <div class="curR" id="curR"></div>
-<div id="story-line"></div>
 
 <!-- INTRO -->
 <div id="intro">
@@ -437,7 +410,7 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 
 <!-- HERO -->
 <section id="hero">
-  <canvas id="oc"></canvas>
+  <div class="hbg"></div>
   <div class="ho"></div>
   <div class="hcont">
     <p class="heye" data-i="tagline">Luxury Second Hand</p>
@@ -451,8 +424,7 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
 </section>
 
 <!-- ATTO 1 — CHI SONO -->
-<div class="sstory-wrap" id="about-wrap" style="height:210vh">
-<section id="about" class="sstory-inner">
+<section id="about">
   <div class="container">
     <div style="max-width:620px;margin:0 auto;text-align:left">
       <p class="about-quote reveal" id="abt-quote" data-i="about_story_quote">"Sono sempre stato appassionato di moda di lusso.<br>Ho trovato un modo migliore."</p>
@@ -463,72 +435,35 @@ footer{background:#080f0e;padding:2.2rem 5rem;display:flex;justify-content:space
     </div>
   </div>
 </section>
-</div>
 
 <!-- ATTO 2 — AUTENTICO -->
-<div class="sstory-wrap" id="authsec-wrap" style="height:270vh">
-<section id="authsec" class="sstory-inner">
+<section id="authsec">
   <div class="container" style="text-align:center">
-    <div id="auth-word" class="auth-word" data-i="auth_h2">Autentico.</div>
-    <div style="display:flex;flex-direction:column;align-items:center">
-      <div style="width:1px;height:20px;background:linear-gradient(to bottom,transparent,#C9A46E)"></div>
-      <div style="width:8px;height:8px;border:1px solid #C9A46E;border-radius:50%;background:#030f0e;margin-bottom:1.2rem"></div>
-      <div id="auth-badge" class="badge3d-wrap">
-        <div class="badge3d">
-          <!-- FRONT: tag reale Bluelle -->
-          <div class="badge3d-face badge3d-front" style="padding:0;overflow:hidden">
-            <svg viewBox="0 0 150 170" xmlns="http://www.w3.org/2000/svg" width="150" height="170">
-              <defs><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="multiply"/></filter></defs>
-              <rect width="150" height="170" rx="13" fill="#cce6e2"/>
-              <rect width="150" height="170" rx="13" fill="white" filter="url(#grain)" opacity=".12"/>
-              <path d="M28,52 C42,38 58,60 76,47 C88,39 100,46 118,40" stroke="#C9A46E" stroke-width="2.8" fill="none" stroke-linecap="round"/>
-              <text x="75" y="92" font-family="Georgia,'Times New Roman',serif" font-size="26" font-weight="400" fill="#2AA89D" text-anchor="middle" letter-spacing="0.8">Bluelle</text>
-              <line x1="38" y1="106" x2="112" y2="106" stroke="#8ab8b2" stroke-width="0.6" opacity=".6"/>
-              <text x="75" y="128" font-family="Georgia,'Times New Roman',serif" font-size="11" fill="#5C3D2E" text-anchor="middle" letter-spacing="0.3">Verified Authenticity</text>
-            </svg>
-          </div>
-          <!-- BACK: Instagram / QR -->
-          <div class="badge3d-face badge3d-back" style="padding:0;overflow:hidden">
-            <svg viewBox="0 0 150 170" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="150" height="170">
-              <defs><filter id="grain2"><feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feBlend in="SourceGraphic" mode="multiply"/></filter></defs>
-              <rect width="150" height="170" rx="13" fill="#cce6e2"/>
-              <rect width="150" height="170" rx="13" fill="white" filter="url(#grain2)" opacity=".12"/>
-              <text x="75" y="22" font-family="Georgia,'Times New Roman',serif" font-size="8.5" fill="#5C3D2E" text-anchor="middle" letter-spacing="0.3">Discover more on Instagram</text>
-              <g transform="translate(63,28) scale(1)">
-                <rect width="24" height="24" rx="7" stroke="#5C3D2E" stroke-width="1.8" fill="none"/>
-                <circle cx="12" cy="12" r="5.5" stroke="#5C3D2E" stroke-width="1.6" fill="none"/>
-                <circle cx="18.2" cy="5.8" r="1.6" fill="#5C3D2E"/>
-              </g>
-              <text x="75" y="63" font-family="'Helvetica Neue',Arial,sans-serif" font-size="8" font-weight="600" fill="#5C3D2E" text-anchor="middle" letter-spacing="0.5">@bluelle._</text>
-              <rect x="22" y="70" width="106" height="86" rx="6" fill="rgba(255,255,255,0.75)"/>
-              <image href="https://api.qrserver.com/v1/create-qr-code/?size=200x200&amp;data=https://www.instagram.com/bluelle._/&amp;color=5C3D2E&amp;bgcolor=transparent&amp;margin=0" x="27" y="75" width="96" height="76" preserveAspectRatio="xMidYMid meet"/>
-              <text x="75" y="165" font-family="Georgia,serif" font-size="5.5" fill="#5C3D2E" text-anchor="middle" letter-spacing="0.4">New drops · Better prices · Direct support</text>
-            </svg>
-          </div>
-        </div>
-      </div>
+    <div class="sl center reveal" style="color:rgba(62,200,188,.45)" data-i="auth_eye">Ogni capo certificato</div>
+    <div id="auth-word" class="auth-word reveal" data-i="auth_h2">Autentico.</div>
+    <div class="auth-checks reveal delay-2">
+      <div class="auth-check"><div class="auth-check-ico">✦</div><span data-i="auth_l1">Autenticità verificata prima di ogni messa in vendita</span></div>
+      <div class="auth-check"><div class="auth-check-ico">✦</div><span data-i="auth_l2">Pezzi nuovi o come nuovi — molti ancora con cartellino</span></div>
+      <div class="auth-check"><div class="auth-check-ico">✦</div><span data-i="auth_l3">Selezionati uno per uno, nessuna eccezione</span></div>
     </div>
-    <p id="auth-sub" class="auth-sub" data-i="auth_sub">Ogni capo toccato, controllato e verificato da me.</p>
+    <p id="auth-sub" class="auth-sub reveal delay-3" data-i="auth_sub">Ogni capo toccato, controllato e verificato da me.</p>
   </div>
 </section>
-</div>
 
 <!-- ATTO 3 — I NUMERI -->
-<div class="sstory-wrap" id="savesec-wrap" style="height:220vh">
-<section id="savesec" class="sstory-inner">
+<section id="savesec">
   <div class="container" style="text-align:center">
-    <div id="save-num1" style="margin-bottom:1.6rem">
+    <div id="save-num1" class="reveal" style="margin-bottom:1.6rem">
       <div class="save-num" style="font-size:clamp(5rem,14vw,11rem);color:var(--gold)">−40%</div>
       <div class="save-lbl" data-i="save_stat1_lbl">rispetto al prezzo in boutique</div>
     </div>
-    <div style="width:48px;height:1px;background:rgba(255,255,255,.12);margin:0 auto 1.6rem"></div>
-    <div id="save-num2">
+    <div class="reveal delay-2" style="width:48px;height:1px;background:rgba(255,255,255,.12);margin:0 auto 1.6rem"></div>
+    <div id="save-num2" class="reveal delay-3">
       <div class="save-num" style="font-size:clamp(4rem,10vw,8rem);color:var(--teal)">82% CO₂</div>
       <div class="save-lbl" data-i="save_co2_lbl">prodotta in meno rispetto a un capo nuovo</div>
     </div>
   </div>
 </section>
-</div>
 
 <!-- COLLEZIONE -->
 <section id="prodotti">
@@ -935,35 +870,7 @@ window.addEventListener('scroll',()=>{
   document.getElementById('nav').classList.toggle('s',scrollY>80);
 });
 
-// OCEAN
-function makeOcean(id,cfg){
-  const cv=document.getElementById(id);if(!cv)return;
-  const ctx=cv.getContext('2d');
-  let W,H,t=0;
-  const res=()=>{const p=cv.parentElement;W=cv.width=p.offsetWidth||window.innerWidth;H=cv.height=p.offsetHeight||window.innerHeight;};
-  res();window.addEventListener('resize',res);
-  const orbs=Array.from({length:6},()=>({x:Math.random(),y:.15+Math.random()*.55,r:70+Math.random()*120,ph:Math.random()*Math.PI*2}));
-  const foam=cfg.foam?Array.from({length:75},()=>({x:Math.random(),yR:.52+Math.random()*.38,sz:Math.random()*2.2+.6,sp:Math.random()*.004+.002,ph:Math.random()*Math.PI*2,a:Math.random()*.5+.12})):[];
-  function bg(){const g=ctx.createLinearGradient(0,0,0,H);cfg.bg.forEach(([s,c])=>g.addColorStop(s,c));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
-  function orb(){orbs.forEach(o=>{const ox=o.x*W+Math.sin(t*.004+o.ph)*W*.05,oy=o.y*H+Math.sin(t*.006+o.ph)*H*.04;const gr=ctx.createRadialGradient(ox,oy,0,ox,oy,o.r);gr.addColorStop(0,cfg.orb);gr.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);});}
-  function wave(w){ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W;x+=2){const wx=x*w.f;const y=w.y*H+Math.sin(wx+t*w.s)*w.a+Math.sin(wx*1.9+t*w.s*1.5)*w.a*.35+Math.sin(wx*.6+t*w.s*.7)*w.a*.22+Math.sin(wx*3.1+t*w.s*2.1)*w.a*.1;ctx.lineTo(x,y);}ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=`rgba(${w.rgb},${w.op})`;ctx.fill();}
-  function drawFoam(){foam.forEach(f=>{const w=cfg.waves[Math.floor(f.yR*cfg.waves.length*.9)%cfg.waves.length];const wx=f.x*W,wy=f.yR*H+Math.sin(wx*w.f+t*w.s+f.ph)*w.a;ctx.beginPath();ctx.arc(wx+Math.sin(t*f.sp+f.ph)*18,wy,f.sz,0,Math.PI*2);ctx.fillStyle=`rgba(255,255,255,${f.a*(.5+.5*Math.sin(t*1.6+f.ph))})`;ctx.fill();f.x+=f.sp*.03;if(f.x>1)f.x=0;});}
-  (function frame(){t+=.38;ctx.clearRect(0,0,W,H);bg();orb();cfg.waves.forEach(wave);drawFoam();requestAnimationFrame(frame);})();
-}
 
-makeOcean('oc',{
-  foam:true,
-  bg:[[0,'#030f0e'],[.18,'#062220'],[.4,'#0b4840'],[.65,'#148078'],[.85,'#22b0a5'],[1,'#3ec8bc']],
-  orb:'rgba(100,220,212,.09)',
-  waves:[
-    {a:48,f:.0065,s:.009,y:.58,op:.52,rgb:'255,255,255'},
-    {a:36,f:.010,s:.014,y:.64,op:.34,rgb:'200,240,238'},
-    {a:26,f:.0155,s:.022,y:.70,op:.22,rgb:'255,255,255'},
-    {a:18,f:.021,s:.030,y:.76,op:.15,rgb:'180,235,232'},
-    {a:12,f:.027,s:.039,y:.81,op:.10,rgb:'255,255,255'},
-    {a:8,f:.034,s:.050,y:.86,op:.07,rgb:'255,255,255'},
-  ]
-});
 
 // VIDEO INTRO
 (function(){
@@ -992,7 +899,7 @@ makeOcean('oc',{
     vid.addEventListener('canplay',()=>{
       vid.classList.add('show');
       setTimeout(()=>txt?.classList.add('visible'),600);
-      setTimeout(exit,5200);
+      setTimeout(exit,2600);
     },{once:true});
     // Fallback if video doesn't load
     setTimeout(()=>{
@@ -1068,109 +975,19 @@ setLang(curLang);
 })();
 
 
-// SCROLL STORY DRIVER
+// HERO PARALLAX (lightweight — solo il contenuto hero)
 (function(){
-  function clamp(v,a,b){return v<a?a:v>b?b:v;}
-  function map(v,a,b,c,d){return c+(d-c)*clamp((v-a)/(b-a),0,1);}
-
-  function stickyP(wrap){
-    if(!wrap)return 0;
-    const rect=wrap.getBoundingClientRect();
-    const scrollable=wrap.offsetHeight-window.innerHeight;
-    return scrollable>0?clamp(-rect.top/scrollable,0,1):0;
-  }
-
-  const mq=window.matchMedia('(max-width:900px)');
   const hero=document.getElementById('hero');
   const hcont=document.querySelector('.hcont');
-  const aboutWrap=document.getElementById('about-wrap');
-  const authWrap=document.getElementById('authsec-wrap');
-  const saveWrap=document.getElementById('savesec-wrap');
-
-  // About elements
-  const abtQ=document.getElementById('abt-quote');
-  const abtB=document.getElementById('abt-body');
-  const abtM=document.getElementById('abt-mission');
-
-  // Auth elements
-  const aWord=document.getElementById('auth-word');
-  const aBadge=document.getElementById('auth-badge');
-  const aSub=document.getElementById('auth-sub');
-
-  // Save elements
-  const sN1=document.getElementById('save-num1');
-  const sN2=document.getElementById('save-num2');
-
-  // Disable CSS transitions on scroll-driven elements
-  [aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
-    if(el)el.classList.add('sstory-drive');
-  });
-
-  function set(el,op,ty){
-    if(!el)return;
-    if(op!==undefined)el.style.opacity=op;
-    if(ty!==undefined)el.style.transform='translateY('+ty+'px)';
-  }
-
-  function resetAll(){
-    [aWord,aBadge,aSub,sN1,sN2,hcont].forEach(el=>{
-      if(el){el.style.transform='';el.style.opacity='';}
-    });
-  }
-
   let ticking=false;
   function drive(){
     ticking=false;
-    if(mq.matches){resetAll();return;}
-
-    const sy=window.scrollY;
-
-    // --- HERO PARALLAX ---
-    if(hero&&hcont){
-      const p=clamp(sy/hero.offsetHeight,0,1);
-      hcont.style.opacity=1-p*0.78;
-      hcont.style.transform='translateY('+(p*-70)+'px)';
-    }
-
-    // --- ATTO 2: AUTENTICO ---
-    if(authWrap){
-      const p=stickyP(authWrap);
-      set(aWord, map(p,0,.22,0,1),  map(p,0,.22,70,0));
-      set(aBadge,map(p,.18,.50,0,1),map(p,.18,.50,60,0));
-      set(aSub,  map(p,.42,.65,0,1),map(p,.42,.65,35,0));
-    }
-
-    // --- ATTO 3: I NUMERI ---
-    if(saveWrap){
-      const p=stickyP(saveWrap);
-      set(sN1,map(p,.05,.35,0,1),map(p,.05,.35,70,0));
-      set(sN2,map(p,.32,.62,0,1),map(p,.32,.62,70,0));
-    }
+    if(!hero||!hcont)return;
+    const p=Math.min(window.scrollY/hero.offsetHeight,1);
+    hcont.style.opacity=1-p*0.75;
+    hcont.style.transform='translateY('+(p*-55)+'px)';
   }
-
   window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(drive);ticking=true;}},{passive:true});
-  window.addEventListener('resize',()=>{if(mq.matches)resetAll();else drive();});
-  drive();
-})();
-
-// STORY PROGRESS LINE
-(function(){
-  const line=document.getElementById('story-line');
-  if(!line)return;
-  const about=document.getElementById('about-wrap');
-  const products=document.getElementById('prodotti');
-  function update(){
-    if(!about||!products)return;
-    const start=about.getBoundingClientRect().top+scrollY;
-    const end=products.getBoundingClientRect().top+scrollY;
-    const prog=Math.max(0,Math.min(1,(scrollY-start)/(end-start)));
-    const inRange=scrollY>start-200&&scrollY<end+200;
-    line.style.opacity=inRange?'.35':'0';
-    const maxH=Math.min(120,window.innerHeight*.18);
-    line.style.height=(prog*maxH)+'px';
-  }
-  window.addEventListener('scroll',update,{passive:true});
-  update();
 })();
 
 } catch(e) { console.warn('Init error:', e); }
