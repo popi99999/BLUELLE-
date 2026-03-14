@@ -41,17 +41,18 @@ body{background:var(--deep);color:rgba(253,250,245,.55);font-family:'Outfit',san
 @media(max-width:900px){.container{padding:0 1.6rem}}
 
 /* ── INTRO ───────────────────────────────────────────── */
-@keyframes iGrad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-#intro{position:fixed;inset:0;z-index:1000;overflow:hidden;background:linear-gradient(135deg,#040d0b 0%,#062e2a 40%,#0a3a34 60%,#040d0b 100%);background-size:300% 300%;animation:iGrad 14s ease infinite;cursor:pointer}
-.ioverlay{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(62,200,188,.04) 0%,transparent 70%)}
+#intro{position:fixed;inset:0;z-index:1000;overflow:hidden;background:var(--deep);cursor:pointer}
+#ivideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.4s ease}
+#ivideo.show{opacity:1}
+.ioverlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(4,13,11,.72) 0%,rgba(4,13,11,.18) 40%,rgba(4,13,11,.18) 60%,rgba(4,13,11,.82) 100%);z-index:1}
 .itext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:2;pointer-events:none}
-.iname{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,8.5vw,7rem);font-weight:300;color:#fff;letter-spacing:.1em;opacity:0;transform:translateY(20px);transition:opacity 1.8s cubic-bezier(.22,1,.36,1),transform 1.8s cubic-bezier(.22,1,.36,1);text-shadow:0 4px 60px rgba(4,13,11,.5)}
-.iname em{color:var(--teal);font-style:normal}
-.isub{font-size:clamp(.48rem,.75vw,.65rem);letter-spacing:.58em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:1.4rem;opacity:0;transition:opacity 1.4s ease .7s}
+.iname{font-family:'Cormorant Garamond',serif;font-size:clamp(3.4rem,9vw,8rem);font-weight:300;font-style:italic;color:var(--white);letter-spacing:.02em;opacity:0;transform:translateY(22px);transition:opacity 1.8s cubic-bezier(.22,1,.36,1),transform 1.8s cubic-bezier(.22,1,.36,1);text-shadow:0 4px 80px rgba(4,13,11,.6)}
+.iname em{color:var(--teal);font-style:italic}
+.isub{font-size:clamp(.46rem,.7vw,.62rem);letter-spacing:.52em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:2rem;opacity:0;transition:opacity 1.4s ease .8s}
 .itext.visible .iname{opacity:1;transform:translateY(0)}
 .itext.visible .isub{opacity:1}
-.itext.out .iname{opacity:0;transform:translateY(-14px);transition:opacity .75s ease,transform .75s ease}
-.itext.out .isub{opacity:0;transition:opacity .55s ease}
+.itext.out .iname{opacity:0;transform:translateY(-18px);transition:opacity .7s ease,transform .7s ease}
+.itext.out .isub{opacity:0;transition:opacity .5s ease}
 
 /* ── TOPBAR ──────────────────────────────────────────── */
 #topbar{background:var(--deep);padding:.42rem 4rem;display:flex;justify-content:flex-end;align-items:center;gap:1.2rem;position:fixed;top:0;left:0;right:0;z-index:300}
@@ -347,6 +348,10 @@ footer{background:var(--deep);padding:3rem 5rem;display:flex;justify-content:spa
 
 <!-- INTRO -->
 <div id="intro">
+  <video id="ivideo" autoplay muted playsinline loop aria-hidden="true" preload="auto">
+    <source src="https://assets.mixkit.co/videos/2091/2091-1080.mp4" type="video/mp4">
+    <source src="https://assets.mixkit.co/videos/2091/2091-720.mp4" type="video/mp4">
+  </video>
   <div class="ioverlay"></div>
   <div class="itext">
     <div class="iname">Blu<em>è</em>lle</div>
@@ -871,6 +876,7 @@ window.addEventListener('scroll',()=>{
 // INTRO
 (function(){
   const intro=document.getElementById('intro');
+  const vid=document.getElementById('ivideo');
   const txt=document.querySelector('.itext');
   if(!intro)return;
   let done=false;
@@ -879,7 +885,7 @@ window.addEventListener('scroll',()=>{
     if(done)return; done=true;
     txt?.classList.remove('visible');
     txt?.classList.add('out');
-    // Lazy-load hero video only after intro exits
+    // Hero uses same URL → already cached by browser, loads instantly
     const hvid=document.getElementById('hvid');
     if(hvid){
       hvid.src='https://assets.mixkit.co/videos/2091/2091-1080.mp4';
@@ -887,18 +893,25 @@ window.addEventListener('scroll',()=>{
       hvid.play().catch(()=>{});
     }
     setTimeout(()=>{
-      intro.style.transition='opacity 1s ease';
+      intro.style.transition='opacity 1.1s ease';
       intro.style.opacity='0';
       setTimeout(()=>{
         intro.style.display='none';
         document.querySelector('.hcont')?.classList.add('show');
-      },1000);
+      },1100);
     },700);
   }
 
-  // Show brand name immediately, auto-exit after 2.8s
+  // Show brand name right away
   setTimeout(()=>txt?.classList.add('visible'),300);
-  setTimeout(exit,2800);
+
+  // Video canplay → fade it in
+  if(vid){
+    vid.addEventListener('canplay',()=>vid.classList.add('show'),{once:true});
+  }
+
+  // Auto-exit after 3.2s (gives video time to show before leaving)
+  setTimeout(exit,3200);
   intro.addEventListener('click',exit);
 })();
 
