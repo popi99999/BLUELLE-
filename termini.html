@@ -3,172 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Termini & Condizioni — Bluèlle</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+<title>Bluèlle — Termini di Servizio e Privacy</title>
+<meta name="robots" content="noindex, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
-html, body { background: #ffffff !important; color: #1C2826 !important; }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --teal: #3EC8BC; --gold: #C9A46E; --dark: #1C2826; --muted: #6B8884; }
-body { font-family: 'Outfit', sans-serif; font-weight: 300; background: #ffffff; color: #1C2826; }
-nav { background: #1C2826; padding: 1.2rem 4rem; display: flex; align-items: center; justify-content: space-between; }
-@media(max-width:700px){ nav { padding: 1rem 1.5rem; } }
-.nlogo { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 300; color: white; text-decoration: none; }
-.nlogo em { font-style: italic; color: #3EC8BC; }
-.nback { font-size: .65rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); text-decoration: none; }
-.nback:hover { color: #3EC8BC; }
-.hero { background: #1C2826; padding: 5rem 4rem 4rem; text-align: center; }
-@media(max-width:700px){ .hero { padding: 3rem 1.5rem; } }
-.hero-eye { font-size: .6rem; letter-spacing: .32em; text-transform: uppercase; color: rgba(62,200,188,.6); margin-bottom: 1rem; }
-.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.5rem); font-weight: 300; color: #ffffff; line-height: 1.1; }
-.hero-title em { font-style: italic; color: #3EC8BC; }
-.hero-sub { font-size: .85rem; color: rgba(255,255,255,.4); margin-top: 1rem; line-height: 1.9; }
-.content { max-width: 780px; margin: 0 auto; padding: 5rem 2rem; background: #ffffff; }
-.section { margin-bottom: 4rem; }
-.section-num { font-size: .6rem; letter-spacing: .28em; text-transform: uppercase; color: #3EC8BC; margin-bottom: .5rem; }
-.section-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 400; color: #1C2826 !important; margin-bottom: 1.4rem; padding-bottom: .8rem; border-bottom: 1px solid rgba(62,200,188,.2); }
-.section-title em { font-style: italic; color: #3EC8BC !important; }
-p { font-size: .92rem; line-height: 2; color: #3a5550 !important; margin-bottom: 1.2rem; }
-p:last-child { margin-bottom: 0; }
-.highlight { background: #f0faf9; border-left: 3px solid #3EC8BC; padding: 1.2rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
-.highlight p { color: #1C2826 !important; font-weight: 400; margin: 0; }
-.warning { background: #fffbf5; border-left: 3px solid #C9A46E; padding: 1.2rem 1.5rem; margin: 1.5rem 0; border-radius: 0 4px 4px 0; }
-.warning p { color: #6b4a1a !important; font-weight: 400; margin: 0; }
-ul { list-style: none; display: flex; flex-direction: column; gap: .7rem; margin: 1rem 0 1.2rem; }
-ul li { font-size: .9rem; line-height: 1.8; color: #3a5550 !important; display: flex; gap: .8rem; }
-ul li::before { content: '✦'; color: #C9A46E; font-size: .5rem; flex-shrink: 0; margin-top: .5rem; }
-footer { background: #1C2826; padding: 2rem 4rem; text-align: center; }
-@media(max-width:700px){ footer { padding: 1.5rem; } }
-.fcopy { font-size: .65rem; color: rgba(255,255,255,.25); letter-spacing: .08em; }
-.last-update { font-size: .7rem; color: #6B8884; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(62,200,188,.15); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --deep:#040d0b;
+  --dark:#0d1d1a;
+  --teal:#3ec8bc;
+  --teal-d:#2a9a90;
+  --gold:#c4a06a;
+  --muted:#6b8480;
+  --cream:#f3efe9;
+  --white:#fdfaf5;
+  --ink:#192e2a;
+}
+html{scroll-behavior:smooth}
+body{background:var(--deep);color:rgba(253,250,245,.55);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav{background:rgba(4,13,11,.97);padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;z-index:100}
+@media(max-width:700px){nav{padding:1rem 1.6rem}}
+.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:rgba(255,255,255,.85);text-decoration:none;letter-spacing:.04em}
+.nlogo em{font-style:italic;color:var(--teal)}
+.nback{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.nback:hover{color:var(--teal)}
+.nback::before{content:'←';font-size:.75rem;transition:transform .3s}
+.nback:hover::before{transform:translateX(-3px)}
+
+/* ── HERO ────────────────────────────────────────────── */
+.hero{background:var(--dark);padding:6rem 4rem 5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.04)}
+@media(max-width:700px){.hero{padding:4rem 1.6rem 3rem}}
+.hero-eye{font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(62,200,188,.5);margin-bottom:1.2rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4.5vw,3.2rem);font-weight:300;color:rgba(253,250,245,.88);line-height:1.12;margin-bottom:1rem}
+.hero-title em{font-style:italic;color:var(--teal)}
+.hero-sub{font-size:.84rem;color:rgba(255,255,255,.26);line-height:2;max-width:560px;margin:0 auto;letter-spacing:.01em}
+.update-badge{display:inline-block;margin-top:1.6rem;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.07);padding:.3rem .9rem}
+
+/* ── CONTENT ────────────────────────────────────────── */
+.content{max-width:760px;margin:0 auto;padding:5rem 2rem 7rem}
+@media(max-width:700px){.content{padding:3rem 1.6rem 5rem}}
+
+/* ── SECTION ─────────────────────────────────────────── */
+.sec{margin-bottom:4.5rem}
+.sec:last-child{margin-bottom:0}
+.sec-num{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(62,200,188,.45);margin-bottom:.6rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:300;color:rgba(253,250,245,.78);margin-bottom:1.6rem;padding-bottom:.9rem;border-bottom:1px solid rgba(62,200,188,.1);letter-spacing:.01em}
+.sec-title em{font-style:italic;color:var(--teal)}
+
+/* ── TEXT ─────────────────────────────────────────────── */
+p{font-size:.9rem;line-height:2.2;color:rgba(253,250,245,.38);margin-bottom:1.2rem;letter-spacing:.01em}
+p:last-child{margin-bottom:0}
+strong{color:rgba(253,250,245,.58);font-weight:400}
+
+/* ── HIGHLIGHT BOX ───────────────────────────────────── */
+.hl{background:rgba(62,200,188,.04);border-left:2px solid rgba(62,200,188,.25);padding:1.4rem 1.8rem;margin:1.8rem 0}
+.hl p{color:rgba(253,250,245,.45);margin-bottom:0}
+
+/* ── PLACEHOLDER ─────────────────────────────────────── */
+.ph{color:rgba(196,160,106,.6);background:rgba(196,160,106,.06);border:1px dashed rgba(196,160,106,.2);padding:.15rem .55rem;font-size:.85em;font-family:'Outfit',sans-serif;letter-spacing:.01em;border-radius:2px;white-space:nowrap}
+
+/* ── DIVIDER ─────────────────────────────────────────── */
+.divider{height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.06),transparent);margin:4rem 0}
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1px solid rgba(255,255,255,.04)}
+@media(max-width:700px){footer{padding:1.8rem 1.6rem}}
+.fcopy{font-size:.56rem;color:rgba(255,255,255,.12);letter-spacing:.06em}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.2);font-weight:300;margin-bottom:.6rem;letter-spacing:.04em}
+.flogo em{color:rgba(62,200,188,.4);font-style:italic}
+.fback{display:inline-block;margin-top:1.2rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(62,200,188,.4);text-decoration:none;transition:color .3s}
+.fback:hover{color:var(--teal)}
 </style>
 </head>
 <body>
 
-<nav>
+<nav role="navigation" aria-label="Navigazione">
   <a href="index.html" class="nlogo">Blu<em>è</em>lle</a>
-  <a href="index.html" class="nback">← Torna al sito</a>
+  <a href="index.html" class="nback">Torna al sito</a>
 </nav>
 
 <div class="hero">
   <div class="hero-eye">Documenti legali</div>
-  <h1 class="hero-title">Termini & Condizioni<br><em>e Privacy Policy</em></h1>
-  <p class="hero-sub">Leggili con attenzione prima di acquistare.<br>Acquistando da Bluèlle accetti integralmente quanto indicato di seguito.</p>
+  <h1 class="hero-title">Termini di Servizio<br><em>e Privacy</em></h1>
+  <p class="hero-sub">Leggili con attenzione prima di acquistare. Acquistando da Bluèlle accetti integralmente quanto indicato di seguito.</p>
+  <div class="update-badge">Ultimo aggiornamento: 2025</div>
 </div>
 
-<div class="content">
+<div class="content" role="main">
 
-  <!-- 1. CHI SIAMO -->
-  <div class="section">
-    <div class="section-num">01</div>
-    <h2 class="section-title">Chi <em>siamo</em></h2>
-    <p>Bluèlle è un servizio di vendita di abbigliamento e accessori di lusso di seconda mano, gestito da un privato. Non siamo una piattaforma, non siamo un'azienda: ogni capo viene selezionato, verificato e venduto personalmente.</p>
-    <p>Per qualsiasi comunicazione: <strong>Instagram @bluelle._</strong></p>
-  </div>
-
-  <!-- 2. AUTENTICITÀ -->
-  <div class="section">
-    <div class="section-num">02</div>
-    <h2 class="section-title">Autenticità e <em>verifica</em></h2>
-    <p>Ogni capo messo in vendita su Bluèlle viene ispezionato personalmente prima della pubblicazione. Verifichiamo etichette, cuciture, materiali e accessori per garantire l'autenticità di ogni pezzo.</p>
-    <div class="highlight">
-      <p>Ogni spedizione include il nostro tag "Verified Authentic — Curated Luxury Resale" come ulteriore garanzia di autenticità.</p>
-    </div>
-    <p>Le foto pubblicate sono reali e ritraggono esattamente il capo in vendita. Quello che vedi è esattamente quello che ricevi.</p>
-  </div>
-
-  <!-- 3. PREZZI E PAGAMENTI -->
-  <div class="section">
-    <div class="section-num">03</div>
-    <h2 class="section-title">Prezzi e <em>pagamenti</em></h2>
-    <p>I prezzi indicati sono fissi e definitivi. Non accettiamo offerte, trattative o richieste di sconto. Il prezzo pubblicato è il prezzo finale — già fortemente scontato rispetto al listino originale.</p>
-    <ul>
-      <li>I pagamenti vengono gestiti tramite Stripe in modo sicuro</li>
-      <li>Accettiamo carte di credito/debito, Apple Pay e Google Pay</li>
-      <li>Il pagamento deve essere completato al momento dell'ordine</li>
-      <li>Nessuna commissione nascosta: il prezzo che vedi è quello che paghi</li>
-    </ul>
-  </div>
-
-  <!-- 4. SPEDIZIONE -->
-  <div class="section">
-    <div class="section-num">04</div>
-    <h2 class="section-title">Spedizione e <em>imballaggio</em></h2>
-    <p>Ogni capo viene accuratamente imballato, fotografato e firmato prima della spedizione. Questo processo garantisce la tracciabilità completa del pacco e certifica le condizioni del prodotto al momento della partenza.</p>
-    <ul>
-      <li>Spedizione standard: 3–5 giorni lavorativi</li>
-      <li>Spedizione express: 1–2 giorni lavorativi</li>
-      <li>Riceverai un codice di tracciamento via email dopo la spedizione</li>
-      <li>Spediamo in tutto il mondo</li>
-    </ul>
-    <div class="warning">
-      <p><strong>Dazi doganali e tasse di importazione:</strong> Per spedizioni internazionali, eventuali dazi doganali, tasse di importazione o costi aggiuntivi richiesti dalle autorità del paese di destinazione sono a totale carico dell'acquirente. Bluèlle si impegna a dichiarare il valore più basso possibile sulla documentazione doganale, ma non può garantire l'esenzione da tasse o dazi. In nessun caso Bluèlle rimborserà il costo del prodotto o della spedizione a causa di tasse doganali non pagate.</p>
+  <!-- 1. VENDITORE -->
+  <div class="sec">
+    <div class="sec-num">01</div>
+    <h2 class="sec-title">Venditore e <em>responsabile</em></h2>
+    <p>Bluèlle è un'attività di vendita personale gestita da <span class="ph">[NOME COMPLETO DEL VENDITORE]</span>, residente in <span class="ph">[INDIRIZZO COMPLETO]</span>, codice fiscale <span class="ph">[CODICE FISCALE]</span>.</p>
+    <p>Per qualsiasi comunicazione: <span class="ph">[EMAIL DI CONTATTO: es. info@bluelle.it]</span> o via Instagram <strong>@bluelle._</strong></p>
+    <div class="hl">
+      <p>Bluèlle non è una società, non è una piattaforma e non si presenta come tale. È un'attività individuale, gestita con serietà e trasparenza.</p>
     </div>
   </div>
 
-  <!-- 5. RESI E RIMBORSI -->
-  <div class="section">
-    <div class="section-num">05</div>
-    <h2 class="section-title">Resi e <em>rimborsi</em></h2>
-    <div class="warning">
-      <p><strong>Non accettiamo resi.</strong> Trattandosi di merce di seconda mano, ogni vendita è definitiva e non reversibile. Le condizioni di ogni capo sono descritte in dettaglio nella scheda prodotto e documentate fotograficamente.</p>
+  <!-- 2. PRODOTTI -->
+  <div class="sec">
+    <div class="sec-num">02</div>
+    <h2 class="sec-title">Oggetto e <em>prodotti</em></h2>
+    <p>Bluèlle vende capi di abbigliamento e accessori di lusso usati o nuovi con etichetta. Ogni articolo è selezionato personalmente. Le fotografie sono reali e corrispondono al prodotto effettivo.</p>
+    <p>Le descrizioni indicano con precisione marca, modello, taglia, condizioni e presenza di accessori originali.</p>
+  </div>
+
+  <!-- 3. AUTENTICITÀ -->
+  <div class="sec">
+    <div class="sec-num">03</div>
+    <h2 class="sec-title"><em>Autenticità</em></h2>
+    <p>Ogni capo è verificato personalmente prima della messa in vendita. Bluèlle non garantisce autenticità tramite certificati di terze parti, ma si impegna a vendere esclusivamente articoli originali.</p>
+    <p>In caso di contestazione motivata sull'autenticità, si applica la procedura di reso descritta di seguito.</p>
+  </div>
+
+  <!-- 4. PREZZI E PAGAMENTO -->
+  <div class="sec">
+    <div class="sec-num">04</div>
+    <h2 class="sec-title">Prezzi e <em>pagamento</em></h2>
+    <p>I prezzi sono espressi in Euro, IVA inclusa ove applicabile. Il pagamento avviene tramite <strong>Stripe</strong> (carte di credito/debito, Apple Pay, Google Pay).</p>
+    <p>La transazione è gestita interamente da Stripe secondo i propri termini di sicurezza. Bluèlle non raccoglie né conserva dati di pagamento.</p>
+    <div class="hl">
+      <p>I prezzi sono fissi. Non si accettano trattative o offerte. Il prezzo pubblicato è già scontato rispetto al listino originale.</p>
     </div>
-    <p>Prima di acquistare ti invitiamo a leggere attentamente la descrizione del prodotto, verificare la taglia e contattarci su Instagram per qualsiasi dubbio. Saremo felici di fornire ulteriori foto o informazioni.</p>
-    <p>Fanno eccezione i soli casi in cui il prodotto ricevuto sia palesemente diverso da quello descritto o fotografato — in tal caso contattaci entro 48 ore dalla ricezione.</p>
   </div>
 
-  <!-- 6. FRODI E DISPUTE -->
-  <div class="section">
-    <div class="section-num">06</div>
-    <h2 class="section-title">Frodi e <em>dispute</em></h2>
-    <p>Bluèlle opera con la massima trasparenza e onestà. Ogni ordine viene documentato fotograficamente prima e dopo l'imballaggio. In caso di disputa o chargeback infondato:</p>
-    <ul>
-      <li>Disponiamo di documentazione fotografica completa di ogni spedizione</li>
-      <li>Ogni pacco viene firmato e registrato prima della partenza</li>
-      <li>Dispute fraudolente verranno segnalate alle autorità competenti</li>
-      <li>Ci riserviamo il diritto di trattenere i costi di spedizione e le commissioni in caso di controversie</li>
-    </ul>
-    <div class="highlight">
-      <p>Siamo contro ogni forma di truffa — sia da parte nostra che da parte degli acquirenti. Operiamo con integrità e ci aspettiamo lo stesso dai nostri clienti.</p>
+  <!-- 5. SPEDIZIONE -->
+  <div class="sec">
+    <div class="sec-num">05</div>
+    <h2 class="sec-title">Spedizione e <em>consegna</em></h2>
+    <p>La spedizione avviene entro 2–3 giorni lavorativi dalla conferma del pagamento. Il corriere è tracciato. Il codice di tracciamento viene inviato via email.</p>
+    <p>I costi di spedizione, se applicabili, sono indicati al checkout. Bluèlle spedisce principalmente in Italia e in Europa.</p>
+  </div>
+
+  <!-- 6. DIRITTO DI RECESSO -->
+  <div class="sec">
+    <div class="sec-num">06</div>
+    <h2 class="sec-title">Diritto di <em>recesso</em></h2>
+    <p>Il consumatore ha diritto di recedere dall'acquisto entro <strong>14 giorni</strong> dalla ricezione del prodotto, senza necessità di fornire motivazione (D.Lgs. 206/2005, art. 52).</p>
+    <p>Per esercitare il diritto di recesso, è necessario contattare <span class="ph">[EMAIL DI CONTATTO]</span> entro il termine indicato.</p>
+    <p>Il prodotto deve essere restituito nelle stesse condizioni in cui è stato ricevuto, nella confezione originale. Le spese di restituzione sono a carico dell'acquirente salvo accordo diverso.</p>
+    <p>Il rimborso avviene entro 14 giorni dalla ricezione del reso, tramite lo stesso metodo di pagamento utilizzato.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 7. LIMITAZIONE DI RESPONSABILITÀ -->
+  <div class="sec">
+    <div class="sec-num">07</div>
+    <h2 class="sec-title">Limitazione di <em>responsabilità</em></h2>
+    <p>Bluèlle non è responsabile per ritardi dovuti al corriere, per variazioni di colore legate alla resa fotografica dei dispositivi, o per l'uso improprio dei prodotti acquistati.</p>
+    <p>In caso di prodotto difettoso o non conforme alla descrizione, l'acquirente ha diritto alla restituzione e al rimborso completo.</p>
+  </div>
+
+  <!-- 8. DATI PERSONALI E PRIVACY -->
+  <div class="sec">
+    <div class="sec-num">08</div>
+    <h2 class="sec-title">Dati personali e <em>privacy</em></h2>
+    <p>Bluèlle raccoglie e utilizza i dati personali (nome, email, indirizzo) esclusivamente per evadere gli ordini e rispondere alle comunicazioni. I dati non vengono ceduti a terzi.</p>
+    <p>I pagamenti sono gestiti da Stripe. Puoi richiedere la cancellazione dei tuoi dati in qualsiasi momento scrivendo a <span class="ph">[EMAIL DI CONTATTO]</span>.</p>
+    <p><strong>Titolare del trattamento:</strong> <span class="ph">[NOME COMPLETO DEL VENDITORE]</span>.</p>
+    <div class="hl">
+      <p>I dati personali sono trattati in conformità al Regolamento UE 2016/679 (GDPR).</p>
     </div>
   </div>
 
-  <!-- 7. PRIVACY -->
-  <div class="section">
-    <div class="section-num">07</div>
-    <h2 class="section-title">Privacy <em>Policy</em></h2>
-    <p>Raccogliamo solo i dati strettamente necessari per completare l'ordine e la spedizione: nome, indirizzo di consegna ed email. Questi dati non vengono condivisi con terze parti, ad eccezione del corriere per la spedizione e di Stripe per il pagamento.</p>
-    <ul>
-      <li>I dati personali vengono trattati in conformità al GDPR (Reg. UE 2016/679)</li>
-      <li>I dati di pagamento sono gestiti esclusivamente da Stripe e non sono accessibili a Bluèlle</li>
-      <li>I dati vengono conservati per il tempo strettamente necessario</li>
-      <li>Hai il diritto di richiedere la cancellazione dei tuoi dati in qualsiasi momento</li>
-    </ul>
-    <p>Per esercitare i tuoi diritti o per qualsiasi domanda sulla privacy, contattaci su Instagram @bluelle._</p>
+  <!-- 9. COOKIE -->
+  <div class="sec">
+    <div class="sec-num">09</div>
+    <h2 class="sec-title"><em>Cookie</em></h2>
+    <p>Questo sito non utilizza cookie di profilazione. Non raccoglie dati analitici di terze parti. Non utilizza Google Analytics o piattaforme di tracking.</p>
+    <p>Le uniche funzionalità attive sono quelle necessarie alla navigazione.</p>
   </div>
 
-  <!-- 8. LIMITAZIONE DI RESPONSABILITÀ -->
-  <div class="section">
-    <div class="section-num">08</div>
-    <h2 class="section-title">Limitazione di <em>responsabilità</em></h2>
-    <p>Bluèlle non è responsabile per ritardi nella consegna causati dal corriere, da eventi di forza maggiore o da problemi doganali. Una volta consegnato il pacco al corriere con regolare tracking, la responsabilità per la consegna passa al servizio di spedizione.</p>
-    <p>Non siamo responsabili di eventuali danni causati da un uso improprio dei prodotti acquistati.</p>
-  </div>
-
-  <!-- 9. LEGGE APPLICABILE -->
-  <div class="section">
-    <div class="section-num">09</div>
-    <h2 class="section-title">Legge <em>applicabile</em></h2>
-    <p>I presenti Termini e Condizioni sono regolati dalla legge italiana. Per qualsiasi controversia sarà competente il Foro di Milano.</p>
-  </div>
-
-  <div class="last-update">
-    Ultimo aggiornamento: Marzo 2025 · Bluèlle — Curated Luxury Resale · @bluelle._
+  <!-- 10. LEGGE APPLICABILE -->
+  <div class="sec">
+    <div class="sec-num">10</div>
+    <h2 class="sec-title">Legge applicabile e <em>contatti</em></h2>
+    <p>Il presente contratto è regolato dalla legge italiana. Per qualsiasi controversia è competente il Foro di <span class="ph">[CITTÀ DI RESIDENZA DEL VENDITORE]</span>.</p>
+    <p>Per i consumatori UE si applicano le norme locali di tutela del consumatore.</p>
+    <p>Per qualsiasi domanda: <span class="ph">[EMAIL DI CONTATTO]</span> oppure Instagram <strong>@bluelle._</strong></p>
   </div>
 
 </div>
 
-<footer>
+<footer role="contentinfo">
+  <div class="flogo">Blu<em>è</em>lle</div>
   <div class="fcopy">© 2025 Bluèlle — Curated Luxury Resale · Tutti i diritti riservati</div>
+  <a href="index.html" class="fback">← Torna al sito</a>
 </footer>
 
 </body>

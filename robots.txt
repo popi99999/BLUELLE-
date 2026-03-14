@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://popi99999.github.io/BLUELLE-/sitemap.xml
