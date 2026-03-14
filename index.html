@@ -885,6 +885,14 @@ window.addEventListener('scroll',()=>{
   document.documentElement.style.overflow='hidden';
   document.body.style.overflow='hidden';
 
+  // Preload hero video IMMEDIATELY in background while intro plays
+  // By the time intro exits (~3s), video has already buffered
+  const hvid=document.getElementById('hvid');
+  if(hvid){
+    hvid.src='https://assets.mixkit.co/videos/2091/2091-1080.mp4';
+    hvid.load();
+  }
+
   function exit(){
     if(done)return; done=true;
     // Force scroll to very top BEFORE intro fades — hero will always be the first screen
@@ -894,13 +902,8 @@ window.addEventListener('scroll',()=>{
     document.body.style.overflow='';
     txt?.classList.remove('visible');
     txt?.classList.add('out');
-    // Hero uses same URL → already cached by browser, loads instantly
-    const hvid=document.getElementById('hvid');
-    if(hvid){
-      hvid.src='https://assets.mixkit.co/videos/2091/2091-1080.mp4';
-      hvid.load();
-      hvid.play().catch(()=>{});
-    }
+    // Video already loaded — just play
+    if(hvid) hvid.play().catch(()=>{});
     setTimeout(()=>{
       intro.style.transition='opacity 1.1s ease';
       intro.style.opacity='0';
