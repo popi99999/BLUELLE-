@@ -881,8 +881,17 @@ window.addEventListener('scroll',()=>{
   if(!intro)return;
   let done=false;
 
+  // Lock body scroll while intro is active — prevents background page from scrolling
+  document.documentElement.style.overflow='hidden';
+  document.body.style.overflow='hidden';
+
   function exit(){
     if(done)return; done=true;
+    // Force scroll to very top BEFORE intro fades — hero will always be the first screen
+    window.scrollTo({top:0,behavior:'instant'});
+    // Unlock scroll
+    document.documentElement.style.overflow='';
+    document.body.style.overflow='';
     txt?.classList.remove('visible');
     txt?.classList.add('out');
     // Hero uses same URL → already cached by browser, loads instantly
@@ -897,7 +906,6 @@ window.addEventListener('scroll',()=>{
       intro.style.opacity='0';
       setTimeout(()=>{
         intro.style.display='none';
-        document.querySelector('.hcont')?.classList.add('show');
       },1100);
     },700);
   }
@@ -910,7 +918,7 @@ window.addEventListener('scroll',()=>{
     vid.addEventListener('canplay',()=>vid.classList.add('show'),{once:true});
   }
 
-  // Auto-exit after 3.2s (gives video time to show before leaving)
+  // Auto-exit after 3.2s
   setTimeout(exit,3200);
   intro.addEventListener('click',exit);
 })();
