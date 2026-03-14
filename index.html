@@ -739,17 +739,7 @@ function render(){
     const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
     d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}" ${imgErr}></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){
-      const fw=d.querySelector('.flip-wrap');
-      d.addEventListener('click',function(e){
-        const isMobile=window.matchMedia('(hover:none)').matches;
-        if(isMobile&&!fw.classList.contains('flipped')){
-          document.querySelectorAll('.flip-wrap.flipped').forEach(el=>el.classList.remove('flipped'));
-          fw.classList.add('flipped');
-          e.stopPropagation();
-        } else {
-          openM(p.id);
-        }
-      });
+      d.addEventListener('click',function(){openM(p.id);});
     }
     g.appendChild(d);
   });
