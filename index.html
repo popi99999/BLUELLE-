@@ -676,6 +676,53 @@ function fmt(p){
   return syms[curCurr]+(v>=1000?Math.round(v).toLocaleString():Math.round(v));
 }
 
+
+function translateName(name, lang){
+  if(!lang||lang==='it') return name;
+  const maps={
+    en:{
+      'Maglioncino':'Knit Sweater','Maglione Lungo':'Long Sweater','Maglione Lana':'Wool Sweater',
+      'Maglione':'Sweater','Felpa Senza Cappuccio':'Crewneck Sweatshirt','Cropped Felpa':'Cropped Sweatshirt',
+      'Felpa con Cappuccio':'Hoodie','Felpa':'Sweatshirt','Cardigan Cotone':'Cotton Cardigan',
+      'Cardigan':'Cardigan','Giacca a Vento':'Windbreaker','Pantaloni Tuta':'Trackpants',
+      'Jeans':'Jeans','Polo':'Polo Shirt','T-Shirt':'T-Shirt','Tee':'Tee',
+      'Cropped':'Cropped','Destroyed':'Destroyed','Oversize':'Oversized',
+      'Con Monogram':'Monogram','Con Scritta':'With Print','Paiette':'Sequin',
+      'Cotone':'Cotton','Lana':'Wool','Logo':'Logo','Sample':'Sample',
+      'Mai Rilasciata':'Unreleased','Mai Rilasciati':'Unreleased',
+    },
+    fr:{
+      'Maglioncino':'Pull','Maglione Lungo':'Pull Long','Maglione Lana':'Pull en Laine',
+      'Maglione':'Pull','Felpa Senza Cappuccio':'Sweat Col Rond','Cropped Felpa':'Sweat Court',
+      'Felpa con Cappuccio':'Sweat à Capuche','Felpa':'Sweat','Cardigan Cotone':'Cardigan Coton',
+      'Cardigan':'Cardigan','Giacca a Vento':'Coupe-Vent','Pantaloni Tuta':'Jogging',
+      'Jeans':'Jean','Polo':'Polo','T-Shirt':'T-Shirt','Tee':'Tee',
+      'Cropped':'Court','Destroyed':'Destroyed','Oversize':'Oversize',
+      'Con Monogram':'Monogramme','Con Scritta':'Imprimé','Paiette':'Sequins',
+      'Cotone':'Coton','Lana':'Laine','Logo':'Logo','Sample':'Prototype',
+      'Mai Rilasciata':'Non Commercialisée','Mai Rilasciati':'Non Commercialisés',
+    },
+    es:{
+      'Maglioncino':'Jersey','Maglione Lungo':'Suéter Largo','Maglione Lana':'Suéter de Lana',
+      'Maglione':'Suéter','Felpa Senza Cappuccio':'Sudadera','Cropped Felpa':'Sudadera Corta',
+      'Felpa con Cappuccio':'Sudadera con Capucha','Felpa':'Sudadera','Cardigan Cotone':'Cardigan Algodón',
+      'Cardigan':'Cardigan','Giacca a Vento':'Cortavientos','Pantaloni Tuta':'Pantalón de Chándal',
+      'Jeans':'Vaqueros','Polo':'Polo','T-Shirt':'Camiseta','Tee':'Camiseta',
+      'Cropped':'Corto','Destroyed':'Destroyed','Oversize':'Oversize',
+      'Con Monogram':'Monograma','Con Scritta':'Con Estampado','Paiette':'Lentejuelas',
+      'Cotone':'Algodón','Lana':'Lana','Logo':'Logo','Sample':'Prototipo',
+      'Mai Rilasciata':'No Comercializada','Mai Rilasciati':'No Comercializados',
+    }
+  };
+  const dict=maps[lang];
+  if(!dict) return name;
+  let r=name;
+  // Sort by length descending so longer phrases match first
+  const keys=Object.keys(dict).sort((a,b)=>b.length-a.length);
+  for(const k of keys) r=r.replace(new RegExp(k,'gi'), dict[k]);
+  return r;
+}
+
 function setLang(l){
   curLang=l;
   try{localStorage.setItem('bl_lang',l);}catch(e){}
@@ -737,7 +784,7 @@ function render(){
     d.className='pc'+(p.sold?' sold':'');
     const imgs=p.images||[];
     const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}" ${imgErr}></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${p.name}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}" ${imgErr}></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){
       d.addEventListener('click',function(){openM(p.id);});
     }
@@ -768,7 +815,7 @@ function openM(id){
   let tx=0;
   mimg.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
   mimg.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)galMove(dx<0?1:-1);},{passive:true});
-  document.getElementById('mname').textContent=p.name;
+  document.getElementById('mname').textContent=translateName(p.name,curLang);
   if(p.price===0){
     document.getElementById('mprice').textContent=l.price_req||'Su richiesta';
     document.getElementById('morig').textContent=p.orig>0?fmt(p.orig):'';
