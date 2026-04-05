@@ -293,6 +293,29 @@ footer{background:var(--deep);padding:3rem 5rem;display:flex;justify-content:spa
 #trackBtn{position:fixed;bottom:calc(2rem + env(safe-area-inset-bottom));right:2rem;z-index:400;background:rgba(4,13,11,.75);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.05);padding:.6rem 1.2rem;font-family:'Outfit',sans-serif;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:.6rem;transition:all .55s;opacity:.7}
 #trackBtn:hover{border-color:rgba(62,200,188,.2);color:rgba(255,255,255,.6);opacity:1}
 
+/* ── CHECKOUT FORM ─────────────────────────────────── */
+.ckov{position:fixed;inset:0;background:rgba(4,13,11,.92);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;padding:1rem;overflow-y:auto}
+.ckov.open{opacity:1;pointer-events:all}
+.ckbox{background:var(--dark);max-width:520px;width:100%;padding:2.8rem 2.6rem;position:relative;border:1px solid rgba(255,255,255,.06)}
+.ck-product{font-size:.82rem;color:var(--teal);margin-bottom:1.2rem;font-weight:300}
+.ck-row{display:flex;gap:.8rem}
+@media(max-width:500px){.ck-row{flex-direction:column;gap:0}}
+.ck-field{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.9rem;flex:1}
+.ck-label{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:300}
+.ck-in{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--white);padding:.8rem 1rem;font-family:'Outfit',sans-serif;font-size:.85rem;outline:none;transition:border-color .3s;font-weight:300}
+.ck-in::placeholder{color:rgba(255,255,255,.16)}
+.ck-in:focus{border-color:rgba(62,200,188,.35)}
+.ck-in.ck-invalid{border-color:rgba(255,100,100,.5)}
+.ck-err{font-size:.78rem;color:rgba(255,100,100,.7);min-height:1rem;margin-bottom:.4rem}
+.ck-submit{width:100%;background:var(--ink);color:var(--white);border:1px solid rgba(62,200,188,.25);padding:1.1rem;font-family:'Outfit',sans-serif;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;font-weight:300;cursor:pointer;transition:all .35s}
+.ck-submit:hover{background:var(--teal-d);border-color:var(--teal-d)}
+.ck-secure{text-align:center;font-size:.68rem;color:rgba(255,255,255,.2);margin-top:.8rem;letter-spacing:.06em}
+.ck-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,.3)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer}
+.ck-summary{background:rgba(62,200,188,.06);border:1px solid rgba(62,200,188,.15);padding:.9rem 1rem;margin-bottom:.6rem;display:none}
+.ck-summary.show{display:block}
+.ck-sum-row{display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:.25rem}
+.ck-sum-row.total{color:var(--white);font-weight:400;font-size:.9rem;border-top:1px solid rgba(62,200,188,.15);padding-top:.5rem;margin-top:.3rem}
+
 /* ── SCROLL ANIMATIONS ───────────────────────────────── */
 .reveal{opacity:0;transform:translateY(34px);transition:opacity .95s cubic-bezier(.22,1,.36,1),transform .95s cubic-bezier(.22,1,.36,1)}
 .reveal.visible{opacity:1;transform:translateY(0)}
@@ -589,6 +612,70 @@ footer{background:var(--deep);padding:3rem 5rem;display:flex;justify-content:spa
 </div>
 
 
+<!-- MODAL CHECKOUT -->
+<div class="ckov" id="ckov" onclick="if(event.target===this)closeCheckout()">
+  <div class="ckbox">
+    <button class="mclose" onclick="closeCheckout()" style="position:absolute;top:.8rem;right:.8rem">✕</button>
+    <div class="sl" data-ck="ck_eye">Completa l'acquisto</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:.3rem" data-ck="ck_title">I tuoi <em style="color:var(--teal)">dati</em></h3>
+    <div class="ck-product" id="ckProduct"></div>
+    <form id="ckForm" autocomplete="on" novalidate>
+      <div class="ck-row">
+        <div class="ck-field">
+          <label class="ck-label" data-ck="ck_name">Nome</label>
+          <input class="ck-in" id="ckNome" name="given-name" autocomplete="given-name" required>
+        </div>
+        <div class="ck-field">
+          <label class="ck-label" data-ck="ck_surname">Cognome</label>
+          <input class="ck-in" id="ckCognome" name="family-name" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label">Email</label>
+        <input class="ck-in" id="ckEmail" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_phone">Telefono</label>
+        <input class="ck-in" id="ckTel" name="tel" type="tel" autocomplete="tel" required>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_address">Indirizzo</label>
+        <input class="ck-in" id="ckAddr" name="street-address" autocomplete="street-address" placeholder="Via, numero civico" required>
+      </div>
+      <div class="ck-row">
+        <div class="ck-field" style="flex:2">
+          <label class="ck-label" data-ck="ck_city">Città</label>
+          <input class="ck-in" id="ckCity" name="city" autocomplete="address-level2" required>
+        </div>
+        <div class="ck-field" style="flex:1">
+          <label class="ck-label">CAP</label>
+          <input class="ck-in" id="ckCap" name="postal-code" autocomplete="postal-code" required>
+        </div>
+        <div class="ck-field" style="flex:1">
+          <label class="ck-label" data-ck="ck_province">Provincia</label>
+          <input class="ck-in" id="ckProv" name="address-level1" autocomplete="address-level1">
+        </div>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_country">Paese</label>
+        <input class="ck-in" id="ckCountry" name="country" autocomplete="country-name" value="Italia" oninput="updateShipping()">
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_ship_zone">Zona spedizione</label>
+        <select class="ck-in ck-select" id="ckShipZone" onchange="updateShipping()" required>
+          <option value="it" data-ck-opt="ck_zone_it">🇮🇹 Italia — €10</option>
+          <option value="eu" data-ck-opt="ck_zone_eu">🇪🇺 Europa — €15</option>
+          <option value="world" data-ck-opt="ck_zone_world">🌍 Estero — €25</option>
+        </select>
+      </div>
+      <div class="ck-summary" id="ckSummary"></div>
+      <div class="ck-err" id="ckErr"></div>
+      <button type="submit" class="ck-submit" id="ckSubmit" data-ck="ck_pay">Procedi al pagamento</button>
+      <div class="ck-secure" data-ck="ck_secure">Pagamento sicuro via Stripe</div>
+    </form>
+  </div>
+</div>
+
 <!-- MODAL TRACKING -->
 <div class="tov" id="tov" onclick="if(event.target===this)closeTrack()">
   <div class="tbox">
@@ -625,52 +712,60 @@ const T={
   fr:{tagline:'Luxe de Seconde Main',hero_title:'Ce que vous avez toujours voulu.<br><em>Au prix que vous avez toujours rêvé.</em>',hero_sub:'Pièces de créateurs sélectionnées une à une.<br>Luxe authentique, à des prix qui ont enfin du sens.',hero_cta:'Explorer la collection',scroll:'Défiler',s1:'100% Authenticité garantie',s2:'Économisez jusqu\'à 50%',s3:'Pièces de luxe sélectionnées',s4:'Paiement sécurisé Stripe',s5:'Livraison avec suivi',s6:'Qualité vérifiée',auth_eye:'Authenticité garantie',auth_p:'Chaque article est personnellement inspecté et certifié. Ce que vous voyez est exactement ce que vous recevez.',al1:'Authenticité vérifiée avant chaque mise en vente',al2:'Économie jusqu\'à 50% par rapport au prix retail',al4:'Pièces sélectionnées avec soin, une par une',stat1_lbl:'Économie moyenne',stat1_sub:'sur le prix original',stat2_lbl:'Authenticité',stat2_sub:'garantie sur chaque pièce',about_eye:'À propos',about_title:'Seconde main.<br><em>Première classe.</em>',about_p:"Bluèlle vend des pièces neuves ou comme neuves à des prix qu'aucune boutique ne peut égaler. Économisez jusqu'à 50%, réduisez votre empreinte CO₂ et obtenez une qualité réelle — sans compromis.",stat_a:'Économie moyenne',stat_b:'Authenticité garantie',stat_c:'Marques sélectionnées',stat_d:'Satisfaction client',why_title:'Pourquoi acheter<br>chez <em>Bluèlle?</em>',why1:'Pièces neuves ou comme neuves — qualité garantie',why2:'Prix fixes et honnêtes. Sans négociation',why3:'Uniquement les meilleures marques de luxe',why4:'Moins de CO₂ — chaque achat d\'occasion est un choix responsable',why5:'Assistance directe via Instagram',coll_eye:'Disponible maintenant',coll_title:'La <em>collection</em>',all:'Tous',how_eye:'Simple et sécurisé',how_title:'Comment ça <em>fonctionne</em>',s01t:'Découvrir',s01p:'Parcourez la collection. Photos réelles, descriptions honnêtes, aucune surprise.',s02t:'Payer',s02p:'Paiement sécurisé avec Stripe. Carte, Apple Pay ou Google Pay.',s03t:'Recevoir',s03p:'Votre article arrive soigneusement emballé avec un code de suivi.',s04t:'Porter',s04p:'Votre pièce est arrivée. Portez-la avec plaisir.',faq_eye:'Des questions?',faq_title:'Questions <em>fréquentes</em>',fq1:'Les pièces sont-elles authentiques?',fa1:'Oui, à 100%. Je vérifie personnellement chaque pièce avant la mise en vente — étiquettes, coutures, matériaux, accessoires.',fq2:'Combien de temps prend la livraison?',fa2:'Standard: 3–5 jours ouvrables. Express: 1–2 jours. Vous recevez un code de suivi par email dès l\'envoi du colis.',fq3:'Les prix sont-ils négociables?',fa3:'Non. Les prix sont fixes et déjà réduits par rapport au retail. S\'il y a des promotions, elles seront annoncées sur Instagram.',fq4:'Comment suivre ma commande?',fa4:'Utilisez le code de suivi reçu par email. Vous pouvez également le saisir dans la section Suivi de ce site.',fq5:'Le paiement est-il sécurisé?',fa5:'Oui. Les paiements sont gérés par Stripe, l\'un des systèmes de paiement les plus fiables au monde. J\'accepte les cartes, Apple Pay et Google Pay.',track_eye:'Déjà commandé?',track_title:'Suivre votre <em>commande</em>',track_p:'Entrez le code de suivi reçu par email après l\'expédition.',track_btn:'Rechercher',contact_eye:'Contact',contact_title:'Retrouvez-moi sur <em>Instagram</em>',ig_follow:'suivez-nous sur',ig_cap:'Première vue sur les nouveautés, sélections exclusives et DMs toujours ouverts.',nav_about:'À propos',nav_coll:'Collection',nav_contact:'Contact',f_privacy:'Confidentialité',f_terms:'Conditions',modal_why:'Pourquoi acheter chez Bluèlle',mw1:'Authentifié personnellement',mw2:'Économie jusqu\'à 50%',mw3:'Emballage soigné, expédition suivie',mw4:'Livraison suivie, paiement sécurisé',secure_pay:'Paiement sécurisé via Stripe',buy:'Acheter',sold:'Vendu',avail:'Disponible',see:'Voir',size:'Taille',auth_h2:'Authentique.',auth_h2e:'Garanti.',auth_l1:'Chaque pièce vérifiée personnellement avant la mise en vente',auth_l2:'État neuf ou comme neuf, beaucoup avec étiquette d\'origine',auth_l3:'Étiquettes, coutures, matériaux — rien n\'est négligé',auth_stat_lbl:'Authenticité',auth_stat_sub:'garantie sur chaque pièce',auth_quote:'"Comme acheter directement en boutique — au bon prix."',save_eye:'Le luxe qui a du sens',save_h2:'Économisez.',save_h2e:'Consommez moins.',save_p:"Chaque pièce achetée chez Bluèlle vous fait économiser jusqu'à 50% par rapport au prix en boutique. Et choisir la seconde main réduit considérablement les émissions de CO₂ par rapport à l'achat neuf.",save_l1:'Zéro frais cachés — le prix affiché est le prix payé',save_l3:'L\'achat d\'occasion produit environ 70% moins de CO₂ qu\'un vêtement neuf (source: WRAP)',save_stat1_lbl:'sur le prix retail',save_stat1_sub:'sur le prix retail',save_co2_lbl:'de CO₂ en moins qu\'un achat neuf',save_co2_sub:'vs article neuf',save_min_lbl:'Économie',save_min_sub:'sur le prix original',hero_t1:'Tout ce que vous avez toujours rêvé,',hero_t2:'au prix que vous auriez voulu.',hero_sub1:'',hero_sub2:'',about_story_quote:'"J\'ai toujours cherché le beau avec soin. La mer m\'a appris à le reconnaître."',about_story:'Bluèlle est née d\'un œil exercé à la sélection — la capacité de distinguer ce qui dure de ce qui passe. Chaque pièce que vous trouvez ici a été recherchée, touchée et évaluée personnellement. Uniquement de l\'authenticité. Des prix qui ont du sens.',about_subtitle:'Comment Bluèlle est née',about_mission_lbl:'La mission',about_mission:'"Le luxe ne devrait pas être un privilège. Il devrait être un choix conscient."',auth_sub:'Je ne vends que ce que je porterais moi-même.',about_newlbl:'Chaque pièce est',about_newval:'Neuve ou comme neuve.',brands_eye:'Les marques que nous proposons',brands_title:'Uniquement le meilleur',brands_note:'et d\'autres marques sélectionnées disponibles en collection',cond_new:'Neuf',cond_mint:'Excellent',cond_vgood:'Très bon',cond_good:'Bon',cond_great:'Excellent',price_req:'Sur demande',box_note:' Boîte originale incluse.',vt_btn:'Essayage virtuel',vt_title:'Comment ça se porte',vt_hint:'Faire glisser pour pivoter'},
   es:{tagline:'Lujo de Segunda Mano',hero_title:'Lo que siempre has querido.<br><em>Al precio que siempre has soñado.</em>',hero_sub:'Prendas de diseñador seleccionadas una a una.<br>Lujo auténtico a precios que por fin tienen sentido.',hero_cta:'Explorar la colección',scroll:'Desplazar',s1:'100% Autenticidad garantizada',s2:'Ahorra hasta un 50%',s3:'Prendas de lujo seleccionadas',s4:'Pago seguro con Stripe',s5:'Envío con seguimiento',s6:'Calidad verificada',auth_eye:'Autenticidad garantizada',auth_p:'Cada artículo es inspeccionado y certificado personalmente. Lo que ves es exactamente lo que recibes.',al1:'Autenticidad verificada antes de cada publicación',al2:'Ahorro de hasta el 50% sobre el precio retail',al4:'Prendas seleccionadas con cuidado, una a una',stat1_lbl:'Ahorro medio',stat1_sub:'sobre el precio original',stat2_lbl:'Autenticidad',stat2_sub:'garantizada en cada prenda',about_eye:'Quiénes somos',about_title:'Segunda mano.<br><em>Primera clase.</em>',about_p:"Bluèlle vende prendas nuevas o como nuevas a precios que ninguna boutique puede igualar. Ahorra hasta un 50%, reduce tu huella de CO₂ y obtén calidad real — sin compromisos.",stat_a:'Ahorro medio',stat_b:'Autenticidad garantizada',stat_c:'Marcas seleccionadas',stat_d:'Satisfacción del cliente',why_title:'¿Por qué comprar<br>en <em>Bluèlle?</em>',why1:'Prendas nuevas o como nuevas — calidad garantizada',why2:'Precios fijos y honestos. Sin negociación',why3:'Solo las mejores marcas de lujo',why4:'Menos CO₂ — cada compra de segunda mano es una elección sostenible',why5:'Atención directa por Instagram',coll_eye:'Disponible ahora',coll_title:'La <em>colección</em>',all:'Todos',how_eye:'Simple y seguro',how_title:'Cómo <em>funciona</em>',s01t:'Descubrir',s01p:'Explora la colección. Fotos reales, descripciones honestas, sin sorpresas.',s02t:'Pagar',s02p:'Pago seguro con Stripe. Tarjeta, Apple Pay o Google Pay.',s03t:'Recibir',s03p:'Tu prenda llega cuidadosamente empaquetada con código de seguimiento.',s04t:'Lucir',s04p:'Tu prenda ha llegado. Lúcela con gusto.',faq_eye:'¿Tienes preguntas?',faq_title:'Preguntas <em>frecuentes</em>',fq1:'¿Las prendas son originales?',fa1:'Sí, al 100%. Verifico personalmente cada prenda antes de publicarla — etiquetas, costuras, materiales, accesorios.',fq2:'¿Cuánto tarda el envío?',fa2:'Estándar: 3–5 días laborables. Express: 1–2 días. Recibes un código de seguimiento por email en cuanto se envía el paquete.',fq3:'¿Los precios son negociables?',fa3:'No. Los precios son fijos y ya están reducidos respecto al retail. Si hay promociones, las anunciaré en Instagram.',fq4:'¿Cómo hago el seguimiento de mi pedido?',fa4:'Usa el código de seguimiento recibido por email. También puedes introducirlo en la sección de Seguimiento de este sitio.',fq5:'¿Es seguro el pago?',fa5:'Sí. Los pagos son gestionados por Stripe, uno de los sistemas de pago más fiables del mundo. Acepto tarjetas, Apple Pay y Google Pay.',track_eye:'¿Ya has pedido?',track_title:'Rastrear tu <em>pedido</em>',track_p:'Introduce el código de seguimiento recibido por email tras el envío.',track_btn:'Buscar',contact_eye:'Contacto',contact_title:'Encuéntrame en <em>Instagram</em>',ig_follow:'síguenos en',ig_cap:'Primeras vistas de nuevas llegadas, selecciones exclusivas y DMs siempre abiertos.',nav_about:'Quiénes somos',nav_coll:'Colección',nav_contact:'Contacto',f_privacy:'Privacidad',f_terms:'Términos',modal_why:'Por qué comprar en Bluèlle',mw1:'Autenticado personalmente',mw2:'Ahorra hasta un 50%',mw3:'Embalaje cuidadoso, envío con seguimiento',mw4:'Envío con seguimiento, pago seguro',secure_pay:'Pago seguro vía Stripe',buy:'Comprar',sold:'Vendido',avail:'Disponible',see:'Ver',size:'Talla',auth_h2:'Auténtico.',auth_h2e:'Garantizado.',auth_l1:'Cada prenda verificada personalmente antes de publicarse',auth_l2:'Estado nuevo o como nuevo, muchas con etiqueta original',auth_l3:'Etiquetas, costuras, materiales — nada se pasa por alto',auth_stat_lbl:'Autenticidad',auth_stat_sub:'garantizada en cada prenda',auth_quote:'"Como comprar directamente en una boutique — al precio justo."',save_eye:'El lujo que merece la pena',save_h2:'Ahorra.',save_h2e:'Consume menos.',save_p:"Cada prenda que compras en Bluèlle te hace ahorrar hasta un 50% respecto al precio en boutique. Y elegir segunda mano reduce drásticamente las emisiones de CO₂ en comparación con comprar nuevo.",save_l1:'Sin comisiones ocultas — el precio que ves es el que pagas',save_l3:'Comprar de segunda mano produce alrededor de un 70% menos de CO₂ que una prenda nueva (fuente: WRAP)',save_stat1_lbl:'sobre el precio retail',save_stat1_sub:'sobre el precio retail',save_co2_lbl:'menos CO₂ que comprar nuevo',save_co2_sub:'vs prenda nueva',save_min_lbl:'Ahorro',save_min_sub:'sobre el precio original',hero_t1:'Todo lo que siempre has soñado,',hero_t2:'al precio que siempre habrías querido.',hero_sub1:'',hero_sub2:'',about_story_quote:'"Siempre he buscado la belleza con cuidado. El mar me enseñó a reconocerla."',about_story:'Bluèlle nace de un ojo entrenado en la selección — la capacidad de distinguir lo que dura de lo que pasa. Cada prenda que encuentras aquí ha sido buscada, tocada y evaluada por mí. Solo autenticidad. Solo precios con sentido.',about_subtitle:'Cómo nació Bluèlle',about_mission_lbl:'La misión',about_mission:'"El lujo no debería ser un privilegio. Debería ser una elección consciente."',auth_sub:'Solo vendo lo que yo mismo llevaría.',about_newlbl:'Cada prenda es',about_newval:'Nueva o como nueva.',brands_eye:'Las marcas que tenemos',brands_title:'Solo lo mejor',brands_note:'y otras marcas seleccionadas disponibles en la colección',cond_new:'Nuevo',cond_mint:'Excelente',cond_vgood:'Muy bueno',cond_good:'Bueno',cond_great:'Excelente',price_req:'A consultar',box_note:' Caja original incluida.',vt_btn:'Prueba virtual',vt_title:'Cómo queda',vt_hint:'Arrastra para rotar'}
 };
+// CHECKOUT TRANSLATIONS
+const CK={
+  it:{ck_eye:'Completa l\'acquisto',ck_title:'I tuoi <em style="color:var(--teal)">dati</em>',ck_name:'Nome',ck_surname:'Cognome',ck_phone:'Telefono',ck_address:'Indirizzo',ck_city:'Città',ck_province:'Provincia',ck_country:'Paese',ck_ship_zone:'Zona spedizione',ck_zone_it:'🇮🇹 Italia — €10',ck_zone_eu:'🇪🇺 Europa — €15',ck_zone_world:'🌍 Estero — €25',ck_ship:'Spedizione',ck_total:'Totale',ck_pay:'Procedi al pagamento',ck_secure:'Pagamento sicuro via Stripe',ck_err:'Compila tutti i campi obbligatori',ck_err_email:'Inserisci un\'email valida',ck_addr_ph:'Via, numero civico'},
+  en:{ck_eye:'Complete your purchase',ck_title:'Your <em style="color:var(--teal)">details</em>',ck_name:'First name',ck_surname:'Last name',ck_phone:'Phone',ck_address:'Address',ck_city:'City',ck_province:'State / Province',ck_country:'Country',ck_ship_zone:'Shipping zone',ck_zone_it:'🇮🇹 Italy — €10',ck_zone_eu:'🇪🇺 Europe — €15',ck_zone_world:'🌍 International — €25',ck_ship:'Shipping',ck_total:'Total',ck_pay:'Proceed to payment',ck_secure:'Secure payment via Stripe',ck_err:'Please fill in all required fields',ck_err_email:'Please enter a valid email',ck_addr_ph:'Street, house number'},
+  fr:{ck_eye:'Finalisez votre achat',ck_title:'Vos <em style="color:var(--teal)">coordonnées</em>',ck_name:'Prénom',ck_surname:'Nom',ck_phone:'Téléphone',ck_address:'Adresse',ck_city:'Ville',ck_province:'Région',ck_country:'Pays',ck_ship_zone:'Zone de livraison',ck_zone_it:'🇮🇹 Italie — €10',ck_zone_eu:'🇪🇺 Europe — €15',ck_zone_world:'🌍 International — €25',ck_ship:'Livraison',ck_total:'Total',ck_pay:'Procéder au paiement',ck_secure:'Paiement sécurisé via Stripe',ck_err:'Veuillez remplir tous les champs obligatoires',ck_err_email:'Veuillez entrer un email valide',ck_addr_ph:'Rue, numéro'},
+  es:{ck_eye:'Completa tu compra',ck_title:'Tus <em style="color:var(--teal)">datos</em>',ck_name:'Nombre',ck_surname:'Apellido',ck_phone:'Teléfono',ck_address:'Dirección',ck_city:'Ciudad',ck_province:'Provincia',ck_country:'País',ck_ship_zone:'Zona de envío',ck_zone_it:'🇮🇹 Italia — €10',ck_zone_eu:'🇪🇺 Europa — €15',ck_zone_world:'🌍 Internacional — €25',ck_ship:'Envío',ck_total:'Total',ck_pay:'Proceder al pago',ck_secure:'Pago seguro vía Stripe',ck_err:'Por favor completa todos los campos obligatorios',ck_err_email:'Por favor introduce un email válido',ck_addr_ph:'Calle, número'},
+  zh:{ck_eye:'完成购买',ck_title:'您的<em style="color:var(--teal)">信息</em>',ck_name:'名',ck_surname:'姓',ck_phone:'电话',ck_address:'地址',ck_city:'城市',ck_province:'省份',ck_country:'国家',ck_ship_zone:'配送区域',ck_zone_it:'🇮🇹 意大利 — €10',ck_zone_eu:'🇪🇺 欧洲 — €15',ck_zone_world:'🌍 国际 — €25',ck_ship:'运费',ck_total:'合计',ck_pay:'前往付款',ck_secure:'通过Stripe安全支付',ck_err:'请填写所有必填字段',ck_err_email:'请输入有效的电子邮件',ck_addr_ph:'街道、门牌号'}
+};
 // PRODUCTS
 const prods = [
-  {id:1,brand:'gucci',name:'Gucci Maglioncino GG V-Neck',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:385.0,orig:1100.0,sold:false,images:["img/p1-f1.jpg","img/p1-f2.jpg","img/p1-f3.jpg"],desc:'Maglioncino Gucci blu con scollo a V e monogramma GG intarsiato in filato oro. Una delle silhouette più eleganti della maison.',stripe:'https://buy.stripe.com/00wbJ15ZgdnudeV1zP3ks1B'},
-  {id:2,brand:'balenciaga',name:'Balenciaga Unity Logo Tee',sz:'M',fit:'Oversize',color:'panna',cond:'Eccellente',price:240.0,orig:670.0,sold:false,images:["img/p2-f1.jpg","img/p2-f2.jpg","img/p2-f3.jpg"],desc:'T-shirt Balenciaga color panna in cotone pesante con logo Unity stampato sul fronte. Fit oversize, presenza immediata.',stripe:'https://buy.stripe.com/eVq28rgDU83ab6Ncet3ks1C'},
-  {id:3,brand:'balenciaga',name:'Balenciaga Upside-Down T-Shirt',sz:'M',fit:'Oversize',color:'nera',cond:'Nuovo',price:270.0,orig:700.0,sold:false,images:["img/p3-f1.jpg","img/p3-f2.jpg","img/p3-f3.jpg","img/p3-f4.jpg"],desc:'T-shirt Balenciaga nera Speed Hunter con logo Upside Down. Vestibilità oversize con effetto distressed — trattamento autentico della collezione.',stripe:'https://buy.stripe.com/8x2dR9gDUgzG1wd92h3ks1D'},
-  {id:4,brand:'balenciaga',name:'Balenciaga Crypto Bb',sz:'S',fit:'Oversize',color:'nera',cond:'Eccellente',price:300.0,orig:0,sold:false,images:["img/p4-f1.jpg","img/p4-f2.jpg","img/p4-f3.jpg"],desc:'T-shirt Balenciaga Crypto BB nera in vestibilità oversize. Effetto distressed e dettagli volutamente invecchiati, tipici della capsule.',stripe:'https://buy.stripe.com/bJe5kDfzQ0AIa2J1zP3ks1E'},
-  {id:5,brand:'balenciaga',name:'Balenciaga Ebay',sz:'M',fit:'Oversize',color:'nera',cond:'Eccellente',price:260.0,orig:0,sold:false,images:["img/p5-f1.jpg","img/p5-f2.jpg","img/p5-f3.jpg","img/p5-f4.jpg"],desc:'T-shirt della collaborazione ufficiale Balenciaga x eBay, nera in vestibilità extra oversize. Pezzo da collezione.',stripe:'https://buy.stripe.com/eVqaEX4Vcbfm3ElguJ3ks1F'},
-  {id:6,brand:'gucci',name:'Gucci Maglione Lungo GG V Neck',sz:'M',fit:'Veste normale',color:'rosso',cond:'Eccellente',price:325.0,orig:1200.0,sold:false,images:["img/p6-f1.jpg","img/p6-f2.jpg","img/p6-f3.jpg"],desc:'Maglione Gucci con scollo a V rosso lungo, con motivo GG su tutta la superficie. Lunghezza sotto vita, impatto visivo forte.',stripe:'https://buy.stripe.com/6oUdR92N46Z62Aha6l3ks1G'},
-  {id:7,brand:'gucci',name:'Gucci Cardigan Purple',sz:'S',fit:'Veste normale',color:'viola',cond:'Nuovo',price:675.0,orig:1800.0,sold:false,images:["img/p7-f1.jpg","img/p7-f2.jpg","img/p7-f3.jpg","img/p7-f4.jpg","img/p7-f5.jpg"],desc:'Cardigan Gucci in lana viola, morbidissimo al tatto. Nuovo con cartellino originale — mai indossato.',stripe:'https://buy.stripe.com/7sY28r5ZggzGb6N5Q53ks1H'},
-  {id:8,brand:'gucci',name:'Gucci Felpa Senza Cappuccio',sz:'XL',fit:'Veste normale',color:'arancione',cond:'Eccellente',price:250.0,orig:0,sold:true,images:["img/p8-f1.jpg","img/p8-f2.jpg","img/p8-f3.jpg"],desc:'Felpa Gucci girocollo arancione con stampa palme. Colore vivace, vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/eVq8wPgDUery4IpguJ3ks1I'},
-  {id:9,brand:'gucci',name:'Gucci Cardigan',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:495.0,orig:1200.0,sold:false,images:["img/p9-f1.jpg","img/p9-f2.jpg","img/p9-f3.jpg"],desc:'Cardigan Gucci con motivo GG in blu notte e filato oro intarsiato. Un classico raffinato. Condizioni eccellenti.',stripe:'https://buy.stripe.com/bJeeVdfzQfvC7UBcet3ks1J'},
-  {id:10,brand:'gucci',name:'Gucci T-Shirt',sz:'L',fit:'piccola vestibilita',color:'bianco',cond:'Eccellente',price:220.0,orig:0,sold:true,images:["img/p10-f1.jpg"],desc:'T-shirt della rarissima collaborazione Gucci x Palace. Pezzo molto ricercato dai collezionisti.',stripe:'https://buy.stripe.com/5kQ7sL3R85V22AhemB3ks1K'},
-  {id:11,brand:'balenciaga',name:'Balenciaga Felpa Upside Down',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:315.0,orig:1100.0,sold:false,images:["img/p11-f1.jpg","img/p11-f2.jpg","img/p11-f3.jpg","img/p11-f4.jpg"],desc:'Felpa Balenciaga Upside Down con logo capovolto ed effetto distressed autentico. Vestibilità oversize.',stripe:'https://buy.stripe.com/5kQ28r5ZggzGa2JfqF3ks1L'},
-  {id:12,brand:'gucci',name:'Gucci California T-Shirt',sz:'S',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:140.0,orig:500.0,sold:false,images:["img/p12-f1.jpg","img/p12-f2.jpg","img/p12-f3.jpg"],desc:'T-shirt Gucci bianca con scritta Welcome to California. Fresca e immediata, perfetta per la stagione calda.',stripe:'https://buy.stripe.com/28E6oH87o97e3El2DT3ks1M'},
-  {id:13,brand:'balenciaga',name:'Balenciaga Cropped Felpa Sample Mai Rilasciata',sz:'M',fit:'Oversize',color:'nera',cond:'Eccellente',price:1000.0,orig:0,sold:false,images:["img/p13-f1.jpg","img/p13-f2.jpg","img/p13-f3.jpg"],desc:'Hoodie crop Balenciaga da campionario interno, mai messa in commercio. Pezzo non acquistabile in nessuna boutique al mondo.',stripe:'https://buy.stripe.com/cNidR9cnE83a5MtemB3ks1N'},
-  {id:14,brand:'gucci',name:'Gucci T-Shirt',sz:'S',fit:'Veste normale',color:'giallo',cond:'Eccellente',price:295.0,orig:800.0,sold:false,images:["img/p14-f1.jpg","img/p14-f2.jpg","img/p14-f3.jpg"],desc:'T-shirt Gucci gialla da donna in cotone strutturato. Vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/eVqaEXcnEbfmfn31zP3ks1O'},
-  {id:15,brand:'balenciaga',name:'Balenciaga Cropped Unity Logo',sz:'XL',fit:'Cropped',color:'nera',cond:'Eccellente',price:330.0,orig:700.0,sold:false,images:["img/p15-f1.jpg","img/p15-f2.jpg","img/p15-f3.jpg","img/p15-f4.jpg"],desc:'T-shirt crop Balenciaga nera con logo Unity. Taglia XL in taglio corto — ideale abbinata a vita alta.',stripe:'https://buy.stripe.com/3cIcN52N4erygr75Q53ks2j'},
-  {id:16,brand:'gucci',name:'Gucci Cardigan Cotone',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:390.0,orig:1100.0,sold:false,images:["img/p16-f1.jpg","img/p16-f2.jpg","img/p16-f3.jpg"],desc:'Cardigan Gucci in cotone bianco con motivo monogramma GG su tutta la superficie. Vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/7sY8wPcnEbfma2Jcet3ks1R'},
-  {id:17,brand:'balenciaga',name:'Balenciaga Tape T-Shirt',sz:'XXL',fit:'Oversize',color:'bianco',cond:'Eccellente',price:340.0,orig:800.0,sold:false,images:["img/p17-f1.jpg","img/p17-f2.jpg","img/p17-f3.jpg"],desc:'T-shirt Balenciaga con nastro tape applicato in diagonale ed effetto distressed. Vestibilità oversize. Condizioni eccellenti.',stripe:'https://buy.stripe.com/fZufZhdrIdnu3El5Q53ks1Q'},
-  {id:18,brand:'gucci',name:'Gucci Maglione Lana',sz:'XL',fit:'Veste normale',color:'nera',cond:'Eccellente',price:310.0,orig:0,sold:true,images:["img/p18-f1.jpg"],desc:'Maglione Gucci in lana nera con scollo tondo. Condizioni eccellenti.',stripe:'https://buy.stripe.com/14A4gz5ZggzGa2J7Yd3ks1S'},
-  {id:19,brand:'enfantes',name:'Enfants Riches Déprimés Godless T-Shirt',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:1700.0,orig:0,sold:false,images:["img/p19-f1.jpg","img/p19-f2.jpg","img/p19-f3.jpg","img/p19-f4.jpg","img/p19-f5.jpg","img/p19-f6.jpg","img/p19-f7.jpg"],desc:'T-shirt rarissima di Enfants Riches Déprimés con effetto distressed. Edizione limitatissima — pezzo da collezione per intenditori.',stripe:'https://buy.stripe.com/7sY5kD1J03MUeiZ3HX3ks1T'},
-  {id:20,brand:'enfantes',name:'Enfants Riches Déprimés Devil In Disguise',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:500.0,orig:900.0,sold:false,images:["img/p20-f1.jpg","img/p20-f2.jpg","img/p20-f3.jpg"],desc:'T-shirt Devil In Disguise di Enfants Riches Déprimés. Grafica provocatoria sul fronte, brand underground del lusso.',stripe:'https://buy.stripe.com/7sY00j3R883a6QxguJ3ks1U'},
-  {id:21,brand:'balenciaga',name:'Balenciaga Metal Logo T-Shirt',sz:'XXS',fit:'Oversize',color:'nera',cond:'Eccellente',price:200.0,orig:700.0,sold:false,images:["img/p21-f1.jpg","img/p21-f2.jpg","img/p21-f3.jpg"],desc:'T-shirt Balenciaga nera con logo metallizzato fronte e retro. Vestibilità super oversize. Condizioni eccellenti.',stripe:'https://buy.stripe.com/cNi28r87o5V24IpguJ3ks1V'},
-  {id:22,brand:'gucci',name:'Gucci Floral T-Shirt',sz:'L',fit:'Veste normale',color:'nera',cond:'Eccellente',price:275.0,orig:800.0,sold:false,images:["img/p22-f1.jpg","img/p22-f2.jpg"],desc:'T-shirt Gucci con ricamo floreale cucito a mano. Pezzo raro, difficile da trovare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/8x2bJ1afwbfmdeV6U93ks1W'},
-  {id:23,brand:'gucci',name:'Gucci Polo Monogram',sz:'M',fit:'Veste normale',color:'blu',cond:'Eccellente',price:340.0,orig:0,sold:true,images:["img/p23-f1.jpg"],desc:'Polo Gucci in cotone blu con motivo monogramma GG. Condizioni eccellenti.',stripe:'https://buy.stripe.com/dRmeVdafwgzGb6NemB3ks1X'},
-  {id:24,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'XS',fit:'Oversize',color:'bianco',cond:'Eccellente',price:160.0,orig:450.0,sold:false,images:["img/p24-f1.jpg","img/p24-f2.jpg","img/p24-f3.jpg"],desc:'T-shirt Gucci Football oversize con grafica sportiva sul fronte. Vestibilità ampia. Condizioni eccellenti.',stripe:'https://buy.stripe.com/5kQcN59bsfvCb6N2DT3ks1Y'},
-  {id:25,brand:'balenciaga',name:'Balenciaga Sporty B Logo',sz:'XS',fit:'Oversize',color:'blu',cond:'Eccellente',price:140.0,orig:450.0,sold:false,images:["img/p25-f1.jpg","img/p25-f2.jpg","img/p25-f3.jpg","img/p25-f4.jpg"],desc:'T-shirt Balenciaga Sporty B blu oversize. Veste come una M/L — comoda anche per chi taglia una M.',stripe:'https://buy.stripe.com/9B68wP0EW4QYeiZ7Yd3ks1Z'},
-  {id:26,brand:'gucci',name:'Gucci Maglione Con Monogram',sz:'M',fit:'Veste normale',color:'nera',cond:'Eccellente',price:380.0,orig:1100.0,sold:false,images:["img/p26-f1.jpg","img/p26-f2.jpg","img/p26-f3.jpg"],desc:'Maglione Gucci nero con monogramma GG, un iconico classico della maison. Condizioni eccellenti.',stripe:'https://buy.stripe.com/4gMcN5afw3MU2Aha6l3ks20'},
-  {id:27,brand:'balenciaga',name:'Balenciaga See Now Buy Now T-Shirt',sz:'M',fit:'piccola vestibilita',color:'blu',cond:'Eccellente',price:165.0,orig:600.0,sold:false,images:["img/p27-f1.jpg","img/p27-f2.jpg","img/p27-f3.jpg"],desc:'T-shirt Balenciaga See Now Buy Now slim fit con effetto distressed. Pezzo storico della campagna SS17.',stripe:'https://buy.stripe.com/fZuaEXafw1EMcaR1zP3ks21'},
-  {id:28,brand:'gucci',name:'Gucci Marilyn Monroe',sz:'XS',fit:'Oversize',color:'azzurro',cond:'Eccellente',price:170.0,orig:450.0,sold:false,images:["img/p28-f1.jpg","img/p28-f2.jpg","img/p28-f3.jpg"],desc:'T-shirt Gucci Marilyn Monroe oversize — veste come una M/L. Grafica iconica della stagione.',stripe:'https://buy.stripe.com/fZu9ATgDUeryeiZ0vL3ks22'},
-  {id:29,brand:'gucci',name:'Gucci Maglione Lana',sz:'M',fit:'Oversize',color:'blu',cond:'Eccellente',price:395.0,orig:1200.0,sold:false,images:["img/p29-f1.jpg","img/p29-f2.jpg","img/p29-f3.jpg"],desc:'Maglione Gucci in lana blu con monogramma GG classico. Caldo e raffinato per la stagione fredda.',stripe:'https://buy.stripe.com/6oUdR9evM97eb6NemB3ks23'},
-  {id:30,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'M',fit:'Oversize',color:'verde',cond:'Eccellente',price:230.0,orig:0,sold:true,images:["img/p30-f1.jpg"],desc:'T-shirt Gucci Football oversize verde. Grafica sportiva sul fronte. Condizioni eccellenti.',stripe:'https://buy.stripe.com/00w8wPfzQeryb6N5Q53ks24'},
-  {id:31,brand:'balenciaga',name:'Balenciaga Diy College T-Shirt',sz:'S',fit:'Oversize',color:'bianco',cond:'Nuovo',price:240.0,orig:595.0,sold:false,images:["img/p31-f1.jpg","img/p31-f2.jpg","img/p31-f3.jpg"],desc:'T-shirt Balenciaga DIY College oversize — veste come una L/XL. Nuova con cartellino originale.',stripe:'https://buy.stripe.com/4gM4gz3R8abi1wd1zP3ks25'},
-  {id:32,brand:'balenciaga',name:'Balenciaga Destroyed Hoodie',sz:'S',fit:'Oversize',color:'viola',cond:'Eccellente',price:340.0,orig:990.0,sold:false,images:["img/p32-f1.jpg","img/p32-f2.jpg","img/p32-f3.jpg"],desc:'Hoodie Balenciaga Destroyed con effetto destroyed autentico applicato in fabbrica. Veste come una XL/XXL.',stripe:'https://buy.stripe.com/6oUbJ1cnE0AIa2Jdix3ks26'},
-  {id:33,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:150.0,orig:450.0,sold:false,images:["img/p33-f1.jpg","img/p33-f2.jpg","img/p33-f3.jpg"],desc:'T-shirt Gucci Football oversize bianca. Vestibilità generosa. Condizioni eccellenti.',stripe:'https://buy.stripe.com/5kQ3cvevMgzG7UBemB3ks27'},
-  {id:34,brand:'gucci',name:'Gucci T-Shirt Paiette',sz:'S',fit:'Veste normale',color:'nera',cond:'Eccellente',price:180.0,orig:700.0,sold:false,images:["img/p34-f1.jpg","img/p34-f2.jpg","img/p34-f3.jpg"],desc:'T-shirt Gucci nera con paillettes cucite fronte e retro e scritta Gucci in paillettes sul retro. Per un look serale di carattere.',stripe:'https://buy.stripe.com/00w28r2N4ery4Ip0vL3ks28'},
-  {id:35,brand:'balenciaga',name:'Balenciaga Sporty B Logo Windbreaker',sz:'S',fit:'Oversize',color:'panna',cond:'Eccellente',price:450.0,orig:1400.0,sold:false,images:["img/p35-f1.jpg","img/p35-f2.jpg","img/p35-f3.jpg"],desc:'Windbreaker Balenciaga Sporty B color panna con logo ricamato. Veste come una L/XL.',stripe:'https://buy.stripe.com/5kQ8wP73kdnufn31zP3ks29'},
-  {id:36,brand:'gucci',name:'Gucci Monogram Gucci',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:270.0,orig:0,sold:true,images:["img/p36-f1.jpg"],desc:'T-shirt Gucci monogramma blu. Condizioni eccellenti.',stripe:'https://buy.stripe.com/bJe3cv1J06Z65Mt92h3ks2a'},
-  {id:38,brand:'balenciaga',name:'Balenciaga Diy College Hoodie',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:230.0,orig:700.0,sold:false,images:["img/p37-f1.jpg","img/p37-f2.jpg","img/p37-f3.jpg"],desc:'Felpa Balenciaga DIY College con cappuccio ed effetto distressed autentico. Veste come una L.',stripe:'https://buy.stripe.com/4gM5kDcnE1EM4Ip2DT3ks2b'},
-  {id:39,brand:'balenciaga',name:'Balenciaga Worldwide Retail Therapy',sz:'S',fit:'Veste normale',color:'beige',cond:'Nuovo',price:120.0,orig:500.0,sold:false,images:["img/p38-f1.jpg","img/p38-f2.jpg"],desc:'T-shirt Balenciaga Worldwide Retail Therapy unisex, versatile e pulita. Nuova con cartellino originale.',stripe:'https://buy.stripe.com/dRmdR94Vc4QY2Ah3HX3ks2c'},
-  {id:40,brand:'balenciaga',name:'Balenciaga Logo T-Shirt',sz:'S',fit:'Oversize',color:'marrone',cond:'Eccellente',price:180.0,orig:700.0,sold:false,images:["img/p39-f1.jpg","img/p39-f2.jpg","img/p39-f3.jpg"],desc:'T-shirt Balenciaga Logo marrone oversize — veste come una L. Condizioni eccellenti.',stripe:'https://buy.stripe.com/5kQaEX73kgzG6Qx92h3ks2d'},
-  {id:41,brand:'balenciaga',name:'Balenciaga x Adidas Felpa',sz:'M',fit:'Oversize',color:'blu',cond:'Nuovo',price:320.0,orig:900.0,sold:false,images:["img/p40-f1.jpg","img/p40-f2.jpg","img/p40-f3.jpg","img/p40-f4.jpg"],desc:'Felpa Balenciaga x Adidas oversize — veste come una L. Collaborazione ufficiale con logo co-branded. Nuova con cartellino.',stripe:'https://buy.stripe.com/fZueVdcnEbfm6Qxa6l3ks2e'},
-  {id:42,brand:'gucci',name:'Gucci Polo Blu Monogram',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:260.0,orig:800.0,sold:false,images:["img/p41-f1.jpg","img/p41-f2.jpg","img/p41-f3.jpg","img/p41-f4.jpg"],desc:'Polo Gucci Monogram iconica in blu navy. Un classico riconoscibile della maison. Condizioni eccellenti.',stripe:'https://buy.stripe.com/6oU28r0EW0AIcaRfqF3ks2f'},
-  {id:43,brand:'balenciaga',name:'Balenciaga Jeans Balenciaga Con Scritta',sz:'S',fit:'Oversize',color:'blu',cond:'Nuovo',price:650.0,orig:1300.0,sold:false,images:["img/p42-f1.jpg","img/p42-f2.jpg","img/p42-f3.jpg","img/p42-f4.jpg"],desc:'Jeans Balenciaga oversize con lavaggio e scritta Balenciaga stampata sulla gamba. Nuovi con cartellino originale.',stripe:'https://buy.stripe.com/dRm9AT1J0abi0s9cet3ks2g'},
-  {id:44,brand:'balenciaga',name:'Balenciaga Pantaloni Tuta Xl Xl Xl….',sz:'L',fit:'Oversize',color:'nera',cond:'Buono',price:270.0,orig:800.0,sold:false,images:["img/p43-f1.jpg","img/p43-f2.jpg","img/p43-f3.jpg","img/p43-f4.jpg"],desc:'Pantaloni tuta Balenciaga maxi oversize — vestono come una XL. Condizioni buone: etichetta lavaggio leggermente staccata.',stripe:'https://buy.stripe.com/8x25kD9bs3MU2Ah2DT3ks2h'},
-  {id:47,brand:'balenciaga',name:'Balenciaga Pantaloni Tuta Mai Rilasciati 1 Di 1',sz:'L',fit:'Oversize',color:'',cond:'Eccellente',price:600.0,orig:0,sold:false,images:["img/p44-f1.jpg","img/p44-f2.jpg","img/p44-f3.jpg"],desc:'Pantaloni tuta Balenciaga da campionario, mai rilasciati al pubblico. Vestibilità super oversize. Pezzo unico — 1 di 1.',stripe:'https://buy.stripe.com/6oU4gz3R85V28YFfqF3ks2i'}
+  {id:1,brand:'gucci',name:'Gucci Maglioncino GG V-Neck',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:385.0,orig:1100.0,sold:false,images:["img/p1-f1.jpg","img/p1-f2.jpg","img/p1-f3.jpg"],desc:'Maglioncino Gucci blu con scollo a V e monogramma GG intarsiato in filato oro. Una delle silhouette più eleganti della maison.',stripe:'https://buy.stripe.com/14AaEXcnE97ecaR4M13ks2l'},
+  {id:2,brand:'balenciaga',name:'Balenciaga Unity Logo Tee',sz:'M',fit:'Oversize',color:'panna',cond:'Eccellente',price:240.0,orig:670.0,sold:false,images:["img/p2-f1.jpg","img/p2-f2.jpg","img/p2-f3.jpg"],desc:'T-shirt Balenciaga color panna in cotone pesante con logo Unity stampato sul fronte. Fit oversize, presenza immediata.',stripe:'https://buy.stripe.com/bJe14n0EW3MU1wd7Yd3ks2m'},
+  {id:3,brand:'balenciaga',name:'Balenciaga Upside-Down T-Shirt',sz:'M',fit:'Oversize',color:'nera',cond:'Nuovo',price:270.0,orig:700.0,sold:false,images:["img/p3-f1.jpg","img/p3-f2.jpg","img/p3-f3.jpg","img/p3-f4.jpg"],desc:'T-shirt Balenciaga nera Speed Hunter con logo Upside Down. Vestibilità oversize con effetto distressed — trattamento autentico della collezione.',stripe:'https://buy.stripe.com/fZu28revM83aa2J7Yd3ks2n'},
+  {id:4,brand:'balenciaga',name:'Balenciaga Crypto Bb',sz:'S',fit:'Oversize',color:'nera',cond:'Eccellente',price:300.0,orig:0,sold:false,images:["img/p4-f1.jpg","img/p4-f2.jpg","img/p4-f3.jpg"],desc:'T-shirt Balenciaga Crypto BB nera in vestibilità oversize. Effetto distressed e dettagli volutamente invecchiati, tipici della capsule.',stripe:'https://buy.stripe.com/6oUaEX4Vc2IQ6Qxdix3ks2o'},
+  {id:5,brand:'balenciaga',name:'Balenciaga Ebay',sz:'M',fit:'Oversize',color:'nera',cond:'Eccellente',price:260.0,orig:0,sold:false,images:["img/p5-f1.jpg","img/p5-f2.jpg","img/p5-f3.jpg","img/p5-f4.jpg"],desc:'T-shirt della collaborazione ufficiale Balenciaga x eBay, nera in vestibilità extra oversize. Pezzo da collezione.',stripe:'https://buy.stripe.com/9B6aEXfzQ1EM2Ah4M13ks2p'},
+  {id:6,brand:'gucci',name:'Gucci Maglione Lungo GG V Neck',sz:'M',fit:'Veste normale',color:'rosso',cond:'Eccellente',price:325.0,orig:1200.0,sold:false,images:["img/p6-f1.jpg","img/p6-f2.jpg","img/p6-f3.jpg"],desc:'Maglione Gucci con scollo a V rosso lungo, con motivo GG su tutta la superficie. Lunghezza sotto vita, impatto visivo forte.',stripe:'https://buy.stripe.com/cNi7sL5Zg6Z6eiZ7Yd3ks2q'},
+  {id:7,brand:'gucci',name:'Gucci Cardigan Purple',sz:'S',fit:'Veste normale',color:'viola',cond:'Nuovo',price:675.0,orig:1800.0,sold:false,images:["img/p7-f1.jpg","img/p7-f2.jpg","img/p7-f3.jpg","img/p7-f4.jpg","img/p7-f5.jpg"],desc:'Cardigan Gucci in lana viola, morbidissimo al tatto. Nuovo con cartellino originale — mai indossato.',stripe:'https://buy.stripe.com/28EeVdbjAabia2Ja6l3ks2r'},
+  {id:8,brand:'gucci',name:'Gucci Felpa Senza Cappuccio',sz:'XL',fit:'Veste normale',color:'arancione',cond:'Eccellente',price:250.0,orig:0,sold:true,images:["img/p8-f1.jpg","img/p8-f2.jpg","img/p8-f3.jpg"],desc:'Felpa Gucci girocollo arancione con stampa palme. Colore vivace, vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/eVqfZh87obfm5Mtbap3ks2s'},
+  {id:9,brand:'gucci',name:'Gucci Cardigan',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:495.0,orig:1200.0,sold:false,images:["img/p9-f1.jpg","img/p9-f2.jpg","img/p9-f3.jpg"],desc:'Cardigan Gucci con motivo GG in blu notte e filato oro intarsiato. Un classico raffinato. Condizioni eccellenti.',stripe:'https://buy.stripe.com/bJefZh4Vc4QYdeVfqF3ks2t'},
+  {id:10,brand:'gucci',name:'Gucci T-Shirt',sz:'L',fit:'piccola vestibilita',color:'bianco',cond:'Eccellente',price:220.0,orig:0,sold:true,images:["img/p10-f1.jpg"],desc:'T-shirt della rarissima collaborazione Gucci x Palace. Pezzo molto ricercato dai collezionisti.',stripe:'https://buy.stripe.com/fZu7sLafw3MU0s90vL3ks2u'},
+  {id:11,brand:'balenciaga',name:'Balenciaga Felpa Upside Down',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:315.0,orig:1100.0,sold:false,images:["img/p11-f1.jpg","img/p11-f2.jpg","img/p11-f3.jpg","img/p11-f4.jpg"],desc:'Felpa Balenciaga Upside Down con logo capovolto ed effetto distressed autentico. Vestibilità oversize.',stripe:'https://buy.stripe.com/6oU8wP2N4erydeV1zP3ks2v'},
+  {id:12,brand:'gucci',name:'Gucci California T-Shirt',sz:'S',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:140.0,orig:500.0,sold:false,images:["img/p12-f1.jpg","img/p12-f2.jpg","img/p12-f3.jpg"],desc:'T-shirt Gucci bianca con scritta Welcome to California. Fresca e immediata, perfetta per la stagione calda.',stripe:'https://buy.stripe.com/7sY14nevMgzG3Elbap3ks2w'},
+  {id:13,brand:'balenciaga',name:'Balenciaga Cropped Felpa Sample Mai Rilasciata',sz:'M',fit:'Oversize',color:'nera',cond:'Eccellente',price:1000.0,orig:0,sold:false,images:["img/p13-f1.jpg","img/p13-f2.jpg","img/p13-f3.jpg"],desc:'Hoodie crop Balenciaga da campionario interno, mai messa in commercio. Pezzo non acquistabile in nessuna boutique al mondo.',stripe:'https://buy.stripe.com/3cIaEX0EW6Z6gr7fqF3ks2x'},
+  {id:14,brand:'gucci',name:'Gucci T-Shirt',sz:'S',fit:'Veste normale',color:'giallo',cond:'Eccellente',price:295.0,orig:800.0,sold:false,images:["img/p14-f1.jpg","img/p14-f2.jpg","img/p14-f3.jpg"],desc:'T-shirt Gucci gialla da donna in cotone strutturato. Vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/bJecN5drI6Z66QxfqF3ks2y'},
+  {id:15,brand:'balenciaga',name:'Balenciaga Cropped Unity Logo',sz:'XL',fit:'Cropped',color:'nera',cond:'Eccellente',price:330.0,orig:700.0,sold:false,images:["img/p15-f1.jpg","img/p15-f2.jpg","img/p15-f3.jpg","img/p15-f4.jpg"],desc:'T-shirt crop Balenciaga nera con logo Unity. Taglia XL in taglio corto — ideale abbinata a vita alta.',stripe:'https://buy.stripe.com/4gM6oHevMcjqdeVcet3ks2z'},
+  {id:16,brand:'gucci',name:'Gucci Cardigan Cotone',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:390.0,orig:1100.0,sold:false,images:["img/p16-f1.jpg","img/p16-f2.jpg","img/p16-f3.jpg"],desc:'Cardigan Gucci in cotone bianco con motivo monogramma GG su tutta la superficie. Vestibilità regolare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/dRm00jbjA83a5Mt1zP3ks2A'},
+  {id:17,brand:'balenciaga',name:'Balenciaga Tape T-Shirt',sz:'XXL',fit:'Oversize',color:'bianco',cond:'Eccellente',price:340.0,orig:800.0,sold:false,images:["img/p17-f1.jpg","img/p17-f2.jpg","img/p17-f3.jpg"],desc:'T-shirt Balenciaga con nastro tape applicato in diagonale ed effetto distressed. Vestibilità oversize. Condizioni eccellenti.',stripe:'https://buy.stripe.com/00wcN55Zgbfmb6NfqF3ks2B'},
+  {id:18,brand:'gucci',name:'Gucci Maglione Lana',sz:'XL',fit:'Veste normale',color:'nera',cond:'Eccellente',price:310.0,orig:0,sold:true,images:["img/p18-f1.jpg"],desc:'Maglione Gucci in lana nera con scollo tondo. Condizioni eccellenti.',stripe:'https://buy.stripe.com/cNi14n87ofvC8YF2DT3ks2C'},
+  {id:19,brand:'enfantes',name:'Enfants Riches Déprimés Godless T-Shirt',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:1700.0,orig:0,sold:false,images:["img/p19-f1.jpg","img/p19-f2.jpg","img/p19-f3.jpg","img/p19-f4.jpg","img/p19-f5.jpg","img/p19-f6.jpg","img/p19-f7.jpg"],desc:'T-shirt rarissima di Enfants Riches Déprimés con effetto distressed. Edizione limitatissima — pezzo da collezione per intenditori.',stripe:'https://buy.stripe.com/14A00jbjA0AIfn34M13ks2D'},
+  {id:20,brand:'enfantes',name:'Enfants Riches Déprimés Devil In Disguise',sz:'L',fit:'Veste normale',color:'bianco',cond:'Eccellente',price:500.0,orig:900.0,sold:false,images:["img/p20-f1.jpg","img/p20-f2.jpg","img/p20-f3.jpg"],desc:'T-shirt Devil In Disguise di Enfants Riches Déprimés. Grafica provocatoria sul fronte, brand underground del lusso.',stripe:'https://buy.stripe.com/7sYcN573k5V21wd7Yd3ks2E'},
+  {id:21,brand:'balenciaga',name:'Balenciaga Metal Logo T-Shirt',sz:'XXS',fit:'Oversize',color:'nera',cond:'Eccellente',price:200.0,orig:700.0,sold:false,images:["img/p21-f1.jpg","img/p21-f2.jpg","img/p21-f3.jpg"],desc:'T-shirt Balenciaga nera con logo metallizzato fronte e retro. Vestibilità super oversize. Condizioni eccellenti.',stripe:'https://buy.stripe.com/28EdR90EWeryb6N4M13ks2F'},
+  {id:22,brand:'gucci',name:'Gucci Floral T-Shirt',sz:'L',fit:'Veste normale',color:'nera',cond:'Eccellente',price:275.0,orig:800.0,sold:false,images:["img/p22-f1.jpg","img/p22-f2.jpg"],desc:'T-shirt Gucci con ricamo floreale cucito a mano. Pezzo raro, difficile da trovare. Condizioni eccellenti.',stripe:'https://buy.stripe.com/6oU5kDafwcjq7UBfqF3ks2G'},
+  {id:23,brand:'gucci',name:'Gucci Polo Monogram',sz:'M',fit:'Veste normale',color:'blu',cond:'Eccellente',price:340.0,orig:0,sold:true,images:["img/p23-f1.jpg"],desc:'Polo Gucci in cotone blu con motivo monogramma GG. Condizioni eccellenti.',stripe:'https://buy.stripe.com/aFa00jcnEcjqgr71zP3ks2H'},
+  {id:24,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'XS',fit:'Oversize',color:'bianco',cond:'Eccellente',price:160.0,orig:450.0,sold:false,images:["img/p24-f1.jpg","img/p24-f2.jpg","img/p24-f3.jpg"],desc:'T-shirt Gucci Football oversize con grafica sportiva sul fronte. Vestibilità ampia. Condizioni eccellenti.',stripe:'https://buy.stripe.com/cNifZh4Vcabia2J3HX3ks2I'},
+  {id:25,brand:'balenciaga',name:'Balenciaga Sporty B Logo',sz:'XS',fit:'Oversize',color:'blu',cond:'Eccellente',price:140.0,orig:450.0,sold:false,images:["img/p25-f1.jpg","img/p25-f2.jpg","img/p25-f3.jpg","img/p25-f4.jpg"],desc:'T-shirt Balenciaga Sporty B blu oversize. Veste come una M/L — comoda anche per chi taglia una M.',stripe:'https://buy.stripe.com/28EeVd2N497egr77Yd3ks2J'},
+  {id:26,brand:'gucci',name:'Gucci Maglione Con Monogram',sz:'M',fit:'Veste normale',color:'nera',cond:'Eccellente',price:380.0,orig:1100.0,sold:false,images:["img/p26-f1.jpg","img/p26-f2.jpg","img/p26-f3.jpg"],desc:'Maglione Gucci nero con monogramma GG, un iconico classico della maison. Condizioni eccellenti.',stripe:'https://buy.stripe.com/aFaeVd4Vc6Z60s9bap3ks2K'},
+  {id:27,brand:'balenciaga',name:'Balenciaga See Now Buy Now T-Shirt',sz:'M',fit:'piccola vestibilita',color:'blu',cond:'Eccellente',price:165.0,orig:600.0,sold:false,images:["img/p27-f1.jpg","img/p27-f2.jpg","img/p27-f3.jpg"],desc:'T-shirt Balenciaga See Now Buy Now slim fit con effetto distressed. Pezzo storico della campagna SS17.',stripe:'https://buy.stripe.com/bJe8wP4Vcdnu7UB3HX3ks2L'},
+  {id:28,brand:'gucci',name:'Gucci Marilyn Monroe',sz:'XS',fit:'Oversize',color:'azzurro',cond:'Eccellente',price:170.0,orig:450.0,sold:false,images:["img/p28-f1.jpg","img/p28-f2.jpg","img/p28-f3.jpg"],desc:'T-shirt Gucci Marilyn Monroe oversize — veste come una M/L. Grafica iconica della stagione.',stripe:'https://buy.stripe.com/3cI6oH2N46Z6a2Jbap3ks2M'},
+  {id:29,brand:'gucci',name:'Gucci Maglione Lana',sz:'M',fit:'Oversize',color:'blu',cond:'Eccellente',price:395.0,orig:1200.0,sold:false,images:["img/p29-f1.jpg","img/p29-f2.jpg","img/p29-f3.jpg"],desc:'Maglione Gucci in lana blu con monogramma GG classico. Caldo e raffinato per la stagione fredda.',stripe:'https://buy.stripe.com/aFa28r9bsbfm7UBbap3ks2N'},
+  {id:30,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'M',fit:'Oversize',color:'verde',cond:'Eccellente',price:230.0,orig:0,sold:true,images:["img/p30-f1.jpg"],desc:'T-shirt Gucci Football oversize verde. Grafica sportiva sul fronte. Condizioni eccellenti.',stripe:'https://buy.stripe.com/7sYcN52N4gzG0s92DT3ks2O'},
+  {id:31,brand:'balenciaga',name:'Balenciaga Diy College T-Shirt',sz:'S',fit:'Oversize',color:'bianco',cond:'Nuovo',price:240.0,orig:595.0,sold:false,images:["img/p31-f1.jpg","img/p31-f2.jpg","img/p31-f3.jpg"],desc:'T-shirt Balenciaga DIY College oversize — veste come una L/XL. Nuova con cartellino originale.',stripe:'https://buy.stripe.com/dRm00jbjA1EM0s9bap3ks2P'},
+  {id:32,brand:'balenciaga',name:'Balenciaga Destroyed Hoodie',sz:'S',fit:'Oversize',color:'viola',cond:'Eccellente',price:340.0,orig:990.0,sold:false,images:["img/p32-f1.jpg","img/p32-f2.jpg","img/p32-f3.jpg"],desc:'Hoodie Balenciaga Destroyed con effetto destroyed autentico applicato in fabbrica. Veste come una XL/XXL.',stripe:'https://buy.stripe.com/7sYeVd0EW6Z62Ahcet3ks2Q'},
+  {id:33,brand:'gucci',name:'Gucci Football T-Shirt Oversize',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:150.0,orig:450.0,sold:false,images:["img/p33-f1.jpg","img/p33-f2.jpg","img/p33-f3.jpg"],desc:'T-shirt Gucci Football oversize bianca. Vestibilità generosa. Condizioni eccellenti.',stripe:'https://buy.stripe.com/7sY3cvgDU1EMb6NfqF3ks2R'},
+  {id:34,brand:'gucci',name:'Gucci T-Shirt Paiette',sz:'S',fit:'Veste normale',color:'nera',cond:'Eccellente',price:180.0,orig:700.0,sold:false,images:["img/p34-f1.jpg","img/p34-f2.jpg","img/p34-f3.jpg"],desc:'T-shirt Gucci nera con paillettes cucite fronte e retro e scritta Gucci in paillettes sul retro. Per un look serale di carattere.',stripe:'https://buy.stripe.com/7sY00j9bsery1wdguJ3ks2S'},
+  {id:35,brand:'balenciaga',name:'Balenciaga Sporty B Logo Windbreaker',sz:'S',fit:'Oversize',color:'panna',cond:'Eccellente',price:450.0,orig:1400.0,sold:false,images:["img/p35-f1.jpg","img/p35-f2.jpg","img/p35-f3.jpg"],desc:'Windbreaker Balenciaga Sporty B color panna con logo ricamato. Veste come una L/XL.',stripe:'https://buy.stripe.com/9B6aEXbjA3MU1wdfqF3ks2T'},
+  {id:36,brand:'gucci',name:'Gucci Monogram Gucci',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:270.0,orig:0,sold:true,images:["img/p36-f1.jpg"],desc:'T-shirt Gucci monogramma blu. Condizioni eccellenti.',stripe:'https://buy.stripe.com/cNibJ187ogzGa2Jbap3ks2U'},
+  {id:38,brand:'balenciaga',name:'Balenciaga Diy College Hoodie',sz:'M',fit:'Oversize',color:'bianco',cond:'Eccellente',price:230.0,orig:700.0,sold:false,images:["img/p37-f1.jpg","img/p37-f2.jpg","img/p37-f3.jpg"],desc:'Felpa Balenciaga DIY College con cappuccio ed effetto distressed autentico. Veste come una L.',stripe:'https://buy.stripe.com/eVqbJ13R8ery1wd5Q53ks2V'},
+  {id:39,brand:'balenciaga',name:'Balenciaga Worldwide Retail Therapy',sz:'S',fit:'Veste normale',color:'beige',cond:'Nuovo',price:120.0,orig:500.0,sold:false,images:["img/p38-f1.jpg","img/p38-f2.jpg"],desc:'T-shirt Balenciaga Worldwide Retail Therapy unisex, versatile e pulita. Nuova con cartellino originale.',stripe:'https://buy.stripe.com/aFa7sLbjA6Z6gr7a6l3ks2W'},
+  {id:40,brand:'balenciaga',name:'Balenciaga Logo T-Shirt',sz:'S',fit:'Oversize',color:'marrone',cond:'Eccellente',price:180.0,orig:700.0,sold:false,images:["img/p39-f1.jpg","img/p39-f2.jpg","img/p39-f3.jpg"],desc:'T-shirt Balenciaga Logo marrone oversize — veste come una L. Condizioni eccellenti.',stripe:'https://buy.stripe.com/eVq5kDafw1EMfn32DT3ks2X'},
+  {id:41,brand:'balenciaga',name:'Balenciaga x Adidas Felpa',sz:'M',fit:'Oversize',color:'blu',cond:'Nuovo',price:320.0,orig:900.0,sold:false,images:["img/p40-f1.jpg","img/p40-f2.jpg","img/p40-f3.jpg","img/p40-f4.jpg"],desc:'Felpa Balenciaga x Adidas oversize — veste come una L. Collaborazione ufficiale con logo co-branded. Nuova con cartellino.',stripe:'https://buy.stripe.com/fZu28r87o6Z65Mtbap3ks2Y'},
+  {id:42,brand:'gucci',name:'Gucci Polo Blu Monogram',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:260.0,orig:800.0,sold:false,images:["img/p41-f1.jpg","img/p41-f2.jpg","img/p41-f3.jpg","img/p41-f4.jpg"],desc:'Polo Gucci Monogram iconica in blu navy. Un classico riconoscibile della maison. Condizioni eccellenti.',stripe:'https://buy.stripe.com/eVq28rfzQfvC0s90vL3ks2Z'},
+  {id:43,brand:'balenciaga',name:'Balenciaga Jeans Balenciaga Con Scritta',sz:'S',fit:'Oversize',color:'blu',cond:'Nuovo',price:650.0,orig:1300.0,sold:false,images:["img/p42-f1.jpg","img/p42-f2.jpg","img/p42-f3.jpg","img/p42-f4.jpg"],desc:'Jeans Balenciaga oversize con lavaggio e scritta Balenciaga stampata sulla gamba. Nuovi con cartellino originale.',stripe:'https://buy.stripe.com/3cI6oH1J02IQeiZbap3ks30'},
+  {id:44,brand:'balenciaga',name:'Balenciaga Pantaloni Tuta Xl Xl Xl….',sz:'L',fit:'Oversize',color:'nera',cond:'Buono',price:270.0,orig:800.0,sold:false,images:["img/p43-f1.jpg","img/p43-f2.jpg","img/p43-f3.jpg","img/p43-f4.jpg"],desc:'Pantaloni tuta Balenciaga maxi oversize — vestono come una XL. Condizioni buone: etichetta lavaggio leggermente staccata.',stripe:'https://buy.stripe.com/00wbJ1drIbfma2J3HX3ks31'},
+  {id:47,brand:'balenciaga',name:'Balenciaga Pantaloni Tuta Mai Rilasciati 1 Di 1',sz:'L',fit:'Oversize',color:'',cond:'Eccellente',price:600.0,orig:0,sold:false,images:["img/p44-f1.jpg","img/p44-f2.jpg","img/p44-f3.jpg"],desc:'Pantaloni tuta Balenciaga da campionario, mai rilasciati al pubblico. Vestibilità super oversize. Pezzo unico — 1 di 1.',stripe:'https://buy.stripe.com/8x2aEX9bsbfm1wd1zP3ks32'}
 ];
 
 // STATE
@@ -845,7 +940,7 @@ function openM(id){
   document.getElementById('mwhy').innerHTML=[l.mw1,l.mw2,l.mw3,l.mw4].map(t=>`<li>${t}</li>`).join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
-  btn.onclick=p.sold?null:()=>window.open(p.stripe,'_blank');
+  btn.onclick=p.sold?null:()=>openCheckout(p);
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
   document.getElementById('mov').classList.add('open');
@@ -855,6 +950,103 @@ function closeM(){document.getElementById('mov').classList.remove('open');docume
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
 
+// CHECKOUT FORM
+let ckCurrentProduct=null;
+function openCheckout(p){
+  ckCurrentProduct=p;
+  const ck=CK[curLang]||CK.it;
+  // translate labels
+  document.querySelectorAll('[data-ck]').forEach(el=>{
+    const k=el.getAttribute('data-ck');
+    if(ck[k]){
+      if(el.tagName==='LABEL'||el.classList.contains('sl')||el.classList.contains('ck-secure'))el.textContent=ck[k];
+      else el.innerHTML=ck[k];
+    }
+  });
+  document.getElementById('ckAddr').placeholder=ck.ck_addr_ph||'Via, numero civico';
+  // show product name and price
+  const l=T[curLang]||T.it;
+  const pName=translateName(p.name,curLang);
+  const pPrice=p.price===0?(l.price_req||'Su richiesta'):fmt(p.price);
+  document.getElementById('ckProduct').textContent=pName+' — '+pPrice;
+  // pre-fill from localStorage
+  try{
+    const saved=JSON.parse(localStorage.getItem('bluelle_customer')||'{}');
+    if(saved.nome)document.getElementById('ckNome').value=saved.nome;
+    if(saved.cognome)document.getElementById('ckCognome').value=saved.cognome;
+    if(saved.email)document.getElementById('ckEmail').value=saved.email;
+    if(saved.tel)document.getElementById('ckTel').value=saved.tel;
+    if(saved.addr)document.getElementById('ckAddr').value=saved.addr;
+    if(saved.city)document.getElementById('ckCity').value=saved.city;
+    if(saved.cap)document.getElementById('ckCap').value=saved.cap;
+    if(saved.prov)document.getElementById('ckProv').value=saved.prov;
+    if(saved.country)document.getElementById('ckCountry').value=saved.country;
+  }catch(e){}
+  document.getElementById('ckErr').textContent='';
+  document.querySelectorAll('.ck-in').forEach(el=>el.classList.remove('ck-invalid'));
+  // restore saved shipping zone
+  try{const saved=JSON.parse(localStorage.getItem('bluelle_customer')||'{}');if(saved.zone)document.getElementById('ckShipZone').value=saved.zone;}catch(e){}
+  updateShipping();
+  document.getElementById('ckov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){document.getElementById('ckov').classList.remove('open');document.body.style.overflow='hidden';/* keep product modal open */}
+const SHIP_COST={it:10,eu:15,world:25};
+function updateShipping(){
+  const zone=document.getElementById('ckShipZone')?.value||'it';
+  const ck=CK[curLang]||CK.it;
+  const ship=SHIP_COST[zone];
+  const price=ckCurrentProduct?.price||0;
+  const summary=document.getElementById('ckSummary');
+  if(!summary)return;
+  if(price===0){summary.classList.remove('show');return;}
+  const total=price+ship;
+  summary.classList.add('show');
+  summary.innerHTML=
+    `<div class="ck-sum-row"><span>${translateName(ckCurrentProduct.name,curLang)}</span><span>${fmt(price)}</span></div>`+
+    `<div class="ck-sum-row"><span>${ck.ck_ship||'Spedizione'}</span><span>+€${ship}</span></div>`+
+    `<div class="ck-sum-row total"><span>${ck.ck_total||'Totale'}</span><span>${fmt(total)}</span></div>`;
+}
+
+document.getElementById('ckForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const ck=CK[curLang]||CK.it;
+  const fields={
+    nome:document.getElementById('ckNome').value.trim(),
+    cognome:document.getElementById('ckCognome').value.trim(),
+    email:document.getElementById('ckEmail').value.trim(),
+    tel:document.getElementById('ckTel').value.trim(),
+    addr:document.getElementById('ckAddr').value.trim(),
+    city:document.getElementById('ckCity').value.trim(),
+    cap:document.getElementById('ckCap').value.trim(),
+    prov:document.getElementById('ckProv').value.trim(),
+    country:document.getElementById('ckCountry').value.trim(),
+    zone:document.getElementById('ckShipZone').value
+  };
+  // validate required
+  document.querySelectorAll('.ck-in').forEach(el=>el.classList.remove('ck-invalid'));
+  const required=['ckNome','ckCognome','ckEmail','ckTel','ckAddr','ckCity','ckCap'];
+  let valid=true;
+  required.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el.value.trim()){el.classList.add('ck-invalid');valid=false;}
+  });
+  if(!valid){document.getElementById('ckErr').textContent=ck.ck_err;return;}
+  // validate email
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)){
+    document.getElementById('ckEmail').classList.add('ck-invalid');
+    document.getElementById('ckErr').textContent=ck.ck_err_email;return;
+  }
+  // save to localStorage
+  try{localStorage.setItem('bluelle_customer',JSON.stringify(fields));}catch(e){}
+  // build Stripe URL with prefilled email
+  let url=ckCurrentProduct.stripe;
+  const sep=url.includes('?')?'&':'?';
+  url+=sep+'prefilled_email='+encodeURIComponent(fields.email);
+  // redirect to Stripe
+  window.open(url,'_blank');
+  closeCheckout();
+});
 
 const TT={
   it:{searching:'Ricerca spedizione in corso...',err1:'Inserisci almeno il codice tracking.',err2:'Inserisci il codice tracking del corriere.',lbl_order:'Numero ordine',lbl_code:'Codice tracking',info:'Apri il tracking per vedere tutti i passaggi — funziona con DHL, BRT, GLS, Poste Italiane, FedEx e altri.',open_btn:'Vedi tutti i passaggi →',locale:'it'},
