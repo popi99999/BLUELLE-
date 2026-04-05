@@ -940,7 +940,7 @@ function openM(id){
   document.getElementById('mwhy').innerHTML=[l.mw1,l.mw2,l.mw3,l.mw4].map(t=>`<li>${t}</li>`).join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
-  btn.onclick=p.sold?null:()=>openCheckout(p);
+  btn.onclick=p.sold?null:()=>window.open(p.stripe,'_blank');
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
   document.getElementById('mov').classList.add('open');
