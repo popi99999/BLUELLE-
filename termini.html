@@ -6,78 +6,61 @@
 <title>Bluèlle — Termini di Servizio e Privacy</title>
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --deep:#040d0b;
-  --dark:#0d1d1a;
-  --teal:#3ec8bc;
-  --teal-d:#2a9a90;
-  --gold:#c4a06a;
-  --muted:#6b8480;
-  --cream:#f3efe9;
-  --white:#fdfaf5;
-  --ink:#192e2a;
+  --salt:#faf7f1;--shell:#f0eadf;--sand:#e7dfd0;--marine:#16302c;
+  --ink:#283733;--slate:#414d48;--stone:#8b8475;--mist:#b9b1a1;
+  --brass:#9a7d4d;--brass-soft:#b39a6e;--line:rgba(22,48,44,.12);--line-soft:rgba(22,48,44,.07);
 }
-html{scroll-behavior:smooth}
-body{background:var(--deep);color:rgba(253,250,245,.55);font-family:'Outfit',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+html{scroll-behavior:smooth;background:var(--shell)}
+body{background:var(--shell);color:var(--slate);font-family:'Jost',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 
-/* ── NAV ─────────────────────────────────────────────── */
-nav{background:rgba(4,13,11,.97);padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;z-index:100}
-@media(max-width:700px){nav{padding:1rem 1.6rem}}
-.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:300;color:rgba(255,255,255,.85);text-decoration:none;letter-spacing:.04em}
-.nlogo em{font-style:italic;color:var(--teal)}
-.nback{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.28);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:.5rem}
-.nback:hover{color:var(--teal)}
+nav{background:rgba(240,234,223,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:1.2rem clamp(1.6rem,5vw,4.5rem);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-soft);position:sticky;top:0;z-index:100}
+.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:.03em}
+.nlogo em{font-style:italic;color:var(--brass)}
+.nback{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.nback:hover{color:var(--brass)}
 .nback::before{content:'←';font-size:.75rem;transition:transform .3s}
 .nback:hover::before{transform:translateX(-3px)}
 
-/* ── HERO ────────────────────────────────────────────── */
-.hero{background:var(--dark);padding:6rem 4rem 5rem;text-align:center;border-bottom:1px solid rgba(255,255,255,.04)}
-@media(max-width:700px){.hero{padding:4rem 1.6rem 3rem}}
-.hero-eye{font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(62,200,188,.5);margin-bottom:1.2rem}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4.5vw,3.2rem);font-weight:300;color:rgba(253,250,245,.88);line-height:1.12;margin-bottom:1rem}
-.hero-title em{font-style:italic;color:var(--teal)}
-.hero-sub{font-size:.84rem;color:rgba(255,255,255,.26);line-height:2;max-width:560px;margin:0 auto;letter-spacing:.01em}
-.update-badge{display:inline-block;margin-top:1.6rem;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.07);padding:.3rem .9rem}
+.hero{background:var(--sand);padding:clamp(4rem,8vw,6.5rem) clamp(1.6rem,5vw,4.5rem) clamp(3rem,6vw,5rem);text-align:center;border-bottom:1px solid var(--line)}
+.hero-eye{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--brass);margin-bottom:1.3rem}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4.6vw,3.4rem);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:1.1rem}
+.hero-title em{font-style:italic;color:var(--brass)}
+.hero-sub{font-size:.86rem;color:var(--slate);line-height:2;max-width:560px;margin:0 auto;letter-spacing:.005em}
+.update-badge{display:inline-block;margin-top:1.6rem;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);border:1px solid var(--line);padding:.32rem .95rem}
 
-/* ── CONTENT ────────────────────────────────────────── */
-.content{max-width:760px;margin:0 auto;padding:5rem 2rem 7rem}
-@media(max-width:700px){.content{padding:3rem 1.6rem 5rem}}
+.content{max-width:760px;margin:0 auto;padding:clamp(3.5rem,7vw,6rem) clamp(1.6rem,5vw,2rem) clamp(5rem,9vw,7rem)}
 
-/* ── SECTION ─────────────────────────────────────────── */
-.sec{margin-bottom:4.5rem}
+.sec{margin-bottom:clamp(3rem,6vw,4.5rem)}
 .sec:last-child{margin-bottom:0}
-.sec-num{font-size:.5rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(62,200,188,.45);margin-bottom:.6rem}
-.sec-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:300;color:rgba(253,250,245,.78);margin-bottom:1.6rem;padding-bottom:.9rem;border-bottom:1px solid rgba(62,200,188,.1);letter-spacing:.01em}
-.sec-title em{font-style:italic;color:var(--teal)}
+.sec-num{font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--brass);margin-bottom:.7rem}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--ink);margin-bottom:1.6rem;padding-bottom:.95rem;border-bottom:1px solid var(--line);letter-spacing:.01em}
+.sec-title em{font-style:italic;color:var(--brass)}
 
-/* ── TEXT ─────────────────────────────────────────────── */
-p{font-size:.9rem;line-height:2.2;color:rgba(253,250,245,.38);margin-bottom:1.2rem;letter-spacing:.01em}
+p{font-size:.9rem;line-height:2.15;color:var(--slate);margin-bottom:1.2rem;letter-spacing:.005em}
 p:last-child{margin-bottom:0}
-strong{color:rgba(253,250,245,.58);font-weight:400}
+strong{color:var(--ink);font-weight:400}
 
-/* ── HIGHLIGHT BOX ───────────────────────────────────── */
-.hl{background:rgba(62,200,188,.04);border-left:2px solid rgba(62,200,188,.25);padding:1.4rem 1.8rem;margin:1.8rem 0}
-.hl p{color:rgba(253,250,245,.45);margin-bottom:0}
+.hl{background:var(--salt);border-left:2px solid var(--brass);padding:1.4rem 1.8rem;margin:1.8rem 0}
+.hl p{color:var(--slate);margin-bottom:0}
 
-/* ── PLACEHOLDER ─────────────────────────────────────── */
-.ph{color:rgba(196,160,106,.6);background:rgba(196,160,106,.06);border:1px dashed rgba(196,160,106,.2);padding:.15rem .55rem;font-size:.85em;font-family:'Outfit',sans-serif;letter-spacing:.01em;border-radius:2px;white-space:nowrap}
+.ph{color:var(--brass);background:rgba(154,125,77,.08);border:1px dashed rgba(154,125,77,.35);padding:.15rem .55rem;font-size:.85em;font-family:'Jost',sans-serif;letter-spacing:.01em;white-space:nowrap}
 
-/* ── DIVIDER ─────────────────────────────────────────── */
-.divider{height:1px;background:linear-gradient(to right,transparent,rgba(255,255,255,.06),transparent);margin:4rem 0}
+.divider{height:1px;background:linear-gradient(to right,transparent,var(--line),transparent);margin:clamp(2.5rem,5vw,4rem) 0}
 
-/* ── FOOTER ──────────────────────────────────────────── */
-footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1px solid rgba(255,255,255,.04)}
-@media(max-width:700px){footer{padding:1.8rem 1.6rem}}
-.fcopy{font-size:.56rem;color:rgba(255,255,255,.12);letter-spacing:.06em}
-.flogo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.2);font-weight:300;margin-bottom:.6rem;letter-spacing:.04em}
-.flogo em{color:rgba(62,200,188,.4);font-style:italic}
-.fback{display:inline-block;margin-top:1.2rem;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(62,200,188,.4);text-decoration:none;transition:color .3s}
-.fback:hover{color:var(--teal)}
+footer{background:var(--marine);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4.5rem);text-align:center}
+.flogo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:rgba(250,247,241,.7);font-weight:400;margin-bottom:.6rem;letter-spacing:.04em}
+.flogo em{color:var(--brass-soft);font-style:italic}
+.fcopy{font-size:.56rem;color:rgba(250,247,241,.32);letter-spacing:.06em}
+.fback{display:inline-block;margin-top:1.2rem;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-soft);text-decoration:none;transition:color .3s}
+.fback:hover{color:var(--salt)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -96,7 +79,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
 
 <div class="content" role="main">
 
-  <!-- 1. VENDITORE -->
   <div class="sec">
     <div class="sec-num">01</div>
     <h2 class="sec-title">Venditore e <em>responsabile</em></h2>
@@ -107,7 +89,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     </div>
   </div>
 
-  <!-- 2. PRODOTTI -->
   <div class="sec">
     <div class="sec-num">02</div>
     <h2 class="sec-title">Oggetto e <em>prodotti</em></h2>
@@ -115,7 +96,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     <p>Le descrizioni indicano con precisione marca, modello, taglia, condizioni e presenza di accessori originali.</p>
   </div>
 
-  <!-- 3. AUTENTICITÀ -->
   <div class="sec">
     <div class="sec-num">03</div>
     <h2 class="sec-title"><em>Autenticità</em></h2>
@@ -123,7 +103,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     <p>In caso di contestazione motivata sull'autenticità, si applica la procedura di reso descritta di seguito.</p>
   </div>
 
-  <!-- 4. PREZZI E PAGAMENTO -->
   <div class="sec">
     <div class="sec-num">04</div>
     <h2 class="sec-title">Prezzi e <em>pagamento</em></h2>
@@ -134,7 +113,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     </div>
   </div>
 
-  <!-- 5. SPEDIZIONE -->
   <div class="sec">
     <div class="sec-num">05</div>
     <h2 class="sec-title">Spedizione e <em>consegna</em></h2>
@@ -142,7 +120,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     <p>I costi di spedizione, se applicabili, sono indicati al checkout. Bluèlle spedisce principalmente in Italia e in Europa.</p>
   </div>
 
-  <!-- 6. DIRITTO DI RECESSO -->
   <div class="sec">
     <div class="sec-num">06</div>
     <h2 class="sec-title">Diritto di <em>recesso</em></h2>
@@ -154,7 +131,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
 
   <div class="divider"></div>
 
-  <!-- 7. LIMITAZIONE DI RESPONSABILITÀ -->
   <div class="sec">
     <div class="sec-num">07</div>
     <h2 class="sec-title">Limitazione di <em>responsabilità</em></h2>
@@ -162,7 +138,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     <p>In caso di prodotto difettoso o non conforme alla descrizione, l'acquirente ha diritto alla restituzione e al rimborso completo.</p>
   </div>
 
-  <!-- 8. DATI PERSONALI E PRIVACY -->
   <div class="sec">
     <div class="sec-num">08</div>
     <h2 class="sec-title">Dati personali e <em>privacy</em></h2>
@@ -174,7 +149,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     </div>
   </div>
 
-  <!-- 9. COOKIE -->
   <div class="sec">
     <div class="sec-num">09</div>
     <h2 class="sec-title"><em>Cookie</em></h2>
@@ -182,7 +156,6 @@ footer{background:var(--dark);padding:2.4rem 4rem;text-align:center;border-top:1
     <p>Le uniche funzionalità attive sono quelle necessarie alla navigazione.</p>
   </div>
 
-  <!-- 10. LEGGE APPLICABILE -->
   <div class="sec">
     <div class="sec-num">10</div>
     <h2 class="sec-title">Legge applicabile e <em>contatti</em></h2>
