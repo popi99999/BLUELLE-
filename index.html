@@ -268,11 +268,14 @@ footer{background:var(--marine);padding:clamp(2.4rem,5vw,3.4rem) clamp(1.6rem,5v
 .morig{font-size:.88rem;color:var(--stone);text-decoration:line-through}
 .msave{font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--line);color:var(--brass);padding:.28rem .8rem}
 .mdiv{height:1px;background:var(--line)}
-.mchips{display:flex;gap:.45rem;flex-wrap:wrap}
-.mchip{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--line);padding:.32rem .9rem;color:var(--stone)}
-.mdesc{font-size:.88rem;color:var(--slate);line-height:2}
-.mwhy{background:var(--shell);padding:1.4rem 1.6rem;border-left:2px solid var(--brass)}
-.mwhy-t{font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--brass);margin-bottom:.9rem}
+.mdesc{font-size:.92rem;color:var(--slate);line-height:1.95}
+.mspecs{display:flex;flex-direction:column;margin:.3rem 0}
+.mspec{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.66rem 0;border-bottom:1px solid var(--line)}
+.mspec:first-child{border-top:1px solid var(--line)}
+.mspec dt{font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);white-space:nowrap}
+.mspec dd{font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:var(--ink);text-align:right;line-height:1.2}
+.mwhy{padding:1.3rem 0 .1rem;border-top:1px solid var(--line)}
+.mwhy-t{font-size:.54rem;letter-spacing:.26em;text-transform:uppercase;color:var(--brass);margin-bottom:1rem}
 .mwhy ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .mwhy li{font-size:.78rem;color:var(--slate);display:flex;gap:.75rem;line-height:1.7}
 .mwhy li::before{content:'';width:4px;height:4px;background:var(--brass);border-radius:50%;flex-shrink:0;margin-top:.55rem}
@@ -633,8 +636,8 @@ footer{background:var(--marine);padding:clamp(2.4rem,5vw,3.4rem) clamp(1.6rem,5v
       <div class="mname" id="mname"></div>
       <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
       <div class="mdiv"></div>
-      <div class="mchips" id="mchips"></div>
       <div class="mdesc" id="mdesc"></div>
+      <dl class="mspecs" id="mspecs"></dl>
       <div class="mwhy"><div class="mwhy-t" data-i="modal_why">Perché acquistare da Bluèlle</div><ul id="mwhy"></ul></div>
       <button class="mbuy" id="mbuy"></button>
       <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
@@ -972,6 +975,14 @@ function render(){
 
 function setFilter(b){curFilter=b;render();}
 
+const SPEC_LBL={
+  it:{brand:'Marca',size:'Taglia',cond:'Condizione',color:'Colore',fit:'Vestibilità'},
+  en:{brand:'Brand',size:'Size',cond:'Condition',color:'Colour',fit:'Fit'},
+  fr:{brand:'Marque',size:'Taille',cond:'État',color:'Couleur',fit:'Coupe'},
+  es:{brand:'Marca',size:'Talla',cond:'Condición',color:'Color',fit:'Corte'},
+  de:{brand:'Marke',size:'Größe',cond:'Zustand',color:'Farbe',fit:'Passform'}
+};
+const BRAND_NAME={gucci:'Gucci',balenciaga:'Balenciaga',enfants:'Enfants Riches Déprimés',erd:'Enfants Riches Déprimés'};
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=T[curLang];
@@ -1005,10 +1016,10 @@ function openM(id){
   }
   const condMap={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
   const condTxt=l[condMap[p.cond]]||p.cond;
-  const chips=[`<div class="mchip">${l.size} ${p.sz}</div>`,`<div class="mchip">${condTxt}</div>`];
-  if(p.color)chips.push(`<div class="mchip">${p.color}</div>`);
-  if(p.fit)chips.push(`<div class="mchip">${p.fit}</div>`);
-  document.getElementById('mchips').innerHTML=chips.join('');
+  const SL=SPEC_LBL[curLang]||SPEC_LBL.it;
+  const colorTxt=p.color?p.color.charAt(0).toUpperCase()+p.color.slice(1):'';
+  const rows=[[SL.brand,BRAND_NAME[p.brand]||p.brand||''],[SL.size,p.sz],[SL.cond,condTxt],[SL.color,colorTxt],[SL.fit,p.fit]];
+  document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>`<div class="mspec"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
   const desc=typeof p.desc==='object'?(p.desc[curLang]||p.desc.it):p.desc;
   const boxNote=p.hasBox?(l.box_note||' Original box included.'):'';
   document.getElementById('mdesc').textContent=desc+(p.hasBox?boxNote:'');
