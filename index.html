@@ -1516,7 +1516,7 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
       intro.style.transition='opacity 1.1s ease';
       intro.style.opacity='0';
       setTimeout(()=>{ intro.style.display='none'; },1100);
-    },700);
+    },1050);
   }
 
   setTimeout(()=>txt?.classList.add('visible'),300);
@@ -1525,7 +1525,7 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
     vid.addEventListener('canplay',()=>vid.classList.add('show'),{once:true});
   }
 
-  setTimeout(exit,3200);
+  setTimeout(exit,5000);
   intro.addEventListener('click',exit);
 })();
 
