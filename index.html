@@ -1034,7 +1034,10 @@ function render(){
     d.className='pc'+(p.sold?' sold':'');
     const imgs=p.images||[];
     const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img src="${imgs[0]||''}" alt="${p.name}" ${imgErr}></div><div class="flip-back"><img src="${imgs[1]||imgs[0]||''}" alt="${p.name} retro" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
+    const sa=(curWorld==='lui')?'src':'data-src';
+    const front=imgs[0]?`${sa}="${imgs[0]}"`:'';
+    const back=(imgs[1]||imgs[0])?`${sa}="${imgs[1]||imgs[0]}"`:'';
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){
       d.addEventListener('click',function(){openM(p.id);});
     }
@@ -1054,8 +1057,9 @@ function enterWorld(w){
   curWorld='lui';
   const sec=document.getElementById('prodotti');
   sec.classList.remove('locked');
+  document.querySelectorAll('#grid img[data-src]').forEach(im=>{im.src=im.dataset.src;im.removeAttribute('data-src');});
   document.querySelectorAll('#prodotti .reveal').forEach(el=>el.classList.add('visible'));
-  requestAnimationFrame(()=>sec.scrollIntoView({behavior:'smooth',block:'start'}));
+  requestAnimationFrame(()=>{sec.scrollIntoView({behavior:'smooth',block:'start'});window.dispatchEvent(new Event('resize'));});
 }
 
 const SPEC_LBL={
@@ -1458,29 +1462,34 @@ function buildFaq(){
 }
 function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
 
-// NAV SCROLL
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('s',scrollY>80);
-});
-
-// NARRATIVE PROGRESS LINE
+// NAV + NARRATIVE PROGRESS LINE (single rAF-throttled scroll handler, no per-scroll layout reads)
 (function(){
+  const nav=document.getElementById('nav');
   const line=document.getElementById('pgline');
   const fill=document.getElementById('pgfill');
-  if(!line||!fill)return;
-  function updPg(){
+  let sTop=0,eBottom=0,ticking=false;
+  function measure(){
     const start=document.getElementById('about');
     const end=document.getElementById('contatti');
     if(!start||!end)return;
-    const sTop=start.offsetTop;
-    const eBottom=end.offsetTop+end.offsetHeight;
-    const scrollMid=window.scrollY+window.innerHeight*.5;
-    const pct=Math.min(Math.max((scrollMid-sTop)/(eBottom-sTop)*100,0),100);
-    fill.style.height=pct+'%';
-    line.classList.toggle('vis',window.scrollY>window.innerHeight*.4);
+    sTop=start.offsetTop;
+    eBottom=end.offsetTop+end.offsetHeight;
   }
-  window.addEventListener('scroll',updPg,{passive:true});
-  updPg();
+  function update(){
+    ticking=false;
+    const y=window.scrollY;
+    if(nav)nav.classList.toggle('s',y>80);
+    if(line&&fill&&eBottom>sTop){
+      const scrollMid=y+window.innerHeight*.5;
+      const pct=Math.min(Math.max((scrollMid-sTop)/(eBottom-sTop)*100,0),100);
+      fill.style.height=pct+'%';
+      line.classList.toggle('vis',y>window.innerHeight*.4);
+    }
+  }
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(update);ticking=true;}},{passive:true});
+  window.addEventListener('resize',()=>{measure();update();},{passive:true});
+  measure();update();
+  setTimeout(()=>{measure();update();},800);
 })();
 
 // INTRO
