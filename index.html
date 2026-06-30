@@ -310,8 +310,31 @@ footer{background:linear-gradient(165deg,#0c9b93 0%,#0a7d77 100%);padding:clamp(
 .fpay .pay-icon:hover{opacity:1;transform:translateY(-1px)}
 
 /* ── MODAL — PRODUCT ─────────────────────────────────── */
-.mov{position:fixed;inset:0;background:rgba(18,38,35,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s;padding:1.2rem}
+.mov{position:fixed;inset:0;background:var(--salt);z-index:500;opacity:0;pointer-events:none;transition:opacity .4s;overflow-y:auto;overscroll-behavior:contain}
 .mov.open{opacity:1;pointer-events:all}
+.ppage{max-width:1180px;margin:0 auto;padding:clamp(1rem,3vw,2rem) clamp(1.2rem,5vw,4rem) clamp(3rem,7vw,5rem);opacity:0;transform:translateY(14px);transition:transform .55s cubic-bezier(.22,1,.36,1),opacity .55s}
+.mov.open .ppage{opacity:1;transform:none}
+.pback{position:sticky;top:.8rem;display:inline-flex;align-items:center;background:rgba(255,255,255,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:40px;padding:.55rem 1.1rem;font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);cursor:pointer;margin-bottom:1.4rem;transition:color .3s,border-color .3s;z-index:20}
+.pback:hover{color:var(--tiff-d);border-color:var(--tiff)}
+.ptop{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(1.4rem,4vw,3.5rem);align-items:start}
+@media(max-width:860px){.ptop{grid-template-columns:1fr;gap:1.6rem}}
+.pgallery{display:flex;flex-direction:column;gap:.7rem}
+.pgallery img{width:100%;display:block;background:var(--sand);aspect-ratio:3/4;object-fit:cover}
+@media(max-width:860px){.pgallery{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;gap:.5rem}.pgallery img{flex:0 0 82%;scroll-snap-align:center}}
+.pinfo-col{position:sticky;top:clamp(1rem,3vw,2rem);display:flex;flex-direction:column;gap:1.05rem}
+@media(max-width:860px){.pinfo-col{position:static}}
+.pbrand{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--tiff-d)}
+.psecs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,3vw,2.4rem);margin-top:clamp(2.8rem,6vw,4.5rem);border-top:1px solid var(--line);padding-top:clamp(2.4rem,5vw,3.4rem)}
+@media(max-width:720px){.psecs{grid-template-columns:1fr;gap:1.6rem;text-align:center}}
+.psec-ic{font-size:1.15rem;color:var(--tiff);margin-bottom:.6rem}
+.psec h4{font-family:'Playfair Display',serif;font-size:1.12rem;font-weight:500;color:var(--ink);margin-bottom:.5rem}
+.psec p{font-size:.84rem;line-height:1.9;color:var(--slate)}
+.prelated{margin-top:clamp(2.8rem,6vw,4.5rem)}
+.prel-head{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.6vw,2rem);font-weight:500;color:var(--ink);text-align:center;margin-bottom:clamp(1.6rem,3vw,2.4rem)}
+.prel-head em{font-style:italic;color:var(--tiff)}
+.prel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(1rem,2.5vw,1.8rem)}
+@media(max-width:720px){.prel-grid{grid-template-columns:1fr 1fr}}
+.prel-grid .pc{cursor:pointer}
 .modal{background:var(--salt);max-width:1000px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;overflow:hidden;transform:translateY(20px) scale(.99);transition:transform .6s cubic-bezier(.22,1,.36,1);max-height:92vh;position:relative}
 .mov.open .modal{transform:translateY(0) scale(1)}
 @media(max-width:720px){.modal{grid-template-columns:1fr;overflow-y:auto;max-height:90vh}}
@@ -728,21 +751,21 @@ footer{background:linear-gradient(165deg,#0c9b93 0%,#0a7d77 100%);padding:clamp(
 </footer>
 
 <!-- MODAL PRODOTTO -->
-<div class="mov" id="mov" onclick="if(event.target===this)closeM()">
-  <div class="modal">
-    <button class="mclose" onclick="closeM()" aria-label="Chiudi">✕</button>
-    <div class="mimg" id="mimg"><span class="mimg-emoji" id="memoji"></span></div>
-    <div class="mbody">
-      <div class="mname" id="mname"></div>
-      <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
-      <div class="mdiv"></div>
-      <div class="mdesc" id="mdesc"></div>
-      <dl class="mspecs" id="mspecs"></dl>
-      <div class="mcta">
-      <div class="mtrust" id="mtrust"></div>
-      <button class="mbuy" id="mbuy"></button>
-      <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
-      <div class="mpay" id="mpay">
+<div class="mov" id="mov">
+  <div class="ppage">
+    <button class="pback" onclick="closeM()" aria-label="Torna alla collezione">&#8592;&nbsp; Collezione</button>
+    <div class="ptop">
+      <div class="pgallery" id="mimg"></div>
+      <aside class="pinfo-col">
+        <div class="pbrand" id="mbrand"></div>
+        <div class="mname" id="mname"></div>
+        <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+        <dl class="mspecs" id="mspecs"></dl>
+        <button class="mbuy" id="mbuy"></button>
+        <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
+        <div class="mtrust" id="mtrust"></div>
+        <div class="mdesc" id="mdesc"></div>
+        <div class="mpay" id="mpay">
         <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
         <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
         <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
@@ -751,8 +774,17 @@ footer{background:linear-gradient(165deg,#0c9b93 0%,#0a7d77 100%);padding:clamp(
         <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
         <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
         <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
-      </div>
-      </div>
+        </div>
+      </aside>
+    </div>
+    <div class="psecs">
+      <div class="psec"><div class="psec-ic">&#10003;</div><h4>Autenticit&agrave; garantita</h4><p>Ogni capo &egrave; verificato personalmente e dal sistema IRIS&reg; prima della vendita: etichette, cuciture, materiali, accessori.</p></div>
+      <div class="psec"><div class="psec-ic">&#8599;</div><h4>Spedizione tracciata</h4><p>Standard 3&ndash;5 giorni lavorativi &middot; Express 1&ndash;2. Imballaggio curato e codice di tracciamento via email.</p></div>
+      <div class="psec"><div class="psec-ic">&#10022;</div><h4>Pezzo unico</h4><p>Selezionato a mano, nuovo o come nuovo. Una volta venduto non torna: &egrave; un esemplare solo.</p></div>
+    </div>
+    <div class="prelated" id="mrelblock">
+      <div class="prel-head">Potrebbe <em>piacerti</em></div>
+      <div class="prel-grid" id="mrelated"></div>
     </div>
   </div>
 </div>
@@ -1137,22 +1169,9 @@ function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=T[curLang];
   const mimg=document.getElementById('mimg');
-  mimg.style.background='';
   const imgs=p.images||[];
-  let gi=0;
-  function buildGallery(){
-    mimg.innerHTML=`
-      <img class="gal-img" src="${imgs[gi]}" alt="${p.name}">
-      ${imgs.length>1?`<button class="gal-arr gal-prev" onclick="galMove(-1)">&#8592;</button><button class="gal-arr gal-next" onclick="galMove(1)">&#8594;</button>`:''}
-      ${imgs.length>1?`<div class="gal-dots">${imgs.map((_,i)=>`<span class="gal-dot${i===gi?' on':''}" onclick="galGo(${i})"></span>`).join('')}</div>`:''}
-    `;
-  }
-  window.galMove=function(d){gi=(gi+d+imgs.length)%imgs.length;buildGallery();};
-  window.galGo=function(i){gi=i;buildGallery();};
-  buildGallery();
-  let tx=0;
-  mimg.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-  mimg.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)galMove(dx<0?1:-1);},{passive:true});
+  mimg.innerHTML=imgs.map(s=>`<img src="${s}" alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.opacity='.15'">`).join('');
+  const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
   document.getElementById('mname').textContent=translateName(p.name,curLang);
   if(p.price===0){
     document.getElementById('mprice').textContent=l.price_req||'Su richiesta';
@@ -1180,10 +1199,40 @@ function openM(id){
   btn.onclick=p.sold?null:()=>window.open(p.stripe,'_blank');
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
-  document.getElementById('mov').classList.add('open');
+  buildRelated(p);
+  const mov=document.getElementById('mov');
+  mov.classList.add('open');
   document.body.style.overflow='hidden';
+  mov.scrollTop=0;
+  if(location.hash!=='#p'+id){history.pushState(null,'','#p'+id);}
 }
-function closeM(){document.getElementById('mov').classList.remove('open');document.body.style.overflow='';}
+function relatedCard(p){
+  const l=T[curLang];const imgs=p.images||[];
+  const d=document.createElement('div');d.className='pc'+(p.sold?' sold':'');
+  const front=imgs[0]?`src="${imgs[0]}"`:'';
+  d.innerHTML=`<div class="pi"><img ${front} alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.style.opacity='.15'">${p.sold?`<div class="ptag sold">${l.sold}</div>`:''}</div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="pfooter"><span class="pprice">${p.price===0?(l.price_req||'—'):fmt(p.price)}</span>${p.orig>0?` <span class="porig">${fmt(p.orig)}</span>`:''}</div></div>`;
+  d.addEventListener('click',()=>openM(p.id));
+  return d;
+}
+function buildRelated(p){
+  const grid=document.getElementById('mrelated');const box=document.getElementById('mrelblock');if(!grid)return;
+  let rel=prods.filter(x=>x.id!==p.id&&(x.brand===p.brand||(x.brand&&p.brand&&(x.brand.startsWith(p.brand)||p.brand.startsWith(x.brand)))));
+  rel.sort((a,b)=>(a.sold?1:0)-(b.sold?1:0));
+  if(rel.length<4){rel=rel.concat(prods.filter(x=>x.id!==p.id&&rel.indexOf(x)<0));}
+  rel=rel.slice(0,4);
+  grid.innerHTML='';rel.forEach(x=>grid.appendChild(relatedCard(x)));
+  if(box)box.style.display=rel.length?'':'none';
+}
+function closeM(){
+  document.getElementById('mov').classList.remove('open');
+  document.body.style.overflow='';
+  if(/^#p\d+$/.test(location.hash||'')){history.replaceState(null,'',location.pathname+location.search);}
+}
+window.addEventListener('popstate',function(){
+  const m=(location.hash||'').match(/^#p(\d+)$/);
+  if(m&&prods.find(x=>x.id===+m[1])){openM(+m[1]);}
+  else{document.getElementById('mov').classList.remove('open');document.body.style.overflow='';}
+});
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){disposeGlobe();document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
 
