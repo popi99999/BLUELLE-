@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bluèlle seleziona e autentica capi luxury second hand. Autenticità garantita, prezzi onesti, spedizione tracciata in tutta Europa.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bluèlle — Capi Luxury Selezionati">
+<meta property="og:description" content="Capi firmati selezionati e autenticati uno per uno. Acquisto sicuro via Stripe, spedizione tracciata.">
+<meta property="og:url" content="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Bluèlle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
+<meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>FAQ — Bluèlle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<!-- TOPBAR -->
+<div id="topbar">
+  <select class="tb-sel" id="currSel" onchange="setCurr(this.value)" aria-label="Valuta">
+    <option value="EUR">€ EUR</option>
+    <option value="USD">$ USD</option>
+    <option value="GBP">£ GBP</option>
+    <option value="CHF">₣ CHF</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="CNY">¥ CNY</option>
+  </select>
+  <span class="tb-sep">/</span>
+  <select class="tb-sel" id="langSel" onchange="setLang(this.value)" aria-label="Lingua">
+    <option value="it">IT</option>
+    <option value="en">EN</option>
+    <option value="fr">FR</option>
+    <option value="es">ES</option>
+    <option value="de">DE</option>
+  </select>
+</div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navigazione principale">
+  <a href="index.html" class="nlogo"><em>Blu</em>elle</a>
+  <ul class="nlinks">
+    <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
+    <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
+  <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
+  <a href="faq.html" onclick="closeMNav()">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+</div>
+<main role="main">
+<div class="container" style="padding-top:clamp(5.5rem,9vw,7rem)"><div style="font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)"><a href="index.html" style="color:var(--stone);text-decoration:none">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">FAQ</span></div></div>
+<section id="faq">
+  <div class="container">
+    <div class="sl reveal" data-i="faq_eye">Hai domande?</div>
+    <h2 class="sec-title reveal delay-1" data-i="faq_title">Domande <em>frequenti</em></h2>
+    <div class="faq-list" id="faqList"></div>
+  </div>
+</section>
+
+<!-- CONTATTI -->
+</main>
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="flogo"><em>Blu</em>elle</div>
+  <div class="flinks">
+    <a href="termini.html">Termini &amp; Privacy</a>
+    <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
+  </div>
+  <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
+  <div class="fpay">
+    <span class="fpay-label">Pagamenti accettati</span>
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

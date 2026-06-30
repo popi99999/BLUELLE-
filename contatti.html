@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bluèlle seleziona e autentica capi luxury second hand. Autenticità garantita, prezzi onesti, spedizione tracciata in tutta Europa.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bluèlle — Capi Luxury Selezionati">
+<meta property="og:description" content="Capi firmati selezionati e autenticati uno per uno. Acquisto sicuro via Stripe, spedizione tracciata.">
+<meta property="og:url" content="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Bluèlle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
+<meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Contatti — Bluèlle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<!-- TOPBAR -->
+<div id="topbar">
+  <select class="tb-sel" id="currSel" onchange="setCurr(this.value)" aria-label="Valuta">
+    <option value="EUR">€ EUR</option>
+    <option value="USD">$ USD</option>
+    <option value="GBP">£ GBP</option>
+    <option value="CHF">₣ CHF</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="CNY">¥ CNY</option>
+  </select>
+  <span class="tb-sep">/</span>
+  <select class="tb-sel" id="langSel" onchange="setLang(this.value)" aria-label="Lingua">
+    <option value="it">IT</option>
+    <option value="en">EN</option>
+    <option value="fr">FR</option>
+    <option value="es">ES</option>
+    <option value="de">DE</option>
+  </select>
+</div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navigazione principale">
+  <a href="index.html" class="nlogo"><em>Blu</em>elle</a>
+  <ul class="nlinks">
+    <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
+    <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
+  <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
+  <a href="faq.html" onclick="closeMNav()">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+</div>
+<main role="main">
+<div style="height:clamp(5rem,8vw,6rem)"></div>
+<section id="contatti">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="sl center reveal" data-i="contact_eye">Scrivici</div>
+      <h2 class="sec-title reveal delay-1">Mettiti in <em>contatto</em></h2>
+      <p class="sec-intro" style="margin-inline:auto">Domande su un capo, sulla taglia o sull'autenticità? Lasciaci due righe: rispondiamo personalmente, di solito in giornata.</p>
+    </div>
+    <form id="contactForm" class="cform reveal delay-1" novalidate>
+      <div class="cf-row">
+        <div class="cf-field"><label class="cf-label">Nome</label><input class="cf-in" type="text" name="nome" autocomplete="given-name" required></div>
+        <div class="cf-field"><label class="cf-label">Cognome</label><input class="cf-in" type="text" name="cognome" autocomplete="family-name" required></div>
+      </div>
+      <div class="cf-row">
+        <div class="cf-field"><label class="cf-label">Email</label><input class="cf-in" type="email" name="email" autocomplete="email" required></div>
+        <div class="cf-field"><label class="cf-label">Telefono <span class="cf-opt">&middot; facoltativo</span></label><input class="cf-in" type="tel" name="telefono" autocomplete="tel"></div>
+      </div>
+      <div class="cf-field"><label class="cf-label">Messaggio</label><textarea class="cf-in cf-area" name="messaggio" rows="4" required></textarea></div>
+      <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Bluelle">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <button type="submit" class="cf-submit" id="cfSubmit">Invia messaggio</button>
+      <p class="cf-privacy">Inviando il modulo accetti la nostra <a href="termini.html">Privacy</a>. Niente spam, promesso.</p>
+    </form>
+    <div class="cf-done" id="cfDone" hidden>
+      <div class="cf-done-ic">&#10003;</div>
+      <p class="cf-done-t">Grazie — ti <em>risponderemo</em> a breve.</p>
+    </div>
+    <div class="ci reveal delay-1" style="margin-top:clamp(2.6rem,5vw,4rem)">
+      <div class="ci-line"></div>
+      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" class="iglink">
+        <svg class="igico" width="40" height="40" viewBox="0 0 44 44" fill="none"><rect x="3" y="3" width="38" height="38" rx="10" stroke="#283733" stroke-width="1.1"/><circle cx="22" cy="22" r="9" stroke="#283733" stroke-width="1.1"/><circle cx="33" cy="11" r="2.4" fill="#283733"/></svg>
+        <span class="igat">oppure scrivici su</span>
+        <span class="ighandle">@bluelle._</span>
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="flogo"><em>Blu</em>elle</div>
+  <div class="flinks">
+    <a href="termini.html">Termini &amp; Privacy</a>
+    <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
+  </div>
+  <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
+  <div class="fpay">
+    <span class="fpay-label">Pagamenti accettati</span>
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+  </div>
+</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>

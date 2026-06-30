@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bluèlle seleziona e autentica capi luxury second hand. Autenticità garantita, prezzi onesti, spedizione tracciata in tutta Europa.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bluèlle — Capi Luxury Selezionati">
+<meta property="og:description" content="Capi firmati selezionati e autenticati uno per uno. Acquisto sicuro via Stripe, spedizione tracciata.">
+<meta property="og:url" content="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Bluèlle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
+<meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Chi siamo — Bluèlle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<!-- TOPBAR -->
+<div id="topbar">
+  <select class="tb-sel" id="currSel" onchange="setCurr(this.value)" aria-label="Valuta">
+    <option value="EUR">€ EUR</option>
+    <option value="USD">$ USD</option>
+    <option value="GBP">£ GBP</option>
+    <option value="CHF">₣ CHF</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="CNY">¥ CNY</option>
+  </select>
+  <span class="tb-sep">/</span>
+  <select class="tb-sel" id="langSel" onchange="setLang(this.value)" aria-label="Lingua">
+    <option value="it">IT</option>
+    <option value="en">EN</option>
+    <option value="fr">FR</option>
+    <option value="es">ES</option>
+    <option value="de">DE</option>
+  </select>
+</div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navigazione principale">
+  <a href="index.html" class="nlogo"><em>Blu</em>elle</a>
+  <ul class="nlinks">
+    <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
+    <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
+  <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
+  <a href="faq.html" onclick="closeMNav()">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+</div>
+<main role="main">
+<div class="container" style="padding-top:clamp(5.5rem,9vw,7rem)"><div style="font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)"><a href="index.html" style="color:var(--stone);text-decoration:none">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Chi siamo</span></div></div>
+<section id="about">
+  <div class="container">
+    <div class="about-wrap">
+      <div class="sl reveal" data-i="about_eye">Chi siamo</div>
+      <h2 class="sec-title reveal delay-1" data-i="about_title" style="margin-bottom:2.4rem">Second hand.<br><em>First class.</em></h2>
+      <blockquote class="about-pull reveal delay-2" id="abt-quote" data-i="about_story_quote">"Ho sempre cercato il bello con cura. Il mare mi ha insegnato a riconoscerlo."</blockquote>
+      <p class="about-body reveal delay-2" id="abt-body" data-i="about_story">Bluèlle nasce da un occhio allenato alla selezione — dalla capacità di distinguere ciò che dura da ciò che passa. Ogni capo che trovi qui è stato cercato, toccato e valutato da me. Solo autenticità. Solo prezzi che hanno senso.</p>
+      <div id="abt-mission" class="reveal delay-3">
+        <div class="about-mission" data-i="about_mission">"Il lusso non dovrebbe essere un privilegio. Dovrebbe essere una scelta consapevole."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALORE E RESPONSABILITÀ -->
+<section id="authsec">
+  <div class="container">
+    <div class="sl center reveal" data-i="auth_eye">Autenticità garantita</div>
+    <div id="auth-word" class="auth-word reveal delay-1" data-i="auth_h2">IRIS<sup class="iris-reg">®</sup></div>
+    <p class="iris-tag reveal delay-2" data-i="iris_tag">Il nostro sistema di autenticazione proprietario. Ogni capo è verificato dai nostri esperti e dal software IRIS.</p>
+    <div class="iris-steps reveal delay-2">
+      <div class="iris-step">
+        <div class="iris-step-n">01</div>
+        <div class="iris-step-t" data-i="iris_s1t">Ispezione fisica</div>
+        <div class="iris-step-p" data-i="iris_s1p">I nostri esperti esaminano cuciture, etichette, materiali e accessori.</div>
+      </div>
+      <div class="iris-step">
+        <div class="iris-step-n">02</div>
+        <div class="iris-step-t" data-i="iris_s2t">Analisi IRIS</div>
+        <div class="iris-step-p" data-i="iris_s2p">Il software confronta i dettagli del capo con il nostro archivio di riferimento.</div>
+      </div>
+      <div class="iris-step">
+        <div class="iris-step-n">03</div>
+        <div class="iris-step-t" data-i="iris_s3t">Certificato</div>
+        <div class="iris-step-p" data-i="iris_s3p">Solo i capi che superano entrambi i controlli vengono messi in vendita.</div>
+      </div>
+    </div>
+    <p id="auth-sub" class="auth-sub reveal delay-2" data-i="auth_sub">Non vendo ciò che non indosserei io stesso.</p>
+  </div>
+</section>
+
+<!-- CHI SIAMO -->
+<section id="savesec">
+  <div class="container">
+    <div class="value-grid">
+      <div class="sl reveal" data-i="save_eye">Il lusso che conviene</div>
+      <div class="value-lead reveal delay-1"><span data-i="save_h2">Risparmia.</span> <em data-i="save_h2e">Senza compromessi.</em></div>
+      <p class="value-body reveal delay-1" data-i="save_p">Ogni capo che compri da Bluèlle ti fa risparmiare fino al 65% rispetto al prezzo in boutique. Lo stesso lusso, la stessa qualità — a un prezzo che ha senso.</p>
+    </div>
+    <div class="value-rule reveal delay-2" style="margin-top:3.2rem"></div>
+    <div class="value-grid reveal delay-2" style="margin-top:3.2rem">
+      <div class="value-figs">
+        <div class="value-fig">
+          <div class="value-fig-n">−65%</div>
+          <div class="value-fig-l" data-i="save_stat1_lbl">rispetto al prezzo retail</div>
+        </div>
+        <div class="value-fig">
+          <div class="value-fig-n">100%</div>
+          <div class="value-fig-l" data-i="save_stat2_lbl">autenticità verificata</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VENDI / AFFIDA -->
+<section id="steps">
+  <div class="container">
+    <div class="sl reveal" data-i="how_eye">Vuoi vendere o affidarci un capo?</div>
+    <h2 class="sec-title reveal delay-1" data-i="how_title">Come <em>funziona</em></h2>
+    <div class="sgrid">
+      <div class="step reveal">
+        <div class="snum">01</div>
+        <div class="stit" data-i="s01t">Scrivici</div>
+        <p class="stxt" data-i="s01p">Mandaci foto e dettagli del capo su Instagram. Ti rispondiamo subito.</p>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="snum">02</div>
+        <div class="stit" data-i="s02t">Valutiamo</div>
+        <p class="stxt" data-i="s02p">Autentichiamo il capo con IRIS e definiamo insieme il prezzo giusto.</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="snum">03</div>
+        <div class="stit" data-i="s03t">Vendiamo</div>
+        <p class="stxt" data-i="s03p">Pubblichiamo il capo e lo presentiamo alla nostra community.</p>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="snum">04</div>
+        <div class="stit" data-i="s04t">Ti paghiamo</div>
+        <p class="stxt" data-i="s04p">A vendita conclusa ricevi il pagamento. Semplice e sicuro.</p>
+      </div>
+    </div>
+    <div class="reveal delay-2" style="text-align:center;margin-top:clamp(2.6rem,5vw,3.8rem)">
+      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" class="hcta" style="border-color:var(--salt);color:var(--salt)" data-i="sell_cta">Affida il tuo capo</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+</main>
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="flogo"><em>Blu</em>elle</div>
+  <div class="flinks">
+    <a href="termini.html">Termini &amp; Privacy</a>
+    <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
+  </div>
+  <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
+  <div class="fpay">
+    <span class="fpay-label">Pagamenti accettati</span>
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+  </div>
+</footer>
+<!-- PROGRESS LINE (hidden) -->
+<div id="pgline"><div id="pgfill"></div></div>
+<script src="assets/app.js"></script>
+</body>
+</html>

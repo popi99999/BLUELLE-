@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Bluèlle seleziona e autentica capi luxury second hand. Autenticità garantita, prezzi onesti, spedizione tracciata in tutta Europa.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bluèlle — Capi Luxury Selezionati">
+<meta property="og:description" content="Capi firmati selezionati e autenticati uno per uno. Acquisto sicuro via Stripe, spedizione tracciata.">
+<meta property="og:url" content="https://popi99999.github.io/BLUELLE-/">
+<meta property="og:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Bluèlle">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
+<meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
+<meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Collezione — Bluèlle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<!-- TOPBAR -->
+<div id="topbar">
+  <select class="tb-sel" id="currSel" onchange="setCurr(this.value)" aria-label="Valuta">
+    <option value="EUR">€ EUR</option>
+    <option value="USD">$ USD</option>
+    <option value="GBP">£ GBP</option>
+    <option value="CHF">₣ CHF</option>
+    <option value="JPY">¥ JPY</option>
+    <option value="CNY">¥ CNY</option>
+  </select>
+  <span class="tb-sep">/</span>
+  <select class="tb-sel" id="langSel" onchange="setLang(this.value)" aria-label="Lingua">
+    <option value="it">IT</option>
+    <option value="en">EN</option>
+    <option value="fr">FR</option>
+    <option value="es">ES</option>
+    <option value="de">DE</option>
+  </select>
+</div>
+
+<!-- NAV -->
+<nav id="nav" role="navigation" aria-label="Navigazione principale">
+  <a href="index.html" class="nlogo"><em>Blu</em>elle</a>
+  <ul class="nlinks">
+    <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
+    <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mnav" id="mnav">
+  <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
+  <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
+  <a href="faq.html" onclick="closeMNav()">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+</div>
+<main role="main">
+<div class="container" style="padding-top:clamp(5.5rem,9vw,7rem)"><div style="font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)"><a href="index.html" style="color:var(--stone);text-decoration:none">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Collezione</span></div></div>
+<section id="prodotti">
+  <div class="container">
+    <div class="ph reveal">
+      <div>
+        <div class="sl" data-i="coll_eye">Disponibile ora</div>
+        <h2 class="sec-title" data-i="coll_title">La <em>collezione</em></h2>
+        <p class="sec-intro">Una selezione ristretta di capi luxury autentici, scelti e verificati uno a uno. Ogni pezzo è unico: quando non c'è più, non torna.</p>
+      </div>
+    </div>
+    <div class="shopbar reveal">
+      <div class="brow" id="brandPills"></div>
+      <button class="filtoggle" id="filToggle" type="button" aria-expanded="false" onclick="toggleFilters()"><span>Cerca e filtra</span><svg class="filchev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="shopadv" id="shopadv" hidden>
+        <div class="searchwrap"><svg class="sicon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Cerca un capo o un brand…" autocomplete="off"></div>
+        <div class="brow brow2"><div class="fgroup" id="sizePills"></div><select id="sortSel" class="sortsel"><option value="feat">In evidenza</option><option value="new">Novità</option><option value="pasc">Prezzo ↑</option><option value="pdesc">Prezzo ↓</option></select></div>
+        <div class="shopmeta"><span id="resCount"></span><label class="avt"><input type="checkbox" id="availOnly"> Solo disponibili</label></div>
+      </div>
+    </div>
+    <div class="pgrid" id="grid" aria-label="Collezione prodotti"></div>
+    <div id="noRes" class="nores">Nessun capo trovato. Prova a togliere qualche filtro.</div>
+  </div>
+</section>
+
+<!-- AUTENTICO -->
+</main>
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="flogo"><em>Blu</em>elle</div>
+  <div class="flinks">
+    <a href="termini.html">Termini &amp; Privacy</a>
+    <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
+  </div>
+  <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
+  <div class="fpay">
+    <span class="fpay-label">Pagamenti accettati</span>
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+    <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+  </div>
+</footer>
+<!-- MODAL PRODOTTO -->
+<div class="mov" id="mov">
+  <div class="ppage">
+    <button class="pback" onclick="closeM()" aria-label="Torna alla collezione">&#8592;&nbsp; Collezione</button>
+    <div class="ptop">
+      <div class="pgallery" id="mimg"></div>
+      <aside class="pinfo-col">
+        <div class="pbrand" id="mbrand"></div>
+        <div class="mname" id="mname"></div>
+        <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+        <dl class="mspecs" id="mspecs"></dl>
+        <button class="mbuy" id="mbuy"></button>
+        <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
+        <div class="mtrust" id="mtrust"></div>
+        <div class="mdesc" id="mdesc"></div>
+        <div class="mpay" id="mpay">
+        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+        <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+        </div>
+      </aside>
+    </div>
+    <div class="psecs">
+      <div class="psec"><div class="psec-ic">&#10003;</div><h4>Autenticit&agrave; garantita</h4><p>Ogni capo &egrave; verificato personalmente e dal sistema IRIS&reg; prima della vendita: etichette, cuciture, materiali, accessori.</p></div>
+      <div class="psec"><div class="psec-ic">&#8599;</div><h4>Spedizione tracciata</h4><p>Standard 3&ndash;5 giorni lavorativi &middot; Express 1&ndash;2. Imballaggio curato e codice di tracciamento via email.</p></div>
+      <div class="psec"><div class="psec-ic">&#10022;</div><h4>Pezzo unico</h4><p>Selezionato a mano, nuovo o come nuovo. Una volta venduto non torna: &egrave; un esemplare solo.</p></div>
+    </div>
+    <div class="prelated" id="mrelblock">
+      <div class="prel-head">Potrebbe <em>piacerti</em></div>
+      <div class="prel-grid" id="mrelated"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHECKOUT -->
+<div class="ckov" id="ckov" onclick="if(event.target===this)closeCheckout()">
+  <div class="ckbox">
+    <button class="mclose" onclick="closeCheckout()" style="position:absolute;top:.9rem;right:.9rem" aria-label="Chiudi">✕</button>
+    <div class="sl" data-ck="ck_eye">Completa l'acquisto</div>
+    <h3 class="ck-title" data-ck="ck_title">I tuoi <em>dati</em></h3>
+    <div class="ck-product" id="ckProduct"></div>
+    <form id="ckForm" autocomplete="on" novalidate>
+      <div class="ck-row">
+        <div class="ck-field">
+          <label class="ck-label" data-ck="ck_name">Nome</label>
+          <input class="ck-in" id="ckNome" name="given-name" autocomplete="given-name" required>
+        </div>
+        <div class="ck-field">
+          <label class="ck-label" data-ck="ck_surname">Cognome</label>
+          <input class="ck-in" id="ckCognome" name="family-name" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label">Email</label>
+        <input class="ck-in" id="ckEmail" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_phone">Telefono</label>
+        <input class="ck-in" id="ckTel" name="tel" type="tel" autocomplete="tel" required>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_address">Indirizzo</label>
+        <input class="ck-in" id="ckAddr" name="street-address" autocomplete="street-address" placeholder="Via, numero civico" required>
+      </div>
+      <div class="ck-row">
+        <div class="ck-field" style="flex:2">
+          <label class="ck-label" data-ck="ck_city">Città</label>
+          <input class="ck-in" id="ckCity" name="city" autocomplete="address-level2" required>
+        </div>
+        <div class="ck-field" style="flex:1">
+          <label class="ck-label">CAP</label>
+          <input class="ck-in" id="ckCap" name="postal-code" autocomplete="postal-code" required>
+        </div>
+        <div class="ck-field" style="flex:1">
+          <label class="ck-label" data-ck="ck_province">Provincia</label>
+          <input class="ck-in" id="ckProv" name="address-level1" autocomplete="address-level1">
+        </div>
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_country">Paese</label>
+        <input class="ck-in" id="ckCountry" name="country" autocomplete="country-name" value="Italia" oninput="updateShipping()">
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" data-ck="ck_ship_zone">Zona spedizione</label>
+        <select class="ck-in ck-select" id="ckShipZone" onchange="updateShipping()" required>
+          <option value="it" data-ck-opt="ck_zone_it">Italia — €10</option>
+          <option value="eu" data-ck-opt="ck_zone_eu">Europa — €15</option>
+          <option value="world" data-ck-opt="ck_zone_world">Estero — €25</option>
+        </select>
+      </div>
+      <div class="ck-summary" id="ckSummary"></div>
+      <div class="ck-err" id="ckErr"></div>
+      <button type="submit" class="ck-submit" id="ckSubmit" data-ck="ck_pay">Procedi al pagamento</button>
+      <div class="ck-secure" data-ck="ck_secure">Pagamento sicuro via Stripe</div>
+    </form>
+  </div>
+</div>
+<!-- PROGRESS LINE (hidden) -->
+<div id="pgline"><div id="pgfill"></div></div>
+<script src="assets/app.js"></script>
+</body>
+</html>
