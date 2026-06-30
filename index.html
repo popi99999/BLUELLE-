@@ -215,6 +215,15 @@ nav.s{background:rgba(240,234,223,.9);backdrop-filter:blur(10px) saturate(1.1);-
 .sortsel{font-family:'Jost',sans-serif;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);border:1px solid var(--line);background:var(--cream);padding:.45rem 1.7rem .45rem .85rem;border-radius:30px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236f685b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center}
 .shopmeta{display:flex;justify-content:center;align-items:center;gap:1.5rem;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--stone);margin-top:.3rem}
 .avt{display:inline-flex;align-items:center;gap:.4rem;cursor:pointer}
+.filtoggle{display:inline-flex;align-items:center;gap:.5rem;margin:.3rem auto 0;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;color:var(--stone);transition:color .3s}
+.filtoggle:hover{color:var(--ink)}
+.filchev{transition:transform .35s}
+.filtoggle.open .filchev{transform:rotate(180deg)}
+.shopadv{display:flex;flex-direction:column;gap:1rem;margin-top:.5rem}
+.shopadv[hidden]{display:none}
+#prodotti .ph{justify-content:center;text-align:center}
+#prodotti .sl{justify-content:center}
+#prodotti .sec-title{text-transform:lowercase}
 .avt input{accent-color:var(--tiff)}
 .pdisc{position:absolute;top:1rem;right:1rem;background:var(--tiff);color:#fff;font-size:.54rem;letter-spacing:.06em;padding:.22rem .46rem;z-index:3;border-radius:2px;font-family:'Jost',sans-serif;font-weight:500}
 .nores{text-align:center;color:var(--stone);font-size:.95rem;padding:3rem 0;display:none}
@@ -612,10 +621,13 @@ footer{background:linear-gradient(165deg,#0c9b93 0%,#0a7d77 100%);padding:clamp(
       </div>
     </div>
     <div class="shopbar reveal">
-      <div class="searchwrap"><svg class="sicon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Cerca un capo o un brand…" autocomplete="off"></div>
       <div class="brow" id="brandPills"></div>
-      <div class="brow brow2"><div class="fgroup" id="sizePills"></div><select id="sortSel" class="sortsel"><option value="feat">In evidenza</option><option value="new">Novità</option><option value="pasc">Prezzo ↑</option><option value="pdesc">Prezzo ↓</option></select></div>
-      <div class="shopmeta"><span id="resCount"></span><label class="avt"><input type="checkbox" id="availOnly"> Solo disponibili</label></div>
+      <button class="filtoggle" id="filToggle" type="button" aria-expanded="false" onclick="toggleFilters()"><span>Cerca e filtra</span><svg class="filchev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="shopadv" id="shopadv" hidden>
+        <div class="searchwrap"><svg class="sicon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Cerca un capo o un brand…" autocomplete="off"></div>
+        <div class="brow brow2"><div class="fgroup" id="sizePills"></div><select id="sortSel" class="sortsel"><option value="feat">In evidenza</option><option value="new">Novità</option><option value="pasc">Prezzo ↑</option><option value="pdesc">Prezzo ↓</option></select></div>
+        <div class="shopmeta"><span id="resCount"></span><label class="avt"><input type="checkbox" id="availOnly"> Solo disponibili</label></div>
+      </div>
     </div>
     <div class="pgrid" id="grid" aria-label="Collezione prodotti"></div>
     <div id="noRes" class="nores">Nessun capo trovato. Prova a togliere qualche filtro.</div>
@@ -1177,6 +1189,13 @@ function render(){
 
 function setFilter(b){curFilter=b;render();}
 function setSize(s){curSize=s;render();}
+function toggleFilters(){
+  var a=document.getElementById('shopadv'),b=document.getElementById('filToggle');
+  if(!a||!b)return;
+  var willOpen=a.hasAttribute('hidden');
+  if(willOpen){a.removeAttribute('hidden');b.classList.add('open');b.setAttribute('aria-expanded','true');var q=document.getElementById('q');if(q)q.focus();}
+  else{a.setAttribute('hidden','');b.classList.remove('open');b.setAttribute('aria-expanded','false');}
+}
 
 function enterWorld(w){
   const note=document.getElementById('gw-note');
