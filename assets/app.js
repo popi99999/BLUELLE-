@@ -480,20 +480,20 @@ function mountGlobe(containerId, origin, dest, progress){
   try{
     Globe=new ThreeGlobe()
       .showGlobe(true)
-      .showAtmosphere(true).atmosphereColor('#c4b299').atmosphereAltitude(0.14)
+      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(0.14)
       .arcsData([{startLat:origin.lat,startLng:origin.lon,endLat:dest.lat,endLng:dest.lon}])
-      .arcColor(function(){return ['#c4b299','#9a7f5f'];})
+      .arcColor(function(){return ['#7fd9d1','#5fcfc6'];})
       .arcAltitudeAutoScale(0.3).arcStroke(0.55)
       .arcDashLength(1).arcDashGap(0).arcDashInitialGap(0).arcDashAnimateTime(0)
       .pointsData([
-        {lat:origin.lat,lng:origin.lon,color:'#c4b299',rad:0.55,alt:0.012},
-        {lat:dest.lat,lng:dest.lon,color:'#9a7f5f',rad:0.62,alt:0.012},
+        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55,alt:0.012},
+        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62,alt:0.012},
         {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55,alt:0.05}
       ])
       .pointColor('color').pointAltitude('alt').pointRadius('rad');
   }catch(e){ try{ renderer.dispose(); }catch(_){ } return null; }
   // flat ocean base — no relief, no satellite (elegant marine sea)
-  try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#2a2620'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
+  try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#12302b'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
   scene.add(Globe);
   // country regions / borders — cream land on marine sea
   try{
