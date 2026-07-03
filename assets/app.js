@@ -206,17 +206,20 @@ function render(){
   const nr=document.getElementById('noRes');if(nr)nr.style.display=list.length?'none':'block';
 
   g.innerHTML='';
-  list.forEach(p=>{
+  list.forEach((p,idx)=>{
     const condMap={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
     const condTxt=l[condMap[p.cond]]||p.cond;
     const d=document.createElement('div');
-    d.className='pc'+(p.sold?' sold':'');
+    d.className='pc reveal'+(p.sold?' sold':'');
+    d.style.setProperty('--i',idx%6);
     const imgs=p.images||[];
     const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
     const front=imgs[0]?`src="${imgs[0]}"`:'';
     const back=(imgs[1]||imgs[0])?`src="${imgs[1]||imgs[0]}"`:'';
     const disc=(p.orig>p.price&&p.price>0)?`<span class="pdisc">-${Math.round((1-p.price/p.orig)*100)}%</span>`:'';
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${disc}<div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
+    const bn=BRAND_NAME[p.brand]||p.brand||'';
+    const num='№ '+String(p.id).padStart(2,'0');
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${disc}<span class="pnum">${num}</span><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pbrandline">${bn}</div><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){d.addEventListener('click',function(){openM(p.id);});}
     g.appendChild(d);
   });
@@ -695,12 +698,15 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
   setTimeout(()=>{measure();update();},800);
 })();
 
-// INTRO
+// INTRO — full play only once per session, then instant skip
 (function(){
   const intro=document.getElementById('intro');
   const vid=document.getElementById('ivideo');
   const txt=document.querySelector('.itext');
   if(!intro)return;
+  let seen=false;
+  try{seen=sessionStorage.getItem('bl_intro')==='1';}catch(e){}
+  if(seen){intro.style.display='none';return;}
   let done=false;
 
   document.documentElement.style.overflow='hidden';
@@ -708,24 +714,25 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
 
   function exit(){
     if(done)return; done=true;
+    try{sessionStorage.setItem('bl_intro','1');}catch(e){}
     window.scrollTo({top:0,behavior:'instant'});
     document.documentElement.style.overflow='';
     document.body.style.overflow='';
     txt?.classList.add('out');
     setTimeout(()=>{
-      intro.style.transition='opacity 1.1s ease';
+      intro.style.transition='opacity .9s ease';
       intro.style.opacity='0';
-      setTimeout(()=>{ intro.style.display='none'; },1100);
-    },1050);
+      setTimeout(()=>{ intro.style.display='none'; },900);
+    },800);
   }
 
-  setTimeout(()=>txt?.classList.add('visible'),300);
+  setTimeout(()=>txt?.classList.add('visible'),260);
 
   if(vid){
     vid.addEventListener('canplay',()=>vid.classList.add('show'),{once:true});
   }
 
-  setTimeout(exit,5000);
+  setTimeout(exit,3800);
   intro.addEventListener('click',exit);
 })();
 
