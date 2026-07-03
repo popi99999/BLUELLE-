@@ -218,8 +218,7 @@ function render(){
     const back=(imgs[1]||imgs[0])?`src="${imgs[1]||imgs[0]}"`:'';
     const disc=(p.orig>p.price&&p.price>0)?`<span class="pdisc">-${Math.round((1-p.price/p.orig)*100)}%</span>`:'';
     const bn=BRAND_NAME[p.brand]||p.brand||'';
-    const num='№ '+String(p.id).padStart(2,'0');
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${disc}<span class="pnum">${num}</span><div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pbrandline">${bn}</div><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${disc}<div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pbrandline">${bn}</div><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
     if(!p.sold){d.addEventListener('click',function(){openM(p.id);});}
     g.appendChild(d);
   });
@@ -481,20 +480,20 @@ function mountGlobe(containerId, origin, dest, progress){
   try{
     Globe=new ThreeGlobe()
       .showGlobe(true)
-      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(0.14)
+      .showAtmosphere(true).atmosphereColor('#c4b299').atmosphereAltitude(0.14)
       .arcsData([{startLat:origin.lat,startLng:origin.lon,endLat:dest.lat,endLng:dest.lon}])
-      .arcColor(function(){return ['#7fd9d1','#5fcfc6'];})
+      .arcColor(function(){return ['#c4b299','#9a7f5f'];})
       .arcAltitudeAutoScale(0.3).arcStroke(0.55)
       .arcDashLength(1).arcDashGap(0).arcDashInitialGap(0).arcDashAnimateTime(0)
       .pointsData([
-        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55,alt:0.012},
-        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62,alt:0.012},
+        {lat:origin.lat,lng:origin.lon,color:'#c4b299',rad:0.55,alt:0.012},
+        {lat:dest.lat,lng:dest.lon,color:'#9a7f5f',rad:0.62,alt:0.012},
         {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55,alt:0.05}
       ])
       .pointColor('color').pointAltitude('alt').pointRadius('rad');
   }catch(e){ try{ renderer.dispose(); }catch(_){ } return null; }
   // flat ocean base — no relief, no satellite (elegant marine sea)
-  try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#12302b'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
+  try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#2a2620'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
   scene.add(Globe);
   // country regions / borders — cream land on marine sea
   try{

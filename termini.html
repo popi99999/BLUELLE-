@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex, follow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Hanken+Grotesk:wght@300..600&display=swap" rel="stylesheet">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -17,11 +17,11 @@
   --brass:#9a7d4d;--brass-soft:#b39a6e;--line:rgba(22,48,44,.12);--line-soft:rgba(22,48,44,.07);
 }
 html{scroll-behavior:smooth;background:var(--shell)}
-body{background:var(--shell);color:var(--slate);font-family:'Jost',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
+body{background:var(--shell);color:var(--slate);font-family:var(--f-ui);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
 :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 
 nav{background:rgba(240,234,223,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:1.2rem clamp(1.6rem,5vw,4.5rem);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-soft);position:sticky;top:0;z-index:100}
-.nlogo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:.03em}
+.nlogo{font-family:var(--f-disp);font-size:1.45rem;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:.03em}
 .nlogo em{font-style:italic;color:var(--brass)}
 .nback{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:.5rem}
 .nback:hover{color:var(--brass)}
@@ -30,7 +30,7 @@ nav{background:rgba(240,234,223,.92);backdrop-filter:blur(20px);-webkit-backdrop
 
 .hero{background:var(--sand);padding:clamp(4rem,8vw,6.5rem) clamp(1.6rem,5vw,4.5rem) clamp(3rem,6vw,5rem);text-align:center;border-bottom:1px solid var(--line)}
 .hero-eye{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--brass);margin-bottom:1.3rem}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4.6vw,3.4rem);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:1.1rem}
+.hero-title{font-family:var(--f-disp);font-size:clamp(2rem,4.6vw,3.4rem);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:1.1rem}
 .hero-title em{font-style:italic;color:var(--brass)}
 .hero-sub{font-size:.86rem;color:var(--slate);line-height:2;max-width:560px;margin:0 auto;letter-spacing:.005em}
 .update-badge{display:inline-block;margin-top:1.6rem;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);border:1px solid var(--line);padding:.32rem .95rem}
@@ -40,7 +40,7 @@ nav{background:rgba(240,234,223,.92);backdrop-filter:blur(20px);-webkit-backdrop
 .sec{margin-bottom:clamp(3rem,6vw,4.5rem)}
 .sec:last-child{margin-bottom:0}
 .sec-num{font-size:.52rem;letter-spacing:.38em;text-transform:uppercase;color:var(--brass);margin-bottom:.7rem}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--ink);margin-bottom:1.6rem;padding-bottom:.95rem;border-bottom:1px solid var(--line);letter-spacing:.01em}
+.sec-title{font-family:var(--f-disp);font-size:1.5rem;font-weight:400;color:var(--ink);margin-bottom:1.6rem;padding-bottom:.95rem;border-bottom:1px solid var(--line);letter-spacing:.01em}
 .sec-title em{font-style:italic;color:var(--brass)}
 
 p{font-size:.9rem;line-height:2.15;color:var(--slate);margin-bottom:1.2rem;letter-spacing:.005em}
@@ -50,12 +50,12 @@ strong{color:var(--ink);font-weight:400}
 .hl{background:var(--salt);border-left:2px solid var(--brass);padding:1.4rem 1.8rem;margin:1.8rem 0}
 .hl p{color:var(--slate);margin-bottom:0}
 
-.ph{color:var(--brass);background:rgba(154,125,77,.08);border:1px dashed rgba(154,125,77,.35);padding:.15rem .55rem;font-size:.85em;font-family:'Jost',sans-serif;letter-spacing:.01em;white-space:nowrap}
+.ph{color:var(--brass);background:rgba(154,125,77,.08);border:1px dashed rgba(154,125,77,.35);padding:.15rem .55rem;font-size:.85em;font-family:var(--f-ui);letter-spacing:.01em;white-space:nowrap}
 
 .divider{height:1px;background:linear-gradient(to right,transparent,var(--line),transparent);margin:clamp(2.5rem,5vw,4rem) 0}
 
 footer{background:var(--marine);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4.5rem);text-align:center}
-.flogo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:rgba(250,247,241,.7);font-weight:400;margin-bottom:.6rem;letter-spacing:.04em}
+.flogo{font-family:var(--f-disp);font-size:1.3rem;color:rgba(250,247,241,.7);font-weight:400;margin-bottom:.6rem;letter-spacing:.04em}
 .flogo em{color:var(--brass-soft);font-style:italic}
 .fcopy{font-size:.56rem;color:rgba(250,247,241,.32);letter-spacing:.06em}
 .fback{display:inline-block;margin-top:1.2rem;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-soft);text-decoration:none;transition:color .3s}

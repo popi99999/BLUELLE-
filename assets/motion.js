@@ -32,35 +32,6 @@ document.addEventListener('click',function(e){
   setTimeout(function(){location.href=href;},560);
 },true);
 
-/* ── CUSTOM CURSOR ────────────────────────────────── */
-if(window.matchMedia('(pointer:fine)').matches && !reduced){
-  var d=document.createElement('div');d.className='cur-d';
-  var o=document.createElement('div');o.className='cur-o';
-  d.style.transform='translate(-100px,-100px)';
-  o.style.transform='translate(-100px,-100px)';
-  document.body.appendChild(d);document.body.appendChild(o);
-  var mx=-100,my=-100,ox=-100,oy=-100,shown=false;
-  document.addEventListener('mousemove',function(e){
-    mx=e.clientX;my=e.clientY;
-    if(!shown){shown=true;ox=mx;oy=my;}
-    d.style.transform='translate('+(mx-2.5)+'px,'+(my-2.5)+'px)';
-  },{passive:true});
-  (function follow(){
-    ox+=(mx-ox)*.13;oy+=(my-oy)*.13;
-    o.style.transform='translate('+(ox-o.offsetWidth/2)+'px,'+(oy-o.offsetHeight/2)+'px)';
-    requestAnimationFrame(follow);
-  })();
-  var HOVERS='a,button,.pc:not(.sold),.pill,.tb-sel,.faq-q,select,input,textarea,.prow,.efig';
-  document.addEventListener('mouseover',function(e){
-    if(e.target.closest&&e.target.closest(HOVERS))o.classList.add('grow');
-  },{passive:true});
-  document.addEventListener('mouseout',function(e){
-    if(e.target.closest&&e.target.closest(HOVERS))o.classList.remove('grow');
-  },{passive:true});
-  document.addEventListener('mouseleave',function(){document.body.classList.add('cur-hide');});
-  document.addEventListener('mouseenter',function(){document.body.classList.remove('cur-hide');});
-}
-
 /* ── SPLIT-TEXT REVEAL ────────────────────────────── */
 function splitEl(el){
   if(el.dataset.split==='done')return;
@@ -157,23 +128,6 @@ if(plx.length&&!reduced){
   };
   window.addEventListener('scroll',function(){if(!tick){requestAnimationFrame(run);tick=true;}},{passive:true});
 })();
-
-/* ── MAGNETIC BUTTONS ─────────────────────────────── */
-if(window.matchMedia('(pointer:fine)').matches&&!reduced){
-  document.querySelectorAll('.hcta,.mbuy,.geo-confirm').forEach(function(btn){
-    btn.addEventListener('mousemove',function(e){
-      var r=btn.getBoundingClientRect();
-      var x=(e.clientX-r.left-r.width/2)*.18;
-      var y=(e.clientY-r.top-r.height/2)*.3;
-      btn.style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)';
-    });
-    btn.addEventListener('mouseleave',function(){
-      btn.style.transition='transform .7s cubic-bezier(.16,1,.3,1)';
-      btn.style.transform='';
-      setTimeout(function(){btn.style.transition='';},700);
-    });
-  });
-}
 
 /* ── open product from hash (deep-link) ───────────── */
 (function(){
