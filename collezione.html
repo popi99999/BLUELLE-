@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260706c">
+<link rel="stylesheet" href="assets/styles.css?v=20260706d">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -125,21 +125,23 @@
         <div class="pbrand" id="mbrand"></div>
         <div class="mname" id="mname"></div>
         <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+        <p class="mdesc" id="mdesc"></p>
         <dl class="mspecs" id="mspecs"></dl>
         <button class="mbuy" id="mbuy"></button>
-        <div class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></div>
-        <div class="mtrust" id="mtrust"></div>
-        <div class="mdesc" id="mdesc"></div>
-        <div class="mpay" id="mpay">
-        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
-        <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+        <div class="mpayrow">
+          <span class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></span>
+          <div class="mpay" id="mpay">
+          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+          <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+          </div>
         </div>
+        <div class="mtrust" id="mtrust"></div>
       </aside>
     </div>
     <div class="psecs">
@@ -223,6 +225,6 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260706c"></script>
+<script src="assets/motion.js?v=20260706d"></script>
 </body>
 </html>
