@@ -128,6 +128,29 @@ var imObs=new IntersectionObserver(function(entries){
 },{threshold:.18});
 document.querySelectorAll('.imr').forEach(function(el){imObs.observe(el);});
 
+/* ── REVEAL FALLBACK (robusto: non dipende da IntersectionObserver,
+      che non fira su tab nascoste o con alcuni setup di smooth-scroll).
+      Garantisce che i contenuti compaiano sempre, mai bloccati invisibili. */
+(function(){
+  function revealInView(){
+    var vh=window.innerHeight||document.documentElement.clientHeight;
+    var els=document.querySelectorAll('.reveal:not(.visible),.sr:not(.visible),.imr:not(.visible),.reveal-left:not(.visible),.reveal-right:not(.visible),.reveal-scale:not(.visible)');
+    for(var i=0;i<els.length;i++){
+      var r=els[i].getBoundingClientRect();
+      if(r.top<vh*0.94 && r.bottom>-40){els[i].classList.add('visible');}
+    }
+  }
+  window.addEventListener('scroll',revealInView,{passive:true});
+  window.addEventListener('resize',revealInView,{passive:true});
+  window.addEventListener('load',revealInView);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)revealInView();});
+  if(window.BLUELLE_LENIS&&window.BLUELLE_LENIS.on){window.BLUELLE_LENIS.on('scroll',revealInView);}
+  revealInView();
+  setTimeout(revealInView,250);
+  setTimeout(revealInView,900);
+  setTimeout(revealInView,1800);
+})();
+
 /* ── PARALLAX ─────────────────────────────────────── */
 var plx=Array.prototype.slice.call(document.querySelectorAll('[data-plx]'));
 if(plx.length&&!reduced){
@@ -180,33 +203,15 @@ function initGsapPolish(){
 
   initLogoJourney();
 
-  gsap.from('.heye,.hrule,.hsub,.hcta', {
-    autoAlpha:0,
-    y:22,
-    duration:.95,
-    stagger:.12,
-    ease:'power3.out',
-    delay:document.getElementById('intro')?.style.display==='none'?0:.35
-  });
-
-  gsap.utils.toArray('.man-body,.man-foot,.efig,.prow,.auth-check,.iris-step,.save-stat,.faq-item,.cform,.ci,footer,.psec,#trkintro').forEach(function(el,i){
-    gsap.from(el,{
-      autoAlpha:0,
-      y:34,
-      duration:.9,
-      delay:Math.min((i%4)*.035,.12),
-      ease:'power3.out',
-      clearProps:'opacity,visibility,transform',
-      scrollTrigger:{trigger:el,start:'top 86%',once:true}
-    });
-  });
+  /* NB: i reveal in opacity dei contenuti sono gestiti dal sistema CSS + IntersectionObserver
+     (classe .reveal in app.js). NON usare GSAP autoAlpha sui contenuti: sotto la piega o con
+     Lenis il ScrollTrigger può non completare e lasciare i blocchi invisibili. */
 
   gsap.utils.toArray('.imr img,.pgallery img').forEach(function(img){
     gsap.fromTo(img,{scale:1.045},{scale:1,duration:1.4,ease:'power3.out',scrollTrigger:{trigger:img,start:'top 92%',once:true}});
   });
 
   bindHoverMotion();
-  animateCards();
   observeDynamicMotion();
 }
 
@@ -326,7 +331,6 @@ function observeDynamicMotion(){
   if(grid){
     new MutationObserver(function(){
       requestAnimationFrame(function(){
-        animateCards();
         bindHoverMotion();
         ScrollTrigger.refresh();
       });

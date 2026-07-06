@@ -41,9 +41,16 @@ body{background:var(--paper);color:var(--slate);font-family:var(--f-ui);font-wei
 img{display:block}
 ::selection{background:var(--tiff);color:var(--paper)}
 .container{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(1.6rem,5vw,4.5rem)}
-.brand-word{display:inline-flex;align-items:baseline;gap:0;font-family:var(--f-script);font-weight:400;line-height:1;letter-spacing:normal;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand-word{display:inline-flex;align-items:baseline;gap:0;font-family:var(--f-script);font-weight:400;line-height:1;letter-spacing:normal;text-decoration:none;white-space:nowrap;
+  color:#141210;
+  background:linear-gradient(105deg,#141210 0%,#141210 41%,#59cabf 47%,#93ece3 50%,#0aa6a0 53%,#141210 59%,#141210 100%);
+  background-size:280% 100%;background-position:135% 0;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:pearl 7.5s ease-in-out infinite}
 .brand-word span,.brand-word em{font:inherit;line-height:inherit}
-.brand-word em{font-style:normal;color:var(--tiff-deep);-webkit-text-fill-color:var(--tiff-deep)}
+.brand-word em{font-style:normal;color:inherit;-webkit-text-fill-color:transparent;background:none}
+@keyframes pearl{0%{background-position:135% 0}55%{background-position:-35% 0}100%{background-position:135% 0}}
+@media(prefers-reduced-motion:reduce){.brand-word{animation:none;background-position:50% 0}}
 
 /* ── PAGE TRANSITION VEIL ───────────────────────────── */
 .ptv{position:fixed;inset:0;background:var(--cream);z-index:1700;transform:scaleY(0);transform-origin:bottom;pointer-events:none}
@@ -153,8 +160,9 @@ nav.hide{transform:translateY(-130%)}
 .lj-pin{position:relative;height:100svh;min-height:640px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(120% 90% at 50% 10%,#fbf7ef 0%,var(--paper) 46%,var(--cream) 100%);contain:layout paint style;transform:translateZ(0)}
 .lj-bg{position:absolute;inset:-14%;background:radial-gradient(34% 34% at 50% 52%,rgba(10,166,160,.14),rgba(10,166,160,0) 68%),linear-gradient(115deg,rgba(255,255,255,.3),rgba(10,166,160,.05),rgba(33,30,25,.04));opacity:.72;transform:scale(.9);will-change:transform,opacity}
 .lj-mark{position:absolute;left:50%;top:50%;font-size:clamp(5.4rem,16vw,14rem);z-index:5;will-change:transform,opacity;transform:translate3d(-50%,-50%,0);transform-origin:center center;backface-visibility:hidden}
-.lj-mega{position:absolute;left:50%;top:50%;font-size:clamp(15rem,48vw,43rem);z-index:2;opacity:0;color:rgba(33,30,25,.055);pointer-events:none;will-change:transform,opacity;transform:translate3d(-50%,-50%,0);transform-origin:center center;backface-visibility:hidden}
-.lj-mega em{color:rgba(10,166,160,.18);-webkit-text-fill-color:rgba(10,166,160,.18)}
+.lj-mega{position:absolute;left:50%;top:50%;font-size:clamp(15rem,48vw,43rem);z-index:2;opacity:0;pointer-events:none;will-change:transform,opacity;transform:translate3d(-50%,-50%,0);transform-origin:center center;backface-visibility:hidden;
+  background:none;animation:none;color:rgba(33,30,25,.06);-webkit-text-fill-color:rgba(33,30,25,.06)}
+.lj-mega em{background:none;color:rgba(10,166,160,.16);-webkit-text-fill-color:rgba(10,166,160,.16)}
 .lj-panel{position:absolute;left:50%;top:50%;width:min(860px,86vw);transform:translate(-50%,-42%);text-align:center;z-index:6;opacity:0;pointer-events:none}
 .lj-kicker{font-size:.58rem;letter-spacing:.46em;text-transform:uppercase;color:var(--tiff-deep);margin-bottom:1.4rem;padding-left:.46em}
 .lj-panel h1,.lj-panel h2{font-family:var(--f-disp);font-weight:300;font-size:clamp(2.4rem,6.2vw,6.4rem);line-height:1.02;color:var(--ink);letter-spacing:-.015em;text-wrap:balance}
