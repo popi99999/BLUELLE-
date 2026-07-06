@@ -16,10 +16,10 @@ if(hasGsap){
 function initLenis(){
   if(reduced||!Lenis)return;
   lenis=new Lenis({
-    duration:.9,
+    duration:.78,
     smoothWheel:true,
-    wheelMultiplier:.9,
-    touchMultiplier:1.06,
+    wheelMultiplier:1.05,
+    touchMultiplier:1.12,
     anchors:{
       offset:-86,
       duration:1,

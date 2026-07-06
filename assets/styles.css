@@ -156,7 +156,7 @@ nav.hide{transform:translateY(-130%)}
 @keyframes slp{0%,100%{opacity:.3;transform:scaleY(.55)}50%{opacity:1;transform:scaleY(1)}}
 
 /* ── LOGO JOURNEY — SCROLL CINEMATIC ───────────────── */
-#logo-journey{position:relative;height:400vh;background:var(--paper);z-index:1}
+#logo-journey{position:relative;height:250vh;background:var(--paper);z-index:1}
 .lj-pin{position:relative;height:100svh;min-height:640px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(120% 90% at 50% 10%,#fbf7ef 0%,var(--paper) 46%,var(--cream) 100%);contain:layout paint style;transform:translateZ(0)}
 .lj-bg{position:absolute;inset:-14%;background:radial-gradient(34% 34% at 50% 52%,rgba(10,166,160,.14),rgba(10,166,160,0) 68%),linear-gradient(115deg,rgba(255,255,255,.3),rgba(10,166,160,.05),rgba(33,30,25,.04));opacity:.72;transform:scale(.9);will-change:transform,opacity}
 .lj-mark{position:absolute;left:50%;top:50%;font-size:clamp(5.4rem,16vw,14rem);z-index:5;will-change:transform,opacity;transform:translate3d(-50%,-50%,0);transform-origin:center center;backface-visibility:hidden}
@@ -175,13 +175,17 @@ nav.hide{transform:translateY(-130%)}
 .lj-shot-c{left:50%;bottom:6vh;transform:translate(-50%,62px) rotate(2deg)}
 .lj-final{position:absolute;left:50%;bottom:clamp(3.2rem,8vh,5.5rem);transform:translateX(-50%) translateY(24px);z-index:8;text-align:center;opacity:0;pointer-events:none}
 .lj-final p{font-family:var(--f-disp);font-size:clamp(1.35rem,2.5vw,2rem);font-style:italic;color:var(--ink);margin-bottom:1rem}
-.lj-button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);color:var(--ink);padding:1rem 2.4rem;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;background:rgba(243,237,226,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .4s,color .4s,border-color .4s}
+.lj-actions{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.lj-button{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ink);color:var(--ink);padding:1rem 2.2rem;font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;background:rgba(243,237,226,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:background .4s,color .4s,border-color .4s}
 .lj-button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.lj-button-alt{background:transparent;border-color:var(--tiff-deep);color:var(--tiff-deep)}
+.lj-button-alt:hover{background:var(--tiff-deep);color:var(--paper);border-color:var(--tiff-deep)}
+@media(max-width:600px){.lj-actions{flex-direction:column;width:min(90vw,340px)}.lj-actions .lj-button{width:100%}}
 .lj-scroll{position:absolute;right:clamp(1.4rem,4vw,4rem);bottom:2.3rem;z-index:7;font-size:.5rem;letter-spacing:.36em;text-transform:uppercase;color:var(--stone);writing-mode:vertical-rl}
 .lj-scroll::after{content:'';display:block;width:1px;height:42px;margin:.8rem auto 0;background:linear-gradient(to bottom,var(--tiff),transparent);animation:slp 3s ease-in-out infinite}
 
 @media(max-width:760px){
-  #logo-journey{height:360vh}
+  #logo-journey{height:230vh}
   .lj-pin{min-height:100svh}
   .lj-mark{font-size:clamp(4.5rem,27vw,8.4rem)}
   .lj-mega{font-size:clamp(12rem,72vw,26rem)}
