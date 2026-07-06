@@ -14,15 +14,19 @@
 :root{
   --salt:#faf7f1;--shell:#f0eadf;--sand:#e7dfd0;--marine:#16302c;
   --ink:#283733;--slate:#414d48;--stone:#8b8475;--mist:#b9b1a1;
-  --brass:#9a7d4d;--brass-soft:#b39a6e;--line:rgba(22,48,44,.12);--line-soft:rgba(22,48,44,.07);
+  --brass:#0aa6a0;--brass-soft:#7fd9d1;--line:rgba(22,48,44,.12);--line-soft:rgba(22,48,44,.07);
+  --f-disp:'Fraunces',Georgia,serif;--f-ui:'Hanken Grotesk',system-ui,sans-serif;--f-script:'Pinyon Script',cursive;
 }
 html{scroll-behavior:smooth;background:var(--shell)}
 body{background:var(--shell);color:var(--slate);font-family:var(--f-ui);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
 :focus-visible{outline:2px solid var(--brass);outline-offset:3px}
 
 nav{background:rgba(240,234,223,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:1.2rem clamp(1.6rem,5vw,4.5rem);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line-soft);position:sticky;top:0;z-index:100}
-.nlogo{font-family:var(--f-disp);font-size:1.45rem;font-weight:400;color:var(--ink);text-decoration:none;letter-spacing:.03em}
-.nlogo em{font-style:italic;color:var(--brass)}
+.brand-word{display:inline-flex;align-items:baseline;gap:0;font-family:var(--f-script);font-weight:400;line-height:1;letter-spacing:normal;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand-word span,.brand-word em{font:inherit;line-height:inherit}
+.brand-word em{font-style:normal;color:var(--brass);-webkit-text-fill-color:var(--brass)}
+.nlogo{position:relative}
+.nlogo.brand-word{font-size:2.2rem}
 .nback{font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:var(--stone);text-decoration:none;transition:color .3s;display:flex;align-items:center;gap:.5rem}
 .nback:hover{color:var(--brass)}
 .nback::before{content:'←';font-size:.75rem;transition:transform .3s}
@@ -54,10 +58,10 @@ strong{color:var(--ink);font-weight:400}
 
 .divider{height:1px;background:linear-gradient(to right,transparent,var(--line),transparent);margin:clamp(2.5rem,5vw,4rem) 0}
 
-footer{background:var(--marine);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4.5rem);text-align:center}
-.flogo{font-family:var(--f-disp);font-size:1.3rem;color:rgba(250,247,241,.7);font-weight:400;margin-bottom:.6rem;letter-spacing:.04em}
-.flogo em{color:var(--brass-soft);font-style:italic}
-.fcopy{font-size:.56rem;color:rgba(250,247,241,.32);letter-spacing:.06em}
+footer{background:var(--shell);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4.5rem);text-align:center;border-top:1px solid var(--line-soft)}
+.flogo{position:relative;margin-bottom:.6rem}
+.flogo.brand-word{font-size:2.4rem;color:var(--ink)}
+.fcopy{font-size:.56rem;color:var(--stone);letter-spacing:.06em}
 .fback{display:inline-block;margin-top:1.2rem;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass-soft);text-decoration:none;transition:color .3s}
 .fback:hover{color:var(--salt)}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
@@ -66,7 +70,7 @@ footer{background:var(--marine);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,
 <body>
 
 <nav role="navigation" aria-label="Navigazione">
-  <a href="index.html" class="nlogo">Blu<em>è</em>lle</a>
+  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
   <a href="index.html" class="nback">Torna al sito</a>
 </nav>
 
@@ -167,7 +171,7 @@ footer{background:var(--marine);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,
 </div>
 
 <footer role="contentinfo">
-  <div class="flogo">Blu<em>è</em>lle</div>
+  <div class="flogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
   <div class="fcopy">© 2025 Bluèlle — Curated Luxury Resale · Tutti i diritti riservati</div>
   <a href="index.html" class="fback">← Torna al sito</a>
 </footer>

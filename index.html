@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..500;1,9..144,300..500&family=Hanken+Grotesk:wght@300..600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -29,7 +30,7 @@
 <div id="intro">
   <div class="itext">
     <div class="iring" aria-hidden="true"></div>
-    <div class="iname" aria-label="Bluelle"><em>Blu</em>elle</div>
+    <div class="iname brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
     <div class="iline"></div>
     <div class="isub">Luxury Second Hand</div>
     <div class="iskip">tocca per entrare</div>
@@ -57,7 +58,7 @@
 
 <!-- NAV -->
 <nav id="nav" role="navigation" aria-label="Navigazione principale">
-  <a href="index.html" class="nlogo"><em>Blu</em>elle</a>
+  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
   <ul class="nlinks">
     <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
     <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
@@ -77,6 +78,37 @@
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
 </div>
 <main role="main">
+<!-- LOGO JOURNEY -->
+<section id="logo-journey" aria-label="Esperienza Bluèlle">
+  <div class="lj-pin">
+    <div class="lj-bg" aria-hidden="true"></div>
+    <div class="lj-mark brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
+    <div class="lj-mega brand-word" aria-hidden="true"><span>Blu</span><em>è</em><span>lle</span></div>
+    <div class="lj-panel lj-panel-1">
+      <p class="lj-kicker">Bluèlle archive</p>
+      <h1>Luxury resale,<br><em>curato come una boutique.</em></h1>
+    </div>
+    <div class="lj-panel lj-panel-2">
+      <p class="lj-kicker">Ogni dettaglio conta</p>
+      <h2>Autenticita verificata.<br><em>Prezzi che hanno senso.</em></h2>
+    </div>
+    <div class="lj-panel lj-panel-3">
+      <p class="lj-kicker">Pochi pezzi. Tutti unici.</p>
+      <h2>Quando un capo va via,<br><em>non torna uguale.</em></h2>
+    </div>
+    <div class="lj-shots" aria-hidden="true">
+      <figure class="lj-shot lj-shot-a"><img src="img/p7-f1.jpg" alt=""></figure>
+      <figure class="lj-shot lj-shot-b"><img src="img/p13-f1.jpg" alt=""></figure>
+      <figure class="lj-shot lj-shot-c"><img src="img/p19-f1.jpg" alt=""></figure>
+    </div>
+    <div class="lj-final">
+      <p>Entra nella selezione</p>
+      <a href="collezione.html" class="lj-button">Vedi la collezione</a>
+    </div>
+    <div class="lj-scroll">scorri</div>
+  </div>
+</section>
+
 <!-- HERO -->
 <section id="hero">
   <div class="hwm" aria-hidden="true" data-plx="-0.06">Bluèlle</div>
@@ -199,7 +231,7 @@
 </main>
 <!-- FOOTER -->
 <footer role="contentinfo">
-  <div class="flogo"><em>Blu</em>elle</div>
+  <div class="flogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
   <div class="flinks">
     <a href="termini.html">Termini &amp; Privacy</a>
     <a href="contatti.html" data-i="nav_contact">Contatti</a>
@@ -253,6 +285,9 @@
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
 <script src="assets/app.js"></script>
-<script src="assets/motion.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
+<script src="assets/motion.js?v=20260706-gsap-lenis"></script>
 </body>
 </html>
