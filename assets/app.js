@@ -295,7 +295,12 @@ function openM(id){
   document.getElementById('mtrust').innerHTML=TR.map(t=>`<span>${t}</span>`).join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
-  btn.onclick=p.sold?null:()=>window.open(p.stripe,'_blank');
+  btn.onclick=p.sold?null:function(){
+    if(!p.stripe)return;
+    var w=window.open(p.stripe,'_blank','noopener');
+    // se il popup è bloccato (w null), vai su Stripe nella stessa scheda
+    if(!w){ window.location.href=p.stripe; }
+  };
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
   buildRelated(p);

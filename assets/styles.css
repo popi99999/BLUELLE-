@@ -472,23 +472,23 @@ footer::before{content:'Bluèlle';position:absolute;bottom:-.34em;left:50%;trans
 .mov.open .ppage{opacity:1;transform:none}
 .pback{position:sticky;top:1rem;display:inline-flex;align-items:center;background:none;border:none;border-radius:0;padding:.4rem 0;font-family:var(--f-ui);font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--stone);cursor:pointer;margin-bottom:2rem;transition:color .35s,gap .35s;z-index:20;gap:.5rem}
 .pback:hover{color:var(--ink)}
-.ptop{display:grid;grid-template-columns:1.5fr .78fr;gap:clamp(2rem,5vw,4.8rem);align-items:start}
-@media(max-width:860px){.ptop{grid-template-columns:1fr;gap:1.8rem}}
+.ptop{display:grid;grid-template-columns:1.4fr .82fr;gap:clamp(1.8rem,4vw,3.6rem);align-items:start}
+@media(max-width:860px){.ptop{grid-template-columns:1fr;gap:1.6rem}}
 .pgallery{display:flex;flex-direction:column;gap:clamp(.9rem,1.6vw,1.3rem)}
 .pgallery img{width:100%;display:block;background:var(--sand);aspect-ratio:4/5;object-fit:cover}
 @media(max-width:860px){.pgallery{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;gap:.5rem}.pgallery img{flex:0 0 82%;scroll-snap-align:center}}
-.pinfo-col{position:sticky;top:clamp(1.5rem,4vw,3rem);display:flex;flex-direction:column;gap:1.5rem}
-@media(max-width:860px){.pinfo-col{position:static;gap:1.3rem}}
+.pinfo-col{position:sticky;top:clamp(1.5rem,4vw,3rem);display:flex;flex-direction:column;gap:1.05rem}
+@media(max-width:860px){.pinfo-col{position:static;gap:1rem}}
 .pbrand{font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:var(--stone)}
-.mname{font-family:var(--f-disp);font-size:clamp(2.1rem,4.2vw,3.2rem);font-weight:400;color:var(--ink);line-height:1.05;letter-spacing:-.005em}
-.mprices{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.mname{font-family:var(--f-disp);font-size:clamp(1.6rem,2.7vw,2.15rem);font-weight:400;color:var(--ink);line-height:1.12;letter-spacing:0}
+.mprices{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
 .mprice{font-size:1.15rem;font-weight:400;color:var(--ink);font-family:var(--f-ui);letter-spacing:.02em}
 .morig{font-size:.85rem;color:var(--mist);text-decoration:line-through}
 .msave{display:none}
 .mdiv{height:1px;background:var(--line)}
-.mdesc{font-size:1rem;color:var(--slate);line-height:1.95;padding-top:1.5rem;border-top:1px solid var(--line-soft);margin-top:.2rem}
-.mspecs{display:flex;flex-direction:column;margin:.3rem 0}
-.mspec{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.85rem 0;border-bottom:1px solid var(--line-soft)}
+.mdesc{font-size:.92rem;color:var(--slate);line-height:1.8;padding-top:1.1rem;border-top:1px solid var(--line-soft);margin-top:0}
+.mspecs{display:flex;flex-direction:column;margin:.1rem 0}
+.mspec{display:flex;justify-content:space-between;align-items:baseline;gap:1.2rem;padding:.68rem 0;border-bottom:1px solid var(--line-soft)}
 .mspec:first-child{border-top:1px solid var(--line-soft)}
 .mspec dt{font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:var(--stone);white-space:nowrap}
 .mspec dd{font-family:var(--f-ui);font-size:.9rem;font-weight:400;color:var(--ink);text-align:right;line-height:1.35}
@@ -497,7 +497,7 @@ footer::before{content:'Bluèlle';position:absolute;bottom:-.34em;left:50%;trans
 .mtrust span{font-size:.53rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);display:flex;align-items:center;gap:.4rem}
 .mtrust span::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--tiff);display:inline-block}
 .mpay{display:none}
-.mbuy{position:relative;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:1.25rem;font-family:var(--f-ui);font-size:.6rem;letter-spacing:.36em;text-transform:uppercase;font-weight:400;cursor:pointer;width:100%;overflow:hidden;isolation:isolate;transition:color .45s,border-color .45s;margin-top:.4rem}
+.mbuy{position:relative;background:transparent;color:var(--ink);border:1px solid var(--ink);padding:1.05rem;font-family:var(--f-ui);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;font-weight:400;cursor:pointer;width:100%;overflow:hidden;isolation:isolate;transition:color .45s,border-color .45s;margin-top:.3rem}
 .mbuy::before{content:'';position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .55s var(--e-io);z-index:-1}
 .mbuy:hover{color:var(--paper)}
 .mbuy:hover::before{transform:scaleX(1);transform-origin:left}
