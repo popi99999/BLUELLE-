@@ -18,7 +18,7 @@ const CK={
 };
 // PRODUCTS
 const prods = [
-  {id:1,brand:'gucci',name:'Gucci Maglioncino GG V-Neck',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:385.0,orig:1100.0,sold:false,images:["img/p1-f1.jpg","img/p1-f2.jpg","img/p1-f3.jpg"],desc:'Maglioncino Gucci blu con scollo a V e monogramma GG intarsiato in filato oro. Una delle silhouette più eleganti della maison.',stripe:'https://buy.stripe.com/14AaEXcnE97ecaR4M13ks2l'},
+  {id:1,brand:'gucci',name:'Gucci Maglioncino GG V-Neck',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:385.0,orig:1100.0,sold:false,images:["img/p1-f1.jpg","img/p1-f2.jpg","img/p1-f3.jpg"],video:'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',desc:'Maglioncino Gucci blu con scollo a V e monogramma GG intarsiato in filato oro. Una delle silhouette più eleganti della maison.',stripe:'https://buy.stripe.com/14AaEXcnE97ecaR4M13ks2l'},
   {id:2,brand:'balenciaga',name:'Balenciaga Unity Logo Tee',sz:'M',fit:'Oversize',color:'panna',cond:'Eccellente',price:240.0,orig:670.0,sold:false,images:["img/p2-f1.jpg","img/p2-f2.jpg","img/p2-f3.jpg"],desc:'T-shirt Balenciaga color panna in cotone pesante con logo Unity stampato sul fronte. Fit oversize, presenza immediata.',stripe:'https://buy.stripe.com/bJe14n0EW3MU1wd7Yd3ks2m'},
   {id:3,brand:'balenciaga',name:'Balenciaga Upside-Down T-Shirt',sz:'M',fit:'Oversize',color:'nera',cond:'Nuovo',price:270.0,orig:700.0,sold:false,images:["img/p3-f1.jpg","img/p3-f2.jpg","img/p3-f3.jpg","img/p3-f4.jpg"],desc:'T-shirt Balenciaga nera Speed Hunter con logo Upside Down. Vestibilità oversize con effetto distressed — trattamento autentico della collezione.',stripe:'https://buy.stripe.com/fZu28revM83aa2J7Yd3ks2n'},
   {id:4,brand:'balenciaga',name:'Balenciaga Crypto Bb',sz:'S',fit:'Oversize',color:'nera',cond:'Eccellente',price:300.0,orig:0,sold:false,images:["img/p4-f1.jpg","img/p4-f2.jpg","img/p4-f3.jpg"],desc:'T-shirt Balenciaga Crypto BB nera in vestibilità oversize. Effetto distressed e dettagli volutamente invecchiati, tipici della capsule.',stripe:'https://buy.stripe.com/6oUaEX4Vc2IQ6Qxdix3ks2o'},
@@ -416,7 +416,8 @@ function openM(id){
   const l=T[curLang];
   const mimg=document.getElementById('mimg');
   const imgs=p.images||[];
-  mimg.innerHTML=imgs.map(s=>`<img src="${s}" alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.opacity='.15'">`).join('');
+  const vidHTML = p.video ? `<div class="pvid-wrap"><video class="pvid" controls playsinline preload="metadata"${imgs[0]?` poster="${imgs[0]}"`:''}><source src="${p.video}" type="video/mp4"></video><span class="pvid-tag">Video</span></div>` : '';
+  mimg.innerHTML=vidHTML+imgs.map(s=>`<img src="${s}" alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.opacity='.15'">`).join('');
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
   document.getElementById('mname').textContent=translateName(p.name,curLang);
   if(p.price===0){

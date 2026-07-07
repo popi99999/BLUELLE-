@@ -496,6 +496,9 @@ footer::before{content:'Bluèlle';position:absolute;bottom:-.34em;left:50%;trans
 @media(max-width:860px){.ptop{grid-template-columns:1fr;gap:1.6rem}}
 .pgallery{display:flex;flex-direction:column;gap:clamp(.9rem,1.6vw,1.3rem)}
 .pgallery img{width:100%;display:block;background:var(--sand);aspect-ratio:4/5;object-fit:cover}
+.pvid-wrap{position:relative;width:100%;aspect-ratio:4/5;background:#0d0c0b;overflow:hidden}
+.pvid{width:100%;height:100%;object-fit:cover;display:block;background:#0d0c0b}
+.pvid-tag{position:absolute;top:.9rem;left:1rem;z-index:2;font-family:var(--f-ui);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:#fff;background:rgba(13,12,11,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:.3rem .6rem;pointer-events:none}
 @media(max-width:860px){.pgallery{flex-direction:row;overflow-x:auto;scroll-snap-type:x mandatory;gap:.5rem}.pgallery img{flex:0 0 82%;scroll-snap-align:center}}
 .pinfo-col{position:sticky;top:clamp(1.5rem,4vw,3rem);display:flex;flex-direction:column;gap:1.05rem}
 @media(max-width:860px){.pinfo-col{position:static;gap:1rem}}
