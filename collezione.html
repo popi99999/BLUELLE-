@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260707b">
+<link rel="stylesheet" href="assets/styles.css?v=20260707c">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -72,12 +72,17 @@
       </div>
     </div>
     <div class="shopbar reveal">
-      <div class="brow" id="brandPills"></div>
-      <button class="filtoggle" id="filToggle" type="button" aria-expanded="false" onclick="toggleFilters()"><span>Cerca e filtra</span><svg class="filchev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="catrow" id="catPills"></div>
+      <div class="shopbar2">
+        <button class="filtoggle" id="filToggle" type="button" aria-expanded="false" onclick="toggleFilters()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg><span>Filtri</span></button>
+        <span class="shopcount" id="resCount"></span>
+        <label class="sortwrap"><span class="sortlbl">Ordina per</span><select id="sortSel" class="sortsel"><option value="feat">In evidenza</option><option value="new">Novità</option><option value="pasc">Prezzo ↑</option><option value="pdesc">Prezzo ↓</option></select></label>
+      </div>
       <div class="shopadv" id="shopadv" hidden>
         <div class="searchwrap"><svg class="sicon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Cerca un capo o un brand…" autocomplete="off"></div>
-        <div class="brow brow2"><div class="fgroup" id="sizePills"></div><select id="sortSel" class="sortsel"><option value="feat">In evidenza</option><option value="new">Novità</option><option value="pasc">Prezzo ↑</option><option value="pdesc">Prezzo ↓</option></select></div>
-        <div class="shopmeta"><span id="resCount"></span><label class="avt"><input type="checkbox" id="availOnly"> Solo disponibili</label></div>
+        <div class="brow"><div class="fgroup" id="brandPills"></div></div>
+        <div class="brow brow2"><div class="fgroup" id="sizePills"></div></div>
+        <div class="shopmeta"><label class="avt"><input type="checkbox" id="availOnly"> Solo disponibili</label></div>
       </div>
     </div>
     <div class="pgrid" id="grid" aria-label="Collezione prodotti"></div>
@@ -214,10 +219,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260707b"></script>
+<script src="assets/app.js?v=20260707c"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260707b"></script>
+<script src="assets/motion.js?v=20260707c"></script>
 </body>
 </html>

@@ -319,7 +319,23 @@ function renderPrices(){
   });
 }
 
-let curSize='all',curSort='feat',curQ='',availOnly=false,shopWired=false;
+let curSize='all',curSort='feat',curQ='',availOnly=false,shopWired=false,curCat='all';
+// Categoria automatica dal nome del capo (finché non aggiungi capi di altro tipo)
+const CAT_LABEL={it:{all:'Visualizza tutto',Maglieria:'Maglieria',Tshirt:'T-Shirt',Felpe:'Felpe',Pantaloni:'Pantaloni',Polo:'Polo',Giacche:'Giacche',Borse:'Borse',Scarpe:'Scarpe',Accessori:'Accessori'}};
+function catOf(p){
+  if(p.cat)return p.cat;
+  const n=(p.name||'').toLowerCase();
+  if(/cardigan|maglion|maglia|felpa|hoodie/.test(n)&&/felpa|hoodie/.test(n))return 'Felpe';
+  if(/cardigan|maglion|maglia/.test(n))return 'Maglieria';
+  if(/felpa|hoodie/.test(n))return 'Felpe';
+  if(/jeans|pantalon|tuta/.test(n))return 'Pantaloni';
+  if(/polo/.test(n))return 'Polo';
+  if(/windbreaker|giacca|jacket/.test(n))return 'Giacche';
+  if(/borsa|bag|pochette|clutch/.test(n))return 'Borse';
+  if(/scarp|sneaker|shoe|stival/.test(n))return 'Scarpe';
+  return 'Tshirt';
+}
+function catLabel(c){const m=CAT_LABEL.it;return m[c]||c;}
 function uniqueSizes(){const order=['XXS','XS','S','M','L','XL','XXL'];const set=new Set(prods.map(p=>p.sz).filter(Boolean));return order.filter(s=>set.has(s)).concat([...set].filter(s=>!order.includes(s)));}
 function wireShop(){
   if(shopWired)return;shopWired=true;
@@ -332,6 +348,12 @@ function render(){
   const g=document.getElementById('grid');
   if(!g)return;
   wireShop();
+  // categorie in evidenza (pill in alto)
+  const CAT_ORDER=['Maglieria','Tshirt','Felpe','Polo','Pantaloni','Giacche','Borse','Scarpe','Accessori'];
+  const present=new Set(prods.map(catOf));
+  const cats=['all',...CAT_ORDER.filter(c=>present.has(c)),...[...present].filter(c=>CAT_ORDER.indexOf(c)<0)];
+  const cp=document.getElementById('catPills');
+  if(cp)cp.innerHTML=cats.map(c=>`<button class="catpill${c===curCat?' on':''}" onclick="setCat('${c}')">${c==='all'?catLabel('all'):catLabel(c)}</button>`).join('');
   const brands=['all',...new Set(prods.map(p=>p.brand))];
   const bp=document.getElementById('brandPills');
   if(bp)bp.innerHTML=brands.map(b=>`<button class="pill${b===curFilter?' on':''}" onclick="setFilter('${b}')">${b==='all'?(l.all||'Tutti'):b.charAt(0).toUpperCase()+b.slice(1)}</button>`).join('');
@@ -339,6 +361,7 @@ function render(){
   if(sp){const sizes=['all',...uniqueSizes()];sp.innerHTML=sizes.map(s=>`<button class="pill spill${s===curSize?' on':''}" onclick="setSize('${s}')">${s==='all'?'Tutte le taglie':s}</button>`).join('');}
 
   let list=prods.filter(p=>{
+    if(curCat!=='all' && catOf(p)!==curCat)return false;
     if(curFilter!=='all' && !(p.brand===curFilter||p.brand.startsWith(curFilter)))return false;
     if(curSize!=='all' && p.sz!==curSize)return false;
     if(availOnly && p.sold)return false;
@@ -349,7 +372,7 @@ function render(){
   else if(curSort==='pdesc')list=list.slice().sort((a,b)=>(b.price||0)-(a.price||0));
   else if(curSort==='new')list=list.slice().sort((a,b)=>b.id-a.id);
 
-  const rc=document.getElementById('resCount');if(rc)rc.textContent=list.length+(list.length===1?' capo':' capi');
+  const rc=document.getElementById('resCount');if(rc)rc.textContent=list.length+(list.length===1?' Prodotto':' Prodotti');
   const nr=document.getElementById('noRes');if(nr)nr.style.display=list.length?'none':'block';
 
   g.innerHTML='';
@@ -373,6 +396,7 @@ function render(){
 
 function setFilter(b){curFilter=b;render();}
 function setSize(s){curSize=s;render();}
+function setCat(c){curCat=c;render();}
 function toggleFilters(){
   var a=document.getElementById('shopadv'),b=document.getElementById('filToggle');
   if(!a||!b)return;
