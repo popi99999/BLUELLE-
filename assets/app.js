@@ -121,9 +121,46 @@ const CURRENCIES=[
 ];
 const CUR={}; CURRENCIES.forEach(function(c){CUR[c.code]=c;});
 const LANGS=[
-  {code:'it',name:'Italiano'},{code:'en',name:'English'},
-  {code:'fr',name:'Français'},{code:'es',name:'Español'},{code:'de',name:'Deutsch'}
+  {code:'it',name:'Italiano',base:'it'},
+  {code:'en',name:'English',base:'en'},
+  {code:'fr',name:'Français',base:'fr'},
+  {code:'es',name:'Español',base:'es'},
+  {code:'de',name:'Deutsch',base:'de'},
+  {code:'pt',name:'Português',base:'es'},
+  {code:'nl',name:'Nederlands',base:'en'},
+  {code:'pl',name:'Polski',base:'en'},
+  {code:'ro',name:'Română',base:'en'},
+  {code:'sv',name:'Svenska',base:'en'},
+  {code:'no',name:'Norsk',base:'en'},
+  {code:'da',name:'Dansk',base:'en'},
+  {code:'el',name:'Ελληνικά',base:'en'},
+  {code:'tr',name:'Türkçe',base:'en'},
+  {code:'ar',name:'العربية',base:'en'},
+  {code:'zh',name:'中文',base:'en'},
+  {code:'ja',name:'日本語',base:'en'},
+  {code:'ko',name:'한국어',base:'en'},
+  {code:'ru',name:'Русский',base:'en'}
 ];
+const LANG_BY_CODE={}; LANGS.forEach(function(l){LANG_BY_CODE[l.code]=l;});
+function langBase(l){
+  const item=LANG_BY_CODE[l];
+  return (item&&item.base)||l||'it';
+}
+function pack(dict){
+  const b=langBase(curLang);
+  return dict[curLang]||dict[b]||dict.it||{};
+}
+function hydrateLangSelects(){
+  document.querySelectorAll('#langSel,#geoLang').forEach(function(sel){
+    if(!sel||sel.dataset.langHydrated==='1')return;
+    sel.innerHTML=LANGS.map(function(l){return '<option value="'+l.code+'">'+l.name+'</option>';}).join('');
+    sel.dataset.langHydrated='1';
+  });
+}
+function syncLangSelects(){
+  hydrateLangSelects();
+  document.querySelectorAll('#langSel,#geoLang').forEach(function(sel){ if(sel)sel.value=curLang; });
+}
 
 function fmt(p){
   const rate=rates[curCurr]||1;
@@ -144,6 +181,7 @@ function fetchRates(){
 }
 
 function translateName(name, lang){
+  lang=langBase(lang);
   if(!lang||lang==='it') return name;
   const maps={
     en:{
@@ -200,12 +238,21 @@ function translateName(name, lang){
 }
 
 function setLang(l){
+  if(!LANG_BY_CODE[l])l=langBase(l);
   curLang=l;
   try{localStorage.setItem('bl_lang',l);}catch(e){}
+  document.documentElement.lang=l;
   document.querySelectorAll('[data-i]').forEach(el=>{
     const k=el.getAttribute('data-i');
-    if(T[l]&&T[l][k]!==undefined) el.innerHTML=T[l][k];
+    const dict=T[langBase(l)]||T.it;
+    if(dict&&dict[k]!==undefined) el.innerHTML=dict[k];
   });
+  const trust=TRUST_LBL[langBase(l)]||TRUST_LBL.it;
+  document.querySelectorAll('[data-trust-idx]').forEach(el=>{
+    const i=parseInt(el.getAttribute('data-trust-idx'),10);
+    if(trust[i])el.textContent=trust[i];
+  });
+  syncLangSelects();
   render();
   if(typeof updatePickerLabels==='function')updatePickerLabels();
 }
@@ -220,6 +267,7 @@ function setCurr(c){
 // ── SELETTORE VALUTA / LINGUA (ricercabile) ──────────────
 let pickerMode='curr';
 function updatePickerLabels(){
+  hydrateLangSelects();
   const cb=document.getElementById('currBtnLabel');
   if(cb){const c=CUR[curCurr]||{sym:curCurr};cb.textContent=(c.sym&&c.sym.length<=2?c.sym+' ':'')+curCurr;}
   const lb=document.getElementById('langBtnLabel');
@@ -258,8 +306,10 @@ function togglePicker(mode){
   buildPickerList('');
   panel.removeAttribute('hidden');
   panel.setAttribute('data-mode',mode);
-  document.getElementById('currBtn').classList.toggle('on',mode==='curr');
-  document.getElementById('langBtn').classList.toggle('on',mode==='lang');
+  const currBtn=document.getElementById('currBtn');
+  const langBtn=document.getElementById('langBtn');
+  if(currBtn){currBtn.classList.toggle('on',mode==='curr');currBtn.setAttribute('aria-expanded',mode==='curr'?'true':'false');}
+  if(langBtn){langBtn.classList.toggle('on',mode==='lang');langBtn.setAttribute('aria-expanded',mode==='lang'?'true':'false');}
   setTimeout(function(){if(search)search.focus();},30);
 }
 function filterPicker(){
@@ -270,7 +320,8 @@ function closePicker(){
   const panel=document.getElementById('pickerPanel');
   if(panel)panel.setAttribute('hidden','');
   const a=document.getElementById('currBtn'),b=document.getElementById('langBtn');
-  if(a)a.classList.remove('on'); if(b)b.classList.remove('on');
+  if(a){a.classList.remove('on');a.setAttribute('aria-expanded','false');}
+  if(b){b.classList.remove('on');b.setAttribute('aria-expanded','false');}
 }
 function selectCurr(code){
   setCurr(code);
@@ -294,6 +345,7 @@ document.addEventListener('click',function(e){
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closePicker();});
 
 function toggleMenu(){
+  closePicker();
   const b=document.getElementById('burger');
   const m=document.getElementById('mnav');
   b.classList.toggle('open');
@@ -308,10 +360,38 @@ function closeMNav(){
   document.body.style.overflow='';
 }
 
+function toggleHomeVideoPause(){
+  const stage=document.querySelector('.lj-video-stage');
+  const video=document.getElementById('homeVideo');
+  const btn=document.getElementById('homeVideoPause');
+  if(!stage||!btn)return;
+  const hasSource=!!(video&&video.querySelector('source'));
+  const paused=stage.classList.toggle('paused');
+  btn.classList.toggle('is-paused',paused);
+  btn.setAttribute('aria-label',paused?'Riproduci video':'Pausa video');
+  if(hasSource){
+    if(paused)video.pause();
+    else video.play().catch(function(){});
+  }
+}
+
+function toggleHomeVideoMute(){
+  const video=document.getElementById('homeVideo');
+  const btn=document.getElementById('homeVideoMute');
+  if(!btn)return;
+  const muted=video?!video.muted:false;
+  if(video)video.muted=muted;
+  btn.classList.toggle('is-muted',muted);
+  btn.setAttribute('aria-label',muted?'Audio video disattivato':'Disattiva audio video');
+}
+window.toggleHomeVideoPause=toggleHomeVideoPause;
+window.toggleHomeVideoMute=toggleHomeVideoMute;
+
 function renderPrices(){
+  const l=pack(T);
   document.querySelectorAll('.pcard-price').forEach(el=>{
     const p=prods.find(x=>x.id==el.dataset.id);
-    if(p) el.innerHTML=p.price===0?`<span class="price-req">${T[curLang].price_req||'—'}</span>`:fmt(p.price);
+    if(p) el.innerHTML=p.price===0?`<span class="price-req">${l.price_req||'—'}</span>`:fmt(p.price);
   });
   document.querySelectorAll('.pcard-orig').forEach(el=>{
     const p=prods.find(x=>x.id==el.dataset.id);
@@ -344,7 +424,7 @@ function wireShop(){
   const av=document.getElementById('availOnly');if(av)av.addEventListener('change',e=>{availOnly=e.target.checked;render();});
 }
 function render(){
-  const l=T[curLang];
+  const l=pack(T);
   const g=document.getElementById('grid');
   if(!g)return;
   wireShop();
@@ -429,19 +509,51 @@ const SPEC_LBL={
 };
 const BRAND_NAME={gucci:'Gucci',balenciaga:'Balenciaga',enfants:'Enfants Riches Déprimés',erd:'Enfants Riches Déprimés'};
 const TRUST_LBL={
-  it:['Autenticato','Reso facile','Spedizione tracciata'],
-  en:['Authenticated','Easy returns','Tracked shipping'],
-  fr:['Authentifié','Retour facile','Livraison suivie'],
-  es:['Autenticado','Devolución fácil','Envío con seguimiento'],
-  de:['Authentifiziert','Einfache Rückgabe','Verfolgter Versand']
+  it:['Autenticato','Igienizzato','Reso facile','Spedizione tracciata'],
+  en:['Authenticated','Sanitized','Easy returns','Tracked shipping'],
+  fr:['Authentifié','Nettoyé','Retour facile','Livraison suivie'],
+  es:['Autenticado','Higienizado','Devolución fácil','Envío con seguimiento'],
+  de:['Authentifiziert','Gereinigt','Einfache Rückgabe','Verfolgter Versand']
 };
+function escAttr(v){
+  return String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+function productMediaHtml(p){
+  const imgs=(p.images||[]).filter(Boolean);
+  const name=translateName(p.name,curLang);
+  const safeName=escAttr(name);
+  const imgErr=`onerror="this.onerror=null;this.style.opacity='.15'"`;
+  const main=imgs[0]||'';
+  const poster=imgs[1]||main;
+  const sideImgs=imgs.slice(1);
+  const labels=['RETRO','DETTAGLIO','TESSUTO','ETICHETTA','FOTO'];
+  const certCopy={
+    it:['Autenticità verificata','Controllo materiali, etichette e cuciture.'],
+    en:['Authenticity verified','Materials, labels and stitching checked.'],
+    fr:['Authenticité vérifiée','Matières, étiquettes et coutures contrôlées.'],
+    es:['Autenticidad verificada','Materiales, etiquetas y costuras revisadas.'],
+    de:['Echtheit geprüft','Materialien, Labels und Nähte geprüft.']
+  };
+  const cert=certCopy[langBase(curLang)]||certCopy.it;
+  let html=`<figure class="media-main">${main?`<img src="${escAttr(main)}" alt="${safeName}" loading="eager" decoding="async" ${imgErr}>`:''}</figure><div class="media-side">`;
+  if(p.video){
+    html+=`<div class="media-tile media-video"><video class="pvid" controls playsinline preload="metadata"${poster?` poster="${escAttr(poster)}"`:''}><source src="${escAttr(p.video)}" type="video/mp4"></video><span class="media-kicker">VIDEO</span></div>`;
+  }else{
+    html+=`<div class="media-tile media-video media-video-slot" aria-label="Slot video prodotto">${poster?`<img src="${escAttr(poster)}" alt="" loading="lazy" decoding="async" ${imgErr}>`:''}<span class="media-play" aria-hidden="true"></span><span class="media-kicker">VIDEO</span><span class="media-caption">FIT CHECK</span></div>`;
+  }
+  sideImgs.forEach(function(src,i){
+    const lbl=labels[i]||('FOTO '+(i+2));
+    html+=`<figure class="media-tile media-thumb"><img src="${escAttr(src)}" alt="${safeName} ${escAttr(lbl.toLowerCase())}" loading="lazy" decoding="async" ${imgErr}><figcaption>${lbl}</figcaption></figure>`;
+  });
+  html+=`<div class="media-tile media-cert"><span>IRIS</span><strong>${cert[0]}</strong><small>${cert[1]}</small></div>`;
+  html+='</div>';
+  return html;
+}
 function openM(id){
   const p=prods.find(x=>x.id===id);
-  const l=T[curLang];
+  const l=pack(T);
   const mimg=document.getElementById('mimg');
-  const imgs=p.images||[];
-  const vidHTML = p.video ? `<div class="pvid-wrap"><video class="pvid" controls playsinline preload="metadata"${imgs[0]?` poster="${imgs[0]}"`:''}><source src="${p.video}" type="video/mp4"></video><span class="pvid-tag">Video</span></div>` : '';
-  mimg.innerHTML=vidHTML+imgs.map(s=>`<img src="${s}" alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.style.opacity='.15'">`).join('');
+  mimg.innerHTML=productMediaHtml(p);
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
   document.getElementById('mname').textContent=translateName(p.name,curLang);
   if(p.price===0){
@@ -456,14 +568,14 @@ function openM(id){
   }
   const condMap={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
   const condTxt=l[condMap[p.cond]]||p.cond;
-  const SL=SPEC_LBL[curLang]||SPEC_LBL.it;
+  const SL=SPEC_LBL[langBase(curLang)]||SPEC_LBL.it;
   const colorTxt=p.color?p.color.charAt(0).toUpperCase()+p.color.slice(1):'';
   const rows=[[SL.brand,BRAND_NAME[p.brand]||p.brand||''],[SL.size,p.sz],[SL.cond,condTxt],[SL.color,colorTxt],[SL.fit,p.fit]];
   document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>`<div class="mspec"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
-  const desc=typeof p.desc==='object'?(p.desc[curLang]||p.desc.it):p.desc;
+  const desc=typeof p.desc==='object'?(p.desc[curLang]||p.desc[langBase(curLang)]||p.desc.it):p.desc;
   const boxNote=p.hasBox?(l.box_note||' Original box included.'):'';
   document.getElementById('mdesc').textContent=desc+(p.hasBox?boxNote:'');
-  const TR=TRUST_LBL[curLang]||TRUST_LBL.it;
+  const TR=TRUST_LBL[langBase(curLang)]||TRUST_LBL.it;
   document.getElementById('mtrust').innerHTML=TR.map(t=>`<span>${t}</span>`).join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
@@ -483,7 +595,7 @@ function openM(id){
   if(location.hash!=='#p'+id){history.pushState(null,'','#p'+id);}
 }
 function relatedCard(p){
-  const l=T[curLang];const imgs=p.images||[];
+  const l=pack(T);const imgs=p.images||[];
   const d=document.createElement('div');d.className='pc'+(p.sold?' sold':'');
   const front=imgs[0]?`src="${imgs[0]}"`:'';
   d.innerHTML=`<div class="pi"><img ${front} alt="${translateName(p.name,curLang)}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.style.opacity='.15'">${p.sold?`<div class="ptag sold">${l.sold}</div>`:''}</div><div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="pfooter"><span class="pprice">${p.price===0?(l.price_req||'—'):fmt(p.price)}</span>${p.orig>0?` <span class="porig">${fmt(p.orig)}</span>`:''}</div></div>`;
@@ -517,7 +629,7 @@ function closeTrack(){disposeGlobe();document.getElementById('tov').classList.re
 let ckCurrentProduct=null;
 function openCheckout(p){
   ckCurrentProduct=p;
-  const ck=CK[curLang]||CK.it;
+  const ck=pack(CK);
   document.querySelectorAll('[data-ck]').forEach(el=>{
     const k=el.getAttribute('data-ck');
     if(ck[k]){
@@ -526,7 +638,7 @@ function openCheckout(p){
     }
   });
   document.getElementById('ckAddr').placeholder=ck.ck_addr_ph||'Via, numero civico';
-  const l=T[curLang]||T.it;
+  const l=pack(T);
   const pName=translateName(p.name,curLang);
   const pPrice=p.price===0?(l.price_req||'Su richiesta'):fmt(p.price);
   document.getElementById('ckProduct').textContent=pName+' — '+pPrice;
@@ -553,7 +665,7 @@ function closeCheckout(){document.getElementById('ckov').classList.remove('open'
 const SHIP_COST={it:10,eu:15,world:25};
 function updateShipping(){
   const zone=document.getElementById('ckShipZone')?.value||'it';
-  const ck=CK[curLang]||CK.it;
+  const ck=pack(CK);
   const ship=SHIP_COST[zone];
   const price=ckCurrentProduct?.price||0;
   const summary=document.getElementById('ckSummary');
@@ -569,7 +681,7 @@ function updateShipping(){
 
 var _ckf=document.getElementById('ckForm');if(_ckf)_ckf.addEventListener('submit',function(e){
   e.preventDefault();
-  const ck=CK[curLang]||CK.it;
+  const ck=pack(CK);
   const fields={
     nome:document.getElementById('ckNome').value.trim(),
     cognome:document.getElementById('ckCognome').value.trim(),
@@ -753,14 +865,14 @@ const GEO_T = {
   de:{eye:'Willkommen',title:'<em>Region</em> und Währung bestätigen?',lang:'Sprache',curr:'Währung',btn:'Bestätigen',from:n=>`Du scheinst aus ${n} zu surfen. Sprache und Währung sind änderbar.`,nofrom:'Sprache und Währung festlegen.'}
 };
 function geoSuggest(){
-  const curMap={GB:'GBP',US:'USD',CH:'CHF',JP:'JPY',CN:'CNY'};
-  const langMap={IT:'it',FR:'fr',BE:'fr',LU:'fr',MC:'fr',ES:'es',MX:'es',AR:'es',CL:'es',CO:'es',PE:'es',DE:'de',AT:'de',CH:'de',GB:'en',IE:'en',US:'en'};
-  function navLang(){const n=(navigator.language||'').slice(0,2).toLowerCase();return ['it','en','fr','es','de'].includes(n)?n:null;}
+  const curMap={GB:'GBP',US:'USD',CH:'CHF',JP:'JPY',CN:'CNY',BR:'BRL',MX:'MXN',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',RO:'RON',TR:'TRY',RU:'RUB'};
+  const langMap={IT:'it',FR:'fr',BE:'fr',LU:'fr',MC:'fr',ES:'es',MX:'es',AR:'es',CL:'es',CO:'es',PE:'es',DE:'de',AT:'de',CH:'de',GB:'en',IE:'en',US:'en',BR:'pt',PT:'pt',NL:'nl',PL:'pl',RO:'ro',SE:'sv',NO:'no',DK:'da',GR:'el',TR:'tr',AE:'ar',SA:'ar',QA:'ar',KW:'ar',CN:'zh',HK:'zh',TW:'zh',JP:'ja',KR:'ko',RU:'ru'};
+  function navLang(){const n=(navigator.language||'').slice(0,2).toLowerCase();return LANG_BY_CODE[n]?n:null;}
   function apply(cc,name){
     cc=(cc||'').toUpperCase();
     const sLang=langMap[cc]||navLang()||'it';
     const sCurr=curMap[cc]||'EUR';
-    const g=GEO_T[sLang]||GEO_T.it;
+    const g=GEO_T[langBase(sLang)]||GEO_T.it;
     document.getElementById('geoEye').textContent=g.eye;
     document.getElementById('geoTitle').innerHTML=g.title;
     document.getElementById('geoSub').textContent=name?g.from(name):g.nofrom;
@@ -796,9 +908,9 @@ function doTrack(){
   const orderRaw=document.getElementById('trin-order').value.trim();
   const codeRaw=document.getElementById('trin').value.trim();
   const r=document.getElementById('trres');
-  const tt=TT[curLang]||TT.it;
-  const m=TMSG[curLang]||TMSG.it;
-  const steps=STEPS[curLang]||STEPS.it;
+  const tt=pack(TT);
+  const m=pack(TMSG);
+  const steps=STEPS[langBase(curLang)]||STEPS.it;
   const esc=s=>String(s).replace(/</g,'&lt;');
   if(!orderRaw||!codeRaw){r.innerHTML=`<span style="color:#b5564e">${m.both}</span>`;return;}
   r.innerHTML=`<div class="track-spinner">${tt.searching}</div>`;
@@ -838,7 +950,7 @@ function doTrack(){
 
 // FAQ
 function buildFaq(){
-  const l=T[curLang];
+  const l=pack(T);
   const faqs=[[l.fq1,l.fa1],[l.fq2,l.fa2],[l.fq3,l.fa3],[l.fq4,l.fa4],[l.fq5,l.fa5]];
   document.getElementById('faqList').innerHTML=faqs.map((f,i)=>`<div class="faq-item" id="fi${i}"><div class="faq-q" onclick="toggleFaq(${i})">${f[0]}<span class="faq-arrow">▾</span></div><div class="faq-a"><div class="faq-a-inner">${f[1]}</div></div></div>`).join('');
 }
@@ -915,10 +1027,12 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
 // INIT — restore saved preferences
 (function(){
   try{
+    hydrateLangSelects();
     const sl=localStorage.getItem('bl_lang');
     const sc=localStorage.getItem('bl_curr');
-    if(sl&&T[sl]){curLang=sl;const sel=document.getElementById('langSel');if(sel)sel.value=sl;}
+    if(sl&&LANG_BY_CODE[sl]){curLang=sl;const sel=document.getElementById('langSel');if(sel)sel.value=sl;}
     if(sc&&CUR[sc]){curCurr=sc;const sel=document.getElementById('currSel');if(sel)sel.value=sc;}
+    syncLangSelects();
   }catch(e){}
 })();
 render();

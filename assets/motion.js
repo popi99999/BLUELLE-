@@ -179,7 +179,9 @@ if(plx.length&&!reduced){
   var run=function(){
     tick=false;
     var y=window.scrollY;
-    if(tb)tb.classList.toggle('gone',y>60);
+    var picker=document.getElementById('pickerPanel');
+    var pickerOpen=picker&&!picker.hasAttribute('hidden');
+    if(tb)tb.classList.toggle('gone',y>60&&!pickerOpen);
     if(y>lastY&&y>420)nav.classList.add('hide');
     else nav.classList.remove('hide');
     lastY=y;
@@ -218,6 +220,7 @@ function initGsapPolish(){
 function initLogoJourney(){
   var section=document.getElementById('logo-journey');
   if(!section)return;
+  if(section.classList.contains('media-journey'))return;
 
   var mm=gsap.matchMedia();
   mm.add('(min-width: 761px)',function(){
@@ -232,14 +235,12 @@ function initLogoJourney(){
     var bg=section.querySelector('.lj-bg');
     var mark=section.querySelector('.lj-mark');
     var mega=section.querySelector('.lj-mega');
-    var panels=section.querySelectorAll('.lj-panel-1,.lj-panel-2,.lj-panel-3');
     var panel1=section.querySelector('.lj-panel-1');
-    var panel2=section.querySelector('.lj-panel-2');
-    var panel3=section.querySelector('.lj-panel-3');
+    var proof=section.querySelector('.lj-proof');
     var final=section.querySelector('.lj-final');
     var shots=section.querySelectorAll('.lj-shot');
-    if(!pin||!mark||!mega)return;
-    var hideTargets=Array.prototype.slice.call(panels).concat([final],Array.prototype.slice.call(shots));
+    if(!pin||!mark||!mega||!panel1)return;
+    var hideTargets=[panel1,proof,final].filter(Boolean).concat(Array.prototype.slice.call(shots));
 
     var markPeak=isMobile?1.72:2.18;
     var markEnd=isMobile?1.95:2.45;
@@ -261,33 +262,24 @@ function initLogoJourney(){
 
     gsap.set(hideTargets,{autoAlpha:0});
     gsap.set(final,{pointerEvents:'none'});
+    gsap.set(panel1,{autoAlpha:1,y:0});
+    if(proof)gsap.set(proof,{autoAlpha:1,y:0});
     gsap.set(mark,{autoAlpha:1,scale:1,y:0,letterSpacing:'0em',force3D:true});
     gsap.set(mega,{autoAlpha:0,y:0,scale:1,letterSpacing:'0em',force3D:true});
 
-    tl.fromTo(panel1,{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:.34,ease:'power3.out'},.1)
-      .to(mark,{scale:markPeak,autoAlpha:.22,y:isMobile?-12:-18,duration:.68,ease:'power2.inOut'},.24)
-      .to(mega,{autoAlpha:.13,y:isMobile?-18:-28,duration:.68,ease:'power2.out'},.24)
-      .to(bg,{scale:1.04,opacity:.96,duration:.7,ease:'power2.out'},.24)
-      .to(panel1,{autoAlpha:0,y:-34,duration:.24,ease:'power2.in'},.82)
-      .to(mark,{scale:markEnd,autoAlpha:.08,y:isMobile?-30:-48,duration:.65,ease:'power2.inOut'},.82)
-      .to(mega,{autoAlpha:.16,y:megaShift*.55,duration:.65,ease:'power2.inOut'},.82)
-      .fromTo(panel2,{autoAlpha:0,y:34},{autoAlpha:1,y:0,duration:.34,ease:'power3.out'},1)
-      .to('.lj-shot-a',{autoAlpha:1,y:0,rotation:-3,duration:.48,ease:'power3.out'},1.08)
-      .to('.lj-shot-b',{autoAlpha:1,y:0,rotation:4,duration:.48,ease:'power3.out'},1.18)
-      .to(panel2,{autoAlpha:0,y:-38,duration:.26,ease:'power2.in'},1.54)
-      .to(mark,{autoAlpha:0,scale:markEnd*1.03,y:isMobile?-38:-62,duration:.42,ease:'power2.out'},1.5)
-      .to(mega,{autoAlpha:.11,y:megaShift,letterSpacing:'.012em',duration:.72,ease:'power2.inOut'},1.5)
-      .fromTo(panel3,{autoAlpha:0,y:36},{autoAlpha:1,y:0,duration:.34,ease:'power3.out'},1.74)
-      .to('.lj-shot-c',{autoAlpha:1,y:0,rotation:0,duration:.48,ease:'power3.out'},1.82)
-      .to('.lj-shot-a',{x:isMobile?'5vw':'7vw',y:isMobile?'6vh':'9vh',rotation:-1,duration:.72,ease:'power2.inOut'},1.9)
-      .to('.lj-shot-b',{x:isMobile?'-5vw':'-7vw',y:isMobile?'7vh':'10vh',rotation:2,duration:.72,ease:'power2.inOut'},1.9)
-      .to(panel3,{autoAlpha:0,y:-38,duration:.28,ease:'power2.in'},2.3)
-      .to(mega,{autoAlpha:.06,y:megaShift*1.2,duration:.6,ease:'power2.inOut'},2.26)
-      .to(bg,{scale:1.12,opacity:.58,duration:.64,ease:'power2.inOut'},2.26)
-      .to(shots,{autoAlpha:.38,duration:.36,ease:'power2.out'},2.56)
-      .fromTo(final,{autoAlpha:0,y:22},{autoAlpha:1,y:0,duration:.36,ease:'power3.out'},2.62)
-      .set(final,{pointerEvents:'auto'},2.64)
+    tl.to(mark,{scale:markPeak,autoAlpha:.18,y:isMobile?-12:-18,duration:.78,ease:'power2.inOut'},.05)
+      .to(mega,{autoAlpha:.08,y:isMobile?-18:-28,duration:.78,ease:'power2.out'},.05)
+      .to(bg,{scale:1.03,opacity:.9,duration:.78,ease:'power2.out'},.05)
+      .to(panel1,{autoAlpha:0,y:isMobile?-46:-62,duration:.36,ease:'power2.inOut'},1.02)
+      .to(mark,{autoAlpha:0,scale:markEnd,y:isMobile?-34:-54,duration:.52,ease:'power2.out'},.98)
+      .to(mega,{autoAlpha:.05,y:megaShift,letterSpacing:'.01em',duration:.66,ease:'power2.inOut'},.98)
+      .to(bg,{scale:1.1,opacity:.56,duration:.62,ease:'power2.inOut'},1)
+      .fromTo(final,{autoAlpha:0,y:22},{autoAlpha:1,y:0,duration:.38,ease:'power3.out'},1.4)
+      .set(final,{pointerEvents:'auto'},1.44)
       .to('.lj-scroll',{autoAlpha:0,duration:.18},.5);
+    if(shots.length){
+      tl.to(shots,{autoAlpha:.22,duration:.32,ease:'power2.out'},1.14);
+    }
   }
 }
 

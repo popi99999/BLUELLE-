@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260707c">
+<link rel="stylesheet" href="assets/styles.css?v=20260707d">
 </head>
 <body>
 <!-- INTRO -->
@@ -72,31 +72,52 @@
 </div>
 <main role="main">
 <!-- LOGO JOURNEY -->
-<section id="logo-journey" aria-label="Esperienza Bluèlle">
+<section id="logo-journey" class="media-journey" aria-label="Esperienza Bluèlle">
   <div class="lj-pin">
     <div class="lj-bg" aria-hidden="true"></div>
-    <div class="lj-mark brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
-    <div class="lj-mega brand-word" aria-hidden="true"><span>Blu</span><em>è</em><span>lle</span></div>
-    <div class="lj-panel lj-panel-1">
-      <p class="lj-kicker">Compra</p>
-      <h1>Capi luxury autentici,<br><em>selezionati a mano.</em></h1>
-    </div>
-    <div class="lj-panel lj-panel-2">
-      <p class="lj-kicker">Affida</p>
-      <h2>Hai un pezzo di valore?<br><em>Lo vendiamo per te.</em></h2>
-    </div>
-    <div class="lj-panel lj-panel-3">
-      <p class="lj-kicker">Autenticità garantita</p>
-      <h2>Ogni capo verificato<br><em>uno a uno con IRIS.</em></h2>
-    </div>
-    <div class="lj-final">
-      <p>Da dove vuoi <em>iniziare?</em></p>
-      <div class="lj-actions">
-        <a href="collezione.html" class="lj-button">Compra un capo</a>
-        <a href="contatti.html" class="lj-button lj-button-alt">Affida il tuo</a>
+    <header class="lj-media-head">
+      <div class="lj-logo-large brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
+      <p data-i="tagline">Luxury Second Hand</p>
+    </header>
+    <div class="lj-video-stage" aria-label="Video editoriale Bluèlle">
+      <video id="homeVideo" class="lj-video" muted loop playsinline preload="metadata" poster="img/new-art42-1.jpg" aria-label="Slot video Bluèlle"></video>
+      <div class="lj-video-fallback" aria-hidden="true">
+        <img src="img/new-art42-1.jpg" alt="" loading="eager" decoding="async">
+        <img src="img/p7-f1.jpg" alt="" loading="eager" decoding="async">
+        <img src="img/new-art05-1.jpg" alt="" loading="eager" decoding="async">
+      </div>
+      <div class="lj-video-wash" aria-hidden="true"></div>
+      <div class="lj-video-card">
+        <p data-i="tagline">Luxury Second Hand</p>
+        <div class="lj-video-actions">
+          <a href="collezione.html" data-i="hero_cta">Esplora la collezione</a>
+          <a href="contatti.html" data-i="sell_cta">Affida il tuo capo</a>
+        </div>
+      </div>
+      <div class="lj-video-controls" aria-label="Controlli video">
+        <button class="lj-video-btn is-pause" id="homeVideoPause" type="button" onclick="toggleHomeVideoPause()" aria-label="Pausa video"></button>
+        <button class="lj-video-btn is-mute is-muted" id="homeVideoMute" type="button" onclick="toggleHomeVideoMute()" aria-label="Audio video disattivato"></button>
       </div>
     </div>
-    <div class="lj-scroll">scorri</div>
+    <div class="lj-proof lj-proof-video" aria-label="Pagamenti e garanzie">
+        <span class="lj-proof-label" data-i="secure_pay">Pagamento sicuro via Stripe</span>
+        <div class="lj-payments" aria-label="Metodi di pagamento accettati">
+          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
+          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
+          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
+          <img src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
+          <img src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
+          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
+          <img src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
+          <img src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="lj-assurance" aria-label="Garanzie acquisto">
+          <span data-trust-idx="0">Autenticato</span>
+          <span data-trust-idx="1">Igienizzato</span>
+          <span data-trust-idx="2">Reso facile</span>
+          <span data-trust-idx="3">Spedizione tracciata</span>
+        </div>
+    </div>
   </div>
 </section>
 
@@ -119,7 +140,7 @@
 <!-- VENDI A NOI -->
 <section id="sell">
   <div class="sell-media reveal">
-    <img src="img/vendi.jpg" alt="Vendi i tuoi capi di lusso" loading="lazy" onerror="this.style.display='none';this.parentNode.classList.add('empty')">
+    <img src="img/p1-f1.jpg" alt="Vendi i tuoi capi di lusso" loading="lazy" onerror="this.style.display='none';this.parentNode.classList.add('empty')">
     <span class="sell-slot">Slot foto — inserisci qui la tua immagine (img/vendi.jpg)</span>
   </div>
   <div class="sell-panel reveal delay-1">
@@ -187,10 +208,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260707c"></script>
+<script src="assets/app.js?v=20260707d"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260707c"></script>
+<script src="assets/motion.js?v=20260707d"></script>
 </body>
 </html>
