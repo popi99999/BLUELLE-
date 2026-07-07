@@ -90,6 +90,26 @@ img{display:block}
 .tb-sel option{color:var(--ink);background:var(--paper)}
 .tb-sel:hover{color:var(--tiff)}
 .tb-sep{color:var(--mist);font-size:.72rem}
+/* ── SELETTORE VALUTA/LINGUA RICERCABILE ── */
+.picker-btn{display:inline-flex;align-items:center;gap:.4rem;background:transparent;border:none;color:var(--stone);font-family:var(--f-ui);font-weight:300;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;outline:none;padding:.2rem 0;transition:color .35s}
+.picker-btn:hover,.picker-btn.on{color:var(--ink)}
+.pick-chev{transition:transform .35s var(--e-out);opacity:.7}
+.picker-btn.on .pick-chev{transform:rotate(180deg)}
+.picker-panel{position:absolute;top:calc(100% + .5rem);right:clamp(1.4rem,5vw,4.5rem);width:min(300px,90vw);background:var(--paper);border:1px solid var(--line);box-shadow:0 24px 60px rgba(33,30,25,.16);z-index:340;display:flex;flex-direction:column;overflow:hidden;animation:pickIn .28s var(--e-out)}
+@keyframes pickIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.pick-search{display:flex;align-items:center;gap:.6rem;padding:.85rem 1rem;border-bottom:1px solid var(--line-soft);color:var(--stone)}
+.pick-search input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-family:var(--f-ui);font-size:.9rem;font-weight:300;color:var(--ink)}
+.pick-search input::placeholder{color:var(--mist)}
+.pick-list{max-height:min(340px,52vh);overflow-y:auto;overscroll-behavior:contain}
+.pick-row{display:flex;align-items:baseline;gap:.7rem;width:100%;text-align:left;background:transparent;border:none;border-bottom:1px solid var(--line-soft);padding:.7rem 1rem;cursor:pointer;transition:background .2s,color .2s;font-family:var(--f-ui)}
+.pick-row:last-child{border-bottom:none}
+.pick-row:hover{background:var(--cream)}
+.pick-code{font-size:.72rem;letter-spacing:.04em;color:var(--ink);white-space:nowrap;min-width:4.4em;font-weight:400}
+.pick-name{font-size:.78rem;color:var(--stone);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pick-row.on{background:rgba(10,166,160,.06)}
+.pick-row.on .pick-code{color:var(--tiff-deep)}
+.pick-row.on .pick-name{color:var(--slate)}
+.pick-empty{padding:1.2rem 1rem;font-size:.82rem;color:var(--stone);text-align:center}
 
 /* ── NAV ────────────────────────────────────────────── */
 nav{position:fixed;top:30px;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.5rem clamp(1.4rem,5vw,4.5rem);transition:background .6s,padding .5s,box-shadow .6s,top .6s var(--e-out),transform .6s var(--e-out)}

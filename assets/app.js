@@ -66,12 +66,81 @@ const prods = [
 
 // STATE
 let curLang='it', curCurr='EUR', curFilter='all', curWorld=null;
+
+// Tassi base (fallback se il fetch live fallisce). Vengono sovrascritti dal cambio live.
 const rates={EUR:1,USD:1.08,GBP:0.86,CHF:0.96,JPY:161,CNY:7.8};
-const syms={EUR:'€',USD:'$',GBP:'£',CHF:'₣',JPY:'¥',CNY:'¥'};
+
+// Elenco valute: code, sym(bolo), name, lang(lingua associata), suf(fisso il simbolo dopo)
+const CURRENCIES=[
+  {code:'EUR',sym:'€',name:'Euro',lang:'it'},
+  {code:'USD',sym:'$',name:'US Dollar',lang:'en'},
+  {code:'GBP',sym:'£',name:'British Pound',lang:'en'},
+  {code:'CHF',sym:'CHF',name:'Swiss Franc',lang:'de',suf:1},
+  {code:'JPY',sym:'¥',name:'Japanese Yen',lang:'en'},
+  {code:'CNY',sym:'¥',name:'Chinese Yuan',lang:'en'},
+  {code:'AUD',sym:'A$',name:'Australian Dollar',lang:'en'},
+  {code:'CAD',sym:'C$',name:'Canadian Dollar',lang:'en'},
+  {code:'NZD',sym:'NZ$',name:'New Zealand Dollar',lang:'en'},
+  {code:'SEK',sym:'kr',name:'Swedish Krona',lang:'en',suf:1},
+  {code:'NOK',sym:'kr',name:'Norwegian Krone',lang:'en',suf:1},
+  {code:'DKK',sym:'kr',name:'Danish Krone',lang:'en',suf:1},
+  {code:'ISK',sym:'kr',name:'Icelandic Króna',lang:'en',suf:1},
+  {code:'PLN',sym:'zł',name:'Polish Złoty',lang:'en',suf:1},
+  {code:'CZK',sym:'Kč',name:'Czech Koruna',lang:'en',suf:1},
+  {code:'HUF',sym:'Ft',name:'Hungarian Forint',lang:'en',suf:1},
+  {code:'RON',sym:'lei',name:'Romanian Leu',lang:'en',suf:1},
+  {code:'BGN',sym:'лв',name:'Bulgarian Lev',lang:'en',suf:1},
+  {code:'TRY',sym:'₺',name:'Turkish Lira',lang:'en'},
+  {code:'RUB',sym:'₽',name:'Russian Ruble',lang:'en'},
+  {code:'UAH',sym:'₴',name:'Ukrainian Hryvnia',lang:'en'},
+  {code:'AED',sym:'AED',name:'UAE Dirham',lang:'en',suf:1},
+  {code:'SAR',sym:'SAR',name:'Saudi Riyal',lang:'en',suf:1},
+  {code:'QAR',sym:'QAR',name:'Qatari Riyal',lang:'en',suf:1},
+  {code:'KWD',sym:'KWD',name:'Kuwaiti Dinar',lang:'en',suf:1},
+  {code:'BHD',sym:'BHD',name:'Bahraini Dinar',lang:'en',suf:1},
+  {code:'ILS',sym:'₪',name:'Israeli Shekel',lang:'en'},
+  {code:'INR',sym:'₹',name:'Indian Rupee',lang:'en'},
+  {code:'IDR',sym:'Rp',name:'Indonesian Rupiah',lang:'en'},
+  {code:'MYR',sym:'RM',name:'Malaysian Ringgit',lang:'en'},
+  {code:'SGD',sym:'S$',name:'Singapore Dollar',lang:'en'},
+  {code:'HKD',sym:'HK$',name:'Hong Kong Dollar',lang:'en'},
+  {code:'TWD',sym:'NT$',name:'Taiwan Dollar',lang:'en'},
+  {code:'KRW',sym:'₩',name:'South Korean Won',lang:'en'},
+  {code:'THB',sym:'฿',name:'Thai Baht',lang:'en'},
+  {code:'PHP',sym:'₱',name:'Philippine Peso',lang:'en'},
+  {code:'VND',sym:'₫',name:'Vietnamese Dong',lang:'en',suf:1},
+  {code:'ZAR',sym:'R',name:'South African Rand',lang:'en'},
+  {code:'EGP',sym:'E£',name:'Egyptian Pound',lang:'en'},
+  {code:'MAD',sym:'DH',name:'Moroccan Dirham',lang:'fr',suf:1},
+  {code:'BRL',sym:'R$',name:'Brazilian Real',lang:'es'},
+  {code:'MXN',sym:'$',name:'Mexican Peso',lang:'es'},
+  {code:'ARS',sym:'$',name:'Argentine Peso',lang:'es'},
+  {code:'CLP',sym:'$',name:'Chilean Peso',lang:'es'},
+  {code:'COP',sym:'$',name:'Colombian Peso',lang:'es'},
+  {code:'PEN',sym:'S/',name:'Peruvian Sol',lang:'es'}
+];
+const CUR={}; CURRENCIES.forEach(function(c){CUR[c.code]=c;});
+const LANGS=[
+  {code:'it',name:'Italiano'},{code:'en',name:'English'},
+  {code:'fr',name:'Français'},{code:'es',name:'Español'},{code:'de',name:'Deutsch'}
+];
 
 function fmt(p){
-  const v=p*rates[curCurr];
-  return syms[curCurr]+(v>=1000?Math.round(v).toLocaleString():Math.round(v));
+  const rate=rates[curCurr]||1;
+  const v=Math.round(p*rate);
+  const c=CUR[curCurr]||{sym:curCurr};
+  const num=v.toLocaleString('en-US');
+  const s=c.sym||curCurr;
+  return c.suf?(num+' '+s):(s+num);
+}
+
+// ── CAMBIO LIVE ──────────────────────────────────────────
+function fetchRates(){
+  fetch('https://open.er-api.com/v6/latest/EUR',{cache:'no-store'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.rates){ Object.assign(rates,d.rates); rates.EUR=1; renderPrices(); }
+    })['catch'](function(){});
 }
 
 function translateName(name, lang){
@@ -138,13 +207,91 @@ function setLang(l){
     if(T[l]&&T[l][k]!==undefined) el.innerHTML=T[l][k];
   });
   render();
+  if(typeof updatePickerLabels==='function')updatePickerLabels();
 }
 
 function setCurr(c){
   curCurr=c;
   try{localStorage.setItem('bl_curr',c);}catch(e){}
   renderPrices();
+  updatePickerLabels();
 }
+
+// ── SELETTORE VALUTA / LINGUA (ricercabile) ──────────────
+let pickerMode='curr';
+function updatePickerLabels(){
+  const cb=document.getElementById('currBtnLabel');
+  if(cb){const c=CUR[curCurr]||{sym:curCurr};cb.textContent=(c.sym&&c.sym.length<=2?c.sym+' ':'')+curCurr;}
+  const lb=document.getElementById('langBtnLabel');
+  if(lb)lb.textContent=curLang.toUpperCase();
+}
+function buildPickerList(q){
+  const list=document.getElementById('pickerList');
+  if(!list)return;
+  q=(q||'').trim().toLowerCase();
+  let rows='';
+  if(pickerMode==='curr'){
+    CURRENCIES.filter(function(c){
+      return !q || c.code.toLowerCase().indexOf(q)>-1 || c.name.toLowerCase().indexOf(q)>-1;
+    }).forEach(function(c){
+      const on=c.code===curCurr?' on':'';
+      rows+='<button class="pick-row'+on+'" onclick="selectCurr(\''+c.code+'\')"><span class="pick-code">'+c.sym+' '+c.code+'</span><span class="pick-name">'+c.name+'</span></button>';
+    });
+  }else{
+    LANGS.filter(function(l){
+      return !q || l.code.toLowerCase().indexOf(q)>-1 || l.name.toLowerCase().indexOf(q)>-1;
+    }).forEach(function(l){
+      const on=l.code===curLang?' on':'';
+      rows+='<button class="pick-row'+on+'" onclick="selectLang(\''+l.code+'\')"><span class="pick-code">'+l.code.toUpperCase()+'</span><span class="pick-name">'+l.name+'</span></button>';
+    });
+  }
+  list.innerHTML=rows||'<div class="pick-empty">Nessun risultato</div>';
+}
+function togglePicker(mode){
+  const panel=document.getElementById('pickerPanel');
+  if(!panel)return;
+  const open=!panel.hasAttribute('hidden')&&pickerMode===mode;
+  if(open){closePicker();return;}
+  pickerMode=mode;
+  const search=document.getElementById('pickerSearch');
+  if(search){search.value='';search.placeholder=mode==='curr'?'Cerca valuta…':'Cerca lingua…';}
+  buildPickerList('');
+  panel.removeAttribute('hidden');
+  panel.setAttribute('data-mode',mode);
+  document.getElementById('currBtn').classList.toggle('on',mode==='curr');
+  document.getElementById('langBtn').classList.toggle('on',mode==='lang');
+  setTimeout(function(){if(search)search.focus();},30);
+}
+function filterPicker(){
+  const s=document.getElementById('pickerSearch');
+  buildPickerList(s?s.value:'');
+}
+function closePicker(){
+  const panel=document.getElementById('pickerPanel');
+  if(panel)panel.setAttribute('hidden','');
+  const a=document.getElementById('currBtn'),b=document.getElementById('langBtn');
+  if(a)a.classList.remove('on'); if(b)b.classList.remove('on');
+}
+function selectCurr(code){
+  setCurr(code);
+  const cs=document.getElementById('currSel');if(cs)cs.value=code;
+  // lingua dinamica in base alla valuta (l'utente può poi cambiarla)
+  const lang=(CUR[code]||{}).lang;
+  if(lang&&lang!==curLang){ setLang(lang); const ls=document.getElementById('langSel');if(ls)ls.value=lang; }
+  updatePickerLabels();
+  closePicker();
+}
+function selectLang(code){
+  setLang(code);
+  const ls=document.getElementById('langSel');if(ls)ls.value=code;
+  updatePickerLabels();
+  closePicker();
+}
+document.addEventListener('click',function(e){
+  const tb=document.getElementById('topbar');
+  if(tb&&!tb.contains(e.target))closePicker();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closePicker();});
 
 function toggleMenu(){
   const b=document.getElementById('burger');
@@ -746,12 +893,14 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
     const sl=localStorage.getItem('bl_lang');
     const sc=localStorage.getItem('bl_curr');
     if(sl&&T[sl]){curLang=sl;const sel=document.getElementById('langSel');if(sel)sel.value=sl;}
-    if(sc&&rates[sc]){curCurr=sc;const sel=document.getElementById('currSel');if(sel)sel.value=sc;}
+    if(sc&&CUR[sc]){curCurr=sc;const sel=document.getElementById('currSel');if(sel)sel.value=sc;}
   }catch(e){}
 })();
 render();
 if(document.getElementById("faqList"))buildFaq();
 setLang(curLang);
+updatePickerLabels();
+fetchRates();
 
 // REGION SUGGESTION — solo alla prima visita (poi resta la scelta salvata)
 (function(){
