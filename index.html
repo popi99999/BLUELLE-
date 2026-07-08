@@ -7,7 +7,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://popi99999.github.io/BLUELLE-/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Bluèlle — Capi Luxury Selezionati">
+<meta property="og:title" content="Bluèlle - Capi Luxury Selezionati">
 <meta property="og:description" content="Capi firmati selezionati e autenticati uno per uno. Acquisto sicuro via Stripe, spedizione tracciata.">
 <meta property="og:url" content="https://popi99999.github.io/BLUELLE-/">
 <meta property="og:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="Bluèlle">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://popi99999.github.io/BLUELLE-/img/p7-f1.jpg">
-<meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
+<meta name="twitter:title" content="Bluèlle - Luxury Second Hand">
 <meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Bluèlle — Capi Luxury Selezionati | Second Hand</title>
+<title>Bluèlle - Capi Luxury Selezionati | Second Hand</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260707f">
+<link rel="stylesheet" href="assets/styles.css?v=20260708l">
 </head>
 <body>
 <!-- INTRO -->
@@ -58,6 +58,7 @@
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="tracking.html">Tracking</a></li>
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+    <li><a href="account.html">Account</a></li>
   </ul>
   <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
@@ -69,71 +70,78 @@
   <a href="faq.html" onclick="closeMNav()">FAQ</a>
   <a href="tracking.html" onclick="closeMNav()">Tracking</a>
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+  <a href="account.html" onclick="closeMNav()">Account</a>
 </div>
 <main role="main">
-<!-- LOGO JOURNEY -->
-<section id="logo-journey" class="media-journey" aria-label="Esperienza Bluèlle">
-  <div class="lj-pin">
-    <div class="lj-bg" aria-hidden="true"></div>
-    <header class="lj-media-head">
-      <div class="lj-logo-large brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
-      <p data-i="tagline">Luxury Second Hand</p>
-    </header>
-    <div class="lj-video-stage" aria-label="Video editoriale Bluèlle">
-      <video id="homeVideo" class="lj-video" muted loop playsinline preload="metadata" poster="img/new-art42-1.jpg" aria-label="Slot video Bluèlle"></video>
-      <div class="lj-video-fallback" aria-hidden="true">
-        <img src="img/new-art42-1.jpg" alt="" loading="eager" decoding="async">
-        <img src="img/p7-f1.jpg" alt="" loading="eager" decoding="async">
-        <img src="img/new-art05-1.jpg" alt="" loading="eager" decoding="async">
-      </div>
-      <div class="lj-video-wash" aria-hidden="true"></div>
-      <div class="lj-video-card">
-        <p data-i="tagline">Luxury Second Hand</p>
-        <div class="lj-video-actions">
-          <a href="collezione.html" data-i="hero_cta">Esplora la collezione</a>
-          <a href="contatti.html" data-i="sell_cta">Affida il tuo capo</a>
-        </div>
-      </div>
-      <div class="lj-video-controls" aria-label="Controlli video">
-        <button class="lj-video-btn is-pause" id="homeVideoPause" type="button" onclick="toggleHomeVideoPause()" aria-label="Pausa video"></button>
-        <button class="lj-video-btn is-mute is-muted" id="homeVideoMute" type="button" onclick="toggleHomeVideoMute()" aria-label="Audio video disattivato"></button>
+<!-- VIDEO SCROLL HOME -->
+<section id="home-showcase" class="rx-home" aria-label="Esperienza Bluèlle">
+  <div class="rx-pin">
+    <div class="rx-media" aria-hidden="true">
+      <div class="rx-video-shell">
+        <div class="rx-frame rx-frame-a"><span class="rx-ambient-word">Bluèlle</span></div>
+        <div class="rx-frame rx-frame-b"><span class="rx-ambient-word">Luxury</span></div>
+        <div class="rx-frame rx-frame-c"><span class="rx-ambient-word">Second</span></div>
+        <div class="rx-frame rx-frame-d"><span class="rx-ambient-word">Hand</span></div>
+        <span class="rx-video-border"></span>
       </div>
     </div>
-    <div class="lj-proof lj-proof-video" aria-label="Pagamenti e garanzie">
-        <span class="lj-proof-label" data-i="secure_pay">Pagamento sicuro via Stripe</span>
-        <div class="lj-payments" aria-label="Metodi di pagamento accettati">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="lj-assurance" aria-label="Garanzie acquisto">
-          <span data-trust-idx="0">Autenticato</span>
-          <span data-trust-idx="1">Igienizzato</span>
-          <span data-trust-idx="2">Reso facile</span>
-          <span data-trust-idx="3">Spedizione tracciata</span>
-        </div>
+
+    <header class="rx-brand">
+      <a href="index.html" class="rx-monogram" aria-label="Bluèlle">è</a>
+      <span data-i="tagline">Luxury Second Hand</span>
+    </header>
+
+    <div class="rx-title">
+      <p class="rx-kicker">Bluèlle Selection</p>
+      <h1>Capi luxury<br>scelti a mano.</h1>
+      <p>Capi firmati autentici, pochi pezzi, venduti una sola volta.</p>
+      <a href="collezione.html" class="rx-cta" data-i="hero_cta">Esplora la collezione</a>
+    </div>
+
+    <div class="rx-reveal" aria-label="Tre motivi per scegliere Bluèlle">
+      <a href="collezione.html" class="rx-card rx-card-one">
+        <img src="img/balenciaga-unity-cream-1.jpg" alt="T-shirt Balenciaga panna selezionata da Bluèlle" loading="lazy" decoding="async">
+        <span>Collezione</span>
+        <strong>Pezzi scelti</strong>
+      </a>
+      <a href="chi-siamo.html" class="rx-card rx-card-two">
+        <img src="img/new-art42-1.jpg" alt="Dettaglio etichetta Balenciaga verificata da Bluèlle" loading="lazy" decoding="async">
+        <span>Verifica</span>
+        <strong>Autenticità</strong>
+      </a>
+      <a href="faq.html" class="rx-card rx-card-three">
+        <img src="img/new-art05-1.jpg" alt="Maglione Gucci preparato prima della vendita" loading="lazy" decoding="async">
+        <span>Igienizzazione</span>
+        <strong>Cura del capo</strong>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hwm" aria-hidden="true" data-plx="-0.06">Bluèlle</div>
-  <div class="hcont">
-    <p class="heye" data-i="tagline">Luxury Second Hand</p>
-    <div class="hrule"></div>
-    <h1 class="htitle"><span data-i="hero_t1">Selezionati con cura.</span><br><em data-i="hero_t2">Al prezzo giusto.</em></h1>
-    <p class="hsub">Capi firmati autentici, verificati uno a uno.<br>Pochi pezzi. Tutti unici.</p>
-    <a href="collezione.html" class="hcta"><span data-i="hero_cta">Esplora la collezione</span></a>
+<!-- PAGAMENTI -->
+<section id="payments-story" class="pay-story" aria-label="Pagamenti flessibili">
+  <div class="pay-copy reveal">
+    <p class="pay-eye">Pagamenti flessibili</p>
+    <h2>Paga in 24<br><em>rate.</em></h2>
+    <p>Ricevi il capo adesso e scegli al checkout il metodo più comodo: carte, wallet digitali o pagamento a rate quando disponibile.</p>
+    <a class="pay-cta" href="faq.html">Scopri come</a>
+    <span class="pay-note">Disponibilità e condizioni dipendono dal provider scelto.</span>
   </div>
-  <div class="hscroll show">
-    <span data-i="scroll">Scorri</span>
-    <div class="sline"></div>
+  <div class="pay-visual">
+    <img src="img/new-art05-1.jpg" alt="Maglione Gucci selezionato da Bluèlle" loading="lazy" decoding="async">
+    <div class="pay-photo-copy" aria-hidden="true">
+      <span>Bluèlle checkout</span>
+      <strong>Paga dopo.<br>Vesti ora.</strong>
+      <small>rate, carte e wallet digitali</small>
+    </div>
+    <div class="pay-orbit" aria-label="Metodi di pagamento">
+      <span class="pay-logo pay-logo-klarna"><img src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'"><b>rate</b></span>
+      <span class="pay-logo pay-logo-scalapay"><img src="img/pay-scalapay.svg" alt="Scalapay" loading="lazy" onerror="this.style.display='none'"><b>3x</b></span>
+      <span class="pay-logo pay-logo-paypal"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'"><b>pay later</b></span>
+      <span class="pay-logo pay-logo-wallet"><img src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'"><img src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'"></span>
+      <span class="pay-logo pay-logo-cards"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'"></span>
+    </div>
+    <span class="pay-wipe"></span>
   </div>
 </section>
 
@@ -141,11 +149,11 @@
 <section id="sell">
   <div class="sell-media reveal">
     <img src="img/p1-f1.jpg" alt="Vendi i tuoi capi di lusso" loading="lazy" onerror="this.style.display='none';this.parentNode.classList.add('empty')">
-    <span class="sell-slot">Slot foto — inserisci qui la tua immagine (img/vendi.jpg)</span>
+    <span class="sell-slot">Slot foto - inserisci qui la tua immagine (img/vendi.jpg)</span>
   </div>
   <div class="sell-panel reveal delay-1">
     <h2 class="sell-title">Vendi a noi i tuoi <em>capi di lusso</em></h2>
-    <p class="sell-text">Bluèlle acquista e rivende abbigliamento, borse e accessori di lusso second-hand e vintage. Dai una seconda vita ai pezzi che non usi più e ottieni un guadagno — in modo semplice, sicuro e trasparente.</p>
+    <p class="sell-text">Bluèlle acquista e rivende abbigliamento, borse e accessori di lusso second-hand e vintage. Dai una seconda vita ai pezzi che non usi più e ottieni un guadagno, in modo semplice, sicuro e trasparente.</p>
     <a href="https://wa.me/393000000000" class="sell-cta" target="_blank" rel="noopener">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.16c-.24.68-1.42 1.31-1.95 1.36-.5.05-.98.23-3.29-.69-2.78-1.1-4.55-3.96-4.69-4.14-.14-.18-1.12-1.49-1.12-2.84s.71-2.02.96-2.29c.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.48.24.55.81 1.9.88 2.04.07.14.12.3.02.48-.09.18-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.18.69-.8.87-1.08.18-.28.37-.23.62-.14.25.09 1.6.75 1.87.89.28.14.46.2.53.32.07.11.07.66-.17 1.34z"/></svg>
       Contattaci su WhatsApp
@@ -159,9 +167,10 @@
   <div class="flinks">
     <a href="termini.html">Termini &amp; Privacy</a>
     <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="account.html">Account</a>
     <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
   </div>
-  <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
+  <div class="fcopy">© 2026 Bluèlle - Curated Luxury Resale</div>
   <div class="fpay">
     <span class="fpay-label">Pagamenti accettati</span>
     <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
@@ -208,10 +217,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260707f"></script>
+<script src="assets/app.js?v=20260708l"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260707f"></script>
+<script src="assets/motion.js?v=20260708l"></script>
 </body>
 </html>

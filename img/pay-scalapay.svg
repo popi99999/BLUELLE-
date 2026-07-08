@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 86 36" role="img" aria-label="Scalapay">
+  <rect width="86" height="36" rx="5" fill="#F2EEE6"/>
+  <circle cx="18" cy="18" r="9" fill="#00A88F"/>
+  <path d="M14 18.1c2.2-4.2 6.2-4.2 8.4 0-2.2 4.1-6.2 4.1-8.4 0z" fill="#F2EEE6"/>
+  <text x="33" y="22.4" font-family="Arial, Helvetica, sans-serif" font-size="11.5" font-weight="700" fill="#17120F">Scalapay</text>
+</svg>

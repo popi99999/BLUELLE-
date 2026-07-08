@@ -387,29 +387,6 @@ function toggleHomeVideoMute(){
 window.toggleHomeVideoPause=toggleHomeVideoPause;
 window.toggleHomeVideoMute=toggleHomeVideoMute;
 
-// Video hero della home: se c'è un file lo riproduce, altrimenti showcase di immagini pulito.
-// Per usare un TUO video metti il file in img/home-hero.mp4 (oppure aggiungi <source> a #homeVideo).
-function initHomeVideo(){
-  const stage=document.querySelector('.lj-video-stage');
-  const video=document.getElementById('homeVideo');
-  const muteBtn=document.getElementById('homeVideoMute');
-  if(!stage||!video)return;
-  if(!video.querySelector('source')){
-    const s=document.createElement('source');s.src='img/home-hero.mp4';s.type='video/mp4';
-    video.appendChild(s);video.load();
-  }
-  let started=false;
-  function showcase(){ if(started)return; stage.classList.add('no-video'); if(muteBtn)muteBtn.style.display='none'; }
-  video.addEventListener('loadeddata',function(){
-    started=true; stage.classList.remove('no-video'); stage.classList.add('has-video');
-    video.muted=true; const p=video.play(); if(p&&p.catch)p.catch(function(){});
-  });
-  video.addEventListener('error',showcase,true);
-  video.querySelectorAll('source').forEach(function(s){s.addEventListener('error',showcase);});
-  setTimeout(showcase,2600);
-}
-initHomeVideo();
-
 function renderPrices(){
   const l=pack(T);
   document.querySelectorAll('.pcard-price').forEach(el=>{
@@ -541,60 +518,132 @@ const TRUST_LBL={
 function escAttr(v){
   return String(v==null?'':v).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 }
+function escHtml(v){
+  return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+const DETAIL_LBL={
+  it:{
+    title:'Dettagli',description:'Descrizione',conditionTitle:'Condition Report',itemTitle:'Item Details',
+    brand:'Marca',size:'Taglia',fit:'Vestibilit&agrave;',color:'Colore',condition:'Condizione',auth:'Autenticazione',clean:'Pulizia',pack:'Packaging',
+    authValue:'IRIS + controllo manuale',cleanValue:'Pulito e igienizzato prima della vendita',packValue:'Imballaggio protettivo Blu&egrave;lle',
+    bullets:['Capo luxury second hand verificato da Blu&egrave;lle','Pulito e igienizzato rispettando materiali e finiture','Spedizione tracciata con imballaggio curato'],
+    scale:['Revive','Fair','Good','Very Good','Like New'],
+    conditionCopy:'Eventuali segni d&rsquo;uso sono considerati nella condizione indicata. Ogni capo viene controllato, pulito e igienizzato prima della messa in vendita.'
+  },
+  en:{
+    title:'Details',description:'Description',conditionTitle:'Condition Report',itemTitle:'Item Details',
+    brand:'Brand',size:'Size',fit:'Fit',color:'Colour',condition:'Condition',auth:'Authentication',clean:'Cleaning',pack:'Packaging',
+    authValue:'IRIS + manual review',cleanValue:'Cleaned and sanitized before listing',packValue:'Blu&egrave;lle protective packaging',
+    bullets:['Luxury second hand piece verified by Blu&egrave;lle','Cleaned and sanitized with respect for materials and finishes','Tracked shipping with careful packaging'],
+    scale:['Revive','Fair','Good','Very Good','Like New'],
+    conditionCopy:'Any signs of wear are reflected in the stated condition. Every piece is checked, cleaned and sanitized before listing.'
+  },
+  fr:{
+    title:'D&eacute;tails',description:'Description',conditionTitle:'Rapport d&rsquo;&eacute;tat',itemTitle:'D&eacute;tails article',
+    brand:'Marque',size:'Taille',fit:'Coupe',color:'Couleur',condition:'&Eacute;tat',auth:'Authentification',clean:'Nettoyage',pack:'Packaging',
+    authValue:'IRIS + contr&ocirc;le manuel',cleanValue:'Nettoy&eacute; et hygi&eacute;nis&eacute; avant la mise en vente',packValue:'Packaging protecteur Blu&egrave;lle',
+    bullets:['Pi&egrave;ce luxury second hand v&eacute;rifi&eacute;e par Blu&egrave;lle','Nettoy&eacute;e et hygi&eacute;nis&eacute;e en respectant les mati&egrave;res','Livraison suivie avec emballage soign&eacute;'],
+    scale:['Revive','Fair','Good','Very Good','Like New'],
+    conditionCopy:'Les &eacute;ventuels signes d&rsquo;usage sont inclus dans l&rsquo;&eacute;tat indiqu&eacute;. Chaque pi&egrave;ce est contr&ocirc;l&eacute;e, nettoy&eacute;e et hygi&eacute;nis&eacute;e avant la vente.'
+  },
+  es:{
+    title:'Detalles',description:'Descripci&oacute;n',conditionTitle:'Informe de condici&oacute;n',itemTitle:'Detalles del art&iacute;culo',
+    brand:'Marca',size:'Talla',fit:'Corte',color:'Color',condition:'Condici&oacute;n',auth:'Autenticaci&oacute;n',clean:'Limpieza',pack:'Packaging',
+    authValue:'IRIS + revisi&oacute;n manual',cleanValue:'Limpio e higienizado antes de la venta',packValue:'Packaging protector Blu&egrave;lle',
+    bullets:['Pieza luxury second hand verificada por Blu&egrave;lle','Limpia e higienizada respetando materiales y acabados','Env&iacute;o con seguimiento y embalaje cuidado'],
+    scale:['Revive','Fair','Good','Very Good','Like New'],
+    conditionCopy:'Cualquier signo de uso est&aacute; considerado en la condici&oacute;n indicada. Cada pieza se revisa, limpia e higieniza antes de ponerse a la venta.'
+  },
+  de:{
+    title:'Details',description:'Beschreibung',conditionTitle:'Zustandsbericht',itemTitle:'Artikeldetails',
+    brand:'Marke',size:'Gr&ouml;&szlig;e',fit:'Passform',color:'Farbe',condition:'Zustand',auth:'Authentifizierung',clean:'Reinigung',pack:'Packaging',
+    authValue:'IRIS + manuelle Pr&uuml;fung',cleanValue:'Vor dem Verkauf gereinigt und hygienisiert',packValue:'Blu&egrave;lle Schutzverpackung',
+    bullets:['Luxury Second-Hand-St&uuml;ck von Blu&egrave;lle gepr&uuml;ft','Material- und finishschonend gereinigt und hygienisiert','Versicherter Versand mit sorgf&auml;ltiger Verpackung'],
+    scale:['Revive','Fair','Good','Very Good','Like New'],
+    conditionCopy:'M&ouml;gliche Gebrauchsspuren sind im angegebenen Zustand ber&uuml;cksichtigt. Jedes St&uuml;ck wird vor dem Verkauf gepr&uuml;ft, gereinigt und hygienisiert.'
+  }
+};
+function conditionLevel(cond){
+  const s=String(cond||'').toLowerCase();
+  if(/nuovo|new|neuf|like/.test(s))return 4;
+  if(/eccell|excellent/.test(s))return 4;
+  if(/ottim|molto|very|tr&egrave;s|très|tres|sehr/.test(s))return 3;
+  if(/buon|good|bon|gut/.test(s))return 2;
+  return 1;
+}
+function conditionScaleHtml(condTxt){
+  const lang=langBase(curLang);
+  const copy=DETAIL_LBL[lang]||DETAIL_LBL.it;
+  const level=conditionLevel(condTxt);
+  return copy.scale.map(function(label,i){
+    return '<div class="condition-step'+(i===level?' on':'')+(i<level?' past':'')+'"><span class="condition-dot"></span><span>'+escHtml(label)+'</span></div>';
+  }).join('');
+}
+function fillProductDetails(p,desc,condTxt,colorTxt){
+  const lang=langBase(curLang);
+  const copy=DETAIL_LBL[lang]||DETAIL_LBL.it;
+  const title=document.querySelector('.pdetails-title');
+  const heads=document.querySelectorAll('.pdetails-section h3');
+  if(title)title.innerHTML=copy.title;
+  if(heads[0])heads[0].innerHTML=copy.description;
+  if(heads[1])heads[1].innerHTML=copy.conditionTitle;
+  if(heads[2])heads[2].innerHTML=copy.itemTitle;
+  const detailDesc=document.getElementById('pdetailDesc');
+  if(detailDesc){
+    const itemDesc=escHtml(desc||'');
+    const bullets=copy.bullets.map(function(b){return '<li>'+b+'</li>';}).join('');
+    detailDesc.innerHTML=(itemDesc?'<p>'+itemDesc+'</p>':'')+'<ul>'+bullets+'</ul>';
+  }
+  const scale=document.getElementById('conditionScale');
+  if(scale)scale.innerHTML=conditionScaleHtml(condTxt);
+  const conditionCopy=document.getElementById('conditionCopy');
+  if(conditionCopy)conditionCopy.innerHTML=copy.conditionCopy;
+  const meta=document.getElementById('pdetailMeta');
+  if(meta){
+    const packValue=p.hasBox?(copy.packValue+' + box originale'):copy.packValue;
+    const rows=[
+      [copy.brand,BRAND_NAME[p.brand]||p.brand||'',true],
+      [copy.size,p.sz||'',true],
+      [copy.fit,p.fit||'',true],
+      [copy.color,colorTxt||'',true],
+      [copy.condition,condTxt||'',true],
+      [copy.auth,copy.authValue,false],
+      [copy.clean,copy.cleanValue,false],
+      [copy.pack,packValue,false]
+    ];
+    meta.innerHTML=rows.filter(function(r){return r[1];}).map(function(r){
+      return '<div class="pmeta-row"><dt>'+r[0]+'</dt><dd>'+(r[2]?escHtml(r[1]):r[1])+'</dd></div>';
+    }).join('');
+  }
+}
 function productMediaHtml(p){
   const imgs=(p.images||[]).filter(Boolean);
   const name=translateName(p.name,curLang);
   const safeName=escAttr(name);
   const imgErr=`onerror="this.onerror=null;this.style.opacity='.15'"`;
   const main=imgs[0]||'';
-  const poster=imgs[1]||main;
-  const sideImgs=imgs.slice(1);
-  const labels=['RETRO','DETTAGLIO','TESSUTO','ETICHETTA','FOTO'];
-  const certCopy={
-    it:['Autenticità verificata','Controllo materiali, etichette e cuciture.'],
-    en:['Authenticity verified','Materials, labels and stitching checked.'],
-    fr:['Authenticité vérifiée','Matières, étiquettes et coutures contrôlées.'],
-    es:['Autenticidad verificada','Materiales, etiquetas y costuras revisadas.'],
-    de:['Echtheit geprüft','Materialien, Labels und Nähte geprüft.']
-  };
-  const cert=certCopy[langBase(curLang)]||certCopy.it;
-  let html=`<figure class="media-main">${main?`<img src="${escAttr(main)}" alt="${safeName}" loading="eager" decoding="async" ${imgErr}>`:''}</figure><div class="media-side">`;
-  if(p.video){
-    html+=`<div class="media-tile media-video"><video class="pvid" controls playsinline preload="metadata"${poster?` poster="${escAttr(poster)}"`:''}><source src="${escAttr(p.video)}" type="video/mp4"></video><span class="media-kicker">VIDEO</span></div>`;
-  }else{
-    html+=`<div class="media-tile media-video media-video-slot" aria-label="Slot video prodotto">${poster?`<img src="${escAttr(poster)}" alt="" loading="lazy" decoding="async" ${imgErr}>`:''}<span class="media-play" aria-hidden="true"></span><span class="media-kicker">VIDEO</span><span class="media-caption">FIT CHECK</span></div>`;
-  }
-  sideImgs.forEach(function(src,i){
-    const lbl=labels[i]||('FOTO '+(i+2));
-    html+=`<figure class="media-tile media-thumb"><img src="${escAttr(src)}" alt="${safeName} ${escAttr(lbl.toLowerCase())}" loading="lazy" decoding="async" ${imgErr}><figcaption>${lbl}</figcaption></figure>`;
+  let html='<div class="soth-thumbs" role="list" aria-label="Foto prodotto">';
+  imgs.forEach(function(src,i){
+    html+='<button class="soth-thumb'+(i===0?' on':'')+'" type="button" onclick="selectProductImage(this)" aria-label="Mostra foto '+(i+1)+'" role="listitem"><img src="'+escAttr(src)+'" alt="'+safeName+' foto '+(i+1)+'" loading="'+(i===0?'eager':'lazy')+'" decoding="async" '+imgErr+'></button>';
   });
-  html+=`<div class="media-tile media-cert"><span>IRIS</span><strong>${cert[0]}</strong><small>${cert[1]}</small></div>`;
+  html+='</div>';
+  html+='<figure class="soth-main-media">';
+  html+=main?'<img src="'+escAttr(main)+'" alt="'+safeName+'" loading="eager" decoding="async" '+imgErr+'>':'<div class="soth-empty">Blu&egrave;lle</div>';
+  html+='</figure>';
   html+='</div>';
   return html;
 }
-// Report condizione: scala visiva con stella sul livello (stile casa d'aste)
-const COND_STEPS_IT=['Buono','Molto buono','Eccellente','Come nuovo','Nuovo'];
-const COND_IDX={'Buono':0,'Buona':0,'Molto buono':1,'Molto Buona':1,'Ottima':1,'Eccellente':2,'Molto Buono':1,'Come nuovo':3,'Nuovo':4};
-const COND_NOTE_IT=['Segni d’uso presenti, capo integro e curato.','Lievi segni d’uso. Condizioni molto buone.','Nessun segno d’uso evidente. Condizioni eccellenti.','Come nuovo, praticamente mai indossato.','Nuovo con cartellino, mai indossato.'];
-function renderConditionReport(p){
-  const wrap=document.getElementById('mconditionWrap');
-  if(!wrap)return;
-  let active=COND_IDX[p.cond];
-  if(active===undefined)active=2;
-  const n=COND_STEPS_IT.length;
-  const pct=n>1?(active/(n-1))*100:0;
-  const star='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.27 5.8 22 7 14.14l-5-4.87 7.1-1.01z"/></svg>';
-  let steps='';
-  for(let i=0;i<n;i++){
-    const cls=i<active?'is-done':(i===active?'is-active':'');
-    steps+='<div class="cond-step '+cls+'"><span class="cond-node">'+(i===active?star:'')+'</span><span class="cond-name">'+COND_STEPS_IT[i]+'</span></div>';
-  }
-  wrap.innerHTML=
-    '<div class="cond-head">Report condizione</div>'+
-    '<div class="cond-scale"><div class="cond-line"><span class="cond-line-fill" style="width:'+pct+'%"></span></div><div class="cond-steps">'+steps+'</div></div>'+
-    '<p class="cond-note">'+COND_NOTE_IT[active]+'</p>';
+function selectProductImage(btn){
+  const gallery=btn&&btn.closest?btn.closest('.pgallery'):null;
+  const thumb=btn?btn.querySelector('img'):null;
+  const main=gallery?gallery.querySelector('.soth-main-media img'):null;
+  if(!thumb||!main)return;
+  main.src=thumb.currentSrc||thumb.src;
+  main.alt=thumb.alt||main.alt;
+  gallery.querySelectorAll('.soth-thumb').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
 }
-window.renderConditionReport=renderConditionReport;
+window.selectProductImage=selectProductImage;
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=pack(T);
@@ -620,10 +669,11 @@ function openM(id){
   document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>`<div class="mspec"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
   const desc=typeof p.desc==='object'?(p.desc[curLang]||p.desc[langBase(curLang)]||p.desc.it):p.desc;
   const boxNote=p.hasBox?(l.box_note||' Original box included.'):'';
-  document.getElementById('mdesc').textContent=desc+(p.hasBox?boxNote:'');
+  const fullDesc=desc+(p.hasBox?boxNote:'');
+  document.getElementById('mdesc').textContent=fullDesc;
+  fillProductDetails(p,fullDesc,condTxt,colorTxt);
   const TR=TRUST_LBL[langBase(curLang)]||TRUST_LBL.it;
-  document.getElementById('mtrust').innerHTML=TR.map(t=>`<span>${t}</span>`).join('');
-  renderConditionReport(p);
+  document.getElementById('mtrust').innerHTML=TR.map((t,i)=>`<span data-trust-idx="${i}">${escHtml(t)}</span>`).join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
   btn.onclick=p.sold?null:function(){

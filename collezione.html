@@ -21,9 +21,9 @@
 <title>Collezione — Bluèlle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260707f">
+<link rel="stylesheet" href="assets/styles.css?v=20260708l">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -48,6 +48,7 @@
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="tracking.html">Tracking</a></li>
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
+    <li><a href="account.html">Account</a></li>
   </ul>
   <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
@@ -59,6 +60,7 @@
   <a href="faq.html" onclick="closeMNav()">FAQ</a>
   <a href="tracking.html" onclick="closeMNav()">Tracking</a>
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
+  <a href="account.html" onclick="closeMNav()">Account</a>
 </div>
 <main role="main">
 <div class="container" style="padding-top:clamp(5.5rem,9vw,7rem)"><div style="font-family:var(--f-ui);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)"><a href="index.html" style="color:var(--stone);text-decoration:none">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Collezione</span></div></div>
@@ -98,6 +100,7 @@
   <div class="flinks">
     <a href="termini.html">Termini &amp; Privacy</a>
     <a href="contatti.html" data-i="nav_contact">Contatti</a>
+    <a href="account.html">Account</a>
     <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">@bluelle._</a>
   </div>
   <div class="fcopy">© 2026 Bluèlle — Curated Luxury Resale</div>
@@ -142,12 +145,21 @@
         <div class="mtrust" id="mtrust"></div>
       </aside>
     </div>
-    <section class="pcondition" id="mconditionWrap" aria-label="Report condizione"></section>
-    <div class="psecs">
-      <div class="psec"><div class="psec-ic">&#10003;</div><h4>Autenticit&agrave; garantita</h4><p>Ogni capo &egrave; verificato personalmente e dal sistema IRIS&reg; prima della vendita: etichette, cuciture, materiali, accessori.</p></div>
-      <div class="psec"><div class="psec-ic">&#10003;</div><h4>Pulizia e igienizzazione</h4><p>Prima della messa in vendita ogni capo viene pulito e igienizzato con attenzione, rispettando materiali e finiture.</p></div>
-      <div class="psec"><div class="psec-ic">&#8599;</div><h4>Spedizione tracciata</h4><p>Standard 3&ndash;5 giorni lavorativi &middot; Express 1&ndash;2. Imballaggio curato e codice di tracciamento via email.</p></div>
-      <div class="psec"><div class="psec-ic">&#10022;</div><h4>Pezzo unico</h4><p>Selezionato a mano, nuovo o come nuovo. Una volta venduto non torna: &egrave; un esemplare solo.</p></div>
+    <div class="psecs" aria-label="Dettagli prodotto">
+      <h2 class="pdetails-title">Details</h2>
+      <section class="pdetails-section">
+        <h3>Description</h3>
+        <div class="pdetails-copy" id="pdetailDesc"></div>
+      </section>
+      <section class="pdetails-section">
+        <h3>Condition Report</h3>
+        <div class="condition-scale" id="conditionScale" aria-label="Scala condizione prodotto"></div>
+        <p class="condition-copy" id="conditionCopy"></p>
+      </section>
+      <section class="pdetails-section">
+        <h3>Item Details</h3>
+        <div class="pdetails-meta" id="pdetailMeta"></div>
+      </section>
     </div>
     <div class="prelated" id="mrelblock">
       <div class="prel-head">Potrebbe <em>piacerti</em></div>
@@ -221,10 +233,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260707f"></script>
+<script src="assets/app.js?v=20260708l"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260707f"></script>
+<script src="assets/motion.js?v=20260708l"></script>
 </body>
 </html>

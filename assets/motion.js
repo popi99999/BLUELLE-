@@ -16,14 +16,14 @@ if(hasGsap){
 function initLenis(){
   if(reduced||!Lenis)return;
   lenis=new Lenis({
-    duration:.78,
+    duration:.82,
     smoothWheel:true,
-    wheelMultiplier:1.05,
-    touchMultiplier:1.12,
+    wheelMultiplier:1,
+    touchMultiplier:1.06,
     anchors:{
       offset:-86,
-      duration:1,
-      easing:function(t){return Math.min(1,1-Math.pow(1-t,3));}
+      duration:1.04,
+      easing:function(t){return Math.min(1,1-Math.pow(1-t,4));}
     }
   });
   window.BLUELLE_LENIS=lenis;
@@ -204,6 +204,8 @@ function initGsapPolish(){
   if(!hasGsap||reduced)return;
 
   initLogoJourney();
+  initHomeShowcase();
+  initPaymentsStory();
 
   /* NB: i reveal in opacity dei contenuti sono gestiti dal sistema CSS + IntersectionObserver
      (classe .reveal in app.js). NON usare GSAP autoAlpha sui contenuti: sotto la piega o con
@@ -215,6 +217,88 @@ function initGsapPolish(){
 
   bindHoverMotion();
   observeDynamicMotion();
+}
+
+function initHomeShowcase(){
+  var section=document.getElementById('home-showcase');
+  if(!section)return;
+  var pin=section.querySelector('.rx-pin');
+  var shell=section.querySelector('.rx-video-shell');
+  var title=section.querySelector('.rx-title');
+  var brand=section.querySelector('.rx-brand');
+  var reveal=section.querySelector('.rx-reveal');
+  var frames=gsap.utils.toArray(section.querySelectorAll('.rx-frame'));
+  var cards=gsap.utils.toArray(section.querySelectorAll('.rx-card'));
+  if(!pin||!shell||!title||!reveal)return;
+
+  gsap.set(frames,{autoAlpha:0,scale:1.08});
+  if(frames[0])gsap.set(frames[0],{autoAlpha:1,scale:1});
+  gsap.set(cards,{autoAlpha:0,y:120,scale:.96});
+  gsap.set(reveal,{autoAlpha:0,y:110});
+
+  var tl=gsap.timeline({
+    defaults:{ease:'none'},
+    scrollTrigger:{
+      trigger:section,
+      start:'top top',
+      end:'bottom bottom',
+      scrub:.9,
+      pin:pin,
+      pinSpacing:false,
+      anticipatePin:1,
+      invalidateOnRefresh:true,
+      onUpdate:function(self){
+        reveal.classList.toggle('is-active',self.progress>.48);
+      }
+    }
+  });
+
+  function fadeFrame(i,at){
+    if(!frames[i])return;
+    if(frames[i-1])tl.to(frames[i-1],{autoAlpha:0,duration:.24,ease:'power2.inOut'},at);
+    tl.fromTo(frames[i],{autoAlpha:0,scale:1.095},{autoAlpha:1,scale:1,duration:.34,ease:'power2.inOut'},at);
+  }
+
+  tl.to(shell,{scale:1,duration:1,ease:'power1.inOut'},0)
+    .to(frames[0],{scale:1.115,duration:.76,ease:'power1.inOut'},0)
+    .to(title,{autoAlpha:0,y:-110,scale:.965,duration:.3,ease:'power2.inOut'},.26)
+    .to(brand,{y:-18,scale:.8,autoAlpha:.94,duration:.38,ease:'power2.inOut'},.24)
+    .to(reveal,{autoAlpha:1,y:0,duration:.38,ease:'power3.out'},.48)
+    .to(cards,{autoAlpha:1,y:0,scale:1,duration:.46,stagger:.085,ease:'power3.out'},.54)
+    .to(cards,{y:-14,duration:.56,stagger:.035,ease:'sine.inOut'},.92);
+  fadeFrame(1,.28);
+  fadeFrame(2,.54);
+  fadeFrame(3,.84);
+}
+
+function initPaymentsStory(){
+  var section=document.getElementById('payments-story');
+  if(!section)return;
+  var wipe=section.querySelector('.pay-wipe');
+  var img=section.querySelector('.pay-visual img');
+  var copy=section.querySelector('.pay-copy');
+  var photoCopy=section.querySelector('.pay-photo-copy');
+  var logos=gsap.utils.toArray(section.querySelectorAll('.pay-logo'));
+  if(!wipe||!img||!copy)return;
+
+  gsap.set(logos,{autoAlpha:0,y:34,scale:.86,rotation:function(i){return i%2?-3:3;}});
+  if(photoCopy)gsap.set(photoCopy,{autoAlpha:.94,y:22});
+  gsap.timeline({
+    defaults:{ease:'power3.out'},
+    scrollTrigger:{
+      trigger:section,
+      start:'top 74%',
+      end:'center 36%',
+      scrub:.68,
+      invalidateOnRefresh:true
+    }
+  })
+  .to(wipe,{scaleX:0,duration:.62,ease:'power3.inOut'},0)
+  .fromTo(img,{scale:1.09,y:38},{scale:1,y:0,duration:.9,ease:'power2.out'},0)
+  .fromTo(copy,{y:58},{y:0,duration:.82,ease:'power2.out'},.03)
+  .to(photoCopy,{autoAlpha:1,y:0,duration:.56,ease:'power2.out'},.16)
+  .to(logos,{autoAlpha:1,y:0,scale:1,rotation:0,duration:.38,stagger:.075,ease:'back.out(1.45)'},.36)
+  .to(logos,{y:-12,duration:.5,stagger:.035,ease:'sine.inOut'},.78);
 }
 
 function initLogoJourney(){
@@ -310,7 +394,7 @@ function animateCards(){
 
 function bindHoverMotion(){
   if(!hasGsap||reduced)return;
-  document.querySelectorAll('.hcta,.lj-button,.pill,.filtoggle,.mbuy,.ck-submit,.track-btn,.geo-confirm,.cf-submit,.iglink,.pback').forEach(function(el){
+  document.querySelectorAll('.hcta,.rx-cta,.rx-card,.sell-cta,.lj-button,.pill,.filtoggle,.mbuy,.ck-submit,.track-btn,.geo-confirm,.cf-submit,.iglink,.pback').forEach(function(el){
     if(el.dataset.gsapHover==='true')return;
     el.dataset.gsapHover='true';
     el.addEventListener('pointerenter',function(){gsap.to(el,{y:-2,scale:1.012,duration:.28,ease:'power2.out'});});
