@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260708l">
+<link rel="stylesheet" href="assets/styles.css?v=20260708m">
 <script defer src="https://unpkg.com/three@0.128.0/build/three.min.js"></script>
 <script defer src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script defer src="https://unpkg.com/three-globe@2.24.13/dist/three-globe.min.js"></script>
@@ -69,11 +69,24 @@
 <main role="main">
 <!-- TRACKING INTRO -->
 <section id="trkintro" class="reveal">
-  <div class="container" style="text-align:center;padding-top:clamp(2rem,5vw,4rem)">
+  <div class="container" style="text-align:center;padding-top:clamp(7.5rem,12vw,10rem)">
     <div class="sl center">Spedizioni</div>
     <h2 class="sec-title">Traccia il tuo <em>ordine</em></h2>
-    <p class="sec-intro" style="margin-inline:auto">Inserisci il codice di tracciamento ricevuto via email per seguire la tua spedizione in tempo reale.</p>
-    <button class="hcta" style="display:inline-block;margin-top:2rem;border:none;cursor:pointer" onclick="openTrack()"><span>Apri il tracking</span></button>
+    <p class="sec-intro" style="margin-inline:auto">Inserisci il numero d'ordine e il codice di tracciamento ricevuti via email. Lo stato della tua spedizione apparirà qui sotto.</p>
+    <form class="trkform" onsubmit="doTrack();return false;" novalidate>
+      <div class="trk-fields">
+        <label class="trk-field">
+          <span class="trk-lbl">Numero ordine</span>
+          <input class="trk-in" id="trin-order" placeholder="es. BLU-0042" autocomplete="off" inputmode="text">
+        </label>
+        <label class="trk-field">
+          <span class="trk-lbl">Codice tracking</span>
+          <input class="trk-in" id="trin" placeholder="codice del corriere" autocomplete="off" inputmode="text">
+        </label>
+      </div>
+      <button type="submit" class="hcta trk-submit"><span data-i="track_btn">Verifica spedizione</span></button>
+    </form>
+    <div class="track-res" id="trres" aria-live="polite"></div>
   </div>
 </section>
 </main>
@@ -99,28 +112,12 @@
     <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
   </div>
 </footer>
-<!-- MODAL TRACKING -->
-<div class="tov" id="tov" onclick="if(event.target===this)closeTrack()">
-  <div class="tbox">
-    <button class="mclose" onclick="closeTrack()" style="position:absolute;top:.9rem;right:.9rem" aria-label="Chiudi">✕</button>
-    <div class="sl" data-i="track_eye">Hai già ordinato?</div>
-    <h3 data-i="track_title">Traccia il tuo <em>ordine</em></h3>
-    <div style="margin-top:1.6rem;display:flex;flex-direction:column;gap:.7rem">
-      <input class="track-in" id="trin-order" placeholder="Numero ordine (es. BLU-0042)">
-      <div class="track-row">
-        <input class="track-in" id="trin" placeholder="Codice tracking del corriere">
-        <button class="track-btn" onclick="doTrack()" data-i="track_btn">Cerca</button>
-      </div>
-    </div>
-    <div class="track-res" id="trres"></div>
-  </div>
-</div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260708l"></script>
+<script src="assets/app.js?v=20260708m"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260708l"></script>
+<script src="assets/motion.js?v=20260708m"></script>
 </body>
 </html>

@@ -1009,40 +1009,43 @@ function doTrack(){
   const m=pack(TMSG);
   const steps=STEPS[langBase(curLang)]||STEPS.it;
   const esc=s=>String(s).replace(/</g,'&lt;');
-  if(!orderRaw||!codeRaw){r.innerHTML=`<span style="color:#b5564e">${m.both}</span>`;return;}
-  r.innerHTML=`<div class="track-spinner">${tt.searching}</div>`;
+  const msg=t=>`<p class="trk-msg">${t}</p>`;
+  if(!orderRaw||!codeRaw){r.innerHTML=msg(m.both);return;}
+  r.innerHTML=`<div class="trk-searching">${tt.searching}</div>`;
   setTimeout(()=>{
     const key=orderRaw.toUpperCase().replace(/\s+/g,'');
     const order=ORDERS[key];
-    if(!order){r.innerHTML=`<span style="color:#b5564e">${m.order}</span>`;return;}
+    if(!order){r.innerHTML=msg(m.order);return;}
     if(String(order.tracking).trim().toLowerCase()!==codeRaw.toLowerCase()){
-      r.innerHTML=`<span style="color:#b5564e">${m.match}</span>`;return;
+      r.innerHTML=msg(m.match);return;
     }
     const st=Math.max(1,Math.min(5,order.status||1));
     const url=order.url||(`https://t.17track.net/${tt.locale}#nums=`+encodeURIComponent(order.tracking));
+    const fillPct=((st-1)/(steps.length-1))*100;
     const timeline=steps.map((label,i)=>{
-      const n=i+1;const cls=n<st?'done':(n===st?'current':'');
-      return `<div class="tl-step ${cls}"><span class="tl-dot"></span><span class="tl-label">${label}</span></div>`;
+      const n=i+1;const cls=n<st?'is-done':(n===st?'is-active':'');
+      return `<div class="trk-step ${cls}"><span class="trk-node"></span><span class="trk-name">${label}</span></div>`;
     }).join('');
     var ORIGIN={lat:45.22,lon:12.28,city:'Chioggia'};
     var hasGlobe = order.dest && typeof order.dest.lat==='number';
     r.innerHTML=
-      `<div class="track-card">`+
-        (hasGlobe?`<div class="globe-wrap" id="globeWrap"><div id="globe3d"></div><div class="globe-cap">${esc(ORIGIN.city)} <b>→</b> ${esc(order.dest.city||'')}</div></div>`:'')+
-        `<div class="track-card-row">`+
-          `<div><div class="track-label">${tt.lbl_order}</div><div class="track-val">${esc(key)}</div></div>`+
-          (order.carrier?`<div style="text-align:right"><div class="track-label">${m.carrier}</div><div class="track-val">${esc(order.carrier)}</div></div>`:'')+
+      `<div class="trk-card">`+
+        `<div class="trk-head">`+
+          `<div class="trk-cell"><span class="trk-eyebrow">${tt.lbl_order}</span><span class="trk-no">№ ${esc(key)}</span></div>`+
+          (order.carrier?`<div class="trk-cell trk-cell-r"><span class="trk-eyebrow">${m.carrier}</span><span class="trk-carrier">${esc(order.carrier)}</span></div>`:'')+
         `</div>`+
-        `<div class="tl">${timeline}</div>`+
-        (order.eta?`<div class="track-eta">${m.eta}: <strong>${esc(order.eta)}</strong></div>`:'')+
-        `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
+        `<div class="trk-scale"><div class="trk-line"><span class="trk-line-fill" style="width:${fillPct}%"></span></div><div class="trk-steps">${timeline}</div></div>`+
+        (order.eta?`<p class="trk-eta">${m.eta} — <em>${esc(order.eta)}</em></p>`:'')+
+        (hasGlobe?`<div class="globe-wrap" id="globeWrap"><div id="globe3d"></div><div class="globe-cap">${esc(ORIGIN.city)} <b>→</b> ${esc(order.dest.city||'')}</div></div>`:'')+
+        `<a class="trk-link" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
       `</div>`;
     disposeGlobe();
     if(hasGlobe){
       try{ _globe=mountGlobe('globe3d',ORIGIN,order.dest,(st-1)/4); if(!_globe){ var gw=document.getElementById('globeWrap'); if(gw) gw.style.display='none'; } }
       catch(err){ var gw2=document.getElementById('globeWrap'); if(gw2) gw2.style.display='none'; }
     }
-  },1100);
+    requestAnimationFrame(function(){var c=r.querySelector('.trk-card');if(c)c.classList.add('is-in');});
+  },900);
 }
 
 // FAQ
