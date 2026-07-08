@@ -572,6 +572,29 @@ function productMediaHtml(p){
   html+='</div>';
   return html;
 }
+// Report condizione: scala visiva con stella sul livello (stile casa d'aste)
+const COND_STEPS_IT=['Buono','Molto buono','Eccellente','Come nuovo','Nuovo'];
+const COND_IDX={'Buono':0,'Buona':0,'Molto buono':1,'Molto Buona':1,'Ottima':1,'Eccellente':2,'Molto Buono':1,'Come nuovo':3,'Nuovo':4};
+const COND_NOTE_IT=['Segni d’uso presenti, capo integro e curato.','Lievi segni d’uso. Condizioni molto buone.','Nessun segno d’uso evidente. Condizioni eccellenti.','Come nuovo, praticamente mai indossato.','Nuovo con cartellino, mai indossato.'];
+function renderConditionReport(p){
+  const wrap=document.getElementById('mconditionWrap');
+  if(!wrap)return;
+  let active=COND_IDX[p.cond];
+  if(active===undefined)active=2;
+  const n=COND_STEPS_IT.length;
+  const pct=n>1?(active/(n-1))*100:0;
+  const star='<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.2 22 12 18.27 5.8 22 7 14.14l-5-4.87 7.1-1.01z"/></svg>';
+  let steps='';
+  for(let i=0;i<n;i++){
+    const cls=i<active?'is-done':(i===active?'is-active':'');
+    steps+='<div class="cond-step '+cls+'"><span class="cond-node">'+(i===active?star:'')+'</span><span class="cond-name">'+COND_STEPS_IT[i]+'</span></div>';
+  }
+  wrap.innerHTML=
+    '<div class="cond-head">Report condizione</div>'+
+    '<div class="cond-scale"><div class="cond-line"><span class="cond-line-fill" style="width:'+pct+'%"></span></div><div class="cond-steps">'+steps+'</div></div>'+
+    '<p class="cond-note">'+COND_NOTE_IT[active]+'</p>';
+}
+window.renderConditionReport=renderConditionReport;
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=pack(T);
@@ -600,6 +623,7 @@ function openM(id){
   document.getElementById('mdesc').textContent=desc+(p.hasBox?boxNote:'');
   const TR=TRUST_LBL[langBase(curLang)]||TRUST_LBL.it;
   document.getElementById('mtrust').innerHTML=TR.map(t=>`<span>${t}</span>`).join('');
+  renderConditionReport(p);
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
   btn.onclick=p.sold?null:function(){
