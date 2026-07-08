@@ -387,6 +387,29 @@ function toggleHomeVideoMute(){
 window.toggleHomeVideoPause=toggleHomeVideoPause;
 window.toggleHomeVideoMute=toggleHomeVideoMute;
 
+// Video hero della home: se c'è un file lo riproduce, altrimenti showcase di immagini pulito.
+// Per usare un TUO video metti il file in img/home-hero.mp4 (oppure aggiungi <source> a #homeVideo).
+function initHomeVideo(){
+  const stage=document.querySelector('.lj-video-stage');
+  const video=document.getElementById('homeVideo');
+  const muteBtn=document.getElementById('homeVideoMute');
+  if(!stage||!video)return;
+  if(!video.querySelector('source')){
+    const s=document.createElement('source');s.src='img/home-hero.mp4';s.type='video/mp4';
+    video.appendChild(s);video.load();
+  }
+  let started=false;
+  function showcase(){ if(started)return; stage.classList.add('no-video'); if(muteBtn)muteBtn.style.display='none'; }
+  video.addEventListener('loadeddata',function(){
+    started=true; stage.classList.remove('no-video'); stage.classList.add('has-video');
+    video.muted=true; const p=video.play(); if(p&&p.catch)p.catch(function(){});
+  });
+  video.addEventListener('error',showcase,true);
+  video.querySelectorAll('source').forEach(function(s){s.addEventListener('error',showcase);});
+  setTimeout(showcase,2600);
+}
+initHomeVideo();
+
 function renderPrices(){
   const l=pack(T);
   document.querySelectorAll('.pcard-price').forEach(el=>{
