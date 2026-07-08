@@ -862,39 +862,61 @@ function mountGlobe(containerId, origin, dest, progress){
   var prog=Math.max(0,Math.min(1,progress)), now=interp(prog);
   var Ao=uvec(origin.lat,origin.lon), Bo=uvec(dest.lat,dest.lon);
   var sep=Math.acos(Math.max(-1,Math.min(1,Ao[0]*Bo[0]+Ao[1]*Bo[1]+Ao[2]*Bo[2])));
+  // spedizione domestica Italia→Italia → zoom sull'Italia con le regioni
+  function inItaly(p){ return p && p.lat>=35.2 && p.lat<=47.2 && p.lon>=6.5 && p.lon<=18.8; }
+  var domestic=inItaly(origin)&&inItaly(dest);
+  var ptScale=domestic?0.5:1;
   var Globe;
   try{
     Globe=new ThreeGlobe()
       .showGlobe(true)
-      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(0.14)
+      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(domestic?0.09:0.14)
       .arcsData([{startLat:origin.lat,startLng:origin.lon,endLat:dest.lat,endLng:dest.lon}])
       .arcColor(function(){return ['#7fd9d1','#5fcfc6'];})
-      .arcAltitudeAutoScale(0.3).arcStroke(0.55)
+      .arcAltitudeAutoScale(0.3).arcStroke(domestic?0.28:0.55)
       .arcDashLength(1).arcDashGap(0).arcDashInitialGap(0).arcDashAnimateTime(0)
       .pointsData([
-        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55,alt:0.012},
-        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62,alt:0.012},
-        {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55,alt:0.05}
+        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55*ptScale,alt:0.012},
+        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62*ptScale,alt:0.012},
+        {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55*ptScale,alt:domestic?0.03:0.05}
       ])
       .pointColor('color').pointAltitude('alt').pointRadius('rad');
   }catch(e){ try{ renderer.dispose(); }catch(_){ } return null; }
   // flat ocean base — no relief, no satellite (elegant marine sea)
   try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#12302b'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
   scene.add(Globe);
-  // country regions / borders — cream land on marine sea
+  // country / region borders — cream land on marine sea
+  // (per spedizioni Italia→Italia si caricano anche i confini delle 20 regioni)
   try{
     if(typeof fetch==='function'){
-      fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+      var loadWorld=fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(function(r){ return r.json(); })
         .then(function(topo){
-          if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.countries) return;
-          var feats=topojson.feature(topo, topo.objects.countries).features;
-          Globe.polygonsData(feats)
-            .polygonCapColor(function(){ return 'rgba(240,234,223,0.94)'; })
-            .polygonSideColor(function(){ return 'rgba(18,48,43,0.55)'; })
-            .polygonStrokeColor(function(){ return 'rgba(18,48,43,0.6)'; })
-            .polygonAltitude(0.008);
-        })['catch'](function(){});
+          if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.countries) return [];
+          return topojson.feature(topo, topo.objects.countries).features;
+        })['catch'](function(){ return []; });
+      var loadRegions=domestic
+        ? fetch('https://cdn.jsdelivr.net/gh/openpolis/geojson-italy@master/topojson/limits_IT_regions.topo.json')
+            .then(function(r){ return r.json(); })
+            .then(function(topo){
+              if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.regions) return [];
+              var fs=topojson.feature(topo, topo.objects.regions).features;
+              fs.forEach(function(f){ f.__itreg=true; });
+              return fs;
+            })['catch'](function(){ return []; })
+        : Promise.resolve([]);
+      Promise.all([loadWorld,loadRegions]).then(function(res){
+        var world=res[0]||[], regions=res[1]||[];
+        // se ho le regioni, tolgo la sagoma unica dell'Italia dal mondo (id ISO 380)
+        if(regions.length){ world=world.filter(function(f){ return String(f.id)!=='380'; }); }
+        var feats=world.concat(regions);
+        if(!feats.length) return;
+        Globe.polygonsData(feats)
+          .polygonCapColor(function(f){ return f.__itreg ? 'rgba(243,238,228,0.97)' : 'rgba(240,234,223,0.94)'; })
+          .polygonSideColor(function(){ return 'rgba(18,48,43,0.55)'; })
+          .polygonStrokeColor(function(f){ return f.__itreg ? 'rgba(18,48,43,0.9)' : 'rgba(18,48,43,0.6)'; })
+          .polygonAltitude(function(f){ return f.__itreg ? 0.0102 : 0.008; });
+      });
     }
   }catch(e){}
   var camera=new THREE.PerspectiveCamera(36, W/H, 0.1, 3000);
@@ -902,8 +924,8 @@ function mountGlobe(containerId, origin, dest, progress){
   try{ var mc=Globe.getCoords((origin.lat+dest.lat)/2,(origin.lon+dest.lon)/2,0); dirVec=new THREE.Vector3(mc.x,mc.y,mc.z).normalize(); }
   catch(e){ dirVec=new THREE.Vector3(0,0.3,1).normalize(); }
   function setCam(d){ camera.position.copy(dirVec.clone().multiplyScalar(d)); camera.up.set(0,1,0); camera.lookAt(0,0,0); }
-  var NEAR=Math.max(178, Math.min(520, 100*(1.82 + sep*0.95)));
-  var FAR=NEAR+300; setCam(FAR);
+  var NEAR=domestic?136:Math.max(178, Math.min(520, 100*(1.82 + sep*0.95)));
+  var FAR=NEAR+(domestic?180:300); setCam(FAR);
   var t0=performance.now(), ZD=2.3, controls=null, settled=false;
   function easeOut(x){ return 1-Math.pow(1-x,3); }
   var inst={renderer:renderer,raf:0,controls:null};
@@ -917,7 +939,7 @@ function mountGlobe(containerId, origin, dest, progress){
         if(THREE.OrbitControls){
           controls=new THREE.OrbitControls(camera, renderer.domElement);
           controls.target.set(0,0,0); controls.enablePan=false;
-          controls.minDistance=Math.max(150,NEAR-80); controls.maxDistance=NEAR+260;
+          controls.minDistance=domestic?116:Math.max(150,NEAR-80); controls.maxDistance=domestic?300:NEAR+260;
           controls.enableDamping=true; controls.dampingFactor=0.09;
           controls.autoRotate=false; controls.rotateSpeed=0.5; controls.zoomSpeed=0.7;
           controls.update(); inst.controls=controls;
