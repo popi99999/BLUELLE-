@@ -911,11 +911,12 @@ function mountGlobe(containerId, origin, dest, progress){
         if(regions.length){ world=world.filter(function(f){ return String(f.id)!=='380'; }); }
         var feats=world.concat(regions);
         if(!feats.length) return;
+        // NB: accessor costanti — altitude per-feature come funzione corrompe la mesh (z-fighting)
         Globe.polygonsData(feats)
-          .polygonCapColor(function(f){ return f.__itreg ? 'rgba(243,238,228,0.97)' : 'rgba(240,234,223,0.94)'; })
+          .polygonCapColor(function(){ return 'rgba(240,234,223,0.94)'; })
           .polygonSideColor(function(){ return 'rgba(18,48,43,0.55)'; })
-          .polygonStrokeColor(function(f){ return f.__itreg ? 'rgba(18,48,43,0.9)' : 'rgba(18,48,43,0.6)'; })
-          .polygonAltitude(function(f){ return f.__itreg ? 0.0102 : 0.008; });
+          .polygonStrokeColor(function(){ return 'rgba(18,48,43,0.6)'; })
+          .polygonAltitude(0.008);
       });
     }
   }catch(e){}
