@@ -21,9 +21,9 @@
 <title>Bluèlle - Capi Luxury Selezionati | Second Hand</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260708q">
+<link rel="stylesheet" href="assets/styles.css?v=20260709e">
 </head>
 <body>
 <!-- INTRO -->
@@ -60,11 +60,12 @@
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
     <li><a href="account.html">Account</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label">Menu</span></button>
 </nav>
 
 <!-- MOBILE NAV -->
 <div class="mnav" id="mnav">
+  <a href="index.html" onclick="closeMNav()">Home</a>
   <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
   <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
   <a href="faq.html" onclick="closeMNav()">FAQ</a>
@@ -75,47 +76,45 @@
 <main role="main">
 <!-- VIDEO SCROLL HOME -->
 <section id="home-showcase" class="rx-home" aria-label="Esperienza Bluèlle">
-  <div class="rx-pin">
-    <div class="rx-media" aria-hidden="true">
-      <div class="rx-video-shell">
-        <div class="rx-frame rx-frame-a"><span class="rx-ambient-word">Bluèlle</span></div>
-        <div class="rx-frame rx-frame-b"><span class="rx-ambient-word">Luxury</span></div>
-        <div class="rx-frame rx-frame-c"><span class="rx-ambient-word">Second</span></div>
-        <div class="rx-frame rx-frame-d"><span class="rx-ambient-word">Hand</span></div>
-        <span class="rx-video-border"></span>
-      </div>
-    </div>
-
-    <header class="rx-brand">
-      <a href="index.html" class="rx-monogram" aria-label="Bluèlle">è</a>
-      <span data-i="tagline">Luxury Second Hand</span>
-    </header>
-
+  <article class="rx-panel rx-cover">
+    <div class="rx-panel-media rx-frame-a" aria-hidden="true"><img src="img/new-art42-1.jpg" alt="" fetchpriority="high" decoding="async"></div>
     <div class="rx-title">
       <p class="rx-kicker">Bluèlle Selection</p>
-      <h1>Capi luxury<br>scelti a mano.</h1>
+      <h1><span>Capi luxury</span> <span>scelti a mano.</span></h1>
       <p>Capi firmati autentici, pochi pezzi, venduti una sola volta.</p>
       <a href="collezione.html" class="rx-cta" data-i="hero_cta">Esplora la collezione</a>
     </div>
+  </article>
 
-    <div class="rx-reveal" aria-label="Tre motivi per scegliere Bluèlle">
-      <a href="collezione.html" class="rx-card rx-card-one">
-        <img src="img/balenciaga-unity-cream-1.jpg" alt="T-shirt Balenciaga panna selezionata da Bluèlle" loading="lazy" decoding="async">
-        <span>Collezione</span>
-        <strong>Pezzi scelti</strong>
-      </a>
-      <a href="chi-siamo.html" class="rx-card rx-card-two">
-        <img src="img/new-art42-1.jpg" alt="Dettaglio etichetta Balenciaga verificata da Bluèlle" loading="lazy" decoding="async">
-        <span>Verifica</span>
-        <strong>Autenticità</strong>
-      </a>
-      <a href="faq.html" class="rx-card rx-card-three">
-        <img src="img/new-art05-1.jpg" alt="Maglione Gucci preparato prima della vendita" loading="lazy" decoding="async">
-        <span>Igienizzazione</span>
-        <strong>Cura del capo</strong>
-      </a>
+  <article class="rx-panel rx-panel-one">
+    <div class="rx-panel-media rx-frame-b" aria-hidden="true"><img src="img/new-art63-1.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="rx-scene rx-scene-one">
+      <p>Collezione</p>
+      <h2>Pezzi scelti, disponibili una sola volta.</h2>
+      <span>Una selezione corta, controllata e aggiornata con capi pronti alla spedizione.</span>
+      <a href="collezione.html">Scopri la collezione</a>
     </div>
-  </div>
+  </article>
+
+  <article class="rx-panel rx-panel-two">
+    <div class="rx-panel-media rx-frame-c" aria-hidden="true"><img src="img/new-art05-1.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="rx-scene rx-scene-two">
+      <p>Pagamenti</p>
+      <h2>Compra ora, scegli come pagare.</h2>
+      <span>Carte, wallet digitali e pagamento a rate quando disponibile nel checkout.</span>
+      <a href="faq.html">Scopri come</a>
+    </div>
+  </article>
+
+  <article class="rx-panel rx-panel-three">
+    <div class="rx-panel-media rx-frame-d" aria-hidden="true"><img src="img/new-art42-1.jpg" alt="" loading="lazy" decoding="async"></div>
+    <div class="rx-scene rx-scene-three">
+      <p>Autenticità</p>
+      <h2>Controllo manuale, verifica IRIS.</h2>
+      <span>Ogni capo viene controllato, pulito e preparato prima della messa in vendita.</span>
+      <a href="#iris-cinema">Vedi il processo</a>
+    </div>
+  </article>
 </section>
 
 <!-- PAGAMENTI -->
@@ -142,6 +141,50 @@
       <span class="pay-logo pay-logo-cards"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'"><img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'"></span>
     </div>
     <span class="pay-wipe"></span>
+  </div>
+</section>
+
+<!-- AUTENTICITÀ IRIS -->
+<section id="iris-cinema" class="iris-cinema" aria-label="Autenticità Bluèlle e IRIS">
+  <div class="iris-pin">
+    <div class="iris-bg" aria-hidden="true">
+      <figure class="iris-frame iris-frame-one is-base"><img src="img/new-art42-1.jpg" alt="" loading="lazy" decoding="async"></figure>
+      <figure class="iris-frame iris-frame-two"><img src="img/new-art05-2.jpg" alt="" loading="lazy" decoding="async"></figure>
+      <figure class="iris-frame iris-frame-three"><img src="img/gucci-vneck-gold-2.jpg" alt="" loading="lazy" decoding="async"></figure>
+      <figure class="iris-frame iris-frame-four"><img src="img/balenciaga-unity-cream-3.jpg" alt="" loading="lazy" decoding="async"></figure>
+      <span class="iris-vignette"></span>
+      <span class="iris-scan"></span>
+      <span class="iris-lens"></span>
+    </div>
+    <div class="iris-copy">
+      <p class="iris-mini" data-i="iris_cinema_eye">Autenticità Bluèlle</p>
+      <div class="iris-story">
+        <article class="iris-chapter is-base">
+          <h2 data-i="iris_c1_title">Prima lo guardiamo.</h2>
+          <p data-i="iris_c1_text">Cuciture, etichette, materiali e proporzioni vengono controllati a mano.</p>
+        </article>
+        <article class="iris-chapter">
+          <h2 data-i="iris_c2_title">Poi IRIS confronta.</h2>
+          <p data-i="iris_c2_text">Il software legge i dettagli e li confronta con il nostro archivio interno.</p>
+        </article>
+        <article class="iris-chapter">
+          <h2 data-i="iris_c3_title">Lo igienizziamo.</h2>
+          <p data-i="iris_c3_text">Ogni capo viene pulito con attenzione prima della messa in vendita.</p>
+        </article>
+        <article class="iris-chapter">
+          <h2 data-i="iris_c4_title">Solo dopo entra online.</h2>
+          <p data-i="iris_c4_text">Se supera tutto, diventa parte della collezione Bluèlle.</p>
+        </article>
+      </div>
+      <a href="collezione.html" class="iris-cta" data-i="iris_cinema_cta">Vedi la collezione</a>
+    </div>
+    <aside class="iris-panel" aria-label="Sintesi controllo IRIS">
+      <span>IRIS</span>
+      <strong data-i="iris_panel_title">Controllo capo</strong>
+      <p><b data-i="iris_panel_a">Etichetta</b><em data-i="iris_panel_ok">verificata</em></p>
+      <p><b data-i="iris_panel_b">Materiale</b><em data-i="iris_panel_ok2">coerente</em></p>
+      <p><b data-i="iris_panel_c">Pulizia</b><em data-i="iris_panel_ok3">pronta</em></p>
+    </aside>
   </div>
 </section>
 
@@ -217,10 +260,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260708q"></script>
+<script src="assets/app.js?v=20260709e"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260708q"></script>
+<script src="assets/motion.js?v=20260709e"></script>
 </body>
 </html>

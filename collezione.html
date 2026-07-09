@@ -21,9 +21,9 @@
 <title>Collezione — Bluèlle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260708q">
+<link rel="stylesheet" href="assets/styles.css?v=20260709e">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -50,11 +50,12 @@
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
     <li><a href="account.html">Account</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  <button class="burger" id="burger" aria-label="Apri menu" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label">Menu</span></button>
 </nav>
 
 <!-- MOBILE NAV -->
 <div class="mnav" id="mnav">
+  <a href="index.html" onclick="closeMNav()">Home</a>
   <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
   <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
   <a href="faq.html" onclick="closeMNav()">FAQ</a>
@@ -63,14 +64,41 @@
   <a href="account.html" onclick="closeMNav()">Account</a>
 </div>
 <main role="main">
-<div class="container" style="padding-top:clamp(5.5rem,9vw,7rem)"><div style="font-family:var(--f-ui);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)"><a href="index.html" style="color:var(--stone);text-decoration:none">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Collezione</span></div></div>
+<div class="container collection-breadcrumb"><a href="index.html">Home</a><span>/</span><strong data-i="nav_coll">Collezione</strong></div>
+<section class="archive-hero" aria-label="Archivio Bluèlle">
+  <div class="archive-copy reveal">
+    <p class="archive-kicker" data-i="archive_eye">Archivio Bluèlle</p>
+    <h1 data-i="archive_title">Una collezione viva, un pezzo alla volta.</h1>
+    <p data-i="archive_intro">Ogni capo entra qui solo dopo controllo manuale, verifica IRIS e pulizia. Quando un pezzo viene venduto, lascia l'archivio.</p>
+    <div class="archive-stats" aria-label="Criteri Bluèlle">
+      <span><strong>IRIS</strong><small data-i="archive_stat_iris">verifica</small></span>
+      <span><strong>1x</strong><small data-i="archive_stat_once">disponibilità</small></span>
+      <span><strong data-i="archive_stat_clean_n">Pulito</strong><small data-i="archive_stat_clean">prima della vendita</small></span>
+    </div>
+  </div>
+  <button class="archive-feature reveal delay-1" type="button" onclick="openM(7)" aria-label="Apri prodotto Gucci Cardigan Purple">
+    <img src="img/p7-f1.jpg" alt="Gucci Cardigan Purple selezionato da Bluèlle" loading="eager" decoding="async">
+    <span data-i="archive_feature_meta">In evidenza</span>
+    <strong>Gucci Cardigan Purple</strong>
+  </button>
+  <div class="archive-side reveal delay-2" aria-label="Dettagli di archivio">
+    <button type="button" onclick="openM(2)" aria-label="Apri Balenciaga Unity Logo Tee">
+      <img src="img/balenciaga-unity-cream-2.jpg" alt="Dettaglio Balenciaga Unity Logo Tee" loading="lazy" decoding="async">
+      <span>Balenciaga Unity Tee</span>
+    </button>
+    <button type="button" onclick="openM(1)" aria-label="Apri Gucci Maglioncino GG V-Neck">
+      <img src="img/gucci-vneck-gold-1.jpg" alt="Dettaglio Gucci Maglioncino GG V-Neck" loading="lazy" decoding="async">
+      <span>Gucci GG V-Neck</span>
+    </button>
+  </div>
+</section>
 <section id="prodotti">
   <div class="container">
     <div class="ph reveal">
       <div>
         <div class="sl" data-i="coll_eye">Disponibile ora</div>
         <h2 class="sec-title" data-i="coll_title">La <em>collezione</em></h2>
-        <p class="sec-intro">Una selezione ristretta di capi luxury autentici, scelti e verificati uno a uno. Ogni pezzo è unico: quando non c'è più, non torna.</p>
+        <p class="sec-intro" data-i="coll_intro_new">Filtra l'archivio per brand, taglia o disponibilità. Tutti i capi sono autenticati, puliti e pronti alla spedizione.</p>
       </div>
     </div>
     <div class="shopbar reveal">
@@ -233,10 +261,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260708q"></script>
+<script src="assets/app.js?v=20260709e"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260708q"></script>
+<script src="assets/motion.js?v=20260709e"></script>
 </body>
 </html>

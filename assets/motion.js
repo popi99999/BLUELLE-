@@ -182,7 +182,7 @@ if(plx.length&&!reduced){
     var picker=document.getElementById('pickerPanel');
     var pickerOpen=picker&&!picker.hasAttribute('hidden');
     if(tb)tb.classList.toggle('gone',y>60&&!pickerOpen);
-    if(y>lastY&&y>420)nav.classList.add('hide');
+    if(y>lastY&&y>150)nav.classList.add('hide');
     else nav.classList.remove('hide');
     lastY=y;
   };
@@ -206,6 +206,7 @@ function initGsapPolish(){
   initLogoJourney();
   initHomeShowcase();
   initPaymentsStory();
+  initIrisCinema();
 
   /* NB: i reveal in opacity dei contenuti sono gestiti dal sistema CSS + IntersectionObserver
      (classe .reveal in app.js). NON usare GSAP autoAlpha sui contenuti: sotto la piega o con
@@ -222,53 +223,65 @@ function initGsapPolish(){
 function initHomeShowcase(){
   var section=document.getElementById('home-showcase');
   if(!section)return;
-  var pin=section.querySelector('.rx-pin');
-  var shell=section.querySelector('.rx-video-shell');
-  var title=section.querySelector('.rx-title');
-  var brand=section.querySelector('.rx-brand');
-  var reveal=section.querySelector('.rx-reveal');
-  var frames=gsap.utils.toArray(section.querySelectorAll('.rx-frame'));
-  var cards=gsap.utils.toArray(section.querySelectorAll('.rx-card'));
-  if(!pin||!shell||!title||!reveal)return;
+  var panels=gsap.utils.toArray(section.querySelectorAll('.rx-panel'));
+  if(!panels.length)return;
 
-  gsap.set(frames,{autoAlpha:0,scale:1.08});
-  if(frames[0])gsap.set(frames[0],{autoAlpha:1,scale:1});
-  gsap.set(cards,{autoAlpha:0,y:120,scale:.96});
-  gsap.set(reveal,{autoAlpha:0,y:110});
-
-  var tl=gsap.timeline({
-    defaults:{ease:'none'},
-    scrollTrigger:{
-      trigger:section,
-      start:'top top',
-      end:'bottom bottom',
-      scrub:.9,
-      pin:pin,
-      pinSpacing:false,
-      anticipatePin:1,
-      invalidateOnRefresh:true,
-      onUpdate:function(self){
-        reveal.classList.toggle('is-active',self.progress>.48);
-      }
+  ScrollTrigger.create({
+    trigger:section,
+    start:'top top',
+    end:'bottom top',
+    invalidateOnRefresh:true,
+    onEnter:function(){document.body.classList.add('home-dark-nav');},
+    onEnterBack:function(){document.body.classList.add('home-dark-nav');},
+    onLeave:function(){document.body.classList.remove('home-dark-nav');},
+    onLeaveBack:function(){document.body.classList.remove('home-dark-nav');},
+    onUpdate:function(self){
+      document.body.classList.toggle('home-dark-nav',self.progress<.985);
     }
   });
 
-  function fadeFrame(i,at){
-    if(!frames[i])return;
-    if(frames[i-1])tl.to(frames[i-1],{autoAlpha:0,duration:.24,ease:'power2.inOut'},at);
-    tl.fromTo(frames[i],{autoAlpha:0,scale:1.095},{autoAlpha:1,scale:1,duration:.34,ease:'power2.inOut'},at);
-  }
-
-  tl.to(shell,{scale:1,duration:1,ease:'power1.inOut'},0)
-    .to(frames[0],{scale:1.115,duration:.76,ease:'power1.inOut'},0)
-    .to(title,{autoAlpha:0,y:-110,scale:.965,duration:.3,ease:'power2.inOut'},.26)
-    .to(brand,{y:-18,scale:.8,autoAlpha:.94,duration:.38,ease:'power2.inOut'},.24)
-    .to(reveal,{autoAlpha:1,y:0,duration:.38,ease:'power3.out'},.48)
-    .to(cards,{autoAlpha:1,y:0,scale:1,duration:.46,stagger:.085,ease:'power3.out'},.54)
-    .to(cards,{y:-14,duration:.56,stagger:.035,ease:'sine.inOut'},.92);
-  fadeFrame(1,.28);
-  fadeFrame(2,.54);
-  fadeFrame(3,.84);
+  panels.forEach(function(panel,i){
+    var img=panel.querySelector('.rx-panel-media img');
+    var copy=panel.querySelector('.rx-title,.rx-scene');
+    if(img){
+      gsap.fromTo(img,
+        {yPercent:-3.5,scale:1.08},
+        {
+          yPercent:3.5,
+          scale:1.02,
+          ease:'none',
+          scrollTrigger:{
+            trigger:panel,
+            start:'top bottom',
+            end:'bottom top',
+            scrub:1.05,
+            invalidateOnRefresh:true
+          }
+        }
+      );
+    }
+    if(copy){
+      if(i===0){
+        gsap.set(copy,{autoAlpha:1,y:0});
+      }else{
+        gsap.fromTo(copy,
+          {autoAlpha:0,y:44},
+          {
+            autoAlpha:1,
+            y:0,
+            ease:'power2.out',
+            scrollTrigger:{
+              trigger:panel,
+              start:'top 82%',
+              end:'top 45%',
+              scrub:.85,
+              invalidateOnRefresh:true
+            }
+          }
+        );
+      }
+    }
+  });
 }
 
 function initPaymentsStory(){
@@ -299,6 +312,63 @@ function initPaymentsStory(){
   .to(photoCopy,{autoAlpha:1,y:0,duration:.56,ease:'power2.out'},.16)
   .to(logos,{autoAlpha:1,y:0,scale:1,rotation:0,duration:.38,stagger:.075,ease:'back.out(1.45)'},.36)
   .to(logos,{y:-12,duration:.5,stagger:.035,ease:'sine.inOut'},.78);
+}
+
+function initIrisCinema(){
+  var section=document.getElementById('iris-cinema');
+  if(!section)return;
+  var pin=section.querySelector('.iris-pin');
+  var frames=gsap.utils.toArray(section.querySelectorAll('.iris-frame'));
+  var chapters=gsap.utils.toArray(section.querySelectorAll('.iris-chapter'));
+  var panel=section.querySelector('.iris-panel');
+  var panelRows=gsap.utils.toArray(section.querySelectorAll('.iris-panel p'));
+  var scan=section.querySelector('.iris-scan');
+  var lens=section.querySelector('.iris-lens');
+  if(!pin||!frames.length||!chapters.length)return;
+
+  gsap.set(frames,{autoAlpha:0,scale:1.08});
+  gsap.set(frames[0],{autoAlpha:1,scale:1.02});
+  gsap.set(chapters,{autoAlpha:0,y:48});
+  gsap.set(chapters[0],{autoAlpha:1,y:0});
+  gsap.set(panelRows,{autoAlpha:.28,x:18});
+  if(panelRows[0])gsap.set(panelRows[0],{autoAlpha:1,x:0});
+  if(panel)gsap.set(panel,{autoAlpha:.88,y:18});
+
+  var tl=gsap.timeline({
+    defaults:{ease:'none'},
+    scrollTrigger:{
+      trigger:section,
+      start:'top top',
+      end:'bottom bottom',
+      scrub:1.05,
+      pin:pin,
+      pinSpacing:false,
+      anticipatePin:1,
+      invalidateOnRefresh:true
+    }
+  });
+
+  function showStep(i,at){
+    if(!frames[i]||!chapters[i])return;
+    tl.to(frames[i-1],{autoAlpha:0,scale:1.03,duration:.24,ease:'power2.inOut'},at)
+      .fromTo(frames[i],{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1.02,duration:.34,ease:'power2.inOut'},at)
+      .to(chapters[i-1],{autoAlpha:0,y:-34,duration:.18,ease:'power2.inOut'},at+.02)
+      .fromTo(chapters[i],{autoAlpha:0,y:48},{autoAlpha:1,y:0,duration:.24,ease:'power3.out'},at+.12);
+    if(panelRows[i]){
+      tl.to(panelRows,{autoAlpha:.28,x:18,duration:.12,ease:'power2.out'},at+.06)
+        .to(panelRows[i],{autoAlpha:1,x:0,duration:.22,ease:'power3.out'},at+.15);
+    }
+  }
+
+  tl.to(frames[0],{scale:1.12,duration:.32,ease:'power1.inOut'},0);
+  if(scan)tl.to(scan,{yPercent:145,duration:1,ease:'none'},0);
+  if(lens)tl.to(lens,{x:'22vw',y:'-12vh',scale:1.18,duration:.34,ease:'power1.inOut'},.05)
+    .to(lens,{x:'-8vw',y:'9vh',scale:.92,duration:.34,ease:'power1.inOut'},.39)
+    .to(lens,{x:'30vw',y:'10vh',scale:1.05,duration:.34,ease:'power1.inOut'},.72);
+  if(panel)tl.to(panel,{autoAlpha:1,y:0,duration:.25,ease:'power2.out'},.08);
+  showStep(1,.25);
+  showStep(2,.52);
+  showStep(3,.78);
 }
 
 function initLogoJourney(){
@@ -394,7 +464,7 @@ function animateCards(){
 
 function bindHoverMotion(){
   if(!hasGsap||reduced)return;
-  document.querySelectorAll('.hcta,.rx-cta,.rx-card,.sell-cta,.lj-button,.pill,.filtoggle,.mbuy,.ck-submit,.track-btn,.geo-confirm,.cf-submit,.iglink,.pback').forEach(function(el){
+  document.querySelectorAll('.hcta,.rx-cta,.rx-scene a,.iris-cta,.archive-feature,.archive-side button,.sell-cta,.lj-button,.pill,.filtoggle,.mbuy,.ck-submit,.track-btn,.geo-confirm,.cf-submit,.iglink,.pback').forEach(function(el){
     if(el.dataset.gsapHover==='true')return;
     el.dataset.gsapHover='true';
     el.addEventListener('pointerenter',function(){gsap.to(el,{y:-2,scale:1.012,duration:.28,ease:'power2.out'});});

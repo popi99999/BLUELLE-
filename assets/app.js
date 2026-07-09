@@ -8,6 +8,148 @@ const T={
   es:{tagline:'Lujo de Segunda Mano',hero_cta:'Explorar la colección',scroll:'Desplazar',about_eye:'Quiénes somos',about_title:'Segunda mano.<br><em>Primera clase.</em>',coll_eye:'Disponible ahora',coll_title:'La <em>colección</em>',all:'Todos',how_eye:'¿Quieres vender o confiarnos una prenda?',how_title:'Cómo <em>funciona</em>',s01t:'Escríbenos',s01p:'Envíanos fotos y detalles de la prenda por Instagram. Respondemos enseguida.',s02t:'Valoramos',s02p:'Autenticamos la prenda con IRIS y fijamos juntos el precio justo.',s03t:'Vendemos',s03p:'Publicamos la prenda y la presentamos a nuestra comunidad.',s04t:'Te pagamos',s04p:'Una vez vendida, recibes tu pago. Simple y seguro.',sell_cta:'Confía tu prenda',faq_eye:'¿Tienes preguntas?',faq_title:'Preguntas <em>frecuentes</em>',fq1:'¿Las prendas son originales?',fa1:'Sí, al 100%. Verifico personalmente cada prenda antes de publicarla — etiquetas, costuras, materiales, accesorios.',fq2:'¿Cuánto tarda el envío?',fa2:'Estándar: 3–5 días laborables. Express: 1–2 días. Recibes un código de seguimiento por email en cuanto se envía el paquete.',fq3:'¿Los precios son negociables?',fa3:'No. Los precios son fijos y ya están reducidos respecto al retail. Si hay promociones, las anunciaré en Instagram.',fq4:'¿Cómo hago el seguimiento de mi pedido?',fa4:'Usa el código de seguimiento recibido por email. También puedes introducirlo en la sección de Seguimiento de este sitio.',fq5:'¿Es seguro el pago?',fa5:'Sí. Los pagos son gestionados por Stripe, uno de los sistemas de pago más fiables del mundo. Acepto tarjetas, Apple Pay y Google Pay.',track_eye:'¿Ya has pedido?',track_title:'Rastrear tu <em>pedido</em>',track_btn:'Buscar',contact_eye:'Contacto',contact_title:'Encuéntrame en <em>Instagram</em>',ig_follow:'síguenos en',ig_cap:'Primeras vistas de nuevas llegadas, selecciones exclusivas y DMs siempre abiertos.',nav_about:'Quiénes somos',nav_coll:'Colección',nav_contact:'Contacto',modal_why:'Por qué comprar en Bluèlle',mw1:'Autenticado personalmente',mw2:'Ahorra hasta un 50%',mw3:'Embalaje cuidadoso, envío con seguimiento',mw4:'Envío con seguimiento, pago seguro',secure_pay:'Pago seguro vía Stripe',buy:'Comprar',sold:'Vendido',avail:'Disponible',see:'Ver',size:'Talla',gw_him:'Para él',gw_her:'Para ella',gw_enter:'Entrar',gw_soon:'Próximamente',gw_pick:'Elige un mundo',gw_note:'La colección de mujer está llegando — síguenos en Instagram.',auth_eye:'Autenticidad garantizada',auth_h2:'IRIS<sup class="iris-reg">®</sup>',auth_l1:'Cada prenda verificada personalmente antes de publicarse',auth_l2:'Estado nuevo o como nuevo, muchas con etiqueta original',auth_l3:'Etiquetas, costuras, materiales — nada se pasa por alto',iris_tag:'Nuestro sistema de autenticación propietario. Cada prenda es verificada por nuestros expertos y por el software IRIS.',iris_s1t:'Inspección física',iris_s1p:'Nuestros expertos examinan costuras, etiquetas, materiales y accesorios.',iris_s2t:'Análisis IRIS',iris_s2p:'El software compara los detalles de la prenda con nuestro archivo de referencia.',iris_s3t:'Certificado',iris_s3p:'Solo las prendas que superan ambos controles se ponen a la venta.',save_eye:'El lujo que merece la pena',save_h2:'Ahorra.',save_h2e:'Sin renuncias.',save_p:"Cada prenda que compras en Bluèlle te hace ahorrar hasta un 50% respecto al precio en boutique. El mismo lujo, la misma calidad — a un precio con sentido.",save_stat1_lbl:'sobre el precio retail',save_stat2_lbl:'autenticidad verificada',hero_t1:'Seleccionados con cuidado.',hero_t2:'Al precio justo.',about_story_quote:'"Siempre he buscado la belleza con cuidado. El mar me enseñó a reconocerla."',about_story:'Bluèlle nace de un ojo entrenado en la selección — la capacidad de distinguir lo que dura de lo que pasa. Cada prenda que encuentras aquí ha sido buscada, tocada y evaluada por mí. Solo autenticidad. Solo precios con sentido.',about_mission:'"El lujo no debería ser un privilegio. Debería ser una elección consciente."',auth_sub:'Solo vendo lo que yo mismo llevaría.',cond_mint:'Excelente',cond_vgood:'Muy bueno',cond_good:'Bueno',cond_great:'Excelente',cond_new:'Nuevo',price_req:'A consultar',box_note:' Caja original incluida.'},
   de:{tagline:'Luxury Second Hand',hero_cta:'Die Kollektion entdecken',scroll:'Scrollen',about_eye:'Über uns',about_title:'Second hand.<br><em>First class.</em>',coll_eye:'Jetzt verfügbar',coll_title:'Die <em>Kollektion</em>',all:'Alle',how_eye:'Möchtest du ein Stück verkaufen oder uns anvertrauen?',how_title:'So <em>funktioniert es</em>',s01t:'Schreib uns',s01p:'Schick uns Fotos und Details des Stücks auf Instagram. Wir antworten schnell.',s02t:'Wir bewerten',s02p:'Wir authentifizieren das Stück mit IRIS und legen gemeinsam den Preis fest.',s03t:'Wir verkaufen',s03p:'Wir präsentieren das Stück unserer Community.',s04t:'Wir zahlen dich aus',s04p:'Nach dem Verkauf erhältst du deine Zahlung. Einfach und sicher.',sell_cta:'Vertrau uns dein Stück an',faq_eye:'Noch Fragen?',faq_title:'Häufige <em>Fragen</em>',fq1:'Sind die Stücke original?',fa1:'Ja, zu 100%. Ich prüfe jedes Stück persönlich vor dem Verkauf — Etiketten, Nähte, Materialien, Beschläge.',fq2:'Wie lange dauert der Versand?',fa2:'Standard: 3–5 Werktage. Express: 1–2 Tage. Die Sendungsnummer kommt per E-Mail, sobald das Paket unterwegs ist.',fq3:'Sind die Preise verhandelbar?',fa3:'Nein. Die Preise sind fix und bereits unter dem Listenpreis. Aktionen kündige ich auf Instagram an.',fq4:'Wie verfolge ich meine Bestellung?',fa4:'Nutze die per E-Mail erhaltene Sendungsnummer. Du kannst sie auch im Tracking-Bereich dieser Seite eingeben.',fq5:'Ist die Zahlung sicher?',fa5:'Ja. Die Zahlungen laufen über Stripe, eines der zuverlässigsten Zahlungssysteme weltweit. Ich akzeptiere Karten, Apple Pay und Google Pay.',track_eye:'Schon bestellt?',track_title:'Verfolge deine <em>Bestellung</em>',track_btn:'Suchen',contact_eye:'Schreib uns',contact_title:'Schreib mir auf <em>Instagram</em>',ig_follow:'folge uns auf',ig_cap:'Neuheiten in der Vorschau, exklusive Auswahl und DMs immer offen.',nav_about:'Über uns',nav_coll:'Kollektion',nav_contact:'Kontakt',modal_why:'Warum bei Bluèlle kaufen',mw1:'Persönlich authentifiziert',mw2:'Bis zu 50% sparen',mw3:'Sorgfältige Verpackung, verfolgter Versand',mw4:'Verfolgter Versand, sichere Zahlung',secure_pay:'Sichere Zahlung über Stripe',buy:'Kaufen',sold:'Verkauft',avail:'Verfügbar',see:'Ansehen',size:'Größe',gw_him:'Für ihn',gw_her:'Für sie',gw_enter:'Eintreten',gw_soon:'Demnächst',gw_pick:'Wähle eine Welt',gw_note:'Die Damenkollektion kommt bald — folge uns auf Instagram.',auth_eye:'Echtheit garantiert',auth_h2:'IRIS<sup class="iris-reg">®</sup>',auth_l1:'Jedes Stück vor dem Verkauf persönlich geprüft',auth_l2:'Neu oder neuwertig, viele mit Originaletikett',auth_l3:'Etiketten, Nähte, Materialien — nichts wird übersehen',iris_tag:'Unser proprietäres Authentifizierungssystem. Jedes Stück wird von unseren Experten und der IRIS-Software geprüft.',iris_s1t:'Physische Prüfung',iris_s1p:'Unsere Experten prüfen Nähte, Etiketten, Materialien und Beschläge.',iris_s2t:'IRIS-Analyse',iris_s2p:'Die Software vergleicht die Details des Stücks mit unserem Referenzarchiv.',iris_s3t:'Zertifiziert',iris_s3p:'Nur Stücke, die beide Prüfungen bestehen, werden zum Verkauf angeboten.',save_eye:'Luxus, der sich lohnt',save_h2:'Sparen.',save_h2e:'Ohne Kompromisse.',save_p:'Jedes Stück bei Bluèlle spart dir bis zu 50% gegenüber dem Boutiquepreis. Derselbe Luxus, dieselbe Qualität — zu einem Preis, der Sinn ergibt.',save_stat1_lbl:'gegenüber dem Verkaufspreis',save_stat2_lbl:'Echtheit geprüft',hero_t1:'Mit Sorgfalt ausgewählt.',hero_t2:'Zum richtigen Preis.',about_story_quote:'"Ich habe Schönheit immer mit Sorgfalt gesucht. Das Meer hat mich gelehrt, sie zu erkennen."',about_story:'Bluèlle entsteht aus einem geschulten Auge für Auswahl — der Fähigkeit zu erkennen, was bleibt und was vergeht. Jedes Stück hier wurde von mir persönlich gesucht, geprüft und bewertet. Nur Echtheit. Nur Preise, die Sinn ergeben.',about_mission:'"Luxus sollte kein Privileg sein. Er sollte eine bewusste Entscheidung sein."',auth_sub:'Ich verkaufe nur, was ich selbst tragen würde.',cond_mint:'Ausgezeichnet',cond_vgood:'Sehr gut',cond_good:'Gut',cond_great:'Top',cond_new:'Neu',price_req:'Auf Anfrage',box_note:' Originalkarton inklusive.'}
 };
+const EXTRA_T={
+  it:{
+    iris_cinema_eye:'Autenticità Bluèlle',
+    iris_c1_title:'Prima lo guardiamo.',
+    iris_c1_text:'Cuciture, etichette, materiali e proporzioni vengono controllati a mano.',
+    iris_c2_title:'Poi IRIS confronta.',
+    iris_c2_text:'Il software legge i dettagli e li confronta con il nostro archivio interno.',
+    iris_c3_title:'Lo igienizziamo.',
+    iris_c3_text:'Ogni capo viene pulito con attenzione prima della messa in vendita.',
+    iris_c4_title:'Solo dopo entra online.',
+    iris_c4_text:'Se supera tutto, diventa parte della collezione Bluèlle.',
+    iris_cinema_cta:'Vedi la collezione',
+    iris_panel_title:'Controllo capo',
+    iris_panel_a:'Etichetta',
+    iris_panel_b:'Materiale',
+    iris_panel_c:'Pulizia',
+    iris_panel_ok:'verificata',
+    iris_panel_ok2:'coerente',
+    iris_panel_ok3:'pronta',
+    archive_eye:'Archivio Bluèlle',
+    archive_title:'Una collezione viva, un pezzo alla volta.',
+    archive_intro:"Ogni capo entra qui solo dopo controllo manuale, verifica IRIS e pulizia. Quando un pezzo viene venduto, lascia l'archivio.",
+    archive_stat_iris:'verifica',
+    archive_stat_once:'disponibilità',
+    archive_stat_clean_n:'Pulito',
+    archive_stat_clean:'prima della vendita',
+    archive_feature_meta:'In evidenza',
+    coll_intro_new:"Filtra l'archivio per brand, taglia o disponibilità. Tutti i capi sono autenticati, puliti e pronti alla spedizione."
+  },
+  en:{
+    iris_cinema_eye:'Bluèlle authenticity',
+    iris_c1_title:'First, we inspect it.',
+    iris_c1_text:'Stitching, labels, materials and proportions are checked by hand.',
+    iris_c2_title:'Then IRIS compares.',
+    iris_c2_text:'The software reads the details against our internal reference archive.',
+    iris_c3_title:'We sanitize it.',
+    iris_c3_text:'Every piece is carefully cleaned before it goes online.',
+    iris_c4_title:'Only then it is listed.',
+    iris_c4_text:'If it passes everything, it becomes part of the Bluèlle collection.',
+    iris_cinema_cta:'View collection',
+    iris_panel_title:'Item check',
+    iris_panel_a:'Label',
+    iris_panel_b:'Material',
+    iris_panel_c:'Cleaning',
+    iris_panel_ok:'verified',
+    iris_panel_ok2:'coherent',
+    iris_panel_ok3:'ready',
+    archive_eye:'Bluèlle archive',
+    archive_title:'A living collection, one piece at a time.',
+    archive_intro:'Each piece is listed only after manual review, IRIS verification and cleaning. When it sells, it leaves the archive.',
+    archive_stat_iris:'verification',
+    archive_stat_once:'availability',
+    archive_stat_clean_n:'Cleaned',
+    archive_stat_clean:'before listing',
+    archive_feature_meta:'Featured',
+    coll_intro_new:'Filter the archive by brand, size or availability. Every piece is authenticated, cleaned and ready to ship.'
+  },
+  fr:{
+    iris_cinema_eye:'Authenticité Bluèlle',
+    iris_c1_title:"D'abord, nous l'inspectons.",
+    iris_c1_text:'Coutures, étiquettes, matières et proportions sont contrôlées à la main.',
+    iris_c2_title:'Puis IRIS compare.',
+    iris_c2_text:'Le logiciel lit les détails et les compare à notre archive interne.',
+    iris_c3_title:'Nous le nettoyons.',
+    iris_c3_text:'Chaque pièce est soigneusement nettoyée avant la mise en ligne.',
+    iris_c4_title:'Seulement ensuite, elle est listée.',
+    iris_c4_text:'Si elle passe tous les contrôles, elle rejoint la collection Bluèlle.',
+    iris_cinema_cta:'Voir la collection',
+    iris_panel_title:'Contrôle article',
+    iris_panel_a:'Étiquette',
+    iris_panel_b:'Matière',
+    iris_panel_c:'Nettoyage',
+    iris_panel_ok:'vérifiée',
+    iris_panel_ok2:'cohérente',
+    iris_panel_ok3:'prêt',
+    archive_eye:'Archive Bluèlle',
+    archive_title:'Une collection vivante, une pièce à la fois.',
+    archive_intro:"Chaque pièce est listée après contrôle manuel, vérification IRIS et nettoyage. Une fois vendue, elle quitte l'archive.",
+    archive_stat_iris:'vérification',
+    archive_stat_once:'disponibilité',
+    archive_stat_clean_n:'Nettoyée',
+    archive_stat_clean:'avant la vente',
+    archive_feature_meta:'En vedette',
+    coll_intro_new:"Filtrez l'archive par marque, taille ou disponibilité. Chaque pièce est authentifiée, nettoyée et prête à être expédiée."
+  },
+  es:{
+    iris_cinema_eye:'Autenticidad Bluèlle',
+    iris_c1_title:'Primero lo inspeccionamos.',
+    iris_c1_text:'Costuras, etiquetas, materiales y proporciones se revisan a mano.',
+    iris_c2_title:'Luego IRIS compara.',
+    iris_c2_text:'El software lee los detalles y los compara con nuestro archivo interno.',
+    iris_c3_title:'Lo higienizamos.',
+    iris_c3_text:'Cada prenda se limpia con cuidado antes de publicarse.',
+    iris_c4_title:'Solo entonces entra online.',
+    iris_c4_text:'Si supera todo, pasa a formar parte de la colección Bluèlle.',
+    iris_cinema_cta:'Ver colección',
+    iris_panel_title:'Control de prenda',
+    iris_panel_a:'Etiqueta',
+    iris_panel_b:'Material',
+    iris_panel_c:'Limpieza',
+    iris_panel_ok:'verificada',
+    iris_panel_ok2:'coherente',
+    iris_panel_ok3:'lista',
+    archive_eye:'Archivo Bluèlle',
+    archive_title:'Una colección viva, una pieza cada vez.',
+    archive_intro:'Cada prenda entra solo después de revisión manual, verificación IRIS y limpieza. Cuando se vende, sale del archivo.',
+    archive_stat_iris:'verificación',
+    archive_stat_once:'disponibilidad',
+    archive_stat_clean_n:'Limpia',
+    archive_stat_clean:'antes de la venta',
+    archive_feature_meta:'Destacado',
+    coll_intro_new:'Filtra el archivo por marca, talla o disponibilidad. Todas las prendas están autenticadas, limpias y listas para envío.'
+  },
+  de:{
+    iris_cinema_eye:'Bluèlle Echtheit',
+    iris_c1_title:'Zuerst prüfen wir es.',
+    iris_c1_text:'Nähte, Etiketten, Materialien und Proportionen werden von Hand kontrolliert.',
+    iris_c2_title:'Dann vergleicht IRIS.',
+    iris_c2_text:'Die Software liest Details und vergleicht sie mit unserem internen Archiv.',
+    iris_c3_title:'Wir reinigen es.',
+    iris_c3_text:'Jedes Stück wird vor dem Verkauf sorgfältig gereinigt.',
+    iris_c4_title:'Erst dann geht es online.',
+    iris_c4_text:'Wenn es alle Kontrollen besteht, wird es Teil der Bluèlle Kollektion.',
+    iris_cinema_cta:'Kollektion ansehen',
+    iris_panel_title:'Artikelprüfung',
+    iris_panel_a:'Etikett',
+    iris_panel_b:'Material',
+    iris_panel_c:'Reinigung',
+    iris_panel_ok:'geprüft',
+    iris_panel_ok2:'stimmig',
+    iris_panel_ok3:'bereit',
+    archive_eye:'Bluèlle Archiv',
+    archive_title:'Eine lebendige Kollektion, Stück für Stück.',
+    archive_intro:'Jedes Stück wird erst nach manueller Prüfung, IRIS Verifizierung und Reinigung gelistet. Nach dem Verkauf verlässt es das Archiv.',
+    archive_stat_iris:'Prüfung',
+    archive_stat_once:'Verfügbarkeit',
+    archive_stat_clean_n:'Gereinigt',
+    archive_stat_clean:'vor dem Verkauf',
+    archive_feature_meta:'Im Fokus',
+    coll_intro_new:'Filtere das Archiv nach Marke, Größe oder Verfügbarkeit. Alle Stücke sind authentifiziert, gereinigt und versandbereit.'
+  }
+};
 // CHECKOUT TRANSLATIONS
 const CK={
   it:{ck_eye:'Completa l\'acquisto',ck_title:'I tuoi <em style="color:var(--brass)">dati</em>',ck_name:'Nome',ck_surname:'Cognome',ck_phone:'Telefono',ck_address:'Indirizzo',ck_city:'Città',ck_province:'Provincia',ck_country:'Paese',ck_ship_zone:'Zona spedizione',ck_zone_it:'Italia — €10',ck_zone_eu:'Europa — €15',ck_zone_world:'Estero — €25',ck_ship:'Spedizione',ck_total:'Totale',ck_pay:'Procedi al pagamento',ck_secure:'Pagamento sicuro via Stripe',ck_err:'Compila tutti i campi obbligatori',ck_err_email:'Inserisci un\'email valida',ck_addr_ph:'Via, numero civico'},
@@ -245,7 +387,9 @@ function setLang(l){
   document.querySelectorAll('[data-i]').forEach(el=>{
     const k=el.getAttribute('data-i');
     const dict=T[langBase(l)]||T.it;
+    const extra=EXTRA_T[langBase(l)]||EXTRA_T.it||{};
     if(dict&&dict[k]!==undefined) el.innerHTML=dict[k];
+    else if(extra&&extra[k]!==undefined) el.innerHTML=extra[k];
   });
   const trust=TRUST_LBL[langBase(l)]||TRUST_LBL.it;
   document.querySelectorAll('[data-trust-idx]').forEach(el=>{
@@ -862,62 +1006,39 @@ function mountGlobe(containerId, origin, dest, progress){
   var prog=Math.max(0,Math.min(1,progress)), now=interp(prog);
   var Ao=uvec(origin.lat,origin.lon), Bo=uvec(dest.lat,dest.lon);
   var sep=Math.acos(Math.max(-1,Math.min(1,Ao[0]*Bo[0]+Ao[1]*Bo[1]+Ao[2]*Bo[2])));
-  // spedizione domestica Italia→Italia → zoom sull'Italia con le regioni
-  function inItaly(p){ return p && p.lat>=35.2 && p.lat<=47.2 && p.lon>=6.5 && p.lon<=18.8; }
-  var domestic=inItaly(origin)&&inItaly(dest);
-  var ptScale=domestic?0.5:1;
   var Globe;
   try{
     Globe=new ThreeGlobe()
       .showGlobe(true)
-      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(domestic?0.09:0.14)
+      .showAtmosphere(true).atmosphereColor('#7fd9d1').atmosphereAltitude(0.14)
       .arcsData([{startLat:origin.lat,startLng:origin.lon,endLat:dest.lat,endLng:dest.lon}])
       .arcColor(function(){return ['#7fd9d1','#5fcfc6'];})
-      .arcAltitudeAutoScale(0.3).arcStroke(domestic?0.28:0.55)
+      .arcAltitudeAutoScale(0.3).arcStroke(0.55)
       .arcDashLength(1).arcDashGap(0).arcDashInitialGap(0).arcDashAnimateTime(0)
       .pointsData([
-        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55*ptScale,alt:0.012},
-        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62*ptScale,alt:0.012},
-        {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55*ptScale,alt:domestic?0.03:0.05}
+        {lat:origin.lat,lng:origin.lon,color:'#7fd9d1',rad:0.55,alt:0.012},
+        {lat:dest.lat,lng:dest.lon,color:'#5fcfc6',rad:0.62,alt:0.012},
+        {lat:now.lat,lng:now.lng,color:'#ffffff',rad:0.55,alt:0.05}
       ])
       .pointColor('color').pointAltitude('alt').pointRadius('rad');
   }catch(e){ try{ renderer.dispose(); }catch(_){ } return null; }
   // flat ocean base — no relief, no satellite (elegant marine sea)
   try{ var gm=Globe.globeMaterial(); if(gm){ gm.color=new THREE.Color('#12302b'); gm.map=null; gm.bumpMap=null; if('shininess' in gm) gm.shininess=6; gm.transparent=false; gm.needsUpdate=true; } }catch(e){}
   scene.add(Globe);
-  // country / region borders — cream land on marine sea
-  // (per spedizioni Italia→Italia si caricano anche i confini delle 20 regioni)
+  // country regions / borders — cream land on marine sea
   try{
     if(typeof fetch==='function'){
-      var loadWorld=fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+      fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
         .then(function(r){ return r.json(); })
         .then(function(topo){
-          if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.countries) return [];
-          return topojson.feature(topo, topo.objects.countries).features;
-        })['catch'](function(){ return []; });
-      var loadRegions=domestic
-        ? fetch('https://cdn.jsdelivr.net/gh/openpolis/geojson-italy@master/topojson/limits_IT_regions.topo.json')
-            .then(function(r){ return r.json(); })
-            .then(function(topo){
-              if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.regions) return [];
-              var fs=topojson.feature(topo, topo.objects.regions).features;
-              fs.forEach(function(f){ f.__itreg=true; });
-              return fs;
-            })['catch'](function(){ return []; })
-        : Promise.resolve([]);
-      Promise.all([loadWorld,loadRegions]).then(function(res){
-        var world=res[0]||[], regions=res[1]||[];
-        // se ho le regioni, tolgo la sagoma unica dell'Italia dal mondo (id ISO 380)
-        if(regions.length){ world=world.filter(function(f){ return String(f.id)!=='380'; }); }
-        var feats=world.concat(regions);
-        if(!feats.length) return;
-        // NB: accessor costanti — altitude per-feature come funzione corrompe la mesh (z-fighting)
-        Globe.polygonsData(feats)
-          .polygonCapColor(function(){ return 'rgba(240,234,223,0.94)'; })
-          .polygonSideColor(function(){ return 'rgba(18,48,43,0.55)'; })
-          .polygonStrokeColor(function(){ return 'rgba(18,48,43,0.6)'; })
-          .polygonAltitude(0.008);
-      });
+          if(typeof topojson==='undefined' || !topo || !topo.objects || !topo.objects.countries) return;
+          var feats=topojson.feature(topo, topo.objects.countries).features;
+          Globe.polygonsData(feats)
+            .polygonCapColor(function(){ return 'rgba(240,234,223,0.94)'; })
+            .polygonSideColor(function(){ return 'rgba(18,48,43,0.55)'; })
+            .polygonStrokeColor(function(){ return 'rgba(18,48,43,0.6)'; })
+            .polygonAltitude(0.008);
+        })['catch'](function(){});
     }
   }catch(e){}
   var camera=new THREE.PerspectiveCamera(36, W/H, 0.1, 3000);
@@ -925,8 +1046,8 @@ function mountGlobe(containerId, origin, dest, progress){
   try{ var mc=Globe.getCoords((origin.lat+dest.lat)/2,(origin.lon+dest.lon)/2,0); dirVec=new THREE.Vector3(mc.x,mc.y,mc.z).normalize(); }
   catch(e){ dirVec=new THREE.Vector3(0,0.3,1).normalize(); }
   function setCam(d){ camera.position.copy(dirVec.clone().multiplyScalar(d)); camera.up.set(0,1,0); camera.lookAt(0,0,0); }
-  var NEAR=domestic?136:Math.max(178, Math.min(520, 100*(1.82 + sep*0.95)));
-  var FAR=NEAR+(domestic?180:300); setCam(FAR);
+  var NEAR=Math.max(178, Math.min(520, 100*(1.82 + sep*0.95)));
+  var FAR=NEAR+300; setCam(FAR);
   var t0=performance.now(), ZD=2.3, controls=null, settled=false;
   function easeOut(x){ return 1-Math.pow(1-x,3); }
   var inst={renderer:renderer,raf:0,controls:null};
@@ -940,7 +1061,7 @@ function mountGlobe(containerId, origin, dest, progress){
         if(THREE.OrbitControls){
           controls=new THREE.OrbitControls(camera, renderer.domElement);
           controls.target.set(0,0,0); controls.enablePan=false;
-          controls.minDistance=domestic?116:Math.max(150,NEAR-80); controls.maxDistance=domestic?300:NEAR+260;
+          controls.minDistance=Math.max(150,NEAR-80); controls.maxDistance=NEAR+260;
           controls.enableDamping=true; controls.dampingFactor=0.09;
           controls.autoRotate=false; controls.rotateSpeed=0.5; controls.zoomSpeed=0.7;
           controls.update(); inst.controls=controls;
@@ -1032,43 +1153,40 @@ function doTrack(){
   const m=pack(TMSG);
   const steps=STEPS[langBase(curLang)]||STEPS.it;
   const esc=s=>String(s).replace(/</g,'&lt;');
-  const msg=t=>`<p class="trk-msg">${t}</p>`;
-  if(!orderRaw||!codeRaw){r.innerHTML=msg(m.both);return;}
-  r.innerHTML=`<div class="trk-searching">${tt.searching}</div>`;
+  if(!orderRaw||!codeRaw){r.innerHTML=`<span style="color:#b5564e">${m.both}</span>`;return;}
+  r.innerHTML=`<div class="track-spinner">${tt.searching}</div>`;
   setTimeout(()=>{
     const key=orderRaw.toUpperCase().replace(/\s+/g,'');
     const order=ORDERS[key];
-    if(!order){r.innerHTML=msg(m.order);return;}
+    if(!order){r.innerHTML=`<span style="color:#b5564e">${m.order}</span>`;return;}
     if(String(order.tracking).trim().toLowerCase()!==codeRaw.toLowerCase()){
-      r.innerHTML=msg(m.match);return;
+      r.innerHTML=`<span style="color:#b5564e">${m.match}</span>`;return;
     }
     const st=Math.max(1,Math.min(5,order.status||1));
     const url=order.url||(`https://t.17track.net/${tt.locale}#nums=`+encodeURIComponent(order.tracking));
-    const fillPct=((st-1)/(steps.length-1))*100;
     const timeline=steps.map((label,i)=>{
-      const n=i+1;const cls=n<st?'is-done':(n===st?'is-active':'');
-      return `<div class="trk-step ${cls}"><span class="trk-node"></span><span class="trk-name">${label}</span></div>`;
+      const n=i+1;const cls=n<st?'done':(n===st?'current':'');
+      return `<div class="tl-step ${cls}"><span class="tl-dot"></span><span class="tl-label">${label}</span></div>`;
     }).join('');
     var ORIGIN={lat:45.22,lon:12.28,city:'Chioggia'};
     var hasGlobe = order.dest && typeof order.dest.lat==='number';
     r.innerHTML=
-      `<div class="trk-card">`+
-        `<div class="trk-head">`+
-          `<div class="trk-cell"><span class="trk-eyebrow">${tt.lbl_order}</span><span class="trk-no">№ ${esc(key)}</span></div>`+
-          (order.carrier?`<div class="trk-cell trk-cell-r"><span class="trk-eyebrow">${m.carrier}</span><span class="trk-carrier">${esc(order.carrier)}</span></div>`:'')+
-        `</div>`+
-        `<div class="trk-scale"><div class="trk-line"><span class="trk-line-fill" style="width:${fillPct}%"></span></div><div class="trk-steps">${timeline}</div></div>`+
-        (order.eta?`<p class="trk-eta">${m.eta} — <em>${esc(order.eta)}</em></p>`:'')+
+      `<div class="track-card">`+
         (hasGlobe?`<div class="globe-wrap" id="globeWrap"><div id="globe3d"></div><div class="globe-cap">${esc(ORIGIN.city)} <b>→</b> ${esc(order.dest.city||'')}</div></div>`:'')+
-        `<a class="trk-link" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
+        `<div class="track-card-row">`+
+          `<div><div class="track-label">${tt.lbl_order}</div><div class="track-val">${esc(key)}</div></div>`+
+          (order.carrier?`<div style="text-align:right"><div class="track-label">${m.carrier}</div><div class="track-val">${esc(order.carrier)}</div></div>`:'')+
+        `</div>`+
+        `<div class="tl">${timeline}</div>`+
+        (order.eta?`<div class="track-eta">${m.eta}: <strong>${esc(order.eta)}</strong></div>`:'')+
+        `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
       `</div>`;
     disposeGlobe();
     if(hasGlobe){
       try{ _globe=mountGlobe('globe3d',ORIGIN,order.dest,(st-1)/4); if(!_globe){ var gw=document.getElementById('globeWrap'); if(gw) gw.style.display='none'; } }
       catch(err){ var gw2=document.getElementById('globeWrap'); if(gw2) gw2.style.display='none'; }
     }
-    requestAnimationFrame(function(){var c=r.querySelector('.trk-card');if(c)c.classList.add('is-in');});
-  },900);
+  },1100);
 }
 
 // FAQ
