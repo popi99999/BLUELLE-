@@ -448,6 +448,9 @@ function togglePicker(mode){
   const search=document.getElementById('pickerSearch');
   if(search){search.value='';search.placeholder=mode==='curr'?'Cerca valuta…':'Cerca lingua…';}
   buildPickerList('');
+  panel.setAttribute('data-lenis-prevent','');
+  const list=document.getElementById('pickerList');
+  if(list)list.setAttribute('data-lenis-prevent','');
   panel.removeAttribute('hidden');
   panel.setAttribute('data-mode',mode);
   const currBtn=document.getElementById('currBtn');

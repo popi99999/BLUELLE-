@@ -347,12 +347,15 @@ function initPaymentsStory(){
   var img=section.querySelector('.pay-visual img');
   var copy=section.querySelector('.pay-copy');
   var photoCopy=section.querySelector('.pay-photo-copy');
+  var terminal=section.querySelector('.pay-terminal');
+  var rows=gsap.utils.toArray(section.querySelectorAll('.pay-options article'));
   var logos=gsap.utils.toArray(section.querySelectorAll('.pay-logo'));
   if(!wipe||!img||!copy)return;
 
-  gsap.set(logos,{autoAlpha:0,y:34,scale:.86,rotation:function(i){return i%2?-3:3;}});
+  gsap.set(rows,{autoAlpha:0,y:18});
+  gsap.set(logos,{autoAlpha:1,y:0});
   if(photoCopy)gsap.set(photoCopy,{autoAlpha:.94,y:22});
-  gsap.timeline({
+  var tl=gsap.timeline({
     defaults:{ease:'power3.out'},
     scrollTrigger:{
       trigger:section,
@@ -361,13 +364,14 @@ function initPaymentsStory(){
       scrub:.68,
       invalidateOnRefresh:true
     }
-  })
-  .to(wipe,{scaleX:0,duration:.62,ease:'power3.inOut'},0)
-  .fromTo(img,{scale:1.09,y:38},{scale:1,y:0,duration:.9,ease:'power2.out'},0)
-  .fromTo(copy,{y:58},{y:0,duration:.82,ease:'power2.out'},.03)
-  .to(photoCopy,{autoAlpha:1,y:0,duration:.56,ease:'power2.out'},.16)
-  .to(logos,{autoAlpha:1,y:0,scale:1,rotation:0,duration:.38,stagger:.075,ease:'back.out(1.45)'},.36)
-  .to(logos,{y:-12,duration:.5,stagger:.035,ease:'sine.inOut'},.78);
+  });
+  tl.to(wipe,{scaleX:0,duration:.62,ease:'power3.inOut'},0)
+    .fromTo(img,{scale:1.04,y:18},{scale:1,y:0,duration:.9,ease:'power2.out'},0)
+    .fromTo(copy,{y:46},{y:0,duration:.82,ease:'power2.out'},.03);
+  if(terminal)tl.fromTo(terminal,{y:38},{y:0,duration:.78,ease:'power2.out'},.06);
+  if(photoCopy)tl.to(photoCopy,{autoAlpha:1,y:0,duration:.56,ease:'power2.out'},.16);
+  tl.to(rows,{autoAlpha:1,y:0,duration:.42,stagger:.055,ease:'power2.out'},.28)
+    .fromTo(logos,{y:8},{y:0,duration:.32,stagger:.045,ease:'power2.out'},.46);
 }
 
 function initLogoJourney(){
