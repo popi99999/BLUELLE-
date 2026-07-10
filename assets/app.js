@@ -763,24 +763,82 @@ function fillProductDetails(p,desc,condTxt,colorTxt){
     }).join('');
   }
 }
+const PRODUCT_FILM_DEFAULT='https://videos.pexels.com/video-files/4146416/4146416-uhd_2560_1440_25fps.mp4';
+function productFilmSrc(p){
+  const src=(p&&p.video)?String(p.video):'';
+  if(src&&!/commondatastorage\.googleapis\.com\/gtv-videos-bucket\/sample/i.test(src))return src;
+  return PRODUCT_FILM_DEFAULT;
+}
 function productMediaHtml(p){
   const imgs=(p.images||[]).filter(Boolean);
+  const name=translateName(p.name,curLang);
+  const textName=escHtml(name);
+  const main=imgs[0]||'';
+  const film=productFilmSrc(p);
+  const filmLabel=({it:'Video prodotto',en:'Product film',fr:'Film produit',es:'Vídeo producto',de:'Produktfilm'}[langBase(curLang)]||'Product film');
+  const poster=main?escAttr(main):'';
+  let html='<figure class="product-film" aria-label="Video prodotto">';
+  html+='<video class="product-film-video" autoplay muted loop playsinline preload="metadata"'+(poster?' poster="'+poster+'"':'')+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
+  html+='<div class="product-film-shade"></div>';
+  html+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="Pausa video"><span class="pf-pause" aria-hidden="true"></span></button>';
+  html+='<figcaption class="product-film-copy"><span>'+filmLabel+'</span><strong>'+textName+'</strong></figcaption>';
+  html+='</figure>';
+  return html;
+}
+function productGalleryHtml(p){
+  const imgs=(p.images||[]).filter(Boolean);
+  if(!imgs.length)return '';
   const name=translateName(p.name,curLang);
   const safeName=escAttr(name);
   const imgErr=`onerror="this.onerror=null;this.style.opacity='.15'"`;
   const main=imgs[0]||'';
-  let html='<div class="soth-thumbs" role="list" aria-label="Foto prodotto">';
+  const second=imgs[1]||main;
+  let html='<section class="vc-gallery'+(imgs.length<2?' is-single':'')+'" aria-label="Foto prodotto">';
+  html+='<div class="vc-split">';
+  html+='<figure class="vc-panel vc-panel-main">'+(main?'<img class="vc-img-primary" src="'+escAttr(main)+'" alt="'+safeName+' foto principale" loading="eager" decoding="async" '+imgErr+'>':'<div class="soth-empty">Blu&egrave;lle</div>')+'</figure>';
+  html+='<figure class="vc-panel vc-panel-alt">'+(second?'<img class="vc-img-secondary" src="'+escAttr(second)+'" alt="'+safeName+' dettaglio" loading="lazy" decoding="async" '+imgErr+'>':'')+'</figure>';
+  html+='</div>';
+  html+='<div class="vc-thumbs" role="list" aria-label="Scegli immagine">';
   imgs.forEach(function(src,i){
-    html+='<button class="soth-thumb'+(i===0?' on':'')+'" type="button" onclick="selectProductImage(this)" aria-label="Mostra foto '+(i+1)+'" role="listitem"><img src="'+escAttr(src)+'" alt="'+safeName+' foto '+(i+1)+'" loading="'+(i===0?'eager':'lazy')+'" decoding="async" '+imgErr+'></button>';
+    html+='<button class="vc-thumb'+(i===0?' on':'')+'" type="button" onclick="selectProductImage(this)" data-src="'+escAttr(src)+'" aria-label="Mostra foto '+(i+1)+'" role="listitem"><img src="'+escAttr(src)+'" alt="'+safeName+' foto '+(i+1)+'" loading="'+(i===0?'eager':'lazy')+'" decoding="async" '+imgErr+'></button>';
   });
   html+='</div>';
-  html+='<figure class="soth-main-media">';
-  html+=main?'<img src="'+escAttr(main)+'" alt="'+safeName+'" loading="eager" decoding="async" '+imgErr+'>':'<div class="soth-empty">Blu&egrave;lle</div>';
-  html+='</figure>';
-  html+='</div>';
+  html+='</section>';
   return html;
 }
+function toggleProductFilm(ev,btn){
+  if(ev)ev.stopPropagation();
+  const wrap=btn&&btn.closest?btn.closest('.product-film'):null;
+  const vid=wrap?wrap.querySelector('video'):null;
+  if(!vid)return;
+  if(vid.paused){
+    const play=vid.play();
+    if(play&&play.catch)play.catch(function(){});
+    btn.classList.remove('is-paused');
+    btn.setAttribute('aria-label','Pausa video');
+  }else{
+    vid.pause();
+    btn.classList.add('is-paused');
+    btn.setAttribute('aria-label','Riproduci video');
+  }
+}
+window.toggleProductFilm=toggleProductFilm;
 function selectProductImage(btn){
+  const vc=btn&&btn.closest?btn.closest('.vc-gallery'):null;
+  if(vc){
+    const thumbs=Array.from(vc.querySelectorAll('.vc-thumb'));
+    const idx=Math.max(0,thumbs.indexOf(btn));
+    const next=thumbs[(idx+1)%thumbs.length]||btn;
+    const first=vc.querySelector('.vc-img-primary');
+    const second=vc.querySelector('.vc-img-secondary');
+    const firstImg=btn?btn.querySelector('img'):null;
+    const secondImg=next?next.querySelector('img'):null;
+    if(first&&firstImg){first.src=btn.dataset.src||firstImg.currentSrc||firstImg.src;first.alt=firstImg.alt||first.alt;}
+    if(second&&secondImg){second.src=next.dataset.src||secondImg.currentSrc||secondImg.src;second.alt=secondImg.alt||second.alt;}
+    thumbs.forEach(function(b){b.classList.remove('on');});
+    btn.classList.add('on');
+    return;
+  }
   const gallery=btn&&btn.closest?btn.closest('.pgallery'):null;
   const thumb=btn?btn.querySelector('img'):null;
   const main=gallery?gallery.querySelector('.soth-main-media img'):null;
@@ -796,6 +854,8 @@ function openM(id){
   const l=pack(T);
   const mimg=document.getElementById('mimg');
   mimg.innerHTML=productMediaHtml(p);
+  const pgal=document.getElementById('productGallery');
+  if(pgal)pgal.innerHTML=productGalleryHtml(p);
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
   document.getElementById('mname').textContent=translateName(p.name,curLang);
   if(p.price===0){
@@ -834,6 +894,8 @@ function openM(id){
   buildRelated(p);
   const mov=document.getElementById('mov');
   mov.classList.add('open');
+  const film=mov.querySelector('.product-film-video');
+  if(film){const play=film.play();if(play&&play.catch)play.catch(function(){});}
   try{if(window.BLUELLE_LENIS)window.BLUELLE_LENIS.stop();}catch(e){}
   document.body.style.overflow='hidden';
   mov.scrollTop=0;
@@ -857,7 +919,10 @@ function buildRelated(p){
   if(box)box.style.display=rel.length?'':'none';
 }
 function closeM(){
-  document.getElementById('mov').classList.remove('open');
+  const mov=document.getElementById('mov');
+  const film=mov?mov.querySelector('.product-film-video'):null;
+  if(film)film.pause();
+  mov.classList.remove('open');
   try{if(window.BLUELLE_LENIS)window.BLUELLE_LENIS.start();}catch(e){}
   document.body.style.overflow='';
   if(/^#p\d+$/.test(location.hash||'')){history.replaceState(null,'',location.pathname+location.search);}
