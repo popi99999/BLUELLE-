@@ -377,19 +377,14 @@ function initIrisCinema(){
   var pin=section.querySelector('.iris-pin');
   var frames=gsap.utils.toArray(section.querySelectorAll('.iris-frame'));
   var chapters=gsap.utils.toArray(section.querySelectorAll('.iris-chapter'));
-  var panel=section.querySelector('.iris-panel');
-  var panelRows=gsap.utils.toArray(section.querySelectorAll('.iris-panel p'));
-  var scan=section.querySelector('.iris-scan');
-  var lens=section.querySelector('.iris-lens');
+  var proofItems=gsap.utils.toArray(section.querySelectorAll('.iris-proofline span'));
   if(!pin||!frames.length||!chapters.length)return;
 
-  gsap.set(frames,{autoAlpha:0,scale:1.08});
-  gsap.set(frames[0],{autoAlpha:1,scale:1.02});
-  gsap.set(chapters,{autoAlpha:0,y:48});
+  gsap.set(frames,{autoAlpha:0,scale:1.06});
+  gsap.set(frames[0],{autoAlpha:1,scale:1.01});
+  gsap.set(chapters,{autoAlpha:0,y:34});
   gsap.set(chapters[0],{autoAlpha:1,y:0});
-  gsap.set(panelRows,{autoAlpha:.28,x:18});
-  if(panelRows[0])gsap.set(panelRows[0],{autoAlpha:1,x:0});
-  if(panel)gsap.set(panel,{autoAlpha:.88,y:18});
+  if(proofItems.length)gsap.set(proofItems,{autoAlpha:.84,y:10});
 
   var tl=gsap.timeline({
     defaults:{ease:'none'},
@@ -407,22 +402,16 @@ function initIrisCinema(){
 
   function showStep(i,at){
     if(!frames[i]||!chapters[i])return;
-    tl.to(frames[i-1],{autoAlpha:0,scale:1.03,duration:.24,ease:'power2.inOut'},at)
-      .fromTo(frames[i],{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1.02,duration:.34,ease:'power2.inOut'},at)
-      .to(chapters[i-1],{autoAlpha:0,y:-34,duration:.18,ease:'power2.inOut'},at+.02)
-      .fromTo(chapters[i],{autoAlpha:0,y:48},{autoAlpha:1,y:0,duration:.24,ease:'power3.out'},at+.12);
-    if(panelRows[i]){
-      tl.to(panelRows,{autoAlpha:.28,x:18,duration:.12,ease:'power2.out'},at+.06)
-        .to(panelRows[i],{autoAlpha:1,x:0,duration:.22,ease:'power3.out'},at+.15);
-    }
+    tl.to(frames[i-1],{autoAlpha:0,scale:1.02,duration:.24,ease:'power2.inOut'},at)
+      .fromTo(frames[i],{autoAlpha:0,scale:1.08},{autoAlpha:1,scale:1.01,duration:.34,ease:'power2.inOut'},at)
+      .to(chapters[i-1],{autoAlpha:0,y:-24,duration:.18,ease:'power2.inOut'},at+.02)
+      .fromTo(chapters[i],{autoAlpha:0,y:34},{autoAlpha:1,y:0,duration:.24,ease:'power3.out'},at+.12);
   }
 
-  tl.to(frames[0],{scale:1.12,duration:.32,ease:'power1.inOut'},0);
-  if(scan)tl.to(scan,{yPercent:145,duration:1,ease:'none'},0);
-  if(lens)tl.to(lens,{x:'22vw',y:'-12vh',scale:1.18,duration:.34,ease:'power1.inOut'},.05)
-    .to(lens,{x:'-8vw',y:'9vh',scale:.92,duration:.34,ease:'power1.inOut'},.39)
-    .to(lens,{x:'30vw',y:'10vh',scale:1.05,duration:.34,ease:'power1.inOut'},.72);
-  if(panel)tl.to(panel,{autoAlpha:1,y:0,duration:.25,ease:'power2.out'},.08);
+  tl.to(frames[0],{scale:1.08,duration:.32,ease:'power1.inOut'},0);
+  if(proofItems.length){
+    tl.to(proofItems,{autoAlpha:1,y:0,duration:.2,stagger:.035,ease:'power2.out'},.08);
+  }
   showStep(1,.25);
   showStep(2,.52);
   showStep(3,.78);
