@@ -610,9 +610,12 @@ function render(){
     const imgErr = `onerror="this.onerror=null;this.style.opacity='.15'"`;
     const front=imgs[0]?`src="${imgs[0]}"`:'';
     const back=(imgs[1]||imgs[0])?`src="${imgs[1]||imgs[0]}"`:'';
-    const disc=(p.orig>p.price&&p.price>0)?`<span class="pdisc">-${Math.round((1-p.price/p.orig)*100)}%</span>`:'';
     const bn=BRAND_NAME[p.brand]||p.brand||'';
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${disc}<div class="ptag${p.sold?' sold':''}">${p.sold?l.sold:l.avail}</div></div><div class="pinfo"><div class="pbrandline">${bn}</div><div class="pname">${translateName(p.name,curLang)}</div><div class="psize">${l.size} ${p.sz} · ${condTxt}</div><div class="pfooter"><div><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div></div>`;
+    const colorTxt=p.color?p.color.charAt(0).toUpperCase()+p.color.slice(1):'';
+    const sub=[bn,colorTxt].filter(Boolean).join(' · ');
+    const nImg=Math.min(imgs.length,4);
+    const dots=nImg>1?`<div class="pdots" aria-hidden="true">${Array.from({length:nImg}).map((_,i)=>`<span${i===0?' class="on"':''}></span>`).join('')}</div>`:'';
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${p.sold?`<div class="ptag sold">${l.sold}</div>`:''}</div>${dots}<div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psub">${sub}</div><div class="pfooter"><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div>`;
     if(!p.sold){d.addEventListener('click',function(){openM(p.id);});}
     g.appendChild(d);
   });
@@ -831,6 +834,7 @@ function openM(id){
   buildRelated(p);
   const mov=document.getElementById('mov');
   mov.classList.add('open');
+  try{if(window.BLUELLE_LENIS)window.BLUELLE_LENIS.stop();}catch(e){}
   document.body.style.overflow='hidden';
   mov.scrollTop=0;
   if(location.hash!=='#p'+id){history.pushState(null,'','#p'+id);}
@@ -854,6 +858,7 @@ function buildRelated(p){
 }
 function closeM(){
   document.getElementById('mov').classList.remove('open');
+  try{if(window.BLUELLE_LENIS)window.BLUELLE_LENIS.start();}catch(e){}
   document.body.style.overflow='';
   if(/^#p\d+$/.test(location.hash||'')){history.replaceState(null,'',location.pathname+location.search);}
 }
@@ -861,7 +866,7 @@ window.addEventListener('popstate',function(){
   var mv=document.getElementById('mov');if(!mv)return;
   const m=(location.hash||'').match(/^#p(\d+)$/);
   if(m&&prods.find(x=>x.id===+m[1])){openM(+m[1]);}
-  else{mv.classList.remove('open');document.body.style.overflow='';}
+  else{mv.classList.remove('open');document.body.style.overflow='';try{if(window.BLUELLE_LENIS)window.BLUELLE_LENIS.start();}catch(e){}}
 });
 function openTrack(){document.getElementById('tov').classList.add('open');document.body.style.overflow='hidden';}
 function closeTrack(){disposeGlobe();document.getElementById('tov').classList.remove('open');document.body.style.overflow='';}
