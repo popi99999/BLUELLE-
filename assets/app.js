@@ -161,7 +161,7 @@ const CK={
 // PRODUCTS
 const prods = [
   {id:1,brand:'gucci',name:'Gucci Maglioncino GG V-Neck',sz:'S',fit:'Veste normale',color:'blu',cond:'Eccellente',price:385.0,orig:1100.0,sold:false,images:["img/p1-f1.jpg","img/p1-f2.jpg","img/p1-f3.jpg"],video:'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',desc:'Maglioncino Gucci blu con scollo a V e monogramma GG intarsiato in filato oro. Una delle silhouette più eleganti della maison.',stripe:'https://buy.stripe.com/14AaEXcnE97ecaR4M13ks2l'},
-  {id:2,brand:'balenciaga',name:'Balenciaga Unity Logo Tee',sz:'M',fit:'Oversize',color:'panna',cond:'Eccellente',price:240.0,orig:670.0,sold:false,images:["img/p2-f1.jpg","img/p2-f2.jpg","img/p2-f3.jpg"],desc:'T-shirt Balenciaga color panna in cotone pesante con logo Unity stampato sul fronte. Fit oversize, presenza immediata.',stripe:'https://buy.stripe.com/bJe14n0EW3MU1wd7Yd3ks2m'},
+  {id:2,brand:'balenciaga',name:'Balenciaga Unity Logo Tee',sz:'M',fit:'Oversize',color:'panna',cond:'Eccellente',price:240.0,orig:670.0,sold:false,video:'https://videos.pexels.com/video-files/3129957/3129957-uhd_3840_2160_25fps.mp4',images:["img/p2-f1.jpg","img/p2-f2.jpg","img/p2-f3.jpg"],desc:'T-shirt Balenciaga color panna in cotone pesante con logo Unity stampato sul fronte. Fit oversize, presenza immediata.',stripe:'https://buy.stripe.com/bJe14n0EW3MU1wd7Yd3ks2m'},
   {id:3,brand:'balenciaga',name:'Balenciaga Upside-Down T-Shirt',sz:'M',fit:'Oversize',color:'nera',cond:'Nuovo',price:270.0,orig:700.0,sold:false,images:["img/p3-f1.jpg","img/p3-f2.jpg","img/p3-f3.jpg","img/p3-f4.jpg"],desc:'T-shirt Balenciaga nera Speed Hunter con logo Upside Down. Vestibilità oversize con effetto distressed — trattamento autentico della collezione.',stripe:'https://buy.stripe.com/fZu28revM83aa2J7Yd3ks2n'},
   {id:4,brand:'balenciaga',name:'Balenciaga Crypto Bb',sz:'S',fit:'Oversize',color:'nera',cond:'Eccellente',price:300.0,orig:0,sold:false,images:["img/p4-f1.jpg","img/p4-f2.jpg","img/p4-f3.jpg"],desc:'T-shirt Balenciaga Crypto BB nera in vestibilità oversize. Effetto distressed e dettagli volutamente invecchiati, tipici della capsule.',stripe:'https://buy.stripe.com/6oUaEX4Vc2IQ6Qxdix3ks2o'},
   {id:5,brand:'balenciaga',name:'Balenciaga Ebay',sz:'M',fit:'Oversize',color:'nera',cond:'Eccellente',price:260.0,orig:0,sold:false,images:["img/p5-f1.jpg","img/p5-f2.jpg","img/p5-f3.jpg","img/p5-f4.jpg"],desc:'T-shirt della collaborazione ufficiale Balenciaga x eBay, nera in vestibilità extra oversize. Pezzo da collezione.',stripe:'https://buy.stripe.com/9B6aEXfzQ1EM2Ah4M13ks2p'},
@@ -497,13 +497,18 @@ function toggleMenu(){
   const m=document.getElementById('mnav');
   b.classList.toggle('open');
   m.classList.toggle('open');
-  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+  const isOpen=m.classList.contains('open');
+  b.setAttribute('aria-expanded',isOpen?'true':'false');
+  b.setAttribute('aria-label',isOpen?'Chiudi menu':'Apri menu');
+  document.body.style.overflow=isOpen?'hidden':'';
 }
 function closeMNav(){
   const b=document.getElementById('burger');
   const m=document.getElementById('mnav');
   b.classList.remove('open');
   m.classList.remove('open');
+  b.setAttribute('aria-expanded','false');
+  b.setAttribute('aria-label','Apri menu');
   document.body.style.overflow='';
 }
 
@@ -769,25 +774,48 @@ function fillProductDetails(p,desc,condTxt,colorTxt){
 const PRODUCT_FILM_DEFAULT='https://videos.pexels.com/video-files/4146416/4146416-uhd_2560_1440_25fps.mp4';
 function productFilmSrc(p){
   const src=(p&&p.video)?String(p.video):'';
+  // solo il video reale del prodotto: niente segnaposto generici
   if(src&&!/commondatastorage\.googleapis\.com\/gtv-videos-bucket\/sample/i.test(src))return src;
-  return PRODUCT_FILM_DEFAULT;
+  return '';
 }
 function productMediaHtml(p){
   const imgs=(p.images||[]).filter(Boolean);
-  const name=translateName(p.name,curLang);
-  const textName=escHtml(name);
-  const main=imgs[0]||'';
   const film=productFilmSrc(p);
-  const filmLabel=({it:'Video prodotto',en:'Product film',fr:'Film produit',es:'Vídeo producto',de:'Produktfilm'}[langBase(curLang)]||'Product film');
-  const poster=main?escAttr(main):'';
-  let html='<figure class="product-film" aria-label="Video prodotto">';
-  html+='<video class="product-film-video" autoplay muted loop playsinline preload="metadata"'+(poster?' poster="'+poster+'"':'')+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
-  html+='<div class="product-film-shade"></div>';
-  html+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="Pausa video"><span class="pf-pause" aria-hidden="true"></span></button>';
-  html+='<figcaption class="product-film-copy"><span>'+filmLabel+'</span><strong>'+textName+'</strong></figcaption>';
-  html+='</figure>';
-  return html;
+  const name=translateName(p.name,curLang);
+  const safe=escAttr(name);
+  const media=[];
+  if(film)media.push({type:'video',src:film,poster:imgs[0]||''});
+  imgs.forEach(function(src){media.push({type:'img',src:src});});
+  if(!media.length)return '';
+  window.__stMedia=media; window.__stName=name;
+  const startIdx=(film&&imgs.length)?1:0;
+  let rail='';
+  media.forEach(function(m,i){
+    const on=i===startIdx?' is-on':'';
+    if(m.type==='video'){
+      rail+='<button class="st-thumb st-thumb-video'+on+'" type="button" onclick="stSelect('+i+')" aria-label="Video">'+(m.poster?'<img src="'+escAttr(m.poster)+'" alt="" loading="lazy">':'')+'<span class="st-play"></span></button>';
+    }else{
+      rail+='<button class="st-thumb'+on+'" type="button" onclick="stSelect('+i+')" aria-label="Foto '+(i+1)+'"><img src="'+escAttr(m.src)+'" alt="" loading="lazy"></button>';
+    }
+  });
+  return '<div class="st-wrap"><div class="st-rail" id="stRail">'+rail+'</div><div class="st-stage" id="stStage">'+stStageInner(media[startIdx],safe)+'</div></div>';
 }
+function stStageInner(m,safeName){
+  if(!m)return '';
+  if(m.type==='video'){
+    return '<video class="st-video" autoplay muted loop playsinline preload="metadata"'+(m.poster?' poster="'+escAttr(m.poster)+'"':'')+'><source src="'+escAttr(m.src)+'" type="video/mp4"></video><span class="st-kicker">Video prodotto</span>';
+  }
+  return '<img class="st-img" src="'+escAttr(m.src)+'" alt="'+safeName+'" onerror="this.onerror=null;this.style.opacity=\'.15\'">';
+}
+function stSelect(i){
+  const media=window.__stMedia||[]; const m=media[i]; if(!m)return;
+  const stage=document.getElementById('stStage'); if(!stage)return;
+  stage.classList.remove('is-in');
+  stage.innerHTML=stStageInner(m,escAttr(window.__stName||''));
+  requestAnimationFrame(function(){stage.classList.add('is-in');});
+  document.querySelectorAll('#stRail .st-thumb').forEach(function(t,j){t.classList.toggle('is-on',j===i);});
+}
+window.stSelect=stSelect;
 function productGalleryHtml(p){
   const imgs=(p.images||[]).filter(Boolean);
   if(!imgs.length)return '';
@@ -852,11 +880,32 @@ function selectProductImage(btn){
   btn.classList.add('on');
 }
 window.selectProductImage=selectProductImage;
+function productFilmHtml(p){
+  const film=productFilmSrc(p);
+  if(!film)return '';
+  const name=translateName(p.name,curLang);
+  const imgs=(p.images||[]).filter(Boolean);
+  const poster=imgs[0]?' poster="'+escAttr(imgs[0])+'"':'';
+  const brand=BRAND_NAME[p.brand]||p.brand||'';
+  let h='<section class="product-film">';
+  h+='<video class="product-film-video" autoplay muted loop playsinline preload="metadata"'+poster+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
+  h+='<div class="product-film-shade"></div>';
+  h+='<div class="product-film-copy"><span>'+escAttr(brand)+'</span><strong>'+escAttr(name)+'</strong></div>';
+  h+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="Pausa video"><span class="pf-pause"></span></button>';
+  h+='<span class="pf-scroll" aria-hidden="true"></span>';
+  h+='</section>';
+  return h;
+}
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=pack(T);
   const mimg=document.getElementById('mimg');
-  mimg.innerHTML=productMediaHtml(p);
+  mimg.innerHTML='';
+  const pfm=document.getElementById('pfilm');
+  const filmHtml=productFilmHtml(p);
+  if(pfm)pfm.innerHTML=filmHtml;
+  const ppEl=document.querySelector('#mov .ppage');
+  if(ppEl)ppEl.classList.toggle('has-film',!!filmHtml);
   const pgal=document.getElementById('productGallery');
   if(pgal)pgal.innerHTML=productGalleryHtml(p);
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
