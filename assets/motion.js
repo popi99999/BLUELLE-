@@ -265,6 +265,17 @@ function initGsapPolish(){
     gsap.fromTo(img,{scale:1.045},{scale:1,duration:1.4,ease:'power3.out',scrollTrigger:{trigger:img,start:'top 92%',once:true}});
   });
 
+  /* Reveal stile Patek sull'immagine autenticità: scale legato allo scroll (scrub).
+     L'immagine resta SEMPRE visibile (scala tra 1.12 e 1); non usa opacity/clip e
+     non ha uno stato "nascosto", quindi non può restare invisibile se il pin dei
+     video ricalcola le posizioni. */
+  gsap.utils.toArray('.pk-reveal').forEach(function(fig){
+    var img=fig.querySelector('img');
+    if(!img)return;
+    gsap.fromTo(img,{scale:1.12},{scale:1,ease:'none',
+      scrollTrigger:{trigger:fig,start:'top bottom',end:'top 38%',scrub:.6,invalidateOnRefresh:true}});
+  });
+
   bindHoverMotion();
   observeDynamicMotion();
 }

@@ -901,6 +901,24 @@ function openM(id){
   const l=pack(T);
   const mimg=document.getElementById('mimg');
   mimg.innerHTML='';
+  const heroImgs=(p.images||[]).filter(Boolean);
+  if(heroImgs.length){
+    mimg.innerHTML='<img id="phMain" src="'+heroImgs[0]+'" alt="'+escHtml(translateName(p.name,curLang))+'" decoding="async">'
+      +'<button type="button" class="ph-zoom" aria-label="Ingrandisci foto"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></button>';
+    const zb=mimg.querySelector('.ph-zoom');
+    if(zb)zb.onclick=function(){var m=document.getElementById('phMain');if(m&&m.src)window.open(m.src,'_blank','noopener');};
+  }
+  const mth=document.getElementById('mthumbs');
+  if(mth){
+    mth.innerHTML=heroImgs.map(function(s,i){return '<button type="button" class="ph-th'+(i===0?' active':'')+'" data-src="'+s+'" aria-label="Foto '+(i+1)+'"><img src="'+s+'" alt="" loading="lazy" decoding="async"></button>';}).join('');
+    mth.querySelectorAll('.ph-th').forEach(function(b){
+      b.onclick=function(){
+        const main=document.getElementById('phMain');
+        if(main)main.src=b.dataset.src;
+        mth.querySelectorAll('.ph-th').forEach(function(x){x.classList.toggle('active',x===b);});
+      };
+    });
+  }
   const pfm=document.getElementById('pfilm');
   const filmHtml=productFilmHtml(p);
   if(pfm)pfm.innerHTML=filmHtml;
@@ -909,7 +927,10 @@ function openM(id){
   const pgal=document.getElementById('productGallery');
   if(pgal)pgal.innerHTML=productGalleryHtml(p);
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
-  document.getElementById('mname').textContent=translateName(p.name,curLang);
+  const _bn=(BRAND_NAME[p.brand]||p.brand||'').toLowerCase();
+  let _nm=translateName(p.name,curLang);
+  if(_bn&&_nm.toLowerCase().indexOf(_bn)===0){_nm=_nm.slice(_bn.length).trim();}
+  document.getElementById('mname').textContent=_nm||translateName(p.name,curLang);
   if(p.price===0){
     document.getElementById('mprice').textContent=l.price_req||'Su richiesta';
     document.getElementById('morig').textContent=p.orig>0?fmt(p.orig):'';
