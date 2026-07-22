@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260721f">
+<link rel="stylesheet" href="assets/styles.css?v=20260722a">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -146,7 +146,13 @@
       <aside class="ph-info">
         <div class="pbrand" id="mbrand"></div>
         <div class="mname" id="mname"></div>
-        <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span></div>
+        <div class="mprices"><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span><button class="iinfo" type="button" onclick="document.getElementById('ipanel').classList.toggle('open')" aria-label="Informazioni su prezzo e pagamento" aria-haspopup="dialog">i</button></div>
+        <div class="ipanel" id="ipanel" role="dialog" aria-label="Prezzo e pagamento">
+          <h4>Sul prezzo</h4>
+          <p>Il prezzo è definito da noi in base a modello, condizioni e domanda del mercato. È un pezzo unico: quando viene venduto, esce dalla collezione.</p>
+          <h4>Il pagamento</h4>
+          <p>Procedendo si apre un link di pagamento sicuro e riservato a questo capo. Carta, wallet, rate o criptovaluta — la disponibilità dipende dal metodo scelto.</p>
+        </div>
       </aside>
       <div class="pgallery" id="mimg"></div>
       <aside class="ph-thumbs" id="mthumbs" aria-label="Altre foto"></aside>
@@ -155,19 +161,11 @@
         <p class="mdesc" id="mdesc"></p>
         <dl class="mspecs" id="mspecs"></dl>
         <button class="mbuy" id="mbuy"></button>
-        <div class="mpayrow">
-          <span class="msec"><span data-i="secure_pay">Pagamento sicuro via Stripe</span></span>
-          <div class="mpay" id="mpay">
-          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
-          <img class="pay-icon" src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
-          </div>
-        </div>
+        <a class="mwask" id="mwask" href="https://wa.me/393000000000" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
+          Chiedi di questo pezzo su WhatsApp
+        </a>
+        <p class="msecure">Pagamento tramite link sicuro · Spedizione tracciata e assicurata</p>
         <div class="mtrust" id="mtrust"></div>
     </div>
     <div class="vc-gallery-wrap" id="productGallery"></div>
@@ -259,10 +257,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260721f"></script>
+<script src="assets/app.js?v=20260722a"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260721f"></script>
+<script src="assets/motion.js?v=20260722a"></script>
 </body>
 </html>

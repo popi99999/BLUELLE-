@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css">
-<link rel="stylesheet" href="assets/styles.css?v=20260721f">
+<link rel="stylesheet" href="assets/styles.css?v=20260722a">
 </head>
 <body>
 <!-- INTRO -->
@@ -129,9 +129,14 @@
   </figure>
   <div class="hmet-copy reveal delay-1">
     <p class="vk">Autenticità garantita</p>
-    <h2 class="vt">Ogni capo arriva già verificato.</h2>
-    <p class="hmet-text">Ogni pezzo passa il controllo manuale e la verifica IRIS prima della messa in vendita. Poi viene pulito, preparato con cura e spedito con corriere espresso tracciato e assicurato, in tutta Europa.</p>
-    <a class="pill-cta" href="chi-siamo.html">Il nostro metodo</a>
+    <h2 class="vt">Quattro controlli, su ogni pezzo.</h2>
+    <ol class="hmet-ctrl">
+      <li><b>Autenticità</b><span>materiali, hardware, cuciture e seriale — verifica manuale e IRIS.</span></li>
+      <li><b>Condizione</b><span>l'usura reale, fotografata senza filtri.</span></li>
+      <li><b>Cura</b><span>pulizia e preparazione professionale prima della vendita.</span></li>
+      <li><b>Spedizione</b><span>corriere espresso tracciato e assicurato, in tutta Europa.</span></li>
+    </ol>
+    <a class="pill-cta" href="chi-siamo.html">Il metodo Bluèlle</a>
   </div>
 </section>
 
@@ -140,48 +145,15 @@
   <div class="hpay-inner">
     <div class="hpay-head reveal">
       <p class="vk">Pagamenti</p>
-      <h2 class="vt">Paga come preferisci.</h2>
+      <h2 class="vt">Un pagamento riservato al tuo pezzo.</h2>
+      <p class="hpay-sub">Ogni capo è unico. Quando decidi di procedere, si apre un link di pagamento sicuro dedicato a quel pezzo, con conferma immediata dell'ordine.</p>
     </div>
-    <div class="hpay-clusters">
-      <div class="hpay-cluster reveal">
-        <span class="hpay-lbl">Carte</span>
-        <div class="hpay-ic">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/amex.svg" alt="American Express" loading="lazy" onerror="this.style.display='none'">
-        </div>
-      </div>
-      <div class="hpay-cluster reveal delay-1">
-        <span class="hpay-lbl">Wallet</span>
-        <div class="hpay-ic">
-          <img src="img/pay-applepay.svg" alt="Apple Pay" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-googlepay.svg" alt="Google Pay" loading="lazy" onerror="this.style.display='none'">
-        </div>
-      </div>
-      <div class="hpay-cluster reveal delay-2">
-        <span class="hpay-lbl">A rate</span>
-        <div class="hpay-ic">
-          <img src="img/pay-klarna.svg" alt="Klarna" loading="lazy" onerror="this.style.display='none'">
-          <img src="img/pay-scalapay.svg" alt="Scalapay" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/paypal.svg" alt="PayPal" loading="lazy" onerror="this.style.display='none'">
-        </div>
-      </div>
-      <div class="hpay-cluster reveal delay-2">
-        <span class="hpay-lbl">Crypto</span>
-        <div class="hpay-ic">
-          <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="Bitcoin" loading="lazy" onerror="this.style.display='none'">
-          <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/eth.svg" alt="Ethereum" loading="lazy" onerror="this.style.display='none'">
-          <b>BitPay</b>
-        </div>
-      </div>
-      <div class="hpay-cluster reveal delay-3">
-        <span class="hpay-lbl">Altro</span>
-        <div class="hpay-ic">
-          <img src="img/pay-satispay.svg" alt="Satispay" loading="lazy" onerror="this.style.display='none'">
-        </div>
-      </div>
-    </div>
-    <p class="hpay-note reveal">Checkout sicuro via Stripe · Criptovalute via BitPay</p>
+    <ul class="hpay-ways">
+      <li class="reveal"><span class="n">01</span><div><b>Carte e wallet</b><span>Visa, Mastercard e American Express, oppure Apple Pay e Google Pay.</span></div></li>
+      <li class="reveal delay-1"><span class="n">02</span><div><b>Pagamento a rate</b><span>Klarna, Scalapay o PayPal Pay Later, dove disponibili.</span></div></li>
+      <li class="reveal delay-2"><span class="n">03</span><div><b>Criptovaluta</b><span>Bitcoin e le principali crypto, tramite BitPay.</span></div></li>
+    </ul>
+    <p class="hpay-note reveal">Pagamenti sicuri via Stripe · Criptovalute via BitPay</p>
   </div>
 </section>
 
@@ -274,10 +246,10 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260721f"></script>
+<script src="assets/app.js?v=20260722a"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js"></script>
-<script src="assets/motion.js?v=20260721f"></script>
+<script src="assets/motion.js?v=20260722a"></script>
 </body>
 </html>

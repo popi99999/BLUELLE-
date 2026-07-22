@@ -964,6 +964,10 @@ function openM(id){
   };
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
+  const wa=document.getElementById('mwask');
+  if(wa)wa.href='https://wa.me/393000000000?text='+encodeURIComponent('Ciao, vi scrivo per il pezzo: '+translateName(p.name,curLang));
+  const ip=document.getElementById('ipanel');
+  if(ip)ip.classList.remove('open');
   buildRelated(p);
   const mov=document.getElementById('mov');
   mov.classList.add('open');
