@@ -1335,3 +1335,4 @@ footer::before{display:none}
 #prodotti .ph{margin-bottom:clamp(2rem,4vw,3.2rem)}
 .catrow{justify-content:center}
 @media(max-width:560px){#prodotti .ph .sec-title{letter-spacing:.3em;text-indent:.3em}}
+.ck-eurnote{font-family:var(--f-ui);font-size:.6rem;font-weight:300;letter-spacing:.06em;color:var(--stone);text-align:center;margin-top:.5rem;line-height:1.6}

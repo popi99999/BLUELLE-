@@ -1098,7 +1098,7 @@ var _ckf=document.getElementById('ckForm');if(_ckf)_ckf.addEventListener('submit
   let url=ckCurrentProduct.stripe;
   const sep=url.includes('?')?'&':'?';
   url+=sep+'prefilled_email='+encodeURIComponent(fields.email);
-  window.open(url,'_blank');
+  window.open(url,'_blank','noopener');
   closeCheckout();
 });
 
