@@ -899,26 +899,42 @@ function productFilmHtml(p){
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=pack(T);
-  const mimg=document.getElementById('mimg');
-  mimg.innerHTML='';
+  /* ── GALLERY "IL PEZZO DA VICINO" ──────────────────────────────
+     Sopra: video (se c'e) + le prime foto grandi. Sotto: griglia macro
+     con didascalie = la prova delle condizioni sul pezzo unico. */
   const heroImgs=(p.images||[]).filter(Boolean);
-  if(heroImgs.length){
-    mimg.innerHTML='<img id="phMain" src="'+heroImgs[0]+'" alt="'+escHtml(translateName(p.name,curLang))+'" decoding="async">'
-      +'<button type="button" class="ph-zoom" aria-label="Ingrandisci foto"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></button>';
-    const zb=mimg.querySelector('.ph-zoom');
-    if(zb)zb.onclick=function(){var m=document.getElementById('phMain');if(m&&m.src)window.open(m.src,'_blank','noopener');};
-  }
-  const mth=document.getElementById('mthumbs');
-  if(mth){
-    mth.innerHTML=heroImgs.map(function(s,i){return '<button type="button" class="ph-th'+(i===0?' active':'')+'" data-src="'+s+'" aria-label="Foto '+(i+1)+'"><img src="'+s+'" alt="" loading="lazy" decoding="async"></button>';}).join('');
-    mth.querySelectorAll('.ph-th').forEach(function(b){
-      b.onclick=function(){
-        const main=document.getElementById('phMain');
-        if(main)main.src=b.dataset.src;
-        mth.querySelectorAll('.ph-th').forEach(function(x){x.classList.toggle('active',x===b);});
-      };
+  const pvName=escAttr(translateName(p.name,curLang));
+  const pvMain=document.getElementById('pvMain');
+  if(pvMain){
+    let h='';
+    if(p.video){
+      h+='<figure class="pv-film"><span class="pv-chip">Video</span>'
+        +'<video src="'+escAttr(p.video)+'"'+(heroImgs[0]?' poster="'+escAttr(heroImgs[0])+'"':'')
+        +' muted loop playsinline autoplay preload="metadata"></video></figure>';
+    }
+    heroImgs.slice(0,2).forEach(function(s){
+      h+='<button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="Ingrandisci foto">'
+        +'<img src="'+escAttr(s)+'" alt="'+pvName+'" decoding="async"></button>';
     });
+    pvMain.innerHTML=h;
+    pvMain.classList.toggle('no-film',!p.video);
   }
+  const pvMacro=document.getElementById('pvMacro');
+  if(pvMacro){
+    const macro=heroImgs.slice(2);
+    if(macro.length){
+      pvMacro.innerHTML='<h3>Il pezzo da vicino</h3><div class="pv-grid">'
+        +macro.map(function(s,i){
+          return '<figure><button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="Ingrandisci dettaglio">'
+            +'<img src="'+escAttr(s)+'" alt="'+pvName+' dettaglio" loading="lazy" decoding="async"></button>'
+            +'<figcaption>Dettaglio '+(i+1)+'</figcaption></figure>';
+        }).join('')+'</div>';
+    } else { pvMacro.innerHTML=''; }
+  }
+  // clic su una foto -> apre a piena risoluzione
+  document.querySelectorAll('#pvMain .pv-shot,#pvMacro .pv-shot').forEach(function(b){
+    b.onclick=function(){ if(b.dataset.src) window.open(b.dataset.src,'_blank','noopener'); };
+  });
   const pfm=document.getElementById('pfilm');
   const filmHtml=productFilmHtml(p);
   if(pfm)pfm.innerHTML=filmHtml;
