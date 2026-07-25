@@ -678,11 +678,11 @@ function escHtml(v){
 }
 const DETAIL_LBL={
   it:{
-    title:'Dettagli',description:'Descrizione',conditionTitle:'Condition Report',itemTitle:'Item Details',
+    title:'Dettagli',description:'Descrizione',conditionTitle:'Condizione del capo',itemTitle:'Scheda tecnica',
     brand:'Marca',size:'Taglia',fit:'Vestibilit&agrave;',color:'Colore',condition:'Condizione',auth:'Autenticazione',clean:'Pulizia',pack:'Packaging',
     authValue:'IRIS + controllo manuale',cleanValue:'Pulito e igienizzato prima della vendita',packValue:'Imballaggio protettivo Blu&egrave;lle',
     bullets:['Capo luxury second hand verificato da Blu&egrave;lle','Pulito e igienizzato rispettando materiali e finiture','Spedizione tracciata con imballaggio curato'],
-    scale:['Revive','Fair','Good','Very Good','Like New'],
+    scale:['Da rinnovare','Discreto','Buono','Molto buono','Come nuovo'],
     conditionCopy:'Eventuali segni d&rsquo;uso sono considerati nella condizione indicata. Ogni capo viene controllato, pulito e igienizzato prima della messa in vendita.'
   },
   en:{
@@ -745,9 +745,9 @@ function fillProductDetails(p,desc,condTxt,colorTxt){
   if(heads[2])heads[2].innerHTML=copy.itemTitle;
   const detailDesc=document.getElementById('pdetailDesc');
   if(detailDesc){
-    const itemDesc=escHtml(desc||'');
-    const bullets=copy.bullets.map(function(b){return '<li>'+b+'</li>';}).join('');
-    detailDesc.innerHTML=(itemDesc?'<p>'+itemDesc+'</p>':'')+'<ul>'+bullets+'</ul>';
+    /* la descrizione del capo e gia nel pannello acquisto in alto: qui restano
+       solo le garanzie Bluelle, per non ripetere lo stesso testo due volte */
+    detailDesc.innerHTML='<ul>'+copy.bullets.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul>';
   }
   const scale=document.getElementById('conditionScale');
   if(scale)scale.innerHTML=conditionScaleHtml(condTxt);
