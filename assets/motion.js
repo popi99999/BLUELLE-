@@ -45,6 +45,9 @@ function initHomeVideos(){
   function safePlay(video){
     video.muted=true;
     video.playsInline=true;
+    /* i pannelli 2 e 3 hanno preload="none" per non scaricare 3 video insieme:
+       al primo avvicinamento si caricano da soli, una volta sola. */
+    if(video.preload==='none'){video.preload='auto';video.load();}
     var p=video.play();
     if(p&&p.catch)p.catch(function(){});
   }
@@ -74,9 +77,18 @@ function initHomeVideos(){
   }else{
     videos.forEach(safePlay);
   }
-  window.addEventListener('scroll',syncVideos,{passive:true});
-  window.addEventListener('resize',syncVideos,{passive:true});
-  if(window.BLUELLE_LENIS&&window.BLUELLE_LENIS.on){window.BLUELLE_LENIS.on('scroll',syncVideos);}
+  /* throttle a un solo calcolo per frame: Lenis emette 'scroll' ad ogni frame e
+     isVisible() usa getBoundingClientRect (forced layout) su ogni video.
+     Senza questo si ricalcola il layout piu volte per frame -> scatti. */
+  var vTick=false;
+  function requestSyncVideos(){
+    if(vTick)return;
+    vTick=true;
+    requestAnimationFrame(function(){vTick=false;syncVideos();});
+  }
+  window.addEventListener('scroll',requestSyncVideos,{passive:true});
+  window.addEventListener('resize',requestSyncVideos,{passive:true});
+  if(window.BLUELLE_LENIS&&window.BLUELLE_LENIS.on){window.BLUELLE_LENIS.on('scroll',requestSyncVideos);}
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden)syncVideos();
   });
