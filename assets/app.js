@@ -1390,10 +1390,10 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
   setTimeout(()=>{measure();update();},800);
 })();
 
-// INTRO — full play only once per session, then instant skip
+// INTRO — sipario breve: il logo appare sul video gia in movimento e si dissolve
+// da solo in ~1,2s. Nessun "tocca per entrare": qualunque gesto lo salta subito.
 (function(){
   const intro=document.getElementById('intro');
-  const vid=document.getElementById('ivideo');
   const txt=document.querySelector('.itext');
   if(!intro)return;
   let seen=false;
@@ -1401,31 +1401,36 @@ function toggleFaq(i){document.getElementById('fi'+i).classList.toggle('open');}
   if(seen){intro.style.display='none';return;}
   let done=false;
 
-  document.documentElement.style.overflow='hidden';
-  document.body.style.overflow='hidden';
-
   function exit(){
     if(done)return; done=true;
     try{sessionStorage.setItem('bl_intro','1');}catch(e){}
-    window.scrollTo({top:0,behavior:'instant'});
     document.documentElement.style.overflow='';
     document.body.style.overflow='';
-    txt?.classList.add('out');
-    setTimeout(()=>{
-      intro.style.transition='opacity .9s ease';
-      intro.style.opacity='0';
-      setTimeout(()=>{ intro.style.display='none'; },900);
-    },800);
+    txt&&txt.classList.add('out');
+    intro.style.opacity='0';
+    setTimeout(function(){ intro.style.display='none'; },600);
+    ['wheel','touchstart','keydown','click'].forEach(function(ev){
+      window.removeEventListener(ev,exit);
+    });
   }
 
-  setTimeout(()=>txt?.classList.add('visible'),260);
+  // scroll bloccato solo per il primo istante, non per tutta l'intro
+  document.documentElement.style.overflow='hidden';
+  document.body.style.overflow='hidden';
+  setTimeout(function(){
+    document.documentElement.style.overflow='';
+    document.body.style.overflow='';
+  },700);
 
-  if(vid){
-    vid.addEventListener('canplay',()=>vid.classList.add('show'),{once:true});
-  }
-
-  setTimeout(exit,3800);
-  intro.addEventListener('click',exit);
+  setTimeout(function(){txt&&txt.classList.add('visible');},80);
+  // il velo si toglie presto: da qui in poi si vede il video sotto
+  setTimeout(function(){intro.classList.add('veil-off');},650);
+  // uscita automatica
+  setTimeout(exit,1900);
+  // qualunque gesto salta subito
+  ['wheel','touchstart','keydown','click'].forEach(function(ev){
+    window.addEventListener(ev,exit,{passive:true,once:true});
+  });
 })();
 
 // INIT — restore saved preferences

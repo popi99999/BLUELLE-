@@ -93,6 +93,9 @@ function initHomeVideos(){
     if(!document.hidden)syncVideos();
   });
   window.addEventListener('pageshow',syncVideos);
+  /* il primo video parte subito, cosi sotto il velo dell'intro c'e gia movimento
+     e quando il velo si dissolve il viaggio e gia cominciato */
+  if(videos[0])safePlay(videos[0]);
   syncVideos();
   setTimeout(syncVideos,400);
   setTimeout(syncVideos,1200);
