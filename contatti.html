@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/styles.css?v=20260726b">
+<link rel="stylesheet" href="assets/styles.css?v=20260831a">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -66,42 +66,124 @@
   <a href="account.html" onclick="closeMNav()">Account</a>
 </div>
 <main role="main">
-<div style="height:clamp(5rem,8vw,6rem)"></div>
-<section id="contatti">
+<div class="container ct-crumb"><p class="crumb"><a href="index.html">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Contatti</span></p></div>
+
+<!-- INTESTAZIONE -->
+<section id="contatti" class="ct-hero">
   <div class="container">
-    <div style="text-align:center">
+    <div class="ct-hero-in">
       <div class="sl center reveal" data-i="contact_eye">Scrivici</div>
-      <h2 class="sec-title reveal delay-1">Mettiti in <em>contatto</em></h2>
-      <p class="sec-intro" style="margin-inline:auto">Domande su un capo, sulla taglia o sull'autenticità? Lasciaci due righe: rispondiamo personalmente, di solito in giornata.</p>
-    </div>
-    <form id="contactForm" class="cform reveal delay-1" novalidate>
-      <div class="cf-row">
-        <div class="cf-field"><label class="cf-label">Nome</label><input class="cf-in" type="text" name="nome" autocomplete="given-name" required></div>
-        <div class="cf-field"><label class="cf-label">Cognome</label><input class="cf-in" type="text" name="cognome" autocomplete="family-name" required></div>
+      <h1 class="sec-title reveal delay-1">Mettiti in <em>contatto</em></h1>
+      <p class="ct-lead reveal delay-1">Domande su un capo, sulla taglia o sull'autenticità? Scegli il canale che preferisci: rispondiamo personalmente, di solito in giornata.</p>
+      <div class="ct-meta-row reveal delay-2">
+        <span>Lun – Ven &middot; 9:00 – 18:00 CET</span>
+        <span class="ct-dot" aria-hidden="true"></span>
+        <span>Risposta entro 24 ore</span>
+        <span class="ct-dot" aria-hidden="true"></span>
+        <span>Italiano &middot; English</span>
       </div>
-      <div class="cf-row">
-        <div class="cf-field"><label class="cf-label">Email</label><input class="cf-in" type="email" name="email" autocomplete="email" required></div>
-        <div class="cf-field"><label class="cf-label">Telefono <span class="cf-opt">&middot; facoltativo</span></label><input class="cf-in" type="tel" name="telefono" autocomplete="tel"></div>
-      </div>
-      <div class="cf-field"><label class="cf-label">Messaggio</label><textarea class="cf-in cf-area" name="messaggio" rows="4" required></textarea></div>
-      <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Bluèlle">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
-      <button type="submit" class="cf-submit" id="cfSubmit">Invia messaggio</button>
-      <p class="cf-privacy">Inviando il modulo accetti la nostra <a href="termini.html">Privacy</a>. Niente spam, promesso.</p>
-    </form>
-    <div class="cf-done" id="cfDone" hidden>
-      <div class="cf-done-ic">&#10003;</div>
-      <p class="cf-done-t">Grazie — ti <em>risponderemo</em> a breve.</p>
     </div>
-    <div class="ci reveal delay-1" style="margin-top:clamp(2.6rem,5vw,4rem)">
-      <div class="ci-line"></div>
-      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" class="iglink">
-        <svg class="igico" width="40" height="40" viewBox="0 0 44 44" fill="none"><rect x="3" y="3" width="38" height="38" rx="10" stroke="#283733" stroke-width="1.1"/><circle cx="22" cy="22" r="9" stroke="#283733" stroke-width="1.1"/><circle cx="33" cy="11" r="2.4" fill="#283733"/></svg>
-        <span class="igat">oppure scrivici su</span>
-        <span class="ighandle">@bluelle._</span>
+  </div>
+</section>
+
+<!-- CANALI DIRETTI -->
+<!-- DATI DI CONTATTO — per aggiornarli modifica qui: indirizzo email, numero WhatsApp (wa.me/…), handle Instagram -->
+<section class="ct-ch" aria-label="Canali di contatto">
+  <div class="container">
+    <div class="ct-grid">
+
+      <a class="ct-card reveal" href="mailto:info@bluelle.it?subject=Richiesta%20dal%20sito%20Blu%C3%A8lle">
+        <span class="ct-ico" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="36" height="26" rx="2"/><path d="M4.8 11.2 22 24.4l17.2-13.2"/></svg>
+        </span>
+        <span class="ct-kick">Email</span>
+        <span class="ct-val">info@bluelle.it</span>
+        <span class="ct-note">Per ordini, resi, fatture e ogni richiesta che merita una risposta scritta e documentata.</span>
+        <span class="ct-when">Risposta entro 24 ore</span>
+        <span class="ct-go">Scrivi un'email <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
       </a>
+
+      <a class="ct-card reveal delay-1" href="https://wa.me/393000000000?text=Ciao%20Blu%C3%A8lle%2C%20vi%20scrivo%20dal%20sito" target="_blank" rel="noopener">
+        <span class="ct-ico" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 5.4a16.6 16.6 0 0 0-14.2 25.2L5.2 39l8.7-2.5A16.6 16.6 0 1 0 22 5.4Z"/><path d="M16.6 15.4h1.6c.4 0 .7.2.8.6l1.3 3.1c.1.3.1.6-.1.9l-.8 1c-.2.3-.2.6 0 .9a11.4 11.4 0 0 0 4.6 4.1c.3.2.7.1.9-.1l.9-1.1c.2-.3.6-.4.9-.2l3.1 1.4c.4.2.6.5.6.9v1.2c0 1.4-1.2 2.5-2.6 2.5-4.4 0-11.9-6.9-12.6-11.6-.2-1.3.1-2.6.6-3.2.2-.3.5-.4.8-.4Z"/></svg>
+        </span>
+        <span class="ct-kick">WhatsApp</span>
+        <span class="ct-val">+39 300 000 0000</span>
+        <span class="ct-note">Per le domande veloci: taglie, misure reali, disponibilità di un pezzo, tempi di spedizione.</span>
+        <span class="ct-when">Lun – Ven &middot; 9:00 – 18:00 CET</span>
+        <span class="ct-go">Apri la chat <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
+      </a>
+
+      <a class="ct-card reveal delay-2" href="https://instagram.com/bluelle._" target="_blank" rel="noopener">
+        <span class="ct-ico" aria-hidden="true">
+          <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="4" y="4" width="36" height="36" rx="10"/><circle cx="22" cy="22" r="8.6"/><circle cx="32.6" cy="11.4" r="2.2" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span class="ct-kick">Instagram</span>
+        <span class="ct-val">@bluelle._</span>
+        <span class="ct-note">Nuovi arrivi in anteprima e selezioni esclusive. I DM sono sempre aperti.</span>
+        <span class="ct-when">Di solito in poche ore</span>
+        <span class="ct-go">Scrivici in DM <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODULO -->
+<section class="ct-form-sec" aria-label="Modulo di contatto">
+  <div class="container">
+    <div class="ct-form-grid">
+
+      <aside class="ct-aside reveal">
+        <p class="ct-kick">Modulo</p>
+        <h2 class="ct-h2">Oppure <em>scrivici qui</em></h2>
+        <p class="ct-p">Il messaggio arriva direttamente nella nostra casella e riceve la stessa attenzione di una mail. Nessun risponditore automatico: leggiamo e rispondiamo noi.</p>
+        <ul class="ct-ul">
+          <li>Per un capo specifico, indica il nome del pezzo o il link della scheda.</li>
+          <li>Per un ordine già effettuato, aggiungi il numero d'ordine.</li>
+          <li>I tuoi dati restano nostri: nessuna newsletter, nessuna condivisione.</li>
+        </ul>
+        <div class="ct-quick">
+          <a href="faq.html">Domande frequenti</a>
+          <a href="tracking.html">Traccia il tuo ordine</a>
+        </div>
+      </aside>
+
+      <div class="ct-form-wrap">
+        <form id="contactForm" class="cform reveal delay-1" novalidate>
+          <div class="cf-row">
+            <div class="cf-field"><label class="cf-label" for="cfNome">Nome</label><input id="cfNome" class="cf-in" type="text" name="nome" autocomplete="given-name" required></div>
+            <div class="cf-field"><label class="cf-label" for="cfCognome">Cognome</label><input id="cfCognome" class="cf-in" type="text" name="cognome" autocomplete="family-name" required></div>
+          </div>
+          <div class="cf-row">
+            <div class="cf-field"><label class="cf-label" for="cfEmail">Email</label><input id="cfEmail" class="cf-in" type="email" name="email" autocomplete="email" required></div>
+            <div class="cf-field"><label class="cf-label" for="cfTel">Telefono <span class="cf-opt">&middot; facoltativo</span></label><input id="cfTel" class="cf-in" type="tel" name="telefono" autocomplete="tel"></div>
+          </div>
+          <div class="cf-field"><label class="cf-label" for="cfArg">Argomento</label>
+            <select id="cfArg" class="cf-in cf-sel" name="argomento">
+              <option>Informazioni su un capo</option>
+              <option>Ordine e spedizione</option>
+              <option>Reso o cambio</option>
+              <option>Autenticità e condizioni</option>
+              <option>Vendere o affidare un capo</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div class="cf-field"><label class="cf-label" for="cfMsg">Messaggio</label><textarea id="cfMsg" class="cf-in cf-area" name="messaggio" rows="5" required></textarea></div>
+          <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Bluèlle">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+          <button type="submit" class="cf-submit" id="cfSubmit">Invia messaggio</button>
+          <p class="cf-privacy">Inviando il modulo accetti la nostra <a href="termini.html">Privacy</a>. Niente spam, promesso.</p>
+        </form>
+        <div class="cf-done" id="cfDone" hidden>
+          <div class="cf-done-ic">&#10003;</div>
+          <p class="cf-done-t">Grazie — ti <em>risponderemo</em> a breve.</p>
+          <p class="cf-done-s">Nel frattempo puoi scriverci su <a href="https://wa.me/393000000000" target="_blank" rel="noopener">WhatsApp</a> o in DM su <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">Instagram</a>.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -149,10 +231,10 @@
   </div>
   <div class="ft-bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
 </footer>
-<script src="assets/app.js?v=20260726b"></script>
+<script src="assets/app.js?v=20260831a"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" integrity="sha384-ClD7pCgIUz5M81HT8aZmMxCsWmfsycmBiwL5gy1pUbdWHvICIbea22N9sTtAFotA" crossorigin="anonymous"></script>
-<script src="assets/motion.js?v=20260726b"></script>
+<script src="assets/motion.js?v=20260831a"></script>
 </body>
 </html>

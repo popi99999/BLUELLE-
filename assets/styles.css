@@ -808,16 +808,7 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .faq-a-inner{padding:0 0 1.8rem;font-size:.88rem;line-height:2.1;color:var(--stone);max-width:680px}
 
 /* ── CONTATTI ───────────────────────────────────────── */
-#contatti{background:var(--sand);padding:clamp(4.5rem,9vw,7.5rem) 0}
-.ci{max-width:460px;margin:clamp(3rem,6vw,5rem) auto 0;display:flex;flex-direction:column;align-items:center;gap:2.2rem;text-align:center}
-.ci-line{width:1px;height:54px;background:linear-gradient(to bottom,transparent,var(--tiff),transparent);opacity:.6}
-.contact-closer{font-family:var(--f-disp);font-size:clamp(1.4rem,2.6vw,2rem);font-weight:300;font-style:italic;color:var(--slate);line-height:1.55;max-width:480px}
-.iglink{display:flex;flex-direction:column;align-items:center;gap:.95rem;text-decoration:none}
-.igico{opacity:.5;transition:opacity .45s,transform .6s var(--e-out)}
-.iglink:hover .igico{opacity:.85;transform:scale(1.06) rotate(-4deg)}
-.igat{font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:var(--stone)}
-.ighandle{font-family:var(--f-disp);font-size:2.6rem;font-weight:400;color:var(--ink);font-style:italic;transition:color .45s;line-height:1.1}
-.iglink:hover .ighandle{color:var(--tiff-deep)}
+#contatti{background:transparent}
 .igcap{font-size:.82rem;color:var(--stone);line-height:2;max-width:320px}
 .cform{max-width:620px;margin:clamp(2rem,4vw,3rem) auto 0;display:flex;flex-direction:column;gap:1.3rem;text-align:left}
 .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
@@ -832,12 +823,73 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .cf-submit{margin-top:.5rem;align-self:flex-start;background:var(--pine);color:var(--paper);border:none;padding:1.1rem 2.8rem;font-family:var(--f-ui);font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;transition:background .4s,opacity .3s}
 .cf-submit:hover{background:var(--tiff-deep)}
 .cf-submit:disabled{opacity:.5;cursor:default}
-.cf-privacy{font-size:.74rem;color:var(--mist);margin-top:-.1rem}
-.cf-privacy a{color:var(--slate)}
+.cf-privacy{font-family:var(--f-ui);font-size:.74rem;font-weight:300;color:var(--stone);margin-top:-.1rem}
+.cf-privacy a{color:var(--slate);text-decoration:none;border-bottom:1px solid var(--tiff)}
 .cf-done{max-width:620px;margin:clamp(2rem,4vw,3rem) auto 0;text-align:center;padding:clamp(2.2rem,4vw,3.2rem);border:1px solid var(--line);background:var(--cream)}
 .cf-done-ic{width:46px;height:46px;border-radius:50%;border:1px solid var(--tiff);color:var(--tiff);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;font-size:1.05rem}
 .cf-done-t{font-family:var(--f-disp);font-size:clamp(1.4rem,2.6vw,1.9rem);color:var(--ink)}
 .cf-done-t em{font-style:italic;color:var(--tiff-deep)}
+
+/* ── PAGINA CONTATTI (canali + modulo) ─────────────── */
+.ct-crumb{padding-top:clamp(5.5rem,9vw,7rem)}
+.ct-hero{padding:clamp(2rem,4vw,3rem) 0 clamp(2.6rem,5vw,4rem);text-align:center;background:transparent}
+.ct-hero-in{max-width:640px;margin:0 auto}
+.ct-hero .sec-title{margin-bottom:0}
+.ct-lead{font-family:var(--f-ui);font-size:.95rem;font-weight:300;line-height:1.9;color:var(--slate);margin-top:1.2rem}
+.ct-meta-row{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.85rem;margin-top:2rem;font-family:var(--f-ui);font-size:.58rem;font-weight:400;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+.ct-dot{width:3px;height:3px;border-radius:50%;background:var(--tiff);opacity:.75}
+
+.ct-ch{padding:0 0 clamp(3.4rem,7vw,5.5rem)}
+.ct-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ct-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:.85rem;padding:clamp(2.1rem,3.4vw,3rem) clamp(1.4rem,2.4vw,2.4rem);text-decoration:none;color:inherit;border-left:1px solid var(--line-soft);transition:background .55s var(--e-out)}
+.ct-card:first-child{border-left:none}
+.ct-card::after{content:'';position:absolute;left:-1px;right:-1px;bottom:-1px;height:1px;background:var(--tiff);transform:scaleX(0);transform-origin:left;transition:transform .55s var(--e-io)}
+.ct-card:hover{background:rgba(255,255,255,.42)}
+.ct-card:hover::after{transform:scaleX(1)}
+.ct-ico{display:block;color:var(--ink);opacity:.4;margin-bottom:.35rem;transition:opacity .45s,transform .6s var(--e-out)}
+.ct-card:hover .ct-ico{opacity:.85;transform:translateY(-3px)}
+.ct-kick{font-family:var(--f-ui);font-size:.56rem;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:var(--tiff-deep)}
+.ct-val{font-family:var(--f-disp);font-style:italic;font-size:clamp(1.15rem,1.7vw,1.45rem);line-height:1.25;color:var(--ink);word-break:break-word;transition:color .4s}
+.ct-card:hover .ct-val{color:var(--tiff-deep)}
+.ct-note{font-family:var(--f-ui);font-size:.84rem;font-weight:300;line-height:1.85;color:var(--slate);max-width:32ch}
+.ct-when{margin-top:auto;padding-top:.9rem;font-family:var(--f-ui);font-size:.55rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;color:var(--stone)}
+.ct-go{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--f-ui);font-size:.6rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--ink)}
+.ct-go svg{transition:transform .45s var(--e-out)}
+.ct-card:hover .ct-go svg{transform:translateX(6px)}
+
+.ct-form-sec{background:var(--cream);border-top:1px solid var(--line-soft);padding:clamp(3.4rem,7vw,5.5rem) 0}
+.ct-form-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:clamp(2.4rem,5vw,5rem);align-items:start}
+.ct-aside .ct-kick{display:block;margin-bottom:1rem}
+.ct-h2{font-family:var(--f-disp);font-size:clamp(1.6rem,2.6vw,2.15rem);font-weight:400;line-height:1.22;color:var(--ink);margin-bottom:1rem}
+.ct-h2 em{font-style:italic;color:var(--tiff-deep)}
+.ct-p{font-family:var(--f-ui);font-size:.9rem;font-weight:300;line-height:1.9;color:var(--slate)}
+.ct-ul{list-style:none;margin-top:1.7rem;display:flex;flex-direction:column;gap:.85rem}
+.ct-ul li{position:relative;padding-left:1.25rem;font-family:var(--f-ui);font-size:.84rem;font-weight:300;line-height:1.75;color:var(--slate)}
+.ct-ul li::before{content:'';position:absolute;left:0;top:.75em;width:7px;height:1px;background:var(--tiff)}
+.ct-quick{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:2.2rem}
+.ct-quick a{display:inline-flex;align-items:center;font-family:var(--f-ui);font-size:.66rem;font-weight:300;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:.7rem 1.05rem;transition:border-color .3s,color .3s}
+.ct-quick a:hover{border-color:var(--tiff-deep);color:var(--tiff-deep)}
+.ct-form-wrap{position:relative}
+.ct-form-sec .cform{max-width:none;margin:0;gap:1.5rem}
+.ct-form-sec .cf-done{max-width:none;margin:0;background:transparent;text-align:left;padding:0;border:none}
+.ct-form-sec .cf-done-ic{margin:0 0 1.2rem}
+.cf-done-s{margin-top:.9rem;font-family:var(--f-ui);font-size:.85rem;font-weight:300;line-height:1.8;color:var(--slate)}
+.cf-done-s a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--tiff)}
+.cf-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238f8677'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .2rem center}
+.cf-sel option{color:var(--ink);background:var(--paper)}
+
+@media(max-width:900px){
+  .ct-form-grid{grid-template-columns:1fr}
+  .ct-grid{grid-template-columns:1fr;border-bottom:none}
+  .ct-card{border-left:none;border-bottom:1px solid var(--line-soft);gap:.7rem}
+  .ct-card::after{left:0;right:0}
+  .ct-when{margin-top:.3rem;padding-top:0}
+  .ct-note{max-width:none}
+}
+@media(max-width:560px){
+  .ct-meta-row{gap:.6rem;font-size:.54rem}
+  .ct-card{padding:2rem .2rem}
+}
 
 /* ── FOOTER ─────────────────────────────────────────── */
 footer{background:var(--cream);border-top:1px solid var(--line-soft);padding:clamp(3.2rem,7vw,5rem) clamp(1.6rem,5vw,4.5rem) clamp(2.2rem,4vw,3rem);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:1.6rem;position:relative;overflow:hidden}
