@@ -538,16 +538,34 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .pill-cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 2.2rem;border:1px solid var(--stone);border-radius:999px;color:var(--ink);background:transparent;font-family:var(--f-ui);font-size:.82rem;font-weight:300;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;transition:background .4s,color .4s,border-color .4s,transform .4s var(--e-out)}
 .pill-cta:hover{background:var(--ink);border-color:var(--ink);color:var(--paper);transform:translateY(-1px)}
 
-.hpay{background:var(--cream);padding:clamp(4.6rem,8vw,7rem) clamp(1.6rem,6vw,6.5rem)}
-.hpay-inner{max-width:66rem;margin:0 auto}
-.hpay-head{max-width:52rem}
-.hpay-sub{font-family:var(--f-ui);font-size:.95rem;font-weight:300;line-height:1.9;letter-spacing:.02em;color:var(--slate);max-width:38rem;margin-top:1.3rem}
-.hpay-ways{list-style:none;margin:clamp(2.4rem,4.5vw,3.4rem) 0 0;padding:0;max-width:46rem;border-top:1px solid var(--line)}
-.hpay-ways li{display:grid;grid-template-columns:2.4rem 1fr;gap:1.2rem;padding:1.15rem 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
-.hpay-ways .n{font-family:var(--f-ui);font-size:.72rem;font-weight:300;color:var(--tiff-deep);letter-spacing:.05em}
-.hpay-ways b{display:block;font-family:var(--f-ui);font-size:.76rem;font-weight:400;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);margin-bottom:.25rem}
-.hpay-ways div span{font-size:.92rem;line-height:1.6;color:var(--slate)}
-.hpay-note{font-family:var(--f-ui);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--stone);margin-top:1.6rem}
+.hpay{--hpay-ink:#2f251a;--hpay-accent:#0a8e87;--hpay-line:rgba(10,142,135,.24);min-height:100svh;display:grid;align-items:center;overflow:hidden;background:#f6f1e8;color:var(--hpay-ink);padding:clamp(3.25rem,7vh,5.875rem) clamp(1.75rem,5vw,5rem) clamp(2.25rem,5vh,4rem)}
+.hpay-inner{width:min(72.5rem,100%);margin:0 auto;text-align:center}
+.hpay-title{margin:0;color:var(--hpay-ink);font-family:'Bodoni Moda','Bodoni 72',Didot,Georgia,serif;font-size:clamp(4rem,6.1vw,7.25rem);font-weight:400;letter-spacing:.145em;line-height:1.16;text-indent:.145em;text-transform:uppercase}
+.hpay-title span{display:block}
+.hpay-divider{width:4rem;height:1px;margin:clamp(1.75rem,4.4vh,3rem) auto 0;background:var(--hpay-accent);opacity:.48}
+.hpay-promise{margin:clamp(1.3rem,2.7vh,1.8rem) auto 0;font-family:var(--f-ui);font-size:clamp(.8125rem,1.15vw,1.1875rem);font-weight:400;letter-spacing:.25em;line-height:1.45;text-indent:.25em;text-transform:uppercase}
+.hpay-logos{width:min(71rem,100%);margin:clamp(2.625rem,6vh,4.25rem) auto 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
+.hpay-logo{min-width:0;min-height:5.75rem;display:grid;place-items:center;padding:.5rem clamp(1.125rem,2vw,2.25rem);border-left:1px solid var(--hpay-line);outline:0;cursor:default}
+.hpay-logo:first-child{border-left:0}
+.hpay-visual{width:100%;height:4rem;display:flex;align-items:center;justify-content:center;filter:grayscale(1) saturate(0) brightness(0);opacity:.9;transform:translateY(0) scale(1);transition:filter .32s ease,opacity .32s ease,transform .42s var(--e-out);will-change:filter,opacity,transform}
+.hpay-visual img{display:block;max-width:100%;max-height:100%;object-fit:contain}
+.hpay-paypal{width:min(13rem,100%);gap:.625rem}
+.hpay-paypal .hpay-paypal-mark{width:2.625rem;height:3.5rem;flex:0 0 auto}
+.hpay-paypal .hpay-paypal-word{width:9.0625rem;height:3.125rem;flex:1 1 auto}
+.hpay-klarna{width:min(11.75rem,100%);height:4.5rem}
+.hpay-klarna img{transform:scale(1.35)}
+.hpay-scalapay{width:min(13.25rem,100%);height:3.25rem}
+.hpay-bitpay{width:min(11.5rem,100%);height:4.875rem}
+.hpay-logo:hover .hpay-visual,.hpay-logo:focus-visible .hpay-visual{filter:none;opacity:1;transform:translateY(-2px) scale(1.018)}
+.hpay-logo[data-brand="scalapay"]:hover .hpay-visual,.hpay-logo[data-brand="scalapay"]:focus-visible .hpay-visual{filter:brightness(0) saturate(100%) invert(87%) sepia(18%) saturate(611%) hue-rotate(298deg) brightness(102%) contrast(94%)}
+.hpay-logo:focus-visible{box-shadow:inset 0 0 0 1px rgba(10,142,135,.55)}
+.hpay-divider-closing{margin-top:clamp(2.375rem,5vh,3.5rem)}
+.hpay-closing{margin:clamp(1.3rem,2.5vh,1.75rem) auto 0;color:#4f493f;font-family:var(--f-ui);font-size:clamp(.625rem,.94vw,.9375rem);font-weight:400;letter-spacing:.22em;line-height:1.9;text-indent:.22em;text-transform:uppercase}
+.hpay-closing span{display:block}
+@media(min-width:901px) and (min-height:900px){.hpay-inner{transform:translateY(clamp(3.75rem,calc(100svh - 54.125rem),6.625rem))}.hpay-logos{margin-top:4.875rem}.hpay-divider-closing{margin-top:3.625rem}.hpay-closing{margin-top:2.5rem}}
+@media(max-width:900px){.hpay{align-items:start;padding-top:4rem}.hpay-title{font-size:clamp(3.375rem,9vw,4.875rem);letter-spacing:.12em;text-indent:.12em}.hpay-logos{width:min(38.75rem,100%);grid-template-columns:repeat(2,minmax(0,1fr))}.hpay-logo{min-height:6.5rem;border-top:1px solid var(--hpay-line)}.hpay-logo:nth-child(-n+2){border-top:0}.hpay-logo:nth-child(odd){border-left:0}}
+@media(max-width:720px){.hpay{min-height:100svh;align-items:center;padding:3rem 1.125rem 2.125rem}.hpay-title{font-size:clamp(2.5rem,12.1vw,3.25rem);letter-spacing:.075em;line-height:1.14;text-indent:.075em}.hpay-divider{width:3rem}.hpay-divider:not(.hpay-divider-closing){margin-top:1.875rem}.hpay-promise{max-width:19.375rem;margin-top:1.25rem;font-size:.625rem;letter-spacing:.19em;text-indent:.19em}.hpay-logos{margin-top:2.25rem}.hpay-logo{min-height:5.5rem;padding:.6875rem 1.1875rem}.hpay-visual{height:3.25rem}.hpay-paypal{width:9.25rem;gap:.4375rem}.hpay-paypal .hpay-paypal-mark{width:1.875rem;height:2.625rem}.hpay-paypal .hpay-paypal-word{width:6.4375rem;height:2.25rem}.hpay-klarna{width:8.875rem;height:3.375rem}.hpay-scalapay{width:9.25rem;height:2.5rem}.hpay-bitpay{width:8.25rem;height:3.625rem}.hpay-divider-closing{margin-top:2.125rem}.hpay-closing{max-width:20.625rem;margin-top:1.25rem;font-size:.5625rem;letter-spacing:.15em;line-height:1.75;text-indent:.15em}}
+@media(hover:none){.hpay-logo:active .hpay-visual,.hpay-logo:focus .hpay-visual{filter:none;opacity:1;transform:scale(1.018)}.hpay-logo[data-brand="scalapay"]:active .hpay-visual,.hpay-logo[data-brand="scalapay"]:focus .hpay-visual{filter:brightness(0) saturate(100%) invert(87%) sepia(18%) saturate(611%) hue-rotate(298deg) brightness(102%) contrast(94%)}}
 /* FAQ stile lusso */
 .faqx{padding:clamp(2.4rem,5vw,4rem) 0 clamp(4.5rem,8vw,7rem)}
 .faqx .container{max-width:52rem}
