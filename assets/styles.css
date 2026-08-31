@@ -541,13 +541,20 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .hpay{background:var(--cream);padding:clamp(4.6rem,8vw,7rem) clamp(1.6rem,6vw,6.5rem)}
 .hpay-inner{max-width:66rem;margin:0 auto}
 .hpay-head{max-width:52rem}
-.hpay-sub{font-family:var(--f-ui);font-size:.95rem;font-weight:300;line-height:1.9;letter-spacing:.02em;color:var(--slate);max-width:38rem;margin-top:1.3rem}
-.hpay-ways{list-style:none;margin:clamp(2.4rem,4.5vw,3.4rem) 0 0;padding:0;max-width:46rem;border-top:1px solid var(--line)}
-.hpay-ways li{display:grid;grid-template-columns:2.4rem 1fr;gap:1.2rem;padding:1.15rem 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
-.hpay-ways .n{font-family:var(--f-ui);font-size:.72rem;font-weight:300;color:var(--tiff-deep);letter-spacing:.05em}
-.hpay-ways b{display:block;font-family:var(--f-ui);font-size:.76rem;font-weight:400;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);margin-bottom:.25rem}
-.hpay-ways div span{font-size:.92rem;line-height:1.6;color:var(--slate)}
-.hpay-note{font-family:var(--f-ui);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--stone);margin-top:1.6rem}
+.hpay-sub{max-width:36rem;margin-top:1.45rem;font-size:1rem;line-height:1.8;color:var(--slate)}
+.hpay-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(2.6rem,5vw,3.8rem);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.hpay-col{padding:clamp(1.6rem,2.4vw,2.1rem) clamp(1.2rem,2vw,2rem);border-left:1px solid var(--line-soft)}
+.hpay-col:first-child{border-left:none;padding-left:0}
+.hpay-col b{display:block;font-family:var(--f-ui);font-size:.76rem;font-weight:400;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);margin-bottom:.55rem}
+.hpay-col span{display:block;font-size:.95rem;line-height:1.7;color:var(--slate)}
+.hpay-logos{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem;margin-top:1.7rem}
+.hpay-logos img{height:20px;width:auto;border-radius:3px;opacity:.6;transition:opacity .4s}
+.hpay-logos:hover img{opacity:.85}
+.hpay-note{font-family:var(--f-ui);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--stone);margin-top:1.1rem}
+@media(max-width:760px){
+  .hpay-grid{grid-template-columns:1fr;border-bottom:none}
+  .hpay-col{border-left:none;border-bottom:1px solid var(--line-soft);padding:1.4rem 0}
+}
 /* FAQ stile lusso */
 .faqx{padding:clamp(2.4rem,5vw,4rem) 0 clamp(4.5rem,8vw,7rem)}
 .faqx .container{max-width:52rem}
