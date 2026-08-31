@@ -538,27 +538,27 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .pill-cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 2.2rem;border:1px solid var(--stone);border-radius:999px;color:var(--ink);background:transparent;font-family:var(--f-ui);font-size:.82rem;font-weight:300;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;transition:background .4s,color .4s,border-color .4s,transform .4s var(--e-out)}
 .pill-cta:hover{background:var(--ink);border-color:var(--ink);color:var(--paper);transform:translateY(-1px)}
 
-.hpay{--plate-gold:#b3945f;--plate-line:rgba(163,133,84,.42);--plate-gap:clamp(1.5rem,3.4vw,3rem);
-  background:var(--cream);padding:clamp(4.6rem,8.5vw,7.5rem) clamp(1.6rem,6vw,6.5rem)}
-.hpay-inner{max-width:56rem;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
-.hpay-orn{display:flex;align-items:center;justify-content:center;gap:.8rem;width:min(11rem,52%)}
+.hpay{--plate-gold:#b3945f;--plate-line:rgba(163,133,84,.42);--plate-gap:clamp(1.7rem,4vw,3.6rem);
+  background:var(--paper);padding:clamp(5.4rem,10vw,9rem) clamp(1.6rem,6vw,6.5rem)}
+.hpay-inner{max-width:62rem;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hpay-orn{display:flex;align-items:center;justify-content:center;gap:.8rem;width:min(12rem,54%)}
 .hpay-orn i{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--plate-line),transparent)}
 .hpay-orn b{width:5px;height:5px;background:var(--plate-gold);transform:rotate(45deg)}
 .hpay-eye{margin-top:clamp(1.5rem,2.8vw,2.1rem);font-family:var(--f-ui);font-size:.72rem;font-weight:400;letter-spacing:.4em;text-indent:.4em;text-transform:uppercase;color:var(--stone)}
-.hpay-title{margin:clamp(1.2rem,2.4vw,1.8rem) 0 clamp(1.6rem,3vw,2.4rem);font-family:'Bodoni Moda',Didot,Georgia,serif;font-size:clamp(2.4rem,5.6vw,4.5rem);font-weight:400;line-height:1.14;letter-spacing:.045em;text-indent:.045em;text-transform:uppercase;color:var(--ink);text-wrap:balance}
+.hpay-title{margin:clamp(1.5rem,2.8vw,2.2rem) 0 clamp(2rem,3.6vw,3rem);font-family:'Bodoni Moda',Didot,Georgia,serif;font-size:clamp(2.6rem,6.6vw,5.4rem);font-weight:400;line-height:1.14;letter-spacing:.045em;text-indent:.045em;text-transform:uppercase;color:var(--ink);text-wrap:balance}
 .hpay-title span{display:block}
-.hpay-claim{margin-top:clamp(1.6rem,3vw,2.3rem);font-family:var(--f-ui);font-size:.88rem;font-weight:300;letter-spacing:.19em;text-indent:.19em;text-transform:uppercase;color:var(--slate)}
-.hpay-logos{list-style:none;padding:0;margin:clamp(1.8rem,3.2vw,2.7rem) 0 clamp(1.6rem,3vw,2.4rem);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--plate-gap)}
+.hpay-claim{margin-top:clamp(1.9rem,3.4vw,2.7rem);font-family:var(--f-ui);font-size:.88rem;font-weight:300;letter-spacing:.19em;text-indent:.19em;text-transform:uppercase;color:var(--slate)}
+.hpay-logos{list-style:none;padding:0;margin:clamp(2.2rem,4vw,3.4rem) 0 clamp(2rem,3.6vw,3rem);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:var(--plate-gap)}
 .hpay-logos li{position:relative;display:flex;align-items:center}
-.hpay-logos li+li::before{content:'';position:absolute;left:calc(var(--plate-gap) / -2);top:50%;transform:translate(-50%,-50%);width:1px;height:42px;background:linear-gradient(to bottom,transparent,var(--plate-line),transparent)}
+.hpay-logos li+li::before{content:'';position:absolute;left:calc(var(--plate-gap) / -2);top:50%;transform:translate(-50%,-50%);width:1px;height:58px;background:linear-gradient(to bottom,transparent,var(--plate-line),transparent)}
 .hpay-logos li+li::after{content:'';position:absolute;left:calc(var(--plate-gap) / -2);top:50%;transform:translate(-50%,-50%) rotate(45deg);width:4px;height:4px;background:var(--plate-gold)}
-.hpay-logos img{height:34px;width:auto;display:block}
-.hpay-note{margin-top:clamp(1.5rem,2.8vw,2.1rem);font-family:var(--f-ui);font-size:.72rem;font-weight:300;line-height:2.1;letter-spacing:.19em;text-indent:.19em;text-transform:uppercase;color:var(--stone)}
+.hpay-logos img{height:30px;width:auto;display:block}
+.hpay-note{margin-top:clamp(1.9rem,3.4vw,2.7rem);font-family:var(--f-ui);font-size:.72rem;font-weight:300;line-height:2.1;letter-spacing:.19em;text-indent:.19em;text-transform:uppercase;color:var(--stone)}
 @media(max-width:620px){
   .hpay{--plate-gap:1.1rem}
   .hpay-orn{width:72%}
   .hpay-claim{font-size:.74rem;letter-spacing:.14em;text-indent:.14em}
-  .hpay-logos img{height:28px}
+  .hpay-logos img{height:22px}
   .hpay-logos li+li::before,.hpay-logos li+li::after{display:none}
   .hpay-note{font-size:.64rem;letter-spacing:.13em;text-indent:.13em}
 }
