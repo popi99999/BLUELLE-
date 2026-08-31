@@ -20,21 +20,21 @@
 <meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
 <meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Contatti — Bluèlle</title>
+<title data-i="page_contact_title">Contatti — Bluèlle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/styles.css?v=20260831a">
+<link rel="stylesheet" href="assets/styles.css?v=20260831e">
 </head>
 <body>
 <!-- TOPBAR -->
 <div id="topbar">
-  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox" aria-label="Scegli valuta" data-i-aria="picker_currency_aria"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <span class="tb-sep">/</span>
-  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox" aria-label="Scegli lingua" data-i-aria="picker_language_aria"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <div class="picker-panel" id="pickerPanel" hidden>
-    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" oninput="filterPicker()"></label>
+    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" data-i-placeholder="picker_search" oninput="filterPicker()"></label>
     <div class="pick-list" id="pickerList"></div>
   </div>
   <select id="currSel" onchange="setCurr(this.value)" aria-hidden="true" tabindex="-1" style="display:none"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CHF">CHF</option><option value="JPY">JPY</option><option value="CNY">CNY</option></select>
@@ -42,46 +42,46 @@
 </div>
 
 <!-- NAV -->
-<nav id="nav" role="navigation" aria-label="Navigazione principale">
-  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
+<nav id="nav" role="navigation" aria-label="Navigazione principale" data-i-aria="nav_main_aria">
+  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></a>
   <ul class="nlinks">
     <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
     <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="faq.html" data-i="nav_faq">FAQ</a></li>
+    <li><a href="tracking.html" data-i="nav_tracking">Tracking</a></li>
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
-    <li><a href="account.html">Account</a></li>
+    <li><a href="account.html" data-i="nav_account">Account</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Apri menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label">Menu</span></button>
+  <button class="burger" id="burger" aria-label="Apri menu" data-i-aria="nav_open_menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label" data-i="nav_menu">Menu</span></button>
 </nav>
 
 <!-- MOBILE NAV -->
 <div class="mnav" id="mnav">
-  <a href="index.html" onclick="closeMNav()">Home</a>
+  <a href="index.html" onclick="closeMNav()" data-i="nav_home">Home</a>
   <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
   <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
-  <a href="faq.html" onclick="closeMNav()">FAQ</a>
-  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="faq.html" onclick="closeMNav()" data-i="nav_faq">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()" data-i="nav_tracking">Tracking</a>
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
-  <a href="account.html" onclick="closeMNav()">Account</a>
+  <a href="account.html" onclick="closeMNav()" data-i="nav_account">Account</a>
 </div>
 <main role="main">
-<div class="container ct-crumb"><p class="crumb"><a href="index.html">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)">Contatti</span></p></div>
+<div class="container ct-crumb"><p class="crumb"><a href="index.html" data-i="nav_home">Home</a> &nbsp;/&nbsp; <span style="color:var(--ink)" data-i="nav_contact">Contatti</span></p></div>
 
 <!-- INTESTAZIONE -->
 <section id="contatti" class="ct-hero">
   <div class="container">
     <div class="ct-hero-in">
       <div class="sl center reveal" data-i="contact_eye">Scrivici</div>
-      <h1 class="sec-title reveal delay-1">Mettiti in <em>contatto</em></h1>
-      <p class="ct-lead reveal delay-1">Domande su un capo, sulla taglia o sull'autenticità? Rispondiamo personalmente, di solito in giornata.</p>
+      <h1 class="sec-title reveal delay-1" data-i="contact_title">Mettiti in <em>contatto</em></h1>
+      <p class="ct-lead reveal delay-1" data-i="contact_lead">Domande su un capo, sulla taglia o sull'autenticità? Rispondiamo personalmente, di solito in giornata.</p>
     </div>
   </div>
 </section>
 
 <!-- CHAT DIRETTE -->
 <!-- I recapiti stanno solo nei link: numero WhatsApp in wa.me/…, profilo in instagram.com/… -->
-<section class="ct-ch" aria-label="Chat dirette">
+<section class="ct-ch" aria-label="Chat dirette" data-i-aria="contact_chat_aria">
   <div class="container">
     <div class="ct-grid">
 
@@ -89,20 +89,20 @@
         <span class="ct-ico" aria-hidden="true">
           <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 5.4a16.6 16.6 0 0 0-14.2 25.2L5.2 39l8.7-2.5A16.6 16.6 0 1 0 22 5.4Z"/><path d="M16.6 15.4h1.6c.4 0 .7.2.8.6l1.3 3.1c.1.3.1.6-.1.9l-.8 1c-.2.3-.2.6 0 .9a11.4 11.4 0 0 0 4.6 4.1c.3.2.7.1.9-.1l.9-1.1c.2-.3.6-.4.9-.2l3.1 1.4c.4.2.6.5.6.9v1.2c0 1.4-1.2 2.5-2.6 2.5-4.4 0-11.9-6.9-12.6-11.6-.2-1.3.1-2.6.6-3.2.2-.3.5-.4.8-.4Z"/></svg>
         </span>
-        <span class="ct-kick">WhatsApp</span>
-        <span class="ct-val">Apri la chat</span>
-        <span class="ct-note">Per le domande veloci: taglie, misure reali, disponibilità di un pezzo.</span>
-        <span class="ct-go">Scrivici su WhatsApp <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
+        <span class="ct-kick" data-i="social_whatsapp">WhatsApp</span>
+        <span class="ct-val" data-i="contact_wa_open">Apri la chat</span>
+        <span class="ct-note" data-i="contact_wa_note">Per le domande veloci: taglie, misure reali, disponibilità di un pezzo.</span>
+        <span class="ct-go"><span data-i="contact_wa_cta">Scrivici su WhatsApp</span> <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
       </a>
 
       <a class="ct-card reveal delay-1" href="https://ig.me/m/bluelle._" target="_blank" rel="noopener">
         <span class="ct-ico" aria-hidden="true">
           <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="4" y="4" width="36" height="36" rx="10"/><circle cx="22" cy="22" r="8.6"/><circle cx="32.6" cy="11.4" r="2.2" fill="currentColor" stroke="none"/></svg>
         </span>
-        <span class="ct-kick">Instagram</span>
-        <span class="ct-val">Apri il messaggio</span>
-        <span class="ct-note">Nuovi arrivi in anteprima e selezioni esclusive. I DM sono sempre aperti.</span>
-        <span class="ct-go">Scrivici in DM <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
+        <span class="ct-kick" data-i="social_instagram">Instagram</span>
+        <span class="ct-val" data-i="contact_ig_open">Apri il messaggio</span>
+        <span class="ct-note" data-i="contact_ig_note">Nuovi arrivi in anteprima e selezioni esclusive. I DM sono sempre aperti.</span>
+        <span class="ct-go"><span data-i="contact_ig_cta">Scrivici in DM</span> <svg width="15" height="8" viewBox="0 0 20 8" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M0 4h18M14.4 .6 18 4l-3.6 3.4"/></svg></span>
       </a>
 
     </div>
@@ -110,34 +110,34 @@
 </section>
 
 <!-- MODULO -->
-<section class="ct-form-sec" aria-label="Modulo di contatto">
+<section class="ct-form-sec" aria-label="Modulo di contatto" data-i-aria="contact_form_aria">
   <div class="container">
     <div class="ct-form-in">
       <div class="ct-form-head reveal">
-        <p class="ct-kick">Email</p>
-        <h2 class="ct-h2">Oppure <em>scrivici qui</em></h2>
-        <p class="ct-p">Lascia due righe: il messaggio arriva direttamente nella nostra casella e rispondiamo noi, alla tua email.</p>
+        <p class="ct-kick" data-i="contact_form_eye">Email</p>
+        <h2 class="ct-h2" data-i="contact_form_title">Oppure <em>scrivici qui</em></h2>
+        <p class="ct-p" data-i="contact_form_body">Lascia due righe: il messaggio arriva direttamente nella nostra casella e rispondiamo noi, alla tua email.</p>
       </div>
       <form id="contactForm" class="cform reveal delay-1" novalidate>
         <div class="cf-row">
-          <div class="cf-field"><label class="cf-label" for="cfNome">Nome</label><input id="cfNome" class="cf-in" type="text" name="nome" autocomplete="given-name" required></div>
-          <div class="cf-field"><label class="cf-label" for="cfCognome">Cognome</label><input id="cfCognome" class="cf-in" type="text" name="cognome" autocomplete="family-name" required></div>
+          <div class="cf-field"><label class="cf-label" for="cfNome" data-i="contact_field_first_name">Nome</label><input id="cfNome" class="cf-in" type="text" name="nome" autocomplete="given-name" required></div>
+          <div class="cf-field"><label class="cf-label" for="cfCognome" data-i="contact_field_last_name">Cognome</label><input id="cfCognome" class="cf-in" type="text" name="cognome" autocomplete="family-name" required></div>
         </div>
         <div class="cf-row">
-          <div class="cf-field"><label class="cf-label" for="cfEmail">Email</label><input id="cfEmail" class="cf-in" type="email" name="email" autocomplete="email" required></div>
-          <div class="cf-field"><label class="cf-label" for="cfTel">Telefono <span class="cf-opt">&middot; facoltativo</span></label><input id="cfTel" class="cf-in" type="tel" name="telefono" autocomplete="tel"></div>
+          <div class="cf-field"><label class="cf-label" for="cfEmail" data-i="contact_field_email">Email</label><input id="cfEmail" class="cf-in" type="email" name="email" autocomplete="email" required></div>
+          <div class="cf-field"><label class="cf-label" for="cfTel"><span data-i="contact_field_phone">Telefono</span> <span class="cf-opt" data-i="contact_field_optional">&middot; facoltativo</span></label><input id="cfTel" class="cf-in" type="tel" name="telefono" autocomplete="tel"></div>
         </div>
-        <div class="cf-field"><label class="cf-label" for="cfMsg">Messaggio</label><textarea id="cfMsg" class="cf-in cf-area" name="messaggio" rows="5" required></textarea></div>
+        <div class="cf-field"><label class="cf-label" for="cfMsg" data-i="contact_field_message">Messaggio</label><textarea id="cfMsg" class="cf-in cf-area" name="messaggio" rows="5" required></textarea></div>
         <input type="hidden" name="_subject" value="Nuovo messaggio dal sito Bluèlle">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_captcha" value="false">
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
-        <button type="submit" class="cf-submit" id="cfSubmit">Invia messaggio</button>
-        <p class="cf-privacy">Inviando il modulo accetti la nostra <a href="termini.html">Privacy</a>. Niente spam, promesso.</p>
+        <button type="submit" class="cf-submit" id="cfSubmit" data-i="contact_submit">Invia messaggio</button>
+        <p class="cf-privacy"><span data-i="contact_privacy_before">Inviando il modulo accetti la nostra</span> <a href="termini.html" data-i="contact_privacy_link">Privacy</a><span data-i="contact_privacy_after">. Niente spam, promesso.</span></p>
       </form>
       <div class="cf-done" id="cfDone" hidden>
         <div class="cf-done-ic">&#10003;</div>
-        <p class="cf-done-t">Grazie — ti <em>risponderemo</em> a breve.</p>
+        <p class="cf-done-t" data-i="contact_success">Grazie — ti <em>risponderemo</em> a breve.</p>
       </div>
     </div>
   </div>
@@ -147,30 +147,30 @@
 <footer role="contentinfo">
   <div class="ft-grid">
     <div class="ft-brand">
-      <div class="flogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
-      <p class="ft-tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
+      <div class="flogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></div>
+      <p class="ft-tag" data-i="footer_tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
     </div>
-    <div class="ft-col" aria-label="Shop">
-      <h4>Shop</h4>
+    <div class="ft-col" aria-label="Shop" data-i-aria="footer_shop">
+      <h4 data-i="footer_shop">Shop</h4>
       <a href="collezione.html" data-i="nav_coll">Collezione</a>
       <a href="chi-siamo.html" data-i="nav_about">Chi siamo</a>
-      <a href="account.html">Account</a>
+      <a href="account.html" data-i="nav_account">Account</a>
     </div>
-    <div class="ft-col" aria-label="Assistenza">
-      <h4>Assistenza</h4>
-      <a href="faq.html">FAQ</a>
-      <a href="tracking.html">Tracking ordine</a>
+    <div class="ft-col" aria-label="Assistenza" data-i-aria="footer_help">
+      <h4 data-i="footer_help">Assistenza</h4>
+      <a href="faq.html" data-i="nav_faq">FAQ</a>
+      <a href="tracking.html" data-i="footer_track">Tracking ordine</a>
       <a href="contatti.html" data-i="nav_contact">Contatti</a>
-      <a href="termini.html">Termini &amp; Condizioni</a>
+      <a href="termini.html" data-i="footer_terms">Termini &amp; Condizioni</a>
     </div>
-    <div class="ft-col" aria-label="Seguici">
-      <h4>Seguici</h4>
-      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://wa.me/393000000000" target="_blank" rel="noopener">WhatsApp</a>
+    <div class="ft-col" aria-label="Seguici" data-i-aria="footer_follow">
+      <h4 data-i="footer_follow">Seguici</h4>
+      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" data-i="social_instagram">Instagram</a>
+      <a href="https://wa.me/393000000000" target="_blank" rel="noopener" data-i="social_whatsapp">WhatsApp</a>
     </div>
   </div>
   <div class="ft-pay">
-    <span class="ft-pay-label">Pagamenti sicuri</span>
+    <span class="ft-pay-label" data-i="footer_secure">Pagamenti sicuri</span>
     <div class="ft-pay-icons">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
@@ -184,9 +184,11 @@
       <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="Bitcoin · BitPay" loading="lazy" onerror="this.style.display='none'">
     </div>
   </div>
-  <div class="ft-bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
+  <div class="ft-bottom" data-i="footer_bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
 </footer>
-<script src="assets/app.js?v=20260831a"></script>
+<script src="assets/i18n.js?v=20260831b"></script>
+<script src="assets/i18n-home-support.js?v=20260831b"></script>
+<script src="assets/app.js?v=20260831b"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" integrity="sha384-ClD7pCgIUz5M81HT8aZmMxCsWmfsycmBiwL5gy1pUbdWHvICIbea22N9sTtAFotA" crossorigin="anonymous"></script>

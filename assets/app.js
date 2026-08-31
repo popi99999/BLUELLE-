@@ -267,21 +267,7 @@ const LANGS=[
   {code:'en',name:'English',base:'en'},
   {code:'fr',name:'Français',base:'fr'},
   {code:'es',name:'Español',base:'es'},
-  {code:'de',name:'Deutsch',base:'de'},
-  {code:'pt',name:'Português',base:'es'},
-  {code:'nl',name:'Nederlands',base:'en'},
-  {code:'pl',name:'Polski',base:'en'},
-  {code:'ro',name:'Română',base:'en'},
-  {code:'sv',name:'Svenska',base:'en'},
-  {code:'no',name:'Norsk',base:'en'},
-  {code:'da',name:'Dansk',base:'en'},
-  {code:'el',name:'Ελληνικά',base:'en'},
-  {code:'tr',name:'Türkçe',base:'en'},
-  {code:'ar',name:'العربية',base:'en'},
-  {code:'zh',name:'中文',base:'en'},
-  {code:'ja',name:'日本語',base:'en'},
-  {code:'ko',name:'한국어',base:'en'},
-  {code:'ru',name:'Русский',base:'en'}
+  {code:'de',name:'Deutsch',base:'de'}
 ];
 const LANG_BY_CODE={}; LANGS.forEach(function(l){LANG_BY_CODE[l.code]=l;});
 function langBase(l){
@@ -291,6 +277,22 @@ function langBase(l){
 function pack(dict){
   const b=langBase(curLang);
   return dict[curLang]||dict[b]||dict.it||{};
+}
+function siteText(key,fallback,vars){
+  if(window.BL_I18N&&typeof window.BL_I18N.t==='function'){
+    const value=window.BL_I18N.t(key,vars,curLang);
+    if(value!==key)return value;
+  }
+  return fallback===undefined?key:fallback;
+}
+function currencyDisplayName(currency){
+  try{
+    if(typeof Intl!=='undefined'&&Intl.DisplayNames){
+      const name=new Intl.DisplayNames([langBase(curLang)],{type:'currency'}).of(currency.code);
+      if(name)return name;
+    }
+  }catch(e){}
+  return currency.name;
 }
 function hydrateLangSelects(){
   document.querySelectorAll('#langSel,#geoLang').forEach(function(sel){
@@ -335,7 +337,7 @@ function translateName(name, lang){
       'Cropped':'Cropped','Destroyed':'Destroyed','Oversize':'Oversized',
       'Con Monogram':'Monogram','Con Scritta':'With Print','Paiette':'Sequin',
       'Cotone':'Cotton','Lana':'Wool','Logo':'Logo','Sample':'Sample',
-      'Mai Rilasciata':'Unreleased','Mai Rilasciati':'Unreleased',
+      'Mai Rilasciata':'Unreleased','Mai Rilasciati':'Unreleased','1 Di 1':'1 of 1','Blu':'Blue',
     },
     fr:{
       'Maglioncino':'Pull','Maglione Lungo':'Pull Long','Maglione Lana':'Pull en Laine',
@@ -346,7 +348,7 @@ function translateName(name, lang){
       'Cropped':'Court','Destroyed':'Destroyed','Oversize':'Oversize',
       'Con Monogram':'Monogramme','Con Scritta':'Imprimé','Paiette':'Sequins',
       'Cotone':'Coton','Lana':'Laine','Logo':'Logo','Sample':'Prototype',
-      'Mai Rilasciata':'Non Commercialisée','Mai Rilasciati':'Non Commercialisés',
+      'Mai Rilasciata':'Non Commercialisée','Mai Rilasciati':'Non Commercialisés','1 Di 1':'1 sur 1','Blu':'Bleu',
     },
     es:{
       'Maglioncino':'Jersey','Maglione Lungo':'Suéter Largo','Maglione Lana':'Suéter de Lana',
@@ -357,7 +359,7 @@ function translateName(name, lang){
       'Cropped':'Corto','Destroyed':'Destroyed','Oversize':'Oversize',
       'Con Monogram':'Monograma','Con Scritta':'Con Estampado','Paiette':'Lentejuelas',
       'Cotone':'Algodón','Lana':'Lana','Logo':'Logo','Sample':'Prototipo',
-      'Mai Rilasciata':'No Comercializada','Mai Rilasciati':'No Comercializados',
+      'Mai Rilasciata':'No Comercializada','Mai Rilasciati':'No Comercializados','1 Di 1':'1 de 1','Blu':'Azul',
     },
     de:{
       'Maglioncino':'Strickpullover','Maglione Lungo':'Langer Pullover','Maglione Lana':'Wollpullover',
@@ -368,7 +370,7 @@ function translateName(name, lang){
       'Cropped':'Cropped','Destroyed':'Destroyed','Oversize':'Oversized',
       'Con Monogram':'Monogramm','Con Scritta':'mit Schriftzug','Paiette':'Pailletten',
       'Cotone':'Baumwolle','Lana':'Wolle','Logo':'Logo','Sample':'Sample',
-      'Mai Rilasciata':'Unveröffentlicht','Mai Rilasciati':'Unveröffentlicht',
+      'Mai Rilasciata':'Unveröffentlicht','Mai Rilasciati':'Unveröffentlicht','1 Di 1':'1 von 1','Blu':'Blau',
     }
   };
   const dict=maps[lang];
@@ -379,8 +381,35 @@ function translateName(name, lang){
   return r;
 }
 
+const PRODUCT_FIELDS={
+  en:{colors:{blu:'Blue',panna:'Cream',nera:'Black',rosso:'Red',viola:'Purple',arancione:'Orange',bianco:'White',giallo:'Yellow',azzurro:'Light blue',verde:'Green',beige:'Beige',marrone:'Brown'},fits:{'Veste normale':'Regular fit','piccola vestibilita':'Runs small',Oversize:'Oversized',Cropped:'Cropped'}},
+  fr:{colors:{blu:'Bleu',panna:'Écru',nera:'Noir',rosso:'Rouge',viola:'Violet',arancione:'Orange',bianco:'Blanc',giallo:'Jaune',azzurro:'Bleu clair',verde:'Vert',beige:'Beige',marrone:'Marron'},fits:{'Veste normale':'Coupe standard','piccola vestibilita':'Taille petit',Oversize:'Oversize',Cropped:'Court'}},
+  es:{colors:{blu:'Azul',panna:'Crudo',nera:'Negro',rosso:'Rojo',viola:'Morado',arancione:'Naranja',bianco:'Blanco',giallo:'Amarillo',azzurro:'Azul claro',verde:'Verde',beige:'Beige',marrone:'Marrón'},fits:{'Veste normale':'Corte estándar','piccola vestibilita':'Talla pequeño',Oversize:'Oversize',Cropped:'Corto'}},
+  de:{colors:{blu:'Blau',panna:'Creme',nera:'Schwarz',rosso:'Rot',viola:'Violett',arancione:'Orange',bianco:'Weiß',giallo:'Gelb',azzurro:'Hellblau',verde:'Grün',beige:'Beige',marrone:'Braun'},fits:{'Veste normale':'Normale Passform','piccola vestibilita':'Fällt klein aus',Oversize:'Oversized',Cropped:'Cropped'}}
+};
+function translateProductField(value,field){
+  if(value==null||value==='')return '';
+  const lang=langBase(curLang);
+  if(lang==='it')return String(value);
+  const group=PRODUCT_FIELDS[lang]&&PRODUCT_FIELDS[lang][field];
+  return group&&group[value]!==undefined?group[value]:String(value);
+}
+function localizedProductDescription(p,condTxt){
+  const lang=langBase(curLang);
+  if(p.desc&&typeof p.desc==='object')return p.desc[curLang]||p.desc[lang]||p.desc.it||'';
+  if(lang==='it')return p.desc||'';
+  const curated=window.BL_PRODUCT_COPY&&window.BL_PRODUCT_COPY[p.id];
+  if(curated&&curated[lang])return curated[lang];
+  return siteText('product_desc',p.desc||'',{
+    name:translateName(p.name,curLang),
+    color:translateProductField(p.color,'colors')||'—',
+    fit:translateProductField(p.fit,'fits')||'—',
+    condition:condTxt||'—'
+  });
+}
+
 function setLang(l){
-  if(!LANG_BY_CODE[l])l=langBase(l);
+  if(!LANG_BY_CODE[l])l='it';
   curLang=l;
   try{localStorage.setItem('bl_lang',l);}catch(e){}
   document.documentElement.lang=l;
@@ -398,6 +427,16 @@ function setLang(l){
   });
   syncLangSelects();
   render();
+  if(window.BL_I18N&&typeof window.BL_I18N.apply==='function')window.BL_I18N.apply(l);
+  if(typeof syncDefaultCountry==='function')syncDefaultCountry();
+  const openProduct=(location.hash||'').match(/^#p(\d+)$/);
+  if(openProduct&&document.getElementById('mov')?.classList.contains('open'))openM(+openProduct[1]);
+  const trackingResult=document.getElementById('trres');
+  if(trackingResult&&trackingResult.textContent.trim()&&document.getElementById('tov')?.classList.contains('open'))doTrack();
+  if(typeof ckCurrentProduct!=='undefined'&&ckCurrentProduct&&document.getElementById('ckov')?.classList.contains('open')){
+    applyCheckoutCopy();
+    updateShipping();
+  }
   if(typeof updatePickerLabels==='function')updatePickerLabels();
 }
 
@@ -424,10 +463,11 @@ function buildPickerList(q){
   let rows='';
   if(pickerMode==='curr'){
     CURRENCIES.filter(function(c){
-      return !q || c.code.toLowerCase().indexOf(q)>-1 || c.name.toLowerCase().indexOf(q)>-1;
+      const name=currencyDisplayName(c);
+      return !q || c.code.toLowerCase().indexOf(q)>-1 || name.toLowerCase().indexOf(q)>-1 || c.name.toLowerCase().indexOf(q)>-1;
     }).forEach(function(c){
       const on=c.code===curCurr?' on':'';
-      rows+='<button class="pick-row'+on+'" onclick="selectCurr(\''+c.code+'\')"><span class="pick-code">'+c.sym+' '+c.code+'</span><span class="pick-name">'+c.name+'</span></button>';
+      rows+='<button class="pick-row'+on+'" onclick="selectCurr(\''+c.code+'\')"><span class="pick-code">'+c.sym+' '+c.code+'</span><span class="pick-name">'+escHtml(currencyDisplayName(c))+'</span></button>';
     });
   }else{
     LANGS.filter(function(l){
@@ -437,7 +477,7 @@ function buildPickerList(q){
       rows+='<button class="pick-row'+on+'" onclick="selectLang(\''+l.code+'\')"><span class="pick-code">'+l.code.toUpperCase()+'</span><span class="pick-name">'+l.name+'</span></button>';
     });
   }
-  list.innerHTML=rows||'<div class="pick-empty">Nessun risultato</div>';
+  list.innerHTML=rows||'<div class="pick-empty">'+escHtml(siteText('picker_empty','Nessun risultato'))+'</div>';
 }
 function togglePicker(mode){
   const panel=document.getElementById('pickerPanel');
@@ -446,7 +486,7 @@ function togglePicker(mode){
   if(open){closePicker();return;}
   pickerMode=mode;
   const search=document.getElementById('pickerSearch');
-  if(search){search.value='';search.placeholder=mode==='curr'?'Cerca valuta…':'Cerca lingua…';}
+  if(search){search.value='';search.placeholder=mode==='curr'?siteText('picker_currency_search','Cerca valuta…'):siteText('picker_language_search','Cerca lingua…');}
   buildPickerList('');
   panel.setAttribute('data-lenis-prevent','');
   const list=document.getElementById('pickerList');
@@ -499,7 +539,7 @@ function toggleMenu(){
   m.classList.toggle('open');
   const isOpen=m.classList.contains('open');
   b.setAttribute('aria-expanded',isOpen?'true':'false');
-  b.setAttribute('aria-label',isOpen?'Chiudi menu':'Apri menu');
+  b.setAttribute('aria-label',isOpen?siteText('nav_close_menu','Chiudi menu'):siteText('nav_open_menu','Apri menu'));
   document.body.style.overflow=isOpen?'hidden':'';
 }
 function closeMNav(){
@@ -508,7 +548,7 @@ function closeMNav(){
   b.classList.remove('open');
   m.classList.remove('open');
   b.setAttribute('aria-expanded','false');
-  b.setAttribute('aria-label','Apri menu');
+  b.setAttribute('aria-label',siteText('nav_open_menu','Apri menu'));
   document.body.style.overflow='';
 }
 
@@ -520,7 +560,7 @@ function toggleHomeVideoPause(){
   const hasSource=!!(video&&video.querySelector('source'));
   const paused=stage.classList.toggle('paused');
   btn.classList.toggle('is-paused',paused);
-  btn.setAttribute('aria-label',paused?'Riproduci video':'Pausa video');
+  btn.setAttribute('aria-label',paused?siteText('video_play','Riproduci video'):siteText('video_pause','Pausa video'));
   if(hasSource){
     if(paused)video.pause();
     else video.play().catch(function(){});
@@ -534,7 +574,7 @@ function toggleHomeVideoMute(){
   const muted=video?!video.muted:false;
   if(video)video.muted=muted;
   btn.classList.toggle('is-muted',muted);
-  btn.setAttribute('aria-label',muted?'Audio video disattivato':'Disattiva audio video');
+  btn.setAttribute('aria-label',muted?siteText('video_unmute','Attiva audio video'):siteText('video_mute','Disattiva audio video'));
 }
 window.toggleHomeVideoPause=toggleHomeVideoPause;
 window.toggleHomeVideoMute=toggleHomeVideoMute;
@@ -553,7 +593,7 @@ function renderPrices(){
 
 let curSize='all',curSort='feat',curQ='',availOnly=false,shopWired=false,curCat='all';
 // Categoria automatica dal nome del capo (finché non aggiungi capi di altro tipo)
-const CAT_LABEL={it:{all:'Visualizza tutto',Maglieria:'Maglieria',Tshirt:'T-Shirt',Felpe:'Felpe',Pantaloni:'Pantaloni',Polo:'Polo',Giacche:'Giacche',Borse:'Borse',Scarpe:'Scarpe',Accessori:'Accessori'}};
+const CAT_KEYS={all:'cat_all',Maglieria:'cat_knit',Tshirt:'cat_tshirt',Felpe:'cat_sweatshirts',Pantaloni:'cat_trousers',Polo:'cat_polo',Giacche:'cat_jackets',Borse:'cat_bags',Scarpe:'cat_shoes',Accessori:'cat_accessories'};
 function catOf(p){
   if(p.cat)return p.cat;
   const n=(p.name||'').toLowerCase();
@@ -567,7 +607,7 @@ function catOf(p){
   if(/scarp|sneaker|shoe|stival/.test(n))return 'Scarpe';
   return 'Tshirt';
 }
-function catLabel(c){const m=CAT_LABEL.it;return m[c]||c;}
+function catLabel(c){return siteText(CAT_KEYS[c]||'',c);}
 function uniqueSizes(){const order=['XXS','XS','S','M','L','XL','XXL'];const set=new Set(prods.map(p=>p.sz).filter(Boolean));return order.filter(s=>set.has(s)).concat([...set].filter(s=>!order.includes(s)));}
 function wireShop(){
   if(shopWired)return;shopWired=true;
@@ -590,21 +630,26 @@ function render(){
   const bp=document.getElementById('brandPills');
   if(bp)bp.innerHTML=brands.map(b=>`<button class="pill${b===curFilter?' on':''}" onclick="setFilter('${b}')">${b==='all'?(l.all||'Tutti'):b.charAt(0).toUpperCase()+b.slice(1)}</button>`).join('');
   const sp=document.getElementById('sizePills');
-  if(sp){const sizes=['all',...uniqueSizes()];sp.innerHTML=sizes.map(s=>`<button class="pill spill${s===curSize?' on':''}" onclick="setSize('${s}')">${s==='all'?'Tutte le taglie':s}</button>`).join('');}
+  if(sp){const sizes=['all',...uniqueSizes()];sp.innerHTML=sizes.map(s=>`<button class="pill spill${s===curSize?' on':''}" onclick="setSize('${s}')">${s==='all'?siteText('shop_all_sizes','Tutte le taglie'):s}</button>`).join('');}
 
   let list=prods.filter(p=>{
     if(curCat!=='all' && catOf(p)!==curCat)return false;
     if(curFilter!=='all' && !(p.brand===curFilter||p.brand.startsWith(curFilter)))return false;
     if(curSize!=='all' && p.sz!==curSize)return false;
     if(availOnly && p.sold)return false;
-    if(curQ){const q=curQ.toLowerCase();if(!((p.name||'').toLowerCase().includes(q)||(p.brand||'').toLowerCase().includes(q)||(p.color||'').toLowerCase().includes(q)))return false;}
+    if(curQ){
+      const q=curQ.toLowerCase();
+      const conditionKey={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'}[p.cond];
+      const haystack=[p.name,translateName(p.name,curLang),p.brand,p.color,translateProductField(p.color,'colors'),p.fit,translateProductField(p.fit,'fits'),p.cond,l[conditionKey]].filter(Boolean).join(' ').toLowerCase();
+      if(!haystack.includes(q))return false;
+    }
     return true;
   });
   if(curSort==='pasc')list=list.slice().sort((a,b)=>(a.price||1e9)-(b.price||1e9));
   else if(curSort==='pdesc')list=list.slice().sort((a,b)=>(b.price||0)-(a.price||0));
   else if(curSort==='new')list=list.slice().sort((a,b)=>b.id-a.id);
 
-  const rc=document.getElementById('resCount');if(rc)rc.textContent=list.length+(list.length===1?' Prodotto':' Prodotti');
+  const rc=document.getElementById('resCount');if(rc)rc.textContent=list.length+' '+siteText(list.length===1?'shop_product_one':'shop_products_many',list.length===1?'Prodotto':'Prodotti');
   const nr=document.getElementById('noRes');if(nr)nr.style.display=list.length?'none':'block';
 
   g.innerHTML='';
@@ -619,11 +664,13 @@ function render(){
     const front=imgs[0]?`src="${imgs[0]}"`:'';
     const back=(imgs[1]||imgs[0])?`src="${imgs[1]||imgs[0]}"`:'';
     const bn=BRAND_NAME[p.brand]||p.brand||'';
-    const colorTxt=p.color?p.color.charAt(0).toUpperCase()+p.color.slice(1):'';
+    const translatedColor=translateProductField(p.color,'colors');
+    const colorTxt=translatedColor?translatedColor.charAt(0).toUpperCase()+translatedColor.slice(1):'';
     const sub=[bn,colorTxt].filter(Boolean).join(' · ');
     const nImg=Math.min(imgs.length,4);
     const dots=nImg>1?`<div class="pdots" aria-hidden="true">${Array.from({length:nImg}).map((_,i)=>`<span${i===0?' class="on"':''}></span>`).join('')}</div>`:'';
-    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${p.name}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${p.name} retro" loading="lazy" decoding="async" ${imgErr}></div></div></div>${p.sold?`<div class="ptag sold">${l.sold}</div>`:''}</div>${dots}<div class="pinfo"><div class="pname">${translateName(p.name,curLang)}</div><div class="psub">${sub}</div><div class="pfooter"><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div>`;
+    const displayName=translateName(p.name,curLang);
+    d.innerHTML=`<div class="pi"><div class="flip-wrap"><div class="flip-inner"><div class="flip-front"><img ${front} alt="${escAttr(displayName)}" loading="lazy" decoding="async" ${imgErr}></div><div class="flip-back"><img ${back} alt="${escAttr(displayName+' '+siteText('product_back','retro'))}" loading="lazy" decoding="async" ${imgErr}></div></div></div>${p.sold?`<div class="ptag sold">${l.sold}</div>`:''}</div>${dots}<div class="pinfo"><div class="pname">${displayName}</div><div class="psub">${sub}</div><div class="pfooter"><span class="pprice pcard-price" data-id="${p.id}">${p.price===0?'<span class="price-req">'+(l.price_req||'—')+'</span>':fmt(p.price)}</span>${p.orig>0?`<span class="porig pcard-orig" data-id="${p.id}">${fmt(p.orig)}</span>`:''}</div></div>`;
     if(!p.sold){d.addEventListener('click',function(){openM(p.id);});}
     g.appendChild(d);
   });
@@ -679,9 +726,9 @@ function escHtml(v){
 const DETAIL_LBL={
   it:{
     title:'Dettagli',description:'Descrizione',conditionTitle:'Condizione del capo',itemTitle:'Scheda tecnica',
-    brand:'Marca',size:'Taglia',fit:'Vestibilit&agrave;',color:'Colore',condition:'Condizione',auth:'Autenticazione',clean:'Pulizia',pack:'Packaging',
+    brand:'Marca',size:'Taglia',fit:'Vestibilit&agrave;',color:'Colore',condition:'Condizione',auth:'Autenticazione',clean:'Pulizia',pack:'Imballaggio',
     authValue:'IRIS + controllo manuale',cleanValue:'Pulito e igienizzato prima della vendita',packValue:'Imballaggio protettivo Blu&egrave;lle',
-    bullets:['Capo luxury second hand verificato da Blu&egrave;lle','Pulito e igienizzato rispettando materiali e finiture','Spedizione tracciata con imballaggio curato'],
+    bullets:['Capo di lusso di seconda mano verificato da Blu&egrave;lle','Pulito e igienizzato rispettando materiali e finiture','Spedizione tracciata con imballaggio curato'],
     scale:['Da rinnovare','Discreto','Buono','Molto buono','Come nuovo'],
     conditionCopy:'Eventuali segni d&rsquo;uso sono considerati nella condizione indicata. Ogni capo viene controllato, pulito e igienizzato prima della messa in vendita.'
   },
@@ -695,26 +742,26 @@ const DETAIL_LBL={
   },
   fr:{
     title:'D&eacute;tails',description:'Description',conditionTitle:'Rapport d&rsquo;&eacute;tat',itemTitle:'D&eacute;tails article',
-    brand:'Marque',size:'Taille',fit:'Coupe',color:'Couleur',condition:'&Eacute;tat',auth:'Authentification',clean:'Nettoyage',pack:'Packaging',
-    authValue:'IRIS + contr&ocirc;le manuel',cleanValue:'Nettoy&eacute; et hygi&eacute;nis&eacute; avant la mise en vente',packValue:'Packaging protecteur Blu&egrave;lle',
-    bullets:['Pi&egrave;ce luxury second hand v&eacute;rifi&eacute;e par Blu&egrave;lle','Nettoy&eacute;e et hygi&eacute;nis&eacute;e en respectant les mati&egrave;res','Livraison suivie avec emballage soign&eacute;'],
-    scale:['Revive','Fair','Good','Very Good','Like New'],
+    brand:'Marque',size:'Taille',fit:'Coupe',color:'Couleur',condition:'&Eacute;tat',auth:'Authentification',clean:'Nettoyage',pack:'Emballage',
+    authValue:'IRIS + contr&ocirc;le manuel',cleanValue:'Nettoy&eacute; et hygi&eacute;nis&eacute; avant la mise en vente',packValue:'Emballage protecteur Blu&egrave;lle',
+    bullets:['Pi&egrave;ce de luxe de seconde main v&eacute;rifi&eacute;e par Blu&egrave;lle','Nettoy&eacute;e et hygi&eacute;nis&eacute;e en respectant les mati&egrave;res','Livraison suivie avec emballage soign&eacute;'],
+    scale:['À restaurer','Correct','Bon','Très bon','Comme neuf'],
     conditionCopy:'Les &eacute;ventuels signes d&rsquo;usage sont inclus dans l&rsquo;&eacute;tat indiqu&eacute;. Chaque pi&egrave;ce est contr&ocirc;l&eacute;e, nettoy&eacute;e et hygi&eacute;nis&eacute;e avant la vente.'
   },
   es:{
     title:'Detalles',description:'Descripci&oacute;n',conditionTitle:'Informe de condici&oacute;n',itemTitle:'Detalles del art&iacute;culo',
-    brand:'Marca',size:'Talla',fit:'Corte',color:'Color',condition:'Condici&oacute;n',auth:'Autenticaci&oacute;n',clean:'Limpieza',pack:'Packaging',
-    authValue:'IRIS + revisi&oacute;n manual',cleanValue:'Limpio e higienizado antes de la venta',packValue:'Packaging protector Blu&egrave;lle',
-    bullets:['Pieza luxury second hand verificada por Blu&egrave;lle','Limpia e higienizada respetando materiales y acabados','Env&iacute;o con seguimiento y embalaje cuidado'],
-    scale:['Revive','Fair','Good','Very Good','Like New'],
+    brand:'Marca',size:'Talla',fit:'Corte',color:'Color',condition:'Condici&oacute;n',auth:'Autenticaci&oacute;n',clean:'Limpieza',pack:'Embalaje',
+    authValue:'IRIS + revisi&oacute;n manual',cleanValue:'Limpio e higienizado antes de la venta',packValue:'Embalaje protector Blu&egrave;lle',
+    bullets:['Pieza de lujo de segunda mano verificada por Blu&egrave;lle','Limpia e higienizada respetando materiales y acabados','Env&iacute;o con seguimiento y embalaje cuidado'],
+    scale:['Para restaurar','Aceptable','Bueno','Muy bueno','Como nuevo'],
     conditionCopy:'Cualquier signo de uso est&aacute; considerado en la condici&oacute;n indicada. Cada pieza se revisa, limpia e higieniza antes de ponerse a la venta.'
   },
   de:{
     title:'Details',description:'Beschreibung',conditionTitle:'Zustandsbericht',itemTitle:'Artikeldetails',
-    brand:'Marke',size:'Gr&ouml;&szlig;e',fit:'Passform',color:'Farbe',condition:'Zustand',auth:'Authentifizierung',clean:'Reinigung',pack:'Packaging',
+    brand:'Marke',size:'Gr&ouml;&szlig;e',fit:'Passform',color:'Farbe',condition:'Zustand',auth:'Authentifizierung',clean:'Reinigung',pack:'Verpackung',
     authValue:'IRIS + manuelle Pr&uuml;fung',cleanValue:'Vor dem Verkauf gereinigt und hygienisiert',packValue:'Blu&egrave;lle Schutzverpackung',
-    bullets:['Luxury Second-Hand-St&uuml;ck von Blu&egrave;lle gepr&uuml;ft','Material- und finishschonend gereinigt und hygienisiert','Versicherter Versand mit sorgf&auml;ltiger Verpackung'],
-    scale:['Revive','Fair','Good','Very Good','Like New'],
+    bullets:['Von Blu&egrave;lle gepr&uuml;ftes Luxus-Secondhand-St&uuml;ck','Material- und oberfl&auml;chenschonend gereinigt und hygienisiert','Versicherter Versand mit sorgf&auml;ltiger Verpackung'],
+    scale:['Aufzuarbeiten','Akzeptabel','Gut','Sehr gut','Wie neu'],
     conditionCopy:'M&ouml;gliche Gebrauchsspuren sind im angegebenen Zustand ber&uuml;cksichtigt. Jedes St&uuml;ck wird vor dem Verkauf gepr&uuml;ft, gereinigt und hygienisiert.'
   }
 };
@@ -750,16 +797,16 @@ function fillProductDetails(p,desc,condTxt,colorTxt){
     detailDesc.innerHTML='<ul>'+copy.bullets.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul>';
   }
   const scale=document.getElementById('conditionScale');
-  if(scale)scale.innerHTML=conditionScaleHtml(condTxt);
+  if(scale)scale.innerHTML=conditionScaleHtml(p.cond);
   const conditionCopy=document.getElementById('conditionCopy');
   if(conditionCopy)conditionCopy.innerHTML=copy.conditionCopy;
   const meta=document.getElementById('pdetailMeta');
   if(meta){
-    const packValue=p.hasBox?(copy.packValue+' + box originale'):copy.packValue;
+    const packValue=p.hasBox?(copy.packValue+' + '+siteText('product_original_box','scatola originale')):copy.packValue;
     const rows=[
       [copy.brand,BRAND_NAME[p.brand]||p.brand||'',true],
       [copy.size,p.sz||'',true],
-      [copy.fit,p.fit||'',true],
+      [copy.fit,translateProductField(p.fit,'fits')||'',true],
       [copy.color,colorTxt||'',true],
       [copy.condition,condTxt||'',true],
       [copy.auth,copy.authValue,false],
@@ -793,9 +840,9 @@ function productMediaHtml(p){
   media.forEach(function(m,i){
     const on=i===startIdx?' is-on':'';
     if(m.type==='video'){
-      rail+='<button class="st-thumb st-thumb-video'+on+'" type="button" onclick="stSelect('+i+')" aria-label="Video">'+(m.poster?'<img src="'+escAttr(m.poster)+'" alt="" loading="lazy">':'')+'<span class="st-play"></span></button>';
+      rail+='<button class="st-thumb st-thumb-video'+on+'" type="button" onclick="stSelect('+i+')" aria-label="'+escAttr(siteText('product_video','Video prodotto'))+'">'+(m.poster?'<img src="'+escAttr(m.poster)+'" alt="" loading="lazy">':'')+'<span class="st-play"></span></button>';
     }else{
-      rail+='<button class="st-thumb'+on+'" type="button" onclick="stSelect('+i+')" aria-label="Foto '+(i+1)+'"><img src="'+escAttr(m.src)+'" alt="" loading="lazy"></button>';
+      rail+='<button class="st-thumb'+on+'" type="button" onclick="stSelect('+i+')" aria-label="'+escAttr(siteText('product_show_photo','Foto '+(i+1),{number:i+1}))+'"><img src="'+escAttr(m.src)+'" alt="" loading="lazy"></button>';
     }
   });
   return '<div class="st-wrap"><div class="st-rail" id="stRail">'+rail+'</div><div class="st-stage" id="stStage">'+stStageInner(media[startIdx],safe)+'</div></div>';
@@ -803,7 +850,7 @@ function productMediaHtml(p){
 function stStageInner(m,safeName){
   if(!m)return '';
   if(m.type==='video'){
-    return '<video class="st-video" autoplay muted loop playsinline preload="metadata"'+(m.poster?' poster="'+escAttr(m.poster)+'"':'')+'><source src="'+escAttr(m.src)+'" type="video/mp4"></video><span class="st-kicker">Video prodotto</span>';
+    return '<video class="st-video" autoplay muted loop playsinline preload="metadata"'+(m.poster?' poster="'+escAttr(m.poster)+'"':'')+'><source src="'+escAttr(m.src)+'" type="video/mp4"></video><span class="st-kicker">'+escHtml(siteText('product_video','Video prodotto'))+'</span>';
   }
   return '<img class="st-img" src="'+escAttr(m.src)+'" alt="'+safeName+'" onerror="this.onerror=null;this.style.opacity=\'.15\'">';
 }
@@ -824,14 +871,14 @@ function productGalleryHtml(p){
   const imgErr=`onerror="this.onerror=null;this.style.opacity='.15'"`;
   const main=imgs[0]||'';
   const second=imgs[1]||main;
-  let html='<section class="vc-gallery'+(imgs.length<2?' is-single':'')+'" aria-label="Foto prodotto">';
+  let html='<section class="vc-gallery'+(imgs.length<2?' is-single':'')+'" aria-label="'+escAttr(siteText('product_gallery','Foto prodotto'))+'">';
   html+='<div class="vc-split">';
-  html+='<figure class="vc-panel vc-panel-main">'+(main?'<img class="vc-img-primary" src="'+escAttr(main)+'" alt="'+safeName+' foto principale" loading="eager" decoding="async" '+imgErr+'>':'<div class="soth-empty">Blu&egrave;lle</div>')+'</figure>';
-  html+='<figure class="vc-panel vc-panel-alt">'+(second?'<img class="vc-img-secondary" src="'+escAttr(second)+'" alt="'+safeName+' dettaglio" loading="lazy" decoding="async" '+imgErr+'>':'')+'</figure>';
+  html+='<figure class="vc-panel vc-panel-main">'+(main?'<img class="vc-img-primary" src="'+escAttr(main)+'" alt="'+safeName+' '+escAttr(siteText('product_main_photo','foto principale'))+'" loading="eager" decoding="async" '+imgErr+'>':'<div class="soth-empty">Blu&egrave;lle</div>')+'</figure>';
+  html+='<figure class="vc-panel vc-panel-alt">'+(second?'<img class="vc-img-secondary" src="'+escAttr(second)+'" alt="'+safeName+' '+escAttr(siteText('product_detail','dettaglio'))+'" loading="lazy" decoding="async" '+imgErr+'>':'')+'</figure>';
   html+='</div>';
-  html+='<div class="vc-thumbs" role="list" aria-label="Scegli immagine">';
+  html+='<div class="vc-thumbs" role="list" aria-label="'+escAttr(siteText('product_choose_image','Scegli immagine'))+'">';
   imgs.forEach(function(src,i){
-    html+='<button class="vc-thumb'+(i===0?' on':'')+'" type="button" onclick="selectProductImage(this)" data-src="'+escAttr(src)+'" aria-label="Mostra foto '+(i+1)+'" role="listitem"><img src="'+escAttr(src)+'" alt="'+safeName+' foto '+(i+1)+'" loading="'+(i===0?'eager':'lazy')+'" decoding="async" '+imgErr+'></button>';
+    html+='<button class="vc-thumb'+(i===0?' on':'')+'" type="button" onclick="selectProductImage(this)" data-src="'+escAttr(src)+'" aria-label="'+escAttr(siteText('product_show_photo','Mostra foto '+(i+1),{number:i+1}))+'" role="listitem"><img src="'+escAttr(src)+'" alt="'+safeName+' '+escAttr(siteText('product_photo','foto prodotto'))+' '+(i+1)+'" loading="'+(i===0?'eager':'lazy')+'" decoding="async" '+imgErr+'></button>';
   });
   html+='</div>';
   html+='</section>';
@@ -846,11 +893,11 @@ function toggleProductFilm(ev,btn){
     const play=vid.play();
     if(play&&play.catch)play.catch(function(){});
     btn.classList.remove('is-paused');
-    btn.setAttribute('aria-label','Pausa video');
+    btn.setAttribute('aria-label',siteText('video_pause','Pausa video'));
   }else{
     vid.pause();
     btn.classList.add('is-paused');
-    btn.setAttribute('aria-label','Riproduci video');
+    btn.setAttribute('aria-label',siteText('video_play','Riproduci video'));
   }
 }
 window.toggleProductFilm=toggleProductFilm;
@@ -891,7 +938,7 @@ function productFilmHtml(p){
   h+='<video class="product-film-video" autoplay muted loop playsinline preload="metadata"'+poster+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
   h+='<div class="product-film-shade"></div>';
   h+='<div class="product-film-copy"><span>'+escAttr(brand)+'</span><strong>'+escAttr(name)+'</strong></div>';
-  h+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="Pausa video"><span class="pf-pause"></span></button>';
+  h+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="'+escAttr(siteText('video_pause','Pausa video'))+'"><span class="pf-pause"></span></button>';
   h+='<span class="pf-scroll" aria-hidden="true"></span>';
   h+='</section>';
   return h;
@@ -908,12 +955,12 @@ function openM(id){
   if(pvMain){
     let h='';
     if(p.video){
-      h+='<figure class="pv-film"><span class="pv-chip">Video</span>'
+      h+='<figure class="pv-film"><span class="pv-chip">'+escHtml(siteText('product_video','Video prodotto'))+'</span>'
         +'<video src="'+escAttr(p.video)+'"'+(heroImgs[0]?' poster="'+escAttr(heroImgs[0])+'"':'')
         +' muted loop playsinline autoplay preload="metadata"></video></figure>';
     }
     heroImgs.slice(0,2).forEach(function(s){
-      h+='<button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="Ingrandisci foto">'
+      h+='<button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="'+escAttr(siteText('product_zoom_photo','Ingrandisci foto'))+'">'
         +'<img src="'+escAttr(s)+'" alt="'+pvName+'" decoding="async"></button>';
     });
     pvMain.innerHTML=h;
@@ -923,11 +970,11 @@ function openM(id){
   if(pvMacro){
     const macro=heroImgs.slice(2);
     if(macro.length){
-      pvMacro.innerHTML='<h3>Il pezzo da vicino</h3><div class="pv-grid">'
+      pvMacro.innerHTML='<h3>'+escHtml(siteText('product_closeup','Il pezzo da vicino'))+'</h3><div class="pv-grid">'
         +macro.map(function(s,i){
-          return '<figure><button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="Ingrandisci dettaglio">'
-            +'<img src="'+escAttr(s)+'" alt="'+pvName+' dettaglio" loading="lazy" decoding="async"></button>'
-            +'<figcaption>Dettaglio '+(i+1)+'</figcaption></figure>';
+          return '<figure><button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="'+escAttr(siteText('product_zoom_detail','Ingrandisci dettaglio'))+'">'
+            +'<img src="'+escAttr(s)+'" alt="'+pvName+' '+escAttr(siteText('product_detail','dettaglio'))+'" loading="lazy" decoding="async"></button>'
+            +'<figcaption>'+escHtml(siteText('product_detail','Dettaglio'))+' '+(i+1)+'</figcaption></figure>';
         }).join('')+'</div>';
     } else { pvMacro.innerHTML=''; }
   }
@@ -960,10 +1007,11 @@ function openM(id){
   const condMap={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
   const condTxt=l[condMap[p.cond]]||p.cond;
   const SL=SPEC_LBL[langBase(curLang)]||SPEC_LBL.it;
-  const colorTxt=p.color?p.color.charAt(0).toUpperCase()+p.color.slice(1):'';
-  const rows=[[SL.brand,BRAND_NAME[p.brand]||p.brand||''],[SL.size,p.sz],[SL.cond,condTxt],[SL.color,colorTxt],[SL.fit,p.fit]];
+  const translatedColor=translateProductField(p.color,'colors');
+  const colorTxt=translatedColor?translatedColor.charAt(0).toUpperCase()+translatedColor.slice(1):'';
+  const rows=[[SL.brand,BRAND_NAME[p.brand]||p.brand||''],[SL.size,p.sz],[SL.cond,condTxt],[SL.color,colorTxt],[SL.fit,translateProductField(p.fit,'fits')]];
   document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>`<div class="mspec"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
-  const desc=typeof p.desc==='object'?(p.desc[curLang]||p.desc[langBase(curLang)]||p.desc.it):p.desc;
+  const desc=localizedProductDescription(p,condTxt);
   const boxNote=p.hasBox?(l.box_note||' Original box included.'):'';
   const fullDesc=desc+(p.hasBox?boxNote:'');
   document.getElementById('mdesc').textContent=fullDesc;
@@ -981,7 +1029,7 @@ function openM(id){
   btn.style.opacity=p.sold?'.5':'1';
   btn.style.cursor=p.sold?'not-allowed':'pointer';
   const wa=document.getElementById('mwask');
-  if(wa)wa.href='https://wa.me/393000000000?text='+encodeURIComponent('Ciao, vi scrivo per il pezzo: '+translateName(p.name,curLang));
+  if(wa)wa.href='https://wa.me/393000000000?text='+encodeURIComponent(siteText('product_whatsapp','Ciao, vi scrivo per il pezzo: '+translateName(p.name,curLang),{name:translateName(p.name,curLang)}));
   const ip=document.getElementById('ipanel');
   if(ip)ip.classList.remove('open');
   buildRelated(p);
@@ -1031,17 +1079,38 @@ function closeTrack(){disposeGlobe();document.getElementById('tov').classList.re
 
 // CHECKOUT FORM
 let ckCurrentProduct=null;
-function openCheckout(p){
-  ckCurrentProduct=p;
+function syncDefaultCountry(){
+  const country=document.getElementById('ckCountry');
+  if(!country)return;
+  const fallback={it:'Italia',en:'Italy',fr:'Italie',es:'Italia',de:'Italien'};
+  const defaults=LANGS.map(function(item){
+    if(window.BL_I18N&&typeof window.BL_I18N.t==='function')return window.BL_I18N.t('checkout_country_default',null,item.code);
+    return fallback[item.code];
+  });
+  if(!country.value.trim()||defaults.indexOf(country.value.trim())>-1){
+    country.value=siteText('checkout_country_default',fallback[langBase(curLang)]||fallback.it);
+  }
+}
+function applyCheckoutCopy(){
   const ck=pack(CK);
   document.querySelectorAll('[data-ck]').forEach(el=>{
     const k=el.getAttribute('data-ck');
-    if(ck[k]){
+    if(ck[k]!==undefined){
       if(el.tagName==='LABEL'||el.classList.contains('sl')||el.classList.contains('ck-secure'))el.textContent=ck[k];
       else el.innerHTML=ck[k];
     }
   });
-  document.getElementById('ckAddr').placeholder=ck.ck_addr_ph||'Via, numero civico';
+  document.querySelectorAll('[data-ck-opt]').forEach(el=>{
+    const k=el.getAttribute('data-ck-opt');
+    if(ck[k]!==undefined)el.textContent=ck[k];
+  });
+  const addr=document.getElementById('ckAddr');
+  if(addr)addr.placeholder=ck.ck_addr_ph||'Via, numero civico';
+  syncDefaultCountry();
+}
+function openCheckout(p){
+  ckCurrentProduct=p;
+  applyCheckoutCopy();
   const l=pack(T);
   const pName=translateName(p.name,curLang);
   const pPrice=p.price===0?(l.price_req||'Su richiesta'):fmt(p.price);
@@ -1122,7 +1191,7 @@ const TT={
   it:{searching:'Ricerca spedizione in corso...',err1:'Inserisci almeno il codice tracking.',err2:'Inserisci il codice tracking del corriere.',lbl_order:'Numero ordine',lbl_code:'Codice tracking',info:'Apri il tracking per vedere tutti i passaggi — funziona con DHL, BRT, GLS, Poste Italiane, FedEx e altri.',open_btn:'Vedi tutti i passaggi →',locale:'it'},
   en:{searching:'Searching shipment...',err1:'Please enter at least the tracking code.',err2:'Please enter the courier tracking code.',lbl_order:'Order number',lbl_code:'Tracking code',info:'Open tracking to see all delivery updates — works with DHL, GLS, FedEx, UPS and more.',open_btn:'View all updates →',locale:'en'},
   fr:{searching:'Recherche en cours...',err1:'Veuillez entrer au moins le code de suivi.',err2:'Veuillez entrer le code de suivi du transporteur.',lbl_order:'Numéro de commande',lbl_code:'Code de suivi',info:'Ouvrez le suivi pour voir toutes les étapes — compatible avec tous les transporteurs.',open_btn:'Voir toutes les étapes →',locale:'fr'},
-  es:{searching:'Buscando envío...',err1:'Por favor introduce al menos el código de seguimiento.',err2:'Por favor introduce el código de seguimiento del mensajero.',lbl_order:'Número de pedido',lbl_code:'Código de seguimiento',info:'Abre el seguimiento para ver todos los pasos — funciona con cualquier transportista.',open_btn:'Ver todos los pasos →',locale:'en'},
+  es:{searching:'Buscando envío...',err1:'Por favor introduce al menos el código de seguimiento.',err2:'Por favor introduce el código de seguimiento del mensajero.',lbl_order:'Número de pedido',lbl_code:'Código de seguimiento',info:'Abre el seguimiento para ver todos los pasos — funciona con cualquier transportista.',open_btn:'Ver todos los pasos →',locale:'es'},
   de:{searching:'Sendung wird gesucht...',err1:'Bitte mindestens den Sendungscode eingeben.',err2:'Bitte den Sendungscode des Versanddienstes eingeben.',lbl_order:'Bestellnummer',lbl_code:'Sendungscode',info:'Öffne das Tracking für alle Updates — funktioniert mit DHL, GLS, FedEx, UPS u.a.',open_btn:'Alle Updates ansehen →',locale:'de'}
 };
 /* ═══════════════ REGISTRO ORDINI ═══════════════
@@ -1240,7 +1309,7 @@ function mountGlobe(containerId, origin, dest, progress){
 }
 
 const ORDERS = {
-  '1': { tracking:'2', carrier:'BRT', status:3, eta:'2–3 giorni lavorativi', dest:{ lat:52.52, lon:13.405, city:'Berlin' } }
+  '1': { tracking:'2', carrier:'BRT', status:3, eta:{it:'2–3 giorni lavorativi',en:'2–3 business days',fr:'2–3 jours ouvrés',es:'2–3 días laborables',de:'2–3 Werktage'}, dest:{ lat:52.52, lon:13.405, city:'Berlin' } }
 };
 
 // Etichette degli step della spedizione, per lingua
@@ -1274,7 +1343,8 @@ function geoSuggest(){
   function navLang(){const n=(navigator.language||'').slice(0,2).toLowerCase();return LANG_BY_CODE[n]?n:null;}
   function apply(cc,name){
     cc=(cc||'').toUpperCase();
-    const sLang=langMap[cc]||navLang()||'it';
+    const mappedLang=langMap[cc];
+    const sLang=(mappedLang&&LANG_BY_CODE[mappedLang]?mappedLang:null)||navLang()||'en';
     const sCurr=curMap[cc]||'EUR';
     const g=GEO_T[langBase(sLang)]||GEO_T.it;
     document.getElementById('geoEye').textContent=g.eye;
@@ -1341,7 +1411,7 @@ function doTrack(){
           (order.carrier?`<div style="text-align:right"><div class="track-label">${m.carrier}</div><div class="track-val">${esc(order.carrier)}</div></div>`:'')+
         `</div>`+
         `<div class="tl">${timeline}</div>`+
-        (order.eta?`<div class="track-eta">${m.eta}: <strong>${esc(order.eta)}</strong></div>`:'')+
+        (order.eta?`<div class="track-eta">${m.eta}: <strong>${esc(typeof order.eta==='object'?(order.eta[langBase(curLang)]||order.eta.it||''):order.eta)}</strong></div>`:'')+
         `<a class="track-open-btn" href="${url}" target="_blank" rel="noopener">${tt.open_btn}</a>`+
       `</div>`;
     disposeGlobe();
@@ -1507,10 +1577,10 @@ fetchRates();
   f.addEventListener('submit',function(e){
     e.preventDefault();
     var btn=document.getElementById('cfSubmit');
-    var old=btn.textContent; btn.disabled=true; btn.textContent='Invio…';
+    var old=btn.textContent; btn.disabled=true; btn.textContent=siteText('contact_sending','Invio…');
     fetch('https://formsubmit.co/ajax/brando.caregnato@gmail.com',{method:'POST',headers:{'Accept':'application/json'},body:new FormData(f)})
       .then(function(r){return r.json();})
       .then(function(){f.hidden=true;var d=document.getElementById('cfDone');if(d)d.hidden=false;})
-      .catch(function(){btn.disabled=false;btn.textContent=old;alert('Qualcosa è andato storto. Riprova o scrivici su Instagram @bluelle._');});
+      .catch(function(){btn.disabled=false;btn.textContent=old;alert(siteText('contact_error','Qualcosa è andato storto. Riprova o scrivici su Instagram @bluelle._'));});
   });
 })();

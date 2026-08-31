@@ -5,6 +5,21 @@
   const SESSION_KEY='bluelle_session_v1';
   const $=function(sel,root){return (root||document).querySelector(sel);};
   const $$=function(sel,root){return Array.prototype.slice.call((root||document).querySelectorAll(sel));};
+  let lastStatusKey='';
+  let lastStatusType='';
+
+  function t(key){
+    if(window.BL_I18N&&typeof window.BL_I18N.t==='function')return window.BL_I18N.t(key);
+    return key;
+  }
+
+  function format(key,values){
+    let message=t(key);
+    Object.keys(values||{}).forEach(function(name){
+      message=message.split('{'+name+'}').join(String(values[name]));
+    });
+    return message;
+  }
 
   function normalizeEmail(value){return String(value||'').trim().toLowerCase();}
   function validEmail(value){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);}
@@ -49,10 +64,12 @@
     return fallbackHash(value);
   }
 
-  function status(message,type){
+  function status(key,type){
     const node=$('#accountStatus');
     if(!node)return;
-    node.textContent=message||'';
+    lastStatusKey=key||'';
+    lastStatusType=type||'';
+    node.textContent=key?t(key):'';
     node.dataset.type=type||'';
   }
 
@@ -86,17 +103,17 @@
       setView('login');
       return;
     }
-    $('#profileName').textContent='Ciao, '+(account.name||'Bluelle')+'.';
+    $('#profileName').textContent=format('account_profile_greeting',{name:account.name||t('account_default_name')});
     $('#profileEmail').textContent=account.email;
-    $('#profileProvider').textContent=account.provider==='google'?'Accesso Google':'Accesso email e password';
+    $('#profileProvider').textContent=t(account.provider==='google'?'account_provider_google':'account_provider_password');
     const currentField=$('#currentPasswordField');
     if(currentField)currentField.hidden=account.provider==='google'&&!account.passwordHash;
     setView('profile');
   }
 
   function validatePassword(password,confirm){
-    if(password.length<8)return 'La password deve avere almeno 8 caratteri.';
-    if(password!==confirm)return 'Le password non coincidono.';
+    if(password.length<8)return 'account_error_password_length';
+    if(password!==confirm)return 'account_error_password_mismatch';
     return '';
   }
 
@@ -107,11 +124,11 @@
     const email=normalizeEmail(form.elements.email.value);
     const password=String(form.elements.password.value||'');
     const confirm=String(form.elements.confirm.value||'');
-    if(!name)return status('Inserisci il tuo nome.','error');
-    if(!validEmail(email))return status('Inserisci una email valida.','error');
+    if(!name)return status('account_error_name_required','error');
+    if(!validEmail(email))return status('account_error_email_invalid','error');
     const passError=validatePassword(password,confirm);
     if(passError)return status(passError,'error');
-    if(findAccount(email))return status('Esiste gia un account con questa email. Accedi oppure cambia password.','error');
+    if(findAccount(email))return status('account_error_exists','error');
     const accounts=readAccounts();
     const account={name:name,email:email,provider:'email',passwordHash:await hashPassword(password),createdAt:new Date().toISOString()};
     accounts.push(account);
@@ -119,7 +136,7 @@
     writeSession(account);
     form.reset();
     renderProfile();
-    status('Account creato. Benvenuto in Bluelle.','success');
+    status('account_success_created','success');
   }
 
   async function handleLogin(event){
@@ -127,20 +144,20 @@
     const form=event.currentTarget;
     const email=normalizeEmail(form.elements.email.value);
     const password=String(form.elements.password.value||'');
-    if(!validEmail(email))return status('Inserisci una email valida.','error');
+    if(!validEmail(email))return status('account_error_email_invalid','error');
     const account=findAccount(email);
-    if(!account)return status('Account non trovato. Creane uno in pochi secondi.','error');
+    if(!account)return status('account_error_not_found_login','error');
     if(account.provider==='google'&&!account.passwordHash){
       writeSession(account);
       renderProfile();
-      return status('Accesso Google ripristinato.','success');
+      return status('account_success_google_restored','success');
     }
     const hash=await hashPassword(password);
-    if(hash!==account.passwordHash)return status('Password non corretta.','error');
+    if(hash!==account.passwordHash)return status('account_error_password_wrong','error');
     writeSession(account);
     form.reset();
     renderProfile();
-    status('Accesso effettuato.','success');
+    status('account_success_login','success');
   }
 
   async function handleReset(event){
@@ -149,19 +166,19 @@
     const email=normalizeEmail(form.elements.email.value);
     const password=String(form.elements.password.value||'');
     const confirm=String(form.elements.confirm.value||'');
-    if(!validEmail(email))return status('Inserisci una email valida.','error');
+    if(!validEmail(email))return status('account_error_email_invalid','error');
     const passError=validatePassword(password,confirm);
     if(passError)return status(passError,'error');
     const accounts=readAccounts();
     const idx=accounts.findIndex(function(account){return account.email===email;});
-    if(idx<0)return status('Account non trovato. Controlla la email o registrati.','error');
+    if(idx<0)return status('account_error_not_found_reset','error');
     accounts[idx].passwordHash=await hashPassword(password);
     accounts[idx].updatedAt=new Date().toISOString();
     writeAccounts(accounts);
     writeSession(accounts[idx]);
     form.reset();
     renderProfile();
-    status('Password aggiornata.','success');
+    status('account_success_password_updated','success');
   }
 
   async function handleChange(event){
@@ -176,25 +193,25 @@
     if(passError)return status(passError,'error');
     if(account.passwordHash){
       const currentHash=await hashPassword(current);
-      if(currentHash!==account.passwordHash)return status('Password attuale non corretta.','error');
+      if(currentHash!==account.passwordHash)return status('account_error_current_password','error');
     }
     const accounts=readAccounts();
     const idx=accounts.findIndex(function(item){return item.email===account.email;});
-    if(idx<0)return status('Sessione scaduta. Accedi di nuovo.','error');
+    if(idx<0)return status('account_error_session_expired','error');
     accounts[idx].passwordHash=await hashPassword(password);
     accounts[idx].updatedAt=new Date().toISOString();
     writeAccounts(accounts);
     writeSession(accounts[idx]);
     form.reset();
     renderProfile();
-    status('Password aggiornata.','success');
+    status('account_success_password_updated','success');
   }
 
   function googlePrompt(){
-    const email=normalizeEmail(window.prompt('Inserisci la tua email Google per la preview locale:')||'');
+    const email=normalizeEmail(window.prompt(t('account_google_prompt'))||'');
     if(!email)return null;
     if(!validEmail(email)){
-      status('Email Google non valida.','error');
+      status('account_error_google_email','error');
       return null;
     }
     return email;
@@ -207,13 +224,13 @@
     let account=accounts.find(function(item){return item.email===email;});
     if(!account){
       const name=email.split('@')[0].replace(/[._-]+/g,' ').replace(/\b\w/g,function(letter){return letter.toUpperCase();});
-      account={name:name||'Cliente Bluelle',email:email,provider:'google',createdAt:new Date().toISOString()};
+      account={name:name||'',email:email,provider:'google',createdAt:new Date().toISOString()};
       accounts.push(account);
       writeAccounts(accounts);
     }
     writeSession(account);
     renderProfile();
-    status('Accesso Google completato.','success');
+    status('account_success_google','success');
   }
 
   function init(){
@@ -230,12 +247,26 @@
     $('#logoutBtn').addEventListener('click',function(){
       clearSession();
       setView('login');
-      status("Sei uscito dall'account.",'success');
+      status('account_success_logout','success');
     });
     const mode=new URLSearchParams(window.location.search).get('mode');
     if(currentAccount())renderProfile();
     else if(mode==='register'||mode==='reset')setView(mode);
     else setView('login');
+    document.addEventListener('bl:languagechange',function(){
+      const account=currentAccount();
+      if(account&&$('#profileView').classList.contains('on')){
+        $('#profileName').textContent=format('account_profile_greeting',{name:account.name||t('account_default_name')});
+        $('#profileProvider').textContent=t(account.provider==='google'?'account_provider_google':'account_provider_password');
+      }
+      if(lastStatusKey){
+        const node=$('#accountStatus');
+        if(node){
+          node.textContent=t(lastStatusKey);
+          node.dataset.type=lastStatusType;
+        }
+      }
+    });
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);

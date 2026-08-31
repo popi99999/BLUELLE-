@@ -20,12 +20,12 @@
 <meta name="twitter:title" content="Bluèlle — Luxury Second Hand">
 <meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Tracking ordine — Bluèlle</title>
+<title data-i="page_tracking_title">Tracking ordine — Bluèlle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/styles.css?v=20260831a">
+<link rel="stylesheet" href="assets/styles.css?v=20260831e">
 <script defer src="https://unpkg.com/three@0.128.0/build/three.min.js" integrity="sha384-CI3ELBVUz9XQO+97x6nwMDPosPR5XvsxW2ua7N1Xeygeh1IxtgqtCkGfQY9WWdHu" crossorigin="anonymous"></script>
 <script defer src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js" integrity="sha384-wagZhIFgY4hD+7awjQjR4e2E294y6J2HSnd8eTNc15ZubTeQeVRZwhQJ+W6hnBsf" crossorigin="anonymous"></script>
 <script defer src="https://unpkg.com/three-globe@2.24.13/dist/three-globe.min.js" integrity="sha384-owaPwjhq33vtQ3eqAz4BHgcfVyBcrRBeBvQ+5SNE5h/5Og6PyWzhgA6SpX4otLM5" crossorigin="anonymous"></script>
@@ -34,11 +34,11 @@
 <body>
 <!-- TOPBAR -->
 <div id="topbar">
-  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox" aria-label="Scegli valuta" data-i-aria="picker_currency_aria"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <span class="tb-sep">/</span>
-  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox" aria-label="Scegli lingua" data-i-aria="picker_language_aria"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <div class="picker-panel" id="pickerPanel" hidden>
-    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" oninput="filterPicker()"></label>
+    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" data-i-placeholder="picker_search" oninput="filterPicker()"></label>
     <div class="pick-list" id="pickerList"></div>
   </div>
   <select id="currSel" onchange="setCurr(this.value)" aria-hidden="true" tabindex="-1" style="display:none"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CHF">CHF</option><option value="JPY">JPY</option><option value="CNY">CNY</option></select>
@@ -46,37 +46,37 @@
 </div>
 
 <!-- NAV -->
-<nav id="nav" role="navigation" aria-label="Navigazione principale">
-  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
+<nav id="nav" role="navigation" aria-label="Navigazione principale" data-i-aria="nav_main_aria">
+  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></a>
   <ul class="nlinks">
     <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
     <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="faq.html" data-i="nav_faq">FAQ</a></li>
+    <li><a href="tracking.html" data-i="nav_tracking">Tracking</a></li>
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
-    <li><a href="account.html">Account</a></li>
+    <li><a href="account.html" data-i="nav_account">Account</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Apri menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label">Menu</span></button>
+  <button class="burger" id="burger" aria-label="Apri menu" data-i-aria="nav_open_menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label" data-i="nav_menu">Menu</span></button>
 </nav>
 
 <!-- MOBILE NAV -->
 <div class="mnav" id="mnav">
-  <a href="index.html" onclick="closeMNav()">Home</a>
+  <a href="index.html" onclick="closeMNav()" data-i="nav_home">Home</a>
   <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
   <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
-  <a href="faq.html" onclick="closeMNav()">FAQ</a>
-  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="faq.html" onclick="closeMNav()" data-i="nav_faq">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()" data-i="nav_tracking">Tracking</a>
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
-  <a href="account.html" onclick="closeMNav()">Account</a>
+  <a href="account.html" onclick="closeMNav()" data-i="nav_account">Account</a>
 </div>
 <main role="main">
 <!-- TRACKING INTRO -->
 <section id="trkintro" class="reveal">
   <div class="container" style="text-align:center;padding-top:clamp(6.5rem,10vw,8.5rem)">
-    <div class="sl center">Spedizioni</div>
-    <h2 class="sec-title">Traccia il tuo <em>ordine</em></h2>
-    <p class="sec-intro" style="margin-inline:auto">Inserisci il codice di tracciamento ricevuto via email per seguire la tua spedizione in tempo reale.</p>
-    <button class="hcta" style="display:inline-block;margin-top:2rem;border:none;cursor:pointer" onclick="openTrack()"><span>Apri il tracking</span></button>
+    <div class="sl center" data-i="tracking_intro_eye">Spedizioni</div>
+    <h2 class="sec-title" data-i="tracking_intro_title">Traccia il tuo <em>ordine</em></h2>
+    <p class="sec-intro" style="margin-inline:auto" data-i="tracking_intro_body">Inserisci il codice di tracciamento ricevuto via email per seguire la tua spedizione in tempo reale.</p>
+    <button class="hcta" style="display:inline-block;margin-top:2rem;border:none;cursor:pointer" onclick="openTrack()"><span data-i="tracking_intro_cta">Apri il tracking</span></button>
   </div>
 </section>
 </main>
@@ -84,30 +84,30 @@
 <footer role="contentinfo">
   <div class="ft-grid">
     <div class="ft-brand">
-      <div class="flogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
-      <p class="ft-tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
+      <div class="flogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></div>
+      <p class="ft-tag" data-i="footer_tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
     </div>
-    <div class="ft-col" aria-label="Shop">
-      <h4>Shop</h4>
+    <div class="ft-col" aria-label="Shop" data-i-aria="footer_shop">
+      <h4 data-i="footer_shop">Shop</h4>
       <a href="collezione.html" data-i="nav_coll">Collezione</a>
       <a href="chi-siamo.html" data-i="nav_about">Chi siamo</a>
-      <a href="account.html">Account</a>
+      <a href="account.html" data-i="nav_account">Account</a>
     </div>
-    <div class="ft-col" aria-label="Assistenza">
-      <h4>Assistenza</h4>
-      <a href="faq.html">FAQ</a>
-      <a href="tracking.html">Tracking ordine</a>
+    <div class="ft-col" aria-label="Assistenza" data-i-aria="footer_help">
+      <h4 data-i="footer_help">Assistenza</h4>
+      <a href="faq.html" data-i="nav_faq">FAQ</a>
+      <a href="tracking.html" data-i="footer_track">Tracking ordine</a>
       <a href="contatti.html" data-i="nav_contact">Contatti</a>
-      <a href="termini.html">Termini &amp; Condizioni</a>
+      <a href="termini.html" data-i="footer_terms">Termini &amp; Condizioni</a>
     </div>
-    <div class="ft-col" aria-label="Seguici">
-      <h4>Seguici</h4>
-      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://wa.me/393000000000" target="_blank" rel="noopener">WhatsApp</a>
+    <div class="ft-col" aria-label="Seguici" data-i-aria="footer_follow">
+      <h4 data-i="footer_follow">Seguici</h4>
+      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" data-i="social_instagram">Instagram</a>
+      <a href="https://wa.me/393000000000" target="_blank" rel="noopener" data-i="social_whatsapp">WhatsApp</a>
     </div>
   </div>
   <div class="ft-pay">
-    <span class="ft-pay-label">Pagamenti sicuri</span>
+    <span class="ft-pay-label" data-i="footer_secure">Pagamenti sicuri</span>
     <div class="ft-pay-icons">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
@@ -121,18 +121,18 @@
       <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="Bitcoin · BitPay" loading="lazy" onerror="this.style.display='none'">
     </div>
   </div>
-  <div class="ft-bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
+  <div class="ft-bottom" data-i="footer_bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
 </footer>
 <!-- MODAL TRACKING -->
 <div class="tov" id="tov" onclick="if(event.target===this)closeTrack()">
   <div class="tbox">
-    <button class="mclose" onclick="closeTrack()" style="position:absolute;top:.9rem;right:.9rem" aria-label="Chiudi">✕</button>
+    <button class="mclose" onclick="closeTrack()" style="position:absolute;top:.9rem;right:.9rem" aria-label="Chiudi" data-i-aria="common_close">✕</button>
     <div class="sl" data-i="track_eye">Hai già ordinato?</div>
     <h3 data-i="track_title">Traccia il tuo <em>ordine</em></h3>
     <div style="margin-top:1.6rem;display:flex;flex-direction:column;gap:.7rem">
-      <input class="track-in" id="trin-order" placeholder="Numero ordine (es. BLU-0042)">
+      <input class="track-in" id="trin-order" placeholder="Numero ordine (es. BLU-0042)" data-i-placeholder="tracking_order_placeholder">
       <div class="track-row">
-        <input class="track-in" id="trin" placeholder="Codice tracking del corriere">
+        <input class="track-in" id="trin" placeholder="Codice tracking del corriere" data-i-placeholder="tracking_code_placeholder">
         <button class="track-btn" onclick="doTrack()" data-i="track_btn">Cerca</button>
       </div>
     </div>
@@ -141,7 +141,9 @@
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260831a"></script>
+<script src="assets/i18n.js?v=20260831b"></script>
+<script src="assets/i18n-home-support.js?v=20260831b"></script>
+<script src="assets/app.js?v=20260831b"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" integrity="sha384-ClD7pCgIUz5M81HT8aZmMxCsWmfsycmBiwL5gy1pUbdWHvICIbea22N9sTtAFotA" crossorigin="anonymous"></script>

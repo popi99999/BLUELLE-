@@ -20,31 +20,31 @@
 <meta name="twitter:title" content="Bluèlle - Luxury Second Hand">
 <meta name="twitter:description" content="Capi firmati selezionati e autenticati uno per uno.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<title>Bluèlle - Capi Luxury Selezionati | Second Hand</title>
+<title data-i="page_home_title">Bluèlle - Capi Luxury Selezionati | Second Hand</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&amp;family=Lora:ital,wght@0,400;0,700;1,400;1,700&amp;family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&amp;family=Pinyon+Script&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/styles.css?v=20260831d">
+<link rel="stylesheet" href="assets/styles.css?v=20260831e">
 </head>
 <body>
 <!-- INTRO -->
 <div id="intro">
   <div class="itext">
     <div class="iring" aria-hidden="true"></div>
-    <div class="iname brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
+    <div class="iname brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></div>
     <div class="iline"></div>
-    <div class="isub">Luxury Second Hand</div>
-    <div class="iskip">tocca per entrare</div>
+    <div class="isub" data-i="home_intro_tagline">Luxury Second Hand</div>
+    <div class="iskip" data-i="home_intro_skip">tocca per entrare</div>
   </div>
 </div>
 <!-- TOPBAR -->
 <div id="topbar">
-  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="currBtn" type="button" onclick="togglePicker('curr')" aria-haspopup="listbox" aria-label="Scegli valuta" data-i-aria="picker_currency_aria"><span id="currBtnLabel">€ EUR</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <span class="tb-sep">/</span>
-  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button class="picker-btn" id="langBtn" type="button" onclick="togglePicker('lang')" aria-haspopup="listbox" aria-label="Scegli lingua" data-i-aria="picker_language_aria"><span id="langBtnLabel">IT</span><svg class="pick-chev" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
   <div class="picker-panel" id="pickerPanel" hidden>
-    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" oninput="filterPicker()"></label>
+    <label class="pick-search"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="pickerSearch" type="search" autocomplete="off" placeholder="Cerca…" data-i-placeholder="picker_search" oninput="filterPicker()"></label>
     <div class="pick-list" id="pickerList"></div>
   </div>
   <select id="currSel" onchange="setCurr(this.value)" aria-hidden="true" tabindex="-1" style="display:none"><option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option><option value="CHF">CHF</option><option value="JPY">JPY</option><option value="CNY">CNY</option></select>
@@ -52,32 +52,32 @@
 </div>
 
 <!-- NAV -->
-<nav id="nav" role="navigation" aria-label="Navigazione principale">
-  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
+<nav id="nav" role="navigation" aria-label="Navigazione principale" data-i-aria="nav_main_aria">
+  <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></a>
   <ul class="nlinks">
     <li><a href="chi-siamo.html" data-i="nav_about">Chi siamo</a></li>
     <li><a href="collezione.html" data-i="nav_coll">Collezione</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="tracking.html">Tracking</a></li>
+    <li><a href="faq.html" data-i="nav_faq">FAQ</a></li>
+    <li><a href="tracking.html" data-i="nav_tracking">Tracking</a></li>
     <li><a href="contatti.html" data-i="nav_contact">Contatti</a></li>
-    <li><a href="account.html">Account</a></li>
+    <li><a href="account.html" data-i="nav_account">Account</a></li>
   </ul>
-  <button class="burger" id="burger" aria-label="Apri menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label">Menu</span></button>
+  <button class="burger" id="burger" aria-label="Apri menu" data-i-aria="nav_open_menu" aria-expanded="false" onclick="toggleMenu()"><span class="burger-lines" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-label" data-i="nav_menu">Menu</span></button>
 </nav>
 
 <!-- MOBILE NAV -->
 <div class="mnav" id="mnav">
-  <a href="index.html" onclick="closeMNav()">Home</a>
+  <a href="index.html" onclick="closeMNav()" data-i="nav_home">Home</a>
   <a href="collezione.html" onclick="closeMNav()" data-i="nav_coll">Collezione</a>
   <a href="chi-siamo.html" onclick="closeMNav()" data-i="nav_about">Chi siamo</a>
-  <a href="faq.html" onclick="closeMNav()">FAQ</a>
-  <a href="tracking.html" onclick="closeMNav()">Tracking</a>
+  <a href="faq.html" onclick="closeMNav()" data-i="nav_faq">FAQ</a>
+  <a href="tracking.html" onclick="closeMNav()" data-i="nav_tracking">Tracking</a>
   <a href="contatti.html" onclick="closeMNav()" data-i="nav_contact">Contatti</a>
-  <a href="account.html" onclick="closeMNav()">Account</a>
+  <a href="account.html" onclick="closeMNav()" data-i="nav_account">Account</a>
 </div>
 <main role="main">
 <!-- VIDEO SCROLL HOME -->
-<section id="home-showcase" class="rx-home" aria-label="Esperienza Bluèlle">
+<section id="home-showcase" class="rx-home" aria-label="Esperienza Bluèlle" data-i-aria="home_experience_aria">
   <article class="rx-panel rx-cover">
     <div class="rx-panel-media rx-frame-a" aria-hidden="true">
       <img src="img/new-art42-1.jpg" alt="" fetchpriority="high" decoding="async">
@@ -86,9 +86,9 @@
       </video>
     </div>
     <div class="rx-title">
-      <p class="rx-kicker">Bluèlle Selection</p>
-      <h1><span>Capi luxury</span> <span>scelti a mano.</span></h1>
-      <p>Capi firmati autentici, pochi pezzi, venduti una sola volta.</p>
+      <p class="rx-kicker" data-i="home_hero_kicker">Bluèlle Selection</p>
+      <h1 data-i="home_hero_title"><span>Capi luxury</span> <span>scelti a mano.</span></h1>
+      <p data-i="home_hero_body">Capi firmati autentici, pochi pezzi, venduti una sola volta.</p>
       <a href="collezione.html" class="rx-cta" data-i="hero_cta">Esplora la collezione</a>
     </div>
   </article>
@@ -101,10 +101,10 @@
       </video>
     </div>
     <div class="rx-scene rx-scene-one">
-      <p>Collezione</p>
-      <h2>Pezzi scelti, disponibili una sola volta.</h2>
-      <span>Una selezione corta, controllata e aggiornata con capi pronti alla spedizione.</span>
-      <a href="collezione.html">Scopri la collezione</a>
+      <p data-i="home_collection_eye">Collezione</p>
+      <h2 data-i="home_collection_title">Pezzi scelti, disponibili una sola volta.</h2>
+      <span data-i="home_collection_body">Una selezione corta, controllata e aggiornata con capi pronti alla spedizione.</span>
+      <a href="collezione.html" data-i="home_collection_cta">Scopri la collezione</a>
     </div>
   </article>
 
@@ -116,61 +116,61 @@
       </video>
     </div>
     <div class="rx-scene rx-scene-two">
-      <p>Autenticità</p>
-      <h2>Controllo manuale, verifica IRIS.</h2>
-      <span>Ogni capo viene controllato, pulito e preparato prima della messa in vendita.</span>
-      <a href="chi-siamo.html">Scopri il metodo</a>
+      <p data-i="home_auth_eye">Autenticità</p>
+      <h2 data-i="home_auth_title">Controllo manuale, verifica IRIS.</h2>
+      <span data-i="home_auth_body">Ogni capo viene controllato, pulito e preparato prima della messa in vendita.</span>
+      <a href="chi-siamo.html" data-i="home_auth_cta">Scopri il metodo</a>
     </div>
   </article>
 </section>
 
 <!-- AUTENTICITÀ -->
-<section id="method" class="hmet" aria-label="Autenticità Bluèlle">
+<section id="method" class="hmet" aria-label="Autenticità Bluèlle" data-i-aria="home_method_aria">
   <figure class="hmet-media pk-reveal">
-    <img src="img/p1-f3.jpg" alt="Controllo di etichette e materiali durante l'autenticazione" loading="lazy" decoding="async">
+    <img src="img/p1-f3.jpg" alt="Controllo di etichette e materiali durante l'autenticazione" data-i-alt="home_method_image_alt" loading="lazy" decoding="async">
   </figure>
   <div class="hmet-copy reveal delay-1">
-    <p class="vk">Autenticità garantita</p>
-    <h2 class="vt">Quattro controlli, su ogni pezzo.</h2>
+    <p class="vk" data-i="home_method_eye">Autenticità garantita</p>
+    <h2 class="vt" data-i="home_method_title">Quattro controlli, su ogni pezzo.</h2>
     <ol class="hmet-ctrl">
-      <li><b>Autenticità</b><span>materiali, hardware, cuciture e seriale — verifica manuale e IRIS.</span></li>
-      <li><b>Condizione</b><span>l'usura reale, fotografata senza filtri.</span></li>
-      <li><b>Cura</b><span>pulizia e preparazione professionale prima della vendita.</span></li>
-      <li><b>Spedizione</b><span>corriere espresso tracciato e assicurato, in tutta Europa.</span></li>
+      <li><b data-i="home_method_auth_title">Autenticità</b><span data-i="home_method_auth_body">materiali, hardware, cuciture e seriale — verifica manuale e IRIS.</span></li>
+      <li><b data-i="home_method_condition_title">Condizione</b><span data-i="home_method_condition_body">l'usura reale, fotografata senza filtri.</span></li>
+      <li><b data-i="home_method_care_title">Cura</b><span data-i="home_method_care_body">pulizia e preparazione professionale prima della vendita.</span></li>
+      <li><b data-i="home_method_shipping_title">Spedizione</b><span data-i="home_method_shipping_body">corriere espresso tracciato e assicurato, in tutta Europa.</span></li>
     </ol>
-    <a class="pill-cta" href="chi-siamo.html">Il metodo Bluèlle</a>
+    <a class="pill-cta" href="chi-siamo.html" data-i="home_method_cta">Il metodo Bluèlle</a>
   </div>
 </section>
 
 <!-- SCEGLI COME FARLO TUO -->
 <section id="payments" class="hpay" aria-labelledby="payments-title">
   <div class="hpay-inner">
-    <h2 id="payments-title" class="hpay-title">
+    <h2 id="payments-title" class="hpay-title" data-i="home_payment_title">
       <span>Scegli come</span>
       <span>farlo tuo.</span>
     </h2>
 
     <div class="hpay-divider" aria-hidden="true"></div>
-    <p class="hpay-promise">Sicuro, flessibile, semplice.</p>
+    <p class="hpay-promise" data-i="home_payment_promise">Sicuro, flessibile, semplice.</p>
 
-    <ul class="hpay-logos" aria-label="Metodi disponibili">
-      <li class="hpay-logo" data-brand="paypal" tabindex="0" aria-label="PayPal">
+    <ul class="hpay-logos" aria-label="Metodi disponibili" data-i-aria="home_payment_methods_aria">
+      <li class="hpay-logo" data-brand="paypal" tabindex="0" aria-label="PayPal" data-i-aria="payment_paypal">
         <span class="hpay-visual hpay-paypal" aria-hidden="true">
           <img class="hpay-paypal-mark" src="https://cdn.jsdelivr.net/gh/paypal/paypal-sdk-logos@v2.3.7/cdn/2.3.7/pp-rebrand-default.svg" alt="" loading="lazy" decoding="async">
           <img class="hpay-paypal-word" src="https://cdn.jsdelivr.net/gh/paypal/paypal-sdk-logos@v2.3.7/cdn/2.3.7/paypal-rebrand-blue.svg" alt="" loading="lazy" decoding="async">
         </span>
       </li>
-      <li class="hpay-logo" data-brand="klarna" tabindex="0" aria-label="Klarna">
+      <li class="hpay-logo" data-brand="klarna" tabindex="0" aria-label="Klarna" data-i-aria="payment_klarna">
         <span class="hpay-visual hpay-klarna" aria-hidden="true">
           <img src="https://www.vectorlogo.zone/logos/klarna/klarna-ar21.svg" alt="" loading="lazy" decoding="async">
         </span>
       </li>
-      <li class="hpay-logo" data-brand="scalapay" tabindex="0" aria-label="Scalapay">
+      <li class="hpay-logo" data-brand="scalapay" tabindex="0" aria-label="Scalapay" data-i-aria="payment_scalapay">
         <span class="hpay-visual hpay-scalapay" aria-hidden="true">
           <img src="https://universe.scalapay.com/wp-content/uploads/2022/08/Scalapay_Logo_Primary_Black_1.png" alt="" loading="lazy" decoding="async">
         </span>
       </li>
-      <li class="hpay-logo" data-brand="bitpay" tabindex="0" aria-label="BitPay">
+      <li class="hpay-logo" data-brand="bitpay" tabindex="0" aria-label="BitPay" data-i-aria="payment_bitpay">
         <span class="hpay-visual hpay-bitpay" aria-hidden="true">
           <img src="https://framerusercontent.com/images/V0hQLisZ75oOqOIVzoWMd5vleDI.svg?width=281&amp;height=150" alt="" loading="lazy" decoding="async">
         </span>
@@ -178,7 +178,7 @@
     </ul>
 
     <div class="hpay-divider hpay-divider-closing" aria-hidden="true"></div>
-    <p class="hpay-closing">
+    <p class="hpay-closing" data-i="home_payment_closing">
       <span>Carte, wallet e rate.</span>
       <span>Altre opzioni disponibili al checkout.</span>
     </p>
@@ -186,14 +186,14 @@
 </section>
 
 <!-- VENDI A NOI -->
-<section id="sell" aria-label="Vendi i tuoi capi">
+<section id="sell" aria-label="Vendi i tuoi capi" data-i-aria="home_sell_aria">
   <div class="sell-inner reveal">
-    <p class="vk">Servizio</p>
-    <h2 class="vt">Vendi i tuoi capi di lusso.</h2>
-    <p class="sell-text">Acquistiamo abbigliamento, borse e accessori di lusso second-hand e vintage. Una valutazione onesta e un passaggio semplice: i pezzi che non usi più trovano una seconda vita.</p>
+    <p class="vk" data-i="home_sell_eye">Servizio</p>
+    <h2 class="vt" data-i="home_sell_title">Vendi i tuoi capi di lusso.</h2>
+    <p class="sell-text" data-i="home_sell_body">Acquistiamo abbigliamento, borse e accessori di lusso second-hand e vintage. Una valutazione onesta e un passaggio semplice: i pezzi che non usi più trovano una seconda vita.</p>
     <a href="https://wa.me/393000000000" class="sell-cta" target="_blank" rel="noopener">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.8 14.16c-.24.68-1.42 1.31-1.95 1.36-.5.05-.98.23-3.29-.69-2.78-1.1-4.55-3.96-4.69-4.14-.14-.18-1.12-1.49-1.12-2.84s.71-2.02.96-2.29c.25-.27.55-.34.73-.34.18 0 .37 0 .53.01.17.01.4-.06.62.48.24.55.81 1.9.88 2.04.07.14.12.3.02.48-.09.18-.14.3-.28.46-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.71 1.17 1.53 1.9 1.05.94 1.94 1.23 2.22 1.37.28.14.44.12.6-.07.16-.18.69-.8.87-1.08.18-.28.37-.23.62-.14.25.09 1.6.75 1.87.89.28.14.46.2.53.32.07.11.07.66-.17 1.34z"/></svg>
-      Contattaci su WhatsApp
+      <span data-i="home_sell_cta">Contattaci su WhatsApp</span>
     </a>
   </div>
 </section>
@@ -202,30 +202,30 @@
 <footer role="contentinfo">
   <div class="ft-grid">
     <div class="ft-brand">
-      <div class="flogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></div>
-      <p class="ft-tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
+      <div class="flogo brand-word" aria-label="Bluèlle" data-i-aria="brand_name"><span>Blu</span><em>è</em><span>lle</span></div>
+      <p class="ft-tag" data-i="footer_tag">Luxury second hand, selezionato,<br>autenticato e curato a mano.</p>
     </div>
-    <div class="ft-col" aria-label="Shop">
-      <h4>Shop</h4>
+    <div class="ft-col" aria-label="Shop" data-i-aria="footer_shop">
+      <h4 data-i="footer_shop">Shop</h4>
       <a href="collezione.html" data-i="nav_coll">Collezione</a>
       <a href="chi-siamo.html" data-i="nav_about">Chi siamo</a>
-      <a href="account.html">Account</a>
+      <a href="account.html" data-i="nav_account">Account</a>
     </div>
-    <div class="ft-col" aria-label="Assistenza">
-      <h4>Assistenza</h4>
-      <a href="faq.html">FAQ</a>
-      <a href="tracking.html">Tracking ordine</a>
+    <div class="ft-col" aria-label="Assistenza" data-i-aria="footer_help">
+      <h4 data-i="footer_help">Assistenza</h4>
+      <a href="faq.html" data-i="nav_faq">FAQ</a>
+      <a href="tracking.html" data-i="footer_track">Tracking ordine</a>
       <a href="contatti.html" data-i="nav_contact">Contatti</a>
-      <a href="termini.html">Termini &amp; Condizioni</a>
+      <a href="termini.html" data-i="footer_terms">Termini &amp; Condizioni</a>
     </div>
-    <div class="ft-col" aria-label="Seguici">
-      <h4>Seguici</h4>
-      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://wa.me/393000000000" target="_blank" rel="noopener">WhatsApp</a>
+    <div class="ft-col" aria-label="Seguici" data-i-aria="footer_follow">
+      <h4 data-i="footer_follow">Seguici</h4>
+      <a href="https://instagram.com/bluelle._" target="_blank" rel="noopener" data-i="social_instagram">Instagram</a>
+      <a href="https://wa.me/393000000000" target="_blank" rel="noopener" data-i="social_whatsapp">WhatsApp</a>
     </div>
   </div>
   <div class="ft-pay">
-    <span class="ft-pay-label">Pagamenti sicuri</span>
+    <span class="ft-pay-label" data-i="footer_secure">Pagamenti sicuri</span>
     <div class="ft-pay-icons">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/visa.svg" alt="Visa" loading="lazy" onerror="this.style.display='none'">
       <img src="https://cdn.jsdelivr.net/npm/payment-icons@1.2.1/svg/flat/mastercard.svg" alt="Mastercard" loading="lazy" onerror="this.style.display='none'">
@@ -239,17 +239,17 @@
       <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="Bitcoin · BitPay" loading="lazy" onerror="this.style.display='none'">
     </div>
   </div>
-  <div class="ft-bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
+  <div class="ft-bottom" data-i="footer_bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
 </footer>
 <!-- MODAL REGION / WELCOME -->
 <div class="geov" id="geov" onclick="if(event.target===this)confirmRegion()">
   <div class="geobox">
-    <div class="geo-eye" id="geoEye">Benvenuto</div>
-    <h3 class="geo-title" id="geoTitle">Confermi <em>area</em> e valuta?</h3>
-    <p class="geo-sub" id="geoSub">Imposta lingua e valuta per la tua area.</p>
+    <div class="geo-eye" id="geoEye" data-i="geo_welcome">Benvenuto</div>
+    <h3 class="geo-title" id="geoTitle" data-i="geo_title">Confermi <em>area</em> e valuta?</h3>
+    <p class="geo-sub" id="geoSub" data-i="geo_sub">Imposta lingua e valuta per la tua area.</p>
     <div class="geo-row">
       <div class="geo-field">
-        <label id="geoLangLbl">Lingua</label>
+        <label id="geoLangLbl" data-i="geo_language">Lingua</label>
         <select class="geo-sel" id="geoLang">
           <option value="it">Italiano</option>
           <option value="en">English</option>
@@ -259,7 +259,7 @@
         </select>
       </div>
       <div class="geo-field">
-        <label id="geoCurrLbl">Valuta</label>
+        <label id="geoCurrLbl" data-i="geo_currency">Valuta</label>
         <select class="geo-sel" id="geoCurr">
           <option value="EUR">€ Euro</option>
           <option value="USD">$ USD</option>
@@ -270,12 +270,14 @@
         </select>
       </div>
     </div>
-    <button class="geo-confirm" id="geoConfirm" onclick="confirmRegion()">Conferma</button>
+    <button class="geo-confirm" id="geoConfirm" onclick="confirmRegion()" data-i="geo_confirm">Conferma</button>
   </div>
 </div>
 <!-- PROGRESS LINE (hidden) -->
 <div id="pgline"><div id="pgfill"></div></div>
-<script src="assets/app.js?v=20260831a"></script>
+<script src="assets/i18n.js?v=20260831b"></script>
+<script src="assets/i18n-home-support.js?v=20260831b"></script>
+<script src="assets/app.js?v=20260831b"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" integrity="sha384-ClD7pCgIUz5M81HT8aZmMxCsWmfsycmBiwL5gy1pUbdWHvICIbea22N9sTtAFotA" crossorigin="anonymous"></script>
