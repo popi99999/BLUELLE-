@@ -552,13 +552,13 @@ body:has(.mnav.open) #topbar:not(.gone) .pick-chev{width:12px;height:12px;margin
 .hpay-logos li{position:relative;display:flex;align-items:center}
 .hpay-logos li+li::before{content:'';position:absolute;left:calc(var(--plate-gap) / -2);top:50%;transform:translate(-50%,-50%);width:1px;height:58px;background:linear-gradient(to bottom,transparent,var(--plate-line),transparent)}
 .hpay-logos li+li::after{content:'';position:absolute;left:calc(var(--plate-gap) / -2);top:50%;transform:translate(-50%,-50%) rotate(45deg);width:4px;height:4px;background:var(--plate-gold)}
-.hpay-logos img{height:30px;width:auto;display:block}
+.hpay-logos img{width:auto;display:block;opacity:.88}
 .hpay-note{margin-top:clamp(1.9rem,3.4vw,2.7rem);font-family:var(--f-ui);font-size:.72rem;font-weight:300;line-height:2.1;letter-spacing:.19em;text-indent:.19em;text-transform:uppercase;color:var(--stone)}
 @media(max-width:620px){
   .hpay{--plate-gap:1.1rem}
   .hpay-orn{width:72%}
   .hpay-claim{font-size:.74rem;letter-spacing:.14em;text-indent:.14em}
-  .hpay-logos img{height:22px}
+  .hpay-logos img{transform:scale(.82);transform-origin:center}
   .hpay-logos li+li::before,.hpay-logos li+li::after{display:none}
   .hpay-note{font-size:.64rem;letter-spacing:.13em;text-indent:.13em}
 }
