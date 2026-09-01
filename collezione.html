@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://popi99999.github.io; media-src 'self' https://videos.pexels.com https://commondatastorage.googleapis.com; connect-src 'self' https://open.er-api.com https://ipwho.is https://get.geojs.io https://unpkg.com; form-action 'self' https://formsubmit.co">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cdn.jsdelivr.net https://popi99999.github.io https://www.vectorlogo.zone https://universe.scalapay.com https://framerusercontent.com; media-src 'self' https://videos.pexels.com https://commondatastorage.googleapis.com; connect-src 'self' https://open.er-api.com https://ipwho.is https://get.geojs.io https://unpkg.com; form-action 'self' https://formsubmit.co">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Bluèlle seleziona e autentica capi luxury second hand. Autenticità garantita, prezzi onesti, spedizione tracciata in tutta Europa.">
@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Pinyon+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.css" integrity="sha384-gvLq/iOMNnPchdosgVym5huSVkKipHCQaqSw2Eg0V52Mzmlf169ZOsXcNc2cNu8x" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/styles.css?v=20260831e">
+<link rel="stylesheet" href="assets/styles.css?v=20260901e">
 </head>
 <body>
 <!-- TOPBAR -->
@@ -138,52 +138,92 @@
       <img src="https://cdn.jsdelivr.net/npm/cryptocurrency-icons@0.18.1/svg/color/btc.svg" alt="Bitcoin · BitPay" loading="lazy" onerror="this.style.display='none'">
     </div>
   </div>
-  <div class="ft-bottom" data-i="footer_bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</div>
+  <div class="ft-bottom"><span data-i="footer_bottom">© 2026 Bluèlle — Curated Luxury Resale · Pagamento sicuro via Stripe</span> · <a class="fx-attribution" href="https://www.exchangerate-api.com" target="_blank" rel="noopener">Rates By Exchange Rate API</a></div>
 </footer>
 <!-- MODAL PRODOTTO -->
 <div class="mov" id="mov" data-lenis-prevent>
   <div class="ppage">
     <div class="pfilm-mount" id="pfilm"></div>
     <button class="pback" onclick="closeM()" aria-label="Torna alla collezione" data-i="product_back_button" data-i-aria="product_back_aria">&#8592;&nbsp; Collezione</button>
-    <div class="ptop">
-      <div class="pv-main" id="pvMain" aria-label="Foto e video del pezzo" data-i-aria="product_media_aria"></div>
-      <aside class="ph-info">
-        <div class="pbrand" id="mbrand"></div>
-        <div class="mname" id="mname"></div>
-        <div class="mprices"><span class="mprice-label" data-i="product_price_label">Prezzo</span><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span><button class="iinfo" type="button" onclick="document.getElementById('ipanel').classList.toggle('open')" aria-label="Informazioni su prezzo e pagamento" data-i-aria="product_price_info_aria" aria-haspopup="dialog">i</button></div>
-        <div class="ipanel" id="ipanel" role="dialog" aria-label="Prezzo e pagamento" data-i-aria="product_price_dialog_aria">
-          <h4 data-i="product_price_heading">Sul prezzo</h4>
-          <p data-i="product_price_copy">Il prezzo è definito da noi in base a modello, condizioni e domanda del mercato. È un pezzo unico: quando viene venduto, esce dalla collezione.</p>
-          <h4 data-i="product_payment_heading">Il pagamento</h4>
-          <p data-i="product_payment_copy">Procedendo si apre un link di pagamento sicuro e riservato a questo capo. Carta, wallet, rate o criptovaluta — la disponibilità dipende dal metodo scelto.</p>
-        </div>
-        <p class="mdesc" id="mdesc"></p>
-        <dl class="mspecs" id="mspecs"></dl>
-        <button class="mbuy" id="mbuy"></button>
-        <a class="mwask" id="mwask" href="https://wa.me/393000000000" target="_blank" rel="noopener">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2z"/></svg>
-          <span data-i="product_whatsapp_cta">Chiedi di questo pezzo su WhatsApp</span>
-        </a>
-        <p class="msecure" data-i="product_secure">Pagamento tramite link sicuro · Spedizione tracciata e assicurata</p>
-        <div class="mtrust" id="mtrust"></div>
-      </aside>
-      <section class="pv-macro" id="pvMacro" aria-label="Il pezzo da vicino" data-i-aria="product_closeup_aria"></section>
-    </div>
-    <div class="vc-gallery-wrap" id="productGallery"></div>
-    <div class="psecs" aria-label="Dettagli prodotto" data-i-aria="product_details_aria">
-      <h2 class="pdetails-title" data-i="product_details_heading">Dettagli</h2>
-      <section class="pdetails-section">
-        <h3 data-i="product_description_heading">Descrizione</h3>
-        <div class="pdetails-copy" id="pdetailDesc"></div>
-      </section>
-      <section class="pdetails-section">
-        <h3 data-i="product_condition_heading">Condizione del capo</h3>
+    <div class="product-surface">
+      <div class="ptop">
+        <div class="pv-main" id="pvMain" aria-label="Foto e video del pezzo" data-i-aria="product_media_aria"></div>
+        <aside class="ph-info">
+          <div class="pbrand" id="mbrand"></div>
+          <div class="mname" id="mname"></div>
+          <div class="mprices"><span class="mprice-label" data-i="product_price_label">Prezzo</span><span class="mprice" id="mprice"></span><span class="morig" id="morig"></span><span class="msave" id="msave"></span><button class="iinfo" type="button" onclick="document.getElementById('ipanel').classList.toggle('open')" aria-label="Informazioni su prezzo e pagamento" data-i-aria="product_price_info_aria" aria-haspopup="dialog">i</button></div>
+          <div class="ipanel" id="ipanel" role="dialog" aria-label="Prezzo e pagamento" data-i-aria="product_price_dialog_aria">
+            <h4 data-i="product_price_heading">Sul prezzo</h4>
+            <p data-i="product_price_copy">Il prezzo è definito da noi in base a modello, condizioni e domanda del mercato. È un pezzo unico: quando viene venduto, esce dalla collezione.</p>
+            <h4 data-i="product_payment_heading">Il pagamento</h4>
+            <p data-i="product_payment_copy">Procedendo si apre un link di pagamento sicuro e riservato a questo capo. Carta, wallet, rate o criptovaluta — la disponibilità dipende dal metodo scelto.</p>
+          </div>
+          <p class="mdesc" id="mdesc"></p>
+          <dl class="mspecs" id="mspecs"></dl>
+
+          <div class="product-actions">
+            <button class="mbuy" id="mbuy"></button>
+            <a class="mwask" id="mwask" href="https://wa.me/393000000000" target="_blank" rel="noopener">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/whatsapp.svg" alt="" aria-hidden="true">
+              <span data-i="product_whatsapp_cta">Chiedi di questo pezzo su WhatsApp</span>
+            </a>
+          </div>
+
+          <div class="mtrust" id="mtrust" role="list"></div>
+
+          <section class="product-payments" aria-labelledby="product-payments-title">
+            <div class="product-payments__heading" id="product-payments-title">
+              <img src="https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/lock-keyhole.svg" alt="" aria-hidden="true">
+              <span data-i="product_payments_label">Pagamenti sicuri</span>
+            </div>
+            <div class="product-payments__logos" role="list">
+              <span class="product-payment-logo product-payment-logo--paypal" tabindex="0">
+                <img class="product-paypal-mark" src="https://cdn.jsdelivr.net/gh/paypal/paypal-sdk-logos@v2.3.7/cdn/2.3.7/pp-rebrand-default.svg" alt="" aria-hidden="true">
+                <img class="product-paypal-word" src="https://cdn.jsdelivr.net/gh/paypal/paypal-sdk-logos@v2.3.7/cdn/2.3.7/paypal-rebrand-blue.svg" alt="PayPal">
+              </span>
+              <span class="product-payment-logo" tabindex="0"><img src="https://www.vectorlogo.zone/logos/klarna/klarna-ar21.svg" alt="Klarna"></span>
+              <span class="product-payment-logo product-payment-logo--scalapay" tabindex="0"><img src="https://universe.scalapay.com/wp-content/uploads/2022/08/Scalapay_Logo_Primary_Black_1.png" alt="Scalapay"></span>
+              <span class="product-payment-logo" tabindex="0"><img src="https://framerusercontent.com/images/V0hQLisZ75oOqOIVzoWMd5vleDI.svg?width=281&amp;height=150" alt="BitPay"></span>
+              <span class="product-payment-more" data-i="product_payments_more">+ altri metodi al checkout</span>
+            </div>
+            <p class="product-payments__note" data-i="product_payment_availability">Carte, wallet e ulteriori opzioni secondo disponibilità al checkout.</p>
+          </section>
+
+        </aside>
+      </div>
+
+      <section class="product-condition-panel" aria-labelledby="product-condition-title">
+        <h2 id="product-condition-title" data-i="product_condition_heading">Condizione del capo</h2>
         <div class="condition-scale" id="conditionScale" aria-label="Scala condizione prodotto" data-i-aria="product_condition_scale_aria"></div>
         <p class="condition-copy" id="conditionCopy"></p>
       </section>
-      <section class="pdetails-section">
-        <h3 data-i="product_item_heading">Scheda tecnica</h3>
-        <div class="pdetails-meta" id="pdetailMeta"></div>
+
+      <section class="product-characteristics" aria-labelledby="product-characteristics-title">
+        <header class="product-characteristics__header">
+          <h2 id="product-characteristics-title" data-i="product_characteristics_heading">Caratteristiche</h2>
+        </header>
+        <div class="product-accordion" id="productAccordion">
+          <details open>
+            <summary data-i="product_materials_heading">Materiali</summary>
+            <div class="product-accordion__content" id="productMaterials" data-i="product_materials_fallback">Dettagli e lavorazione documentati nelle fotografie del capo.</div>
+          </details>
+          <details>
+            <summary data-i="product_size_fit_heading">Misure e vestibilità</summary>
+            <div class="product-accordion__content" id="productMeasurements"></div>
+          </details>
+          <details>
+            <summary data-i="product_authentication_heading">Autenticazione</summary>
+            <div class="product-accordion__content" id="productAuthentication" data-i="product_authentication_details">Verificato da Bluèlle con IRIS e controllo manuale.</div>
+          </details>
+          <details>
+            <summary data-i="product_shipping_returns_heading">Spedizione e resi</summary>
+            <div class="product-accordion__content" id="productShipping" data-i="product_shipping_returns_copy">Spedizione tracciata e assicurata. Tempi e disponibilità del reso sono indicati prima del pagamento.</div>
+          </details>
+          <details>
+            <summary data-i="product_payments_heading">Pagamenti</summary>
+            <div class="product-accordion__content" id="productPayments" data-i="product_payments_details">Carta, wallet, pagamento a rate o criptovaluta, secondo disponibilità al checkout.</div>
+          </details>
+        </div>
       </section>
     </div>
     <div class="prelated" id="mrelblock">
@@ -261,8 +301,11 @@
 <div id="pgline"><div id="pgfill"></div></div>
 <script src="assets/i18n.js?v=20260831b"></script>
 <script src="assets/i18n-shop-about.js?v=20260831b"></script>
+<script src="assets/i18n-product-story.js?v=20260901b"></script>
 <script src="assets/i18n-product-copy.js?v=20260831b"></script>
-<script src="assets/app.js?v=20260831b"></script>
+<script src="assets/i18n-generated.js?v=20260831e"></script>
+<script src="assets/rates.js?v=20260831e"></script>
+<script src="assets/app.js?v=20260901d"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.25/dist/lenis.min.js" integrity="sha384-ClD7pCgIUz5M81HT8aZmMxCsWmfsycmBiwL5gy1pUbdWHvICIbea22N9sTtAFotA" crossorigin="anonymous"></script>

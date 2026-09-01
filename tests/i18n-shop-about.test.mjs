@@ -4,24 +4,27 @@ import path from 'node:path';
 import vm from 'node:vm';
 
 const root = path.resolve(import.meta.dirname, '..');
-const locales = ['it', 'en', 'fr', 'es', 'de'];
+const locales = [
+  'it', 'en', 'fr', 'es', 'de', 'pt', 'nl', 'pl', 'ro', 'sv',
+  'no', 'da', 'el', 'tr', 'ar', 'zh', 'ja', 'ko', 'ru',
+];
 const pages = ['chi-siamo.html', 'collezione.html'];
 const packPath = path.join(root, 'assets', 'i18n-shop-about.js');
+const storyPath = path.join(root, 'assets', 'i18n-product-story.js');
 
 assert.ok(fs.existsSync(packPath), 'assets/i18n-shop-about.js must exist');
 
-let registered;
-const sandbox = {
-  window: {
-    BL_I18N: {
-      register(messages) {
-        registered = messages;
-      },
-    },
-  },
-};
+const sandbox = { window: {}, console };
+const corePath = path.join(root, 'assets', 'i18n.js');
+const generatedPath = path.join(root, 'assets', 'i18n-generated.js');
+vm.runInNewContext(fs.readFileSync(corePath, 'utf8'), sandbox, { filename: corePath });
 vm.runInNewContext(fs.readFileSync(packPath, 'utf8'), sandbox, { filename: packPath });
+assert.ok(fs.existsSync(storyPath), 'assets/i18n-product-story.js must exist');
+vm.runInNewContext(fs.readFileSync(storyPath, 'utf8'), sandbox, { filename: storyPath });
+assert.ok(fs.existsSync(generatedPath), 'assets/i18n-generated.js must exist');
+vm.runInNewContext(fs.readFileSync(generatedPath, 'utf8'), sandbox, { filename: generatedPath });
 
+const registered = sandbox.window.BL_I18N.messages;
 assert.ok(registered, 'the shop/about pack must register its messages');
 assert.deepEqual(Object.keys(registered), locales);
 
@@ -32,10 +35,15 @@ for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), 'utf8');
   const coreAt = html.indexOf('assets/i18n.js?v=20260831b');
   const packAt = html.indexOf('assets/i18n-shop-about.js?v=20260831b');
-  const appAt = html.indexOf('assets/app.js?v=20260831b');
+  const storyAt = html.indexOf('assets/i18n-product-story.js');
+  const appAt = html.indexOf('assets/app.js');
 
   assert.ok(coreAt >= 0, `${page} must load the i18n core`);
   assert.ok(packAt > coreAt, `${page} must load the shop/about pack after the core`);
+  if (page === 'collezione.html') {
+    assert.ok(storyAt > packAt, `${page} must load the product-story pack after the shop/about pack`);
+    assert.ok(appAt > storyAt, `${page} must load app.js after the product-story pack`);
+  }
   assert.ok(appAt > packAt, `${page} must load app.js after the translation pack`);
 
   for (const match of html.matchAll(markerPattern)) allKeys.add(match[1]);

@@ -19,6 +19,10 @@
   --brass:#0aa6a0;--brass-soft:#7fd9d1;--line:rgba(22,48,44,.12);--line-soft:rgba(22,48,44,.07);
   --f-disp:'Lora',Georgia,serif;--f-body:'Lora',Georgia,serif;--f-ui:'Open Sans',Arial,sans-serif;--f-script:'Pinyon Script',cursive;
 }
+html[lang="ar"]{--f-disp:'Geeza Pro','Noto Naskh Arabic',Tahoma,serif;--f-body:var(--f-disp);--f-ui:'SF Arabic','Geeza Pro',Tahoma,sans-serif}
+html[lang="zh"],html[lang="ja"],html[lang="ko"]{--f-disp:'PingFang SC','Hiragino Sans','Yu Gothic','Apple SD Gothic Neo',sans-serif;--f-body:var(--f-disp);--f-ui:var(--f-disp)}
+html[lang="ar"] [data-i],html[lang="ar"] [data-i-aria]{letter-spacing:0!important;text-transform:none!important}
+html[lang="zh"] [data-i],html[lang="ja"] [data-i],html[lang="ko"] [data-i]{letter-spacing:.025em!important;text-transform:none!important}
 html{scroll-behavior:smooth;background:var(--shell)}
 body{background:var(--shell);color:var(--slate);font-family:var(--f-body);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
 button,input,select,textarea{font-family:var(--f-ui)}
@@ -84,7 +88,7 @@ footer{background:var(--shell);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4
   <a href="index.html" class="nlogo brand-word" aria-label="Bluèlle"><span>Blu</span><em>è</em><span>lle</span></a>
   <div class="nav-tools">
     <select class="legal-lang" id="legalLang" aria-label="Scegli lingua" data-i-aria="picker_language_aria">
-      <option value="it">IT</option><option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option>
+      <option value="it">IT</option><option value="en">EN</option><option value="fr">FR</option><option value="es">ES</option><option value="de">DE</option><option value="pt">PT</option><option value="nl">NL</option><option value="pl">PL</option><option value="ro">RO</option><option value="sv">SV</option><option value="no">NO</option><option value="da">DA</option><option value="el">EL</option><option value="tr">TR</option><option value="ar">AR</option><option value="zh">ZH</option><option value="ja">JA</option><option value="ko">KO</option><option value="ru">RU</option>
     </select>
     <a href="index.html" class="nback" data-i="legal_back_to_site">Torna al sito</a>
   </div>
@@ -231,6 +235,7 @@ footer{background:var(--shell);padding:clamp(2rem,4vw,2.6rem) clamp(1.6rem,5vw,4
 
 <script src="assets/i18n.js?v=20260831b"></script>
 <script src="assets/i18n-account-legal.js?v=20260831b"></script>
+<script src="assets/i18n-generated.js?v=20260831e"></script>
 <script>
 (function(){
   var picker=document.getElementById('legalLang');

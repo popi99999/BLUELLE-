@@ -14,7 +14,10 @@ const pages = [
   'account.html',
   'termini.html',
 ];
-const locales = ['it', 'en', 'fr', 'es', 'de'];
+const locales = [
+  'it', 'en', 'fr', 'es', 'de', 'pt', 'nl', 'pl', 'ro', 'sv',
+  'no', 'da', 'el', 'tr', 'ar', 'zh', 'ja', 'ko', 'ru',
+];
 const i18nPath = path.join(root, 'assets', 'i18n.js');
 
 assert.ok(fs.existsSync(i18nPath), 'assets/i18n.js must provide the site-wide translation layer');
@@ -47,8 +50,17 @@ const extractObject = (name, nextMarker) => {
 const legacyT = extractObject('T', 'const EXTRA_T=');
 const legacyExtra = extractObject('EXTRA_T', '// CHECKOUT TRANSLATIONS');
 const checkoutMessages = extractObject('CK', '// PRODUCTS');
+const offeredLanguages = extractObject('LANGS', 'const LANG_BY_CODE=');
+const appExtensions = sandbox.window.BL_APP_I18N || {};
+assert.deepEqual(
+  Array.from(offeredLanguages, (language) => language.code),
+  locales,
+  'the visible picker must offer every fully translated language already mapped by geolocation',
+);
 for (const locale of locales) {
   Object.assign(dictionaries[locale], legacyT[locale] || {}, legacyExtra[locale] || {});
+  Object.assign(dictionaries[locale], appExtensions.T?.[locale] || {}, appExtensions.EXTRA_T?.[locale] || {});
+  Object.assign(checkoutMessages[locale] ||= {}, appExtensions.CK?.[locale] || {});
 }
 for (const locale of locales) {
   assert.ok(dictionaries[locale], `missing ${locale} dictionary`);
@@ -155,7 +167,11 @@ for (const page of pages) {
     vm.runInNewContext(fs.readFileSync(packPath, 'utf8'), pageSandbox, { filename: packPath });
   }
   const pageMessages = pageSandbox.window.BL_I18N.messages;
-  for (const locale of locales) Object.assign(pageMessages[locale], legacyT[locale] || {}, legacyExtra[locale] || {});
+  const pageExtensions = pageSandbox.window.BL_APP_I18N || {};
+  for (const locale of locales) {
+    Object.assign(pageMessages[locale], legacyT[locale] || {}, legacyExtra[locale] || {});
+    Object.assign(pageMessages[locale], pageExtensions.T?.[locale] || {}, pageExtensions.EXTRA_T?.[locale] || {});
+  }
   for (const key of keysByPage.get(page)) {
     for (const locale of locales) {
       assert.equal(

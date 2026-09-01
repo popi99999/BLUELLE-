@@ -209,8 +209,19 @@ const prods = [
 // STATE
 let curLang='it', curCurr='EUR', curFilter='all', curWorld=null;
 
-// Tassi base (fallback se il fetch live fallisce). Vengono sovrascritti dal cambio live.
-const rates={EUR:1,USD:1.08,GBP:0.86,CHF:0.96,JPY:161,CNY:7.8};
+// Snapshot EUR di sicurezza: evita prezzi falsi al primo render/offline.
+// Il servizio giornaliero lo sovrascrive appena carica i cambi aggiornati.
+const rates={
+  EUR:1,USD:1.159921,GBP:0.856066,CHF:0.937361,JPY:185.579708,CNY:7.805641,
+  AUD:1.618643,CAD:1.61099,NZD:1.958228,SEK:11.126138,NOK:10.853487,DKK:7.474583,
+  ISK:140.604959,PLN:4.340941,CZK:24.139323,HUF:365.313701,RON:5.258664,BGN:1.95583,
+  TRY:55.937756,RUB:99.81579,UAH:51.783944,AED:4.258903,SAR:4.348778,QAR:4.221214,
+  KWD:0.357974,BHD:0.436037,ILS:3.469438,INR:110.61391,IDR:20521.452298,
+  MYR:4.671909,SGD:1.477309,HKD:9.092109,TWD:36.697629,KRW:1598.404538,
+  THB:38.412269,PHP:72.102215,VND:30051.69797,ZAR:18.683455,EGP:58.473625,
+  MAD:10.764633,BRL:6.011054,MXN:19.739176,ARS:1754.627804,CLP:1078.236935,
+  COP:3686.991602,PEN:3.893404
+};
 
 // Elenco valute: code, sym(bolo), name, lang(lingua associata), suf(fisso il simbolo dopo)
 const CURRENCIES=[
@@ -263,11 +274,25 @@ const CURRENCIES=[
 ];
 const CUR={}; CURRENCIES.forEach(function(c){CUR[c.code]=c;});
 const LANGS=[
-  {code:'it',name:'Italiano',base:'it'},
-  {code:'en',name:'English',base:'en'},
-  {code:'fr',name:'Français',base:'fr'},
-  {code:'es',name:'Español',base:'es'},
-  {code:'de',name:'Deutsch',base:'de'}
+  {code:'it',name:'Italiano',flag:'🇮🇹',base:'it',locale:'it-IT'},
+  {code:'en',name:'English',flag:'🇬🇧',base:'en',locale:'en-GB'},
+  {code:'fr',name:'Français',flag:'🇫🇷',base:'fr',locale:'fr-FR'},
+  {code:'es',name:'Español',flag:'🇪🇸',base:'es',locale:'es-ES'},
+  {code:'de',name:'Deutsch',flag:'🇩🇪',base:'de',locale:'de-DE'},
+  {code:'pt',name:'Português',flag:'🇵🇹',base:'pt',locale:'pt-PT'},
+  {code:'nl',name:'Nederlands',flag:'🇳🇱',base:'nl',locale:'nl-NL'},
+  {code:'pl',name:'Polski',flag:'🇵🇱',base:'pl',locale:'pl-PL'},
+  {code:'ro',name:'Română',flag:'🇷🇴',base:'ro',locale:'ro-RO'},
+  {code:'sv',name:'Svenska',flag:'🇸🇪',base:'sv',locale:'sv-SE'},
+  {code:'no',name:'Norsk',flag:'🇳🇴',base:'no',locale:'no-NO'},
+  {code:'da',name:'Dansk',flag:'🇩🇰',base:'da',locale:'da-DK'},
+  {code:'el',name:'Ελληνικά',flag:'🇬🇷',base:'el',locale:'el-GR'},
+  {code:'tr',name:'Türkçe',flag:'🇹🇷',base:'tr',locale:'tr-TR'},
+  {code:'ar',name:'العربية',flag:'🇸🇦',base:'ar',locale:'ar-SA'},
+  {code:'zh',name:'中文',flag:'🇨🇳',base:'zh',locale:'zh-CN'},
+  {code:'ja',name:'日本語',flag:'🇯🇵',base:'ja',locale:'ja-JP'},
+  {code:'ko',name:'한국어',flag:'🇰🇷',base:'ko',locale:'ko-KR'},
+  {code:'ru',name:'Русский',flag:'🇷🇺',base:'ru',locale:'ru-RU'}
 ];
 const LANG_BY_CODE={}; LANGS.forEach(function(l){LANG_BY_CODE[l.code]=l;});
 function langBase(l){
@@ -288,7 +313,8 @@ function siteText(key,fallback,vars){
 function currencyDisplayName(currency){
   try{
     if(typeof Intl!=='undefined'&&Intl.DisplayNames){
-      const name=new Intl.DisplayNames([langBase(curLang)],{type:'currency'}).of(currency.code);
+      const locale=(LANG_BY_CODE[curLang]||{}).locale||curLang||'it-IT';
+      const name=new Intl.DisplayNames([locale],{type:'currency'}).of(currency.code);
       if(name)return name;
     }
   }catch(e){}
@@ -297,7 +323,7 @@ function currencyDisplayName(currency){
 function hydrateLangSelects(){
   document.querySelectorAll('#langSel,#geoLang').forEach(function(sel){
     if(!sel||sel.dataset.langHydrated==='1')return;
-    sel.innerHTML=LANGS.map(function(l){return '<option value="'+l.code+'">'+l.name+'</option>';}).join('');
+    sel.innerHTML=LANGS.map(function(l){return '<option value="'+l.code+'">'+l.flag+' '+l.name+'</option>';}).join('');
     sel.dataset.langHydrated='1';
   });
 }
@@ -305,28 +331,49 @@ function syncLangSelects(){
   hydrateLangSelects();
   document.querySelectorAll('#langSel,#geoLang').forEach(function(sel){ if(sel)sel.value=curLang; });
 }
+function hydrateCurrencySelects(){
+  document.querySelectorAll('#currSel,#geoCurr').forEach(function(sel){
+    if(!sel)return;
+    const selected=sel.value&&CUR[sel.value]?sel.value:curCurr;
+    sel.innerHTML=CURRENCIES.map(function(currency){
+      const symbol=currency.sym&&currency.sym!==currency.code?currency.sym+' ':'';
+      const label=symbol+currency.code+' — '+currencyDisplayName(currency);
+      return '<option value="'+currency.code+'">'+escHtml(label)+'</option>';
+    }).join('');
+    sel.value=CUR[selected]?selected:curCurr;
+  });
+}
 
 function fmt(p){
   const rate=rates[curCurr]||1;
   const v=Math.round(p*rate);
   const c=CUR[curCurr]||{sym:curCurr};
-  const num=v.toLocaleString('en-US');
+  const locale=(LANG_BY_CODE[curLang]||{}).locale||curLang||'it-IT';
+  try{
+    if(typeof Intl!=='undefined'&&Intl.NumberFormat){
+      return new Intl.NumberFormat(locale,{style:'currency',currency:curCurr,minimumFractionDigits:0,maximumFractionDigits:0}).format(v);
+    }
+  }catch(e){}
+  const num=v.toLocaleString(locale);
   const s=c.sym||curCurr;
   return c.suf?(num+' '+s):(s+num);
 }
 
 // ── CAMBIO LIVE ──────────────────────────────────────────
 function fetchRates(){
-  fetch('https://open.er-api.com/v6/latest/EUR',{cache:'no-store'})
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(d&&d.rates){ Object.assign(rates,d.rates); rates.EUR=1; renderPrices(); }
+  if(!window.BL_RATES||typeof window.BL_RATES.getRates!=='function')return Promise.resolve(null);
+  return window.BL_RATES.getRates()
+    .then(function(liveRates){
+      if(liveRates){Object.assign(rates,liveRates);rates.EUR=1;renderPrices();}
+      return liveRates||null;
     })['catch'](function(){});
 }
 
 function translateName(name, lang){
   lang=langBase(lang);
   if(!lang||lang==='it') return name;
+  const curated=window.BL_PRODUCT_NAMES&&window.BL_PRODUCT_NAMES[lang];
+  if(curated&&curated[name])return curated[name];
   const maps={
     en:{
       'Maglioncino':'Knit Sweater','Maglione Lungo':'Long Sweater','Maglione Lana':'Wool Sweater',
@@ -413,6 +460,7 @@ function setLang(l){
   curLang=l;
   try{localStorage.setItem('bl_lang',l);}catch(e){}
   document.documentElement.lang=l;
+  document.documentElement.dir=l==='ar'?'rtl':'ltr';
   document.querySelectorAll('[data-i]').forEach(el=>{
     const k=el.getAttribute('data-i');
     const dict=T[langBase(l)]||T.it;
@@ -441,8 +489,11 @@ function setLang(l){
 }
 
 function setCurr(c){
+  if(!CUR[c])c='EUR';
   curCurr=c;
   try{localStorage.setItem('bl_curr',c);}catch(e){}
+  hydrateCurrencySelects();
+  document.querySelectorAll('#currSel,#geoCurr').forEach(function(sel){if(sel)sel.value=c;});
   renderPrices();
   updatePickerLabels();
 }
@@ -451,10 +502,11 @@ function setCurr(c){
 let pickerMode='curr';
 function updatePickerLabels(){
   hydrateLangSelects();
+  hydrateCurrencySelects();
   const cb=document.getElementById('currBtnLabel');
   if(cb){const c=CUR[curCurr]||{sym:curCurr};cb.textContent=(c.sym&&c.sym.length<=2?c.sym+' ':'')+curCurr;}
   const lb=document.getElementById('langBtnLabel');
-  if(lb)lb.textContent=curLang.toUpperCase();
+  if(lb){const l=LANG_BY_CODE[curLang];lb.textContent=(l?l.flag+' ':'')+curLang.toUpperCase();}
 }
 function buildPickerList(q){
   const list=document.getElementById('pickerList');
@@ -474,7 +526,7 @@ function buildPickerList(q){
       return !q || l.code.toLowerCase().indexOf(q)>-1 || l.name.toLowerCase().indexOf(q)>-1;
     }).forEach(function(l){
       const on=l.code===curLang?' on':'';
-      rows+='<button class="pick-row'+on+'" onclick="selectLang(\''+l.code+'\')"><span class="pick-code">'+l.code.toUpperCase()+'</span><span class="pick-name">'+l.name+'</span></button>';
+      rows+='<button class="pick-row'+on+'" onclick="selectLang(\''+l.code+'\')"><span class="pick-code">'+l.flag+'</span><span class="pick-name">'+escHtml(l.name)+'</span></button>';
     });
   }
   list.innerHTML=rows||'<div class="pick-empty">'+escHtml(siteText('picker_empty','Nessun risultato'))+'</div>';
@@ -513,9 +565,6 @@ function closePicker(){
 function selectCurr(code){
   setCurr(code);
   const cs=document.getElementById('currSel');if(cs)cs.value=code;
-  // lingua dinamica in base alla valuta (l'utente può poi cambiarla)
-  const lang=(CUR[code]||{}).lang;
-  if(lang&&lang!==curLang){ setLang(lang); const ls=document.getElementById('langSel');if(ls)ls.value=lang; }
   updatePickerLabels();
   closePicker();
 }
@@ -774,48 +823,56 @@ function conditionLevel(cond){
   return 1;
 }
 function conditionScaleHtml(condTxt){
-  const lang=langBase(curLang);
-  const copy=DETAIL_LBL[lang]||DETAIL_LBL.it;
   const level=conditionLevel(condTxt);
-  return copy.scale.map(function(label,i){
+  const scaleKeys=[
+    ['product_condition_renew','Da rinnovare'],
+    ['product_condition_discreet','Discreto'],
+    ['product_condition_good','Buono'],
+    ['product_condition_very_good','Molto buono'],
+    ['product_condition_excellent','Eccellente']
+  ];
+  return scaleKeys.map(function(entry,i){
+    const label=siteText(entry[0],entry[1]);
     return '<div class="condition-step'+(i===level?' on':'')+(i<level?' past':'')+'"><span class="condition-dot"></span><span>'+escHtml(label)+'</span></div>';
   }).join('');
 }
 function fillProductDetails(p,desc,condTxt,colorTxt){
-  const lang=langBase(curLang);
-  const copy=DETAIL_LBL[lang]||DETAIL_LBL.it;
-  const title=document.querySelector('.pdetails-title');
-  const heads=document.querySelectorAll('.pdetails-section h3');
-  if(title)title.innerHTML=copy.title;
-  if(heads[0])heads[0].innerHTML=copy.description;
-  if(heads[1])heads[1].innerHTML=copy.conditionTitle;
-  if(heads[2])heads[2].innerHTML=copy.itemTitle;
-  const detailDesc=document.getElementById('pdetailDesc');
-  if(detailDesc){
-    /* la descrizione del capo e gia nel pannello acquisto in alto: qui restano
-       solo le garanzie Bluelle, per non ripetere lo stesso testo due volte */
-    detailDesc.innerHTML='<ul>'+copy.bullets.map(function(b){return '<li>'+b+'</li>';}).join('')+'</ul>';
-  }
   const scale=document.getElementById('conditionScale');
   if(scale)scale.innerHTML=conditionScaleHtml(p.cond);
   const conditionCopy=document.getElementById('conditionCopy');
-  if(conditionCopy)conditionCopy.innerHTML=copy.conditionCopy;
-  const meta=document.getElementById('pdetailMeta');
-  if(meta){
-    const packValue=p.hasBox?(copy.packValue+' + '+siteText('product_original_box','scatola originale')):copy.packValue;
-    const rows=[
-      [copy.brand,BRAND_NAME[p.brand]||p.brand||'',true],
-      [copy.size,p.sz||'',true],
-      [copy.fit,translateProductField(p.fit,'fits')||'',true],
-      [copy.color,colorTxt||'',true],
-      [copy.condition,condTxt||'',true],
-      [copy.auth,copy.authValue,false],
-      [copy.clean,copy.cleanValue,false],
-      [copy.pack,packValue,false]
-    ];
-    meta.innerHTML=rows.filter(function(r){return r[1];}).map(function(r){
-      return '<div class="pmeta-row"><dt>'+r[0]+'</dt><dd>'+(r[2]?escHtml(r[1]):r[1])+'</dd></div>';
-    }).join('');
+  if(conditionCopy)conditionCopy.textContent=siteText(
+    'product_condition_note',
+    'Eventuali segni d’uso sono considerati nella condizione indicata. Ogni capo viene controllato, pulito e igienizzato prima della messa in vendita.'
+  );
+
+  const productAccordion=document.getElementById('productAccordion');
+  const productMaterials=document.getElementById('productMaterials');
+  const productMeasurements=document.getElementById('productMeasurements');
+  const productAuthentication=document.getElementById('productAuthentication');
+  const productShipping=document.getElementById('productShipping');
+  const productPayments=document.getElementById('productPayments');
+  if(productAccordion){
+    if(productMaterials)productMaterials.textContent=desc||siteText(
+      'product_materials_fallback',
+      'Dettagli e lavorazione documentati nelle fotografie del capo.'
+    );
+    if(productMeasurements)productMeasurements.textContent=siteText(
+      'product_size_fit_copy',
+      'Taglia {size}. {fit}.',
+      {size:p.sz||'—',fit:translateProductField(p.fit,'fits')||'—'}
+    );
+    if(productAuthentication)productAuthentication.textContent=siteText(
+      'product_authentication_details',
+      'Verificato da Bluèlle con IRIS e controllo manuale.'
+    );
+    if(productShipping)productShipping.textContent=siteText(
+      'product_shipping_returns_copy',
+      'Spedizione tracciata e assicurata. Tempi e disponibilità del reso sono indicati prima del pagamento.'
+    );
+    if(productPayments)productPayments.textContent=siteText(
+      'product_payments_details',
+      'Carta, wallet, pagamento a rate o criptovaluta, secondo disponibilità al checkout.'
+    );
   }
 }
 const PRODUCT_FILM_DEFAULT='https://videos.pexels.com/video-files/4146416/4146416-uhd_2560_1440_25fps.mp4';
@@ -845,7 +902,7 @@ function productMediaHtml(p){
       rail+='<button class="st-thumb'+on+'" type="button" onclick="stSelect('+i+')" aria-label="'+escAttr(siteText('product_show_photo','Foto '+(i+1),{number:i+1}))+'"><img src="'+escAttr(m.src)+'" alt="" loading="lazy"></button>';
     }
   });
-  return '<div class="st-wrap"><div class="st-rail" id="stRail">'+rail+'</div><div class="st-stage" id="stStage">'+stStageInner(media[startIdx],safe)+'</div></div>';
+  return '<div class="st-wrap"><div class="st-rail" id="stRail">'+rail+'</div><div class="st-stage is-in" id="stStage">'+stStageInner(media[startIdx],safe)+'</div></div>';
 }
 function stStageInner(m,safeName){
   if(!m)return '';
@@ -929,16 +986,24 @@ function selectProductImage(btn){
 window.selectProductImage=selectProductImage;
 function productFilmHtml(p){
   const film=productFilmSrc(p);
-  if(!film)return '';
   const name=translateName(p.name,curLang);
   const imgs=(p.images||[]).filter(Boolean);
+  if(!film&&!imgs.length)return '';
   const poster=imgs[0]?' poster="'+escAttr(imgs[0])+'"':'';
   const brand=BRAND_NAME[p.brand]||p.brand||'';
-  let h='<section class="product-film">';
-  h+='<video class="product-film-video" autoplay muted loop playsinline preload="metadata"'+poster+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
+  let heroName=name;
+  if(brand&&heroName.toLowerCase().indexOf(brand.toLowerCase())===0){
+    heroName=heroName.slice(brand.length).trim()||name;
+  }
+  let h='<section class="product-film'+(film?' has-video':' is-still')+'">';
+  if(film){
+    h+='<video class="product-film-media product-film-video" autoplay muted loop playsinline preload="metadata"'+poster+'><source src="'+escAttr(film)+'" type="video/mp4"></video>';
+  }else{
+    h+='<img class="product-film-media product-film-image" src="'+escAttr(imgs[0])+'" alt="'+escAttr(name)+'" decoding="async">';
+  }
   h+='<div class="product-film-shade"></div>';
-  h+='<div class="product-film-copy"><span>'+escAttr(brand)+'</span><strong>'+escAttr(name)+'</strong></div>';
-  h+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="'+escAttr(siteText('video_pause','Pausa video'))+'"><span class="pf-pause"></span></button>';
+  h+='<div class="product-film-copy"><span>'+escHtml(brand)+'</span><strong>'+escHtml(heroName)+'</strong><small>'+escHtml(siteText('product_hero_subtitle','Pezzo unico / Second hand verificato'))+'</small></div>';
+  if(film)h+='<button class="product-film-control" type="button" onclick="toggleProductFilm(event,this)" aria-label="'+escAttr(siteText('video_pause','Pausa video'))+'"><span class="pf-pause"></span></button>';
   h+='<span class="pf-scroll" aria-hidden="true"></span>';
   h+='</section>';
   return h;
@@ -946,49 +1011,17 @@ function productFilmHtml(p){
 function openM(id){
   const p=prods.find(x=>x.id===id);
   const l=pack(T);
-  /* ── GALLERY "IL PEZZO DA VICINO" ──────────────────────────────
-     Sopra: video (se c'e) + le prime foto grandi. Sotto: griglia macro
-     con didascalie = la prova delle condizioni sul pezzo unico. */
-  const heroImgs=(p.images||[]).filter(Boolean);
-  const pvName=escAttr(translateName(p.name,curLang));
+  if(!p)return;
   const pvMain=document.getElementById('pvMain');
   if(pvMain){
-    let h='';
-    if(p.video){
-      h+='<figure class="pv-film"><span class="pv-chip">'+escHtml(siteText('product_video','Video prodotto'))+'</span>'
-        +'<video src="'+escAttr(p.video)+'"'+(heroImgs[0]?' poster="'+escAttr(heroImgs[0])+'"':'')
-        +' muted loop playsinline autoplay preload="metadata"></video></figure>';
-    }
-    heroImgs.slice(0,2).forEach(function(s){
-      h+='<button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="'+escAttr(siteText('product_zoom_photo','Ingrandisci foto'))+'">'
-        +'<img src="'+escAttr(s)+'" alt="'+pvName+'" decoding="async"></button>';
-    });
-    pvMain.innerHTML=h;
-    pvMain.classList.toggle('no-film',!p.video);
+    pvMain.innerHTML=productMediaHtml(p);
+    pvMain.classList.toggle('no-film',!productFilmSrc(p));
   }
-  const pvMacro=document.getElementById('pvMacro');
-  if(pvMacro){
-    const macro=heroImgs.slice(2);
-    if(macro.length){
-      pvMacro.innerHTML='<h3>'+escHtml(siteText('product_closeup','Il pezzo da vicino'))+'</h3><div class="pv-grid">'
-        +macro.map(function(s,i){
-          return '<figure><button type="button" class="pv-shot" data-src="'+escAttr(s)+'" aria-label="'+escAttr(siteText('product_zoom_detail','Ingrandisci dettaglio'))+'">'
-            +'<img src="'+escAttr(s)+'" alt="'+pvName+' '+escAttr(siteText('product_detail','dettaglio'))+'" loading="lazy" decoding="async"></button>'
-            +'<figcaption>'+escHtml(siteText('product_detail','Dettaglio'))+' '+(i+1)+'</figcaption></figure>';
-        }).join('')+'</div>';
-    } else { pvMacro.innerHTML=''; }
-  }
-  // clic su una foto -> apre a piena risoluzione
-  document.querySelectorAll('#pvMain .pv-shot,#pvMacro .pv-shot').forEach(function(b){
-    b.onclick=function(){ if(b.dataset.src) window.open(b.dataset.src,'_blank','noopener'); };
-  });
   const pfm=document.getElementById('pfilm');
   const filmHtml=productFilmHtml(p);
   if(pfm)pfm.innerHTML=filmHtml;
   const ppEl=document.querySelector('#mov .ppage');
   if(ppEl)ppEl.classList.toggle('has-film',!!filmHtml);
-  const pgal=document.getElementById('productGallery');
-  if(pgal)pgal.innerHTML=productGalleryHtml(p);
   const _mb=document.getElementById('mbrand');if(_mb)_mb.textContent=BRAND_NAME[p.brand]||p.brand||'';
   const _bn=(BRAND_NAME[p.brand]||p.brand||'').toLowerCase();
   let _nm=translateName(p.name,curLang);
@@ -1006,18 +1039,28 @@ function openM(id){
   }
   const condMap={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'};
   const condTxt=l[condMap[p.cond]]||p.cond;
-  const SL=SPEC_LBL[langBase(curLang)]||SPEC_LBL.it;
   const translatedColor=translateProductField(p.color,'colors');
   const colorTxt=translatedColor?translatedColor.charAt(0).toUpperCase()+translatedColor.slice(1):'';
-  const rows=[[SL.brand,BRAND_NAME[p.brand]||p.brand||''],[SL.size,p.sz],[SL.cond,condTxt],[SL.color,colorTxt],[SL.fit,translateProductField(p.fit,'fits')]];
-  document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>`<div class="mspec"><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
+  const rows=[
+    [siteText('product_spec_brand','Marca'),BRAND_NAME[p.brand]||p.brand||''],
+    [siteText('product_spec_size','Taglia'),p.sz],
+    [siteText('product_spec_color','Colore'),colorTxt],
+    [siteText('product_spec_condition','Condizione'),condTxt],
+    [siteText('product_spec_fit','Vestibilità'),translateProductField(p.fit,'fits')],
+    [siteText('product_authentication_label','Autenticazione'),siteText('product_authentication_copy','IRIS + controllo manuale')]
+  ];
+  document.getElementById('mspecs').innerHTML=rows.filter(r=>r[1]).map(r=>'<div class="mspec"><dt>'+escHtml(r[0])+'</dt><dd>'+escHtml(r[1])+'</dd></div>').join('');
   const desc=localizedProductDescription(p,condTxt);
   const boxNote=p.hasBox?(l.box_note||' Original box included.'):'';
   const fullDesc=desc+(p.hasBox?boxNote:'');
   document.getElementById('mdesc').textContent=fullDesc;
   fillProductDetails(p,fullDesc,condTxt,colorTxt);
-  const TR=TRUST_LBL[langBase(curLang)]||TRUST_LBL.it;
-  document.getElementById('mtrust').innerHTML=TR.map((t,i)=>`<span data-trust-idx="${i}">${escHtml(t)}</span>`).join('');
+  const TR=[
+    {icon:'https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/package-check.svg',label:siteText('product_shipping_label','Spedizione'),copy:siteText('product_shipping_copy','Tracciata e assicurata')},
+    {icon:'https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/truck.svg',label:siteText('product_delivery_label','Consegna'),copy:siteText('product_delivery_copy','In 2–4 giorni lavorativi')},
+    {icon:'https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/shield-check.svg',label:siteText('product_authentication_label','Autenticazione'),copy:siteText('product_authentication_copy','IRIS + controllo manuale')}
+  ];
+  document.getElementById('mtrust').innerHTML=TR.map((t,i)=>'<div class="product-trust-item" data-trust-idx="'+i+'"><img src="'+escAttr(t.icon)+'" alt="" aria-hidden="true"><span><b>'+escHtml(t.label)+'</b><small>'+escHtml(t.copy)+'</small></span></div>').join('');
   const btn=document.getElementById('mbuy');
   btn.textContent=p.sold?l.sold:l.buy;
   btn.onclick=p.sold?null:function(){
@@ -1337,6 +1380,22 @@ const GEO_T = {
   es:{eye:'Bienvenido',title:'¿Confirmas <em>región</em> y moneda?',lang:'Idioma',curr:'Moneda',btn:'Confirmar',from:n=>`Parece que navegas desde ${n}. Puedes cambiar idioma y moneda.`,nofrom:'Elige idioma y moneda.'},
   de:{eye:'Willkommen',title:'<em>Region</em> und Währung bestätigen?',lang:'Sprache',curr:'Währung',btn:'Bestätigen',from:n=>`Du scheinst aus ${n} zu surfen. Sprache und Währung sind änderbar.`,nofrom:'Sprache und Währung festlegen.'}
 };
+const APP_I18N=window.BL_APP_I18N||{};
+function extendLocaleMap(target,source){
+  Object.keys(source||{}).forEach(function(locale){target[locale]=source[locale];});
+}
+extendLocaleMap(T,APP_I18N.T);
+extendLocaleMap(EXTRA_T,APP_I18N.EXTRA_T);
+extendLocaleMap(CK,APP_I18N.CK);
+extendLocaleMap(PRODUCT_FIELDS,APP_I18N.PRODUCT_FIELDS);
+extendLocaleMap(SPEC_LBL,APP_I18N.SPEC_LBL);
+extendLocaleMap(TRUST_LBL,APP_I18N.TRUST_LBL);
+extendLocaleMap(DETAIL_LBL,APP_I18N.DETAIL_LBL);
+extendLocaleMap(TT,APP_I18N.TT);
+extendLocaleMap(STEPS,APP_I18N.STEPS);
+extendLocaleMap(TMSG,APP_I18N.TMSG);
+extendLocaleMap(GEO_T,APP_I18N.GEO_T);
+if(ORDERS['1']&&ORDERS['1'].eta)Object.assign(ORDERS['1'].eta,APP_I18N.ORDER_ETA||{});
 function geoSuggest(){
   const curMap={GB:'GBP',US:'USD',CH:'CHF',JP:'JPY',CN:'CNY',BR:'BRL',MX:'MXN',SE:'SEK',NO:'NOK',DK:'DKK',PL:'PLN',RO:'RON',TR:'TRY',RU:'RUB'};
   const langMap={IT:'it',FR:'fr',BE:'fr',LU:'fr',MC:'fr',ES:'es',MX:'es',AR:'es',CL:'es',CO:'es',PE:'es',DE:'de',AT:'de',CH:'de',GB:'en',IE:'en',US:'en',BR:'pt',PT:'pt',NL:'nl',PL:'pl',RO:'ro',SE:'sv',NO:'no',DK:'da',GR:'el',TR:'tr',AE:'ar',SA:'ar',QA:'ar',KW:'ar',CN:'zh',HK:'zh',TW:'zh',JP:'ja',KR:'ko',RU:'ru'};
@@ -1349,7 +1408,7 @@ function geoSuggest(){
     const g=GEO_T[langBase(sLang)]||GEO_T.it;
     document.getElementById('geoEye').textContent=g.eye;
     document.getElementById('geoTitle').innerHTML=g.title;
-    document.getElementById('geoSub').textContent=name?g.from(name):g.nofrom;
+    document.getElementById('geoSub').textContent=name?(typeof g.from==='function'?g.from(name):String(g.from||'').replace('{country}',name)):g.nofrom;
     document.getElementById('geoLangLbl').textContent=g.lang;
     document.getElementById('geoCurrLbl').textContent=g.curr;
     document.getElementById('geoConfirm').textContent=g.btn;

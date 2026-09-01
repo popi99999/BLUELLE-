@@ -21,6 +21,24 @@
     return message;
   }
 
+  function syncPasswordToggle(button,forceHidden){
+    if(!button)return;
+    const input=document.getElementById(button.dataset.passwordToggle||'');
+    if(!input)return;
+    if(forceHidden)input.type='password';
+    const visible=input.type==='text';
+    button.textContent=t(visible?'account_password_hide':'account_password_show');
+    button.setAttribute('aria-label',t(visible?'account_password_hide_aria':'account_password_show_aria'));
+    button.setAttribute('aria-controls',input.id);
+    button.setAttribute('aria-pressed',visible?'true':'false');
+  }
+
+  function syncPasswordToggles(root,forceHidden){
+    $$('[data-password-toggle]',root||document).forEach(function(button){
+      syncPasswordToggle(button,forceHidden);
+    });
+  }
+
   function normalizeEmail(value){return String(value||'').trim().toLowerCase();}
   function validEmail(value){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);}
 
@@ -83,7 +101,7 @@
     return findAccount(session.email);
   }
 
-  function setView(name){
+  function setView(name,moveFocus){
     const panel=$('#accountApp');
     if(!panel)return;
     $$('.acct-view',panel).forEach(function(view){
@@ -94,13 +112,21 @@
       tab.classList.toggle('on',on);
       tab.setAttribute('aria-selected',on?'true':'false');
     });
+    syncPasswordToggles(panel,true);
     status('');
+    if(moveFocus){
+      const active=$('.acct-view.on',panel);
+      const heading=active&&$('h1',active);
+      if(heading){
+        window.requestAnimationFrame(function(){heading.focus({preventScroll:false});});
+      }
+    }
   }
 
-  function renderProfile(){
+  function renderProfile(moveFocus){
     const account=currentAccount();
     if(!account){
-      setView('login');
+      setView('login',moveFocus);
       return;
     }
     $('#profileName').textContent=format('account_profile_greeting',{name:account.name||t('account_default_name')});
@@ -108,7 +134,7 @@
     $('#profileProvider').textContent=t(account.provider==='google'?'account_provider_google':'account_provider_password');
     const currentField=$('#currentPasswordField');
     if(currentField)currentField.hidden=account.provider==='google'&&!account.passwordHash;
-    setView('profile');
+    setView('profile',moveFocus);
   }
 
   function validatePassword(password,confirm){
@@ -135,7 +161,7 @@
     writeAccounts(accounts);
     writeSession(account);
     form.reset();
-    renderProfile();
+    renderProfile(true);
     status('account_success_created','success');
   }
 
@@ -149,14 +175,14 @@
     if(!account)return status('account_error_not_found_login','error');
     if(account.provider==='google'&&!account.passwordHash){
       writeSession(account);
-      renderProfile();
+      renderProfile(true);
       return status('account_success_google_restored','success');
     }
     const hash=await hashPassword(password);
     if(hash!==account.passwordHash)return status('account_error_password_wrong','error');
     writeSession(account);
     form.reset();
-    renderProfile();
+    renderProfile(true);
     status('account_success_login','success');
   }
 
@@ -177,14 +203,14 @@
     writeAccounts(accounts);
     writeSession(accounts[idx]);
     form.reset();
-    renderProfile();
+    renderProfile(true);
     status('account_success_password_updated','success');
   }
 
   async function handleChange(event){
     event.preventDefault();
     const account=currentAccount();
-    if(!account)return setView('login');
+    if(!account)return setView('login',true);
     const form=event.currentTarget;
     const current=String(form.elements.current?form.elements.current.value:'');
     const password=String(form.elements.password.value||'');
@@ -203,7 +229,7 @@
     writeAccounts(accounts);
     writeSession(accounts[idx]);
     form.reset();
-    renderProfile();
+    renderProfile(true);
     status('account_success_password_updated','success');
   }
 
@@ -229,14 +255,22 @@
       writeAccounts(accounts);
     }
     writeSession(account);
-    renderProfile();
+    renderProfile(true);
     status('account_success_google','success');
   }
 
   function init(){
     if(!$('#accountApp'))return;
     $$('#accountApp [data-auth-view]').forEach(function(btn){
-      btn.addEventListener('click',function(){setView(btn.dataset.authView);});
+      btn.addEventListener('click',function(){setView(btn.dataset.authView,true);});
+    });
+    $$('#accountApp [data-password-toggle]').forEach(function(button){
+      button.addEventListener('click',function(){
+        const input=document.getElementById(button.dataset.passwordToggle||'');
+        if(!input)return;
+        input.type=input.type==='password'?'text':'password';
+        syncPasswordToggle(button,false);
+      });
     });
     $('#registerForm').addEventListener('submit',handleRegister);
     $('#loginForm').addEventListener('submit',handleLogin);
@@ -246,13 +280,13 @@
     $('#googleRegister').addEventListener('click',handleGoogle);
     $('#logoutBtn').addEventListener('click',function(){
       clearSession();
-      setView('login');
+      setView('login',true);
       status('account_success_logout','success');
     });
     const mode=new URLSearchParams(window.location.search).get('mode');
-    if(currentAccount())renderProfile();
-    else if(mode==='register'||mode==='reset')setView(mode);
-    else setView('login');
+    if(currentAccount())renderProfile(false);
+    else if(mode==='register'||mode==='reset')setView(mode,false);
+    else setView('login',false);
     document.addEventListener('bl:languagechange',function(){
       const account=currentAccount();
       if(account&&$('#profileView').classList.contains('on')){
@@ -266,7 +300,9 @@
           node.dataset.type=lastStatusType;
         }
       }
+      syncPasswordToggles($('#accountApp'),false);
     });
+    syncPasswordToggles($('#accountApp'),false);
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);

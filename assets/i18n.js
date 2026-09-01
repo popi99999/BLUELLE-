@@ -1,8 +1,9 @@
 (function(global){
   'use strict';
 
-  var LOCALES=['it','en','fr','es','de'];
-  var messages={it:{},en:{},fr:{},es:{},de:{}};
+  var LOCALES=['it','en','fr','es','de','pt','nl','pl','ro','sv','no','da','el','tr','ar','zh','ja','ko','ru'];
+  var messages={};
+  LOCALES.forEach(function(locale){messages[locale]={};});
   var common={
     it:{
       page_home:'Bluèlle — Luxury Second Hand',page_about:'Chi siamo — Bluèlle',page_collection:'Collezione — Bluèlle',page_faq:'FAQ — Bluèlle',page_tracking:'Tracking — Bluèlle',page_contact:'Contatti — Bluèlle',page_account:'Account — Bluèlle',page_terms:'Termini di Servizio e Privacy — Bluèlle',
@@ -80,6 +81,7 @@
     var lang=normalizeLocale(locale);
     var scope=root&&root.querySelectorAll?root:document;
     document.documentElement.lang=lang;
+    document.documentElement.dir=lang==='ar'?'rtl':'ltr';
     scope.querySelectorAll('[data-i]').forEach(function(el){
       var key=el.getAttribute('data-i');
       if(messages[lang][key]!==undefined||messages.it[key]!==undefined)el.innerHTML=t(key,null,lang);
