@@ -1,0 +1,21 @@
+/* Shared white / Tiffany palette. Dark photography and brand logos retain their colors. */
+:root{
+  --paper:#fdfdfb;--cream:#eef8f7;--sand:#e2efed;
+  --pine:#202525;--pine-2:#292f2e;
+  --ink:#242929;--slate:#555e5d;--stone:#697573;--mist:#a7b8b5;
+  --tiff:#176c67;--tiff-deep:#125b57;--tiff-soft:#81d8d0;
+  --line:rgba(36,65,62,.15);--line-soft:rgba(36,65,62,.12);
+  --line-d:rgba(253,253,251,.16);
+  --salt:var(--paper);--shell:var(--cream);--marine:var(--pine-2);
+  --brass:var(--tiff);--brass-soft:var(--tiff-soft);
+}
+nav.s{background:rgba(253,253,251,.96)}
+.pick-row:hover,.pick-row.on{background:#eef8f7}
+.pick-list::-webkit-scrollbar-track{background:#eef8f7}
+.pick-list::-webkit-scrollbar-thumb{background:#a7b8b5}
+.lj-pin,#logo-journey.media-journey .lj-pin{background:var(--paper)}
+.lj-button,.lj-video-card,.lj-video-btn,#logo-journey.media-journey .lj-payments{background:rgba(253,253,251,.96)}
+.catpill.on{border-bottom-color:#81d8d0!important}
+.filtoggle.open,.fpill.on{color:#176c67;background:#edf9f7}
+.fpill.on{border-color:#81d8d0}
+::selection{background:#81d8d0;color:#242929}
