@@ -19,3 +19,21 @@ nav.s{background:rgba(253,253,251,.96)}
 .filtoggle.open,.fpill.on{color:#176c67;background:#edf9f7}
 .fpill.on{border-color:#81d8d0}
 ::selection{background:#81d8d0;color:#242929}
+/* Legacy components used fixed beige/brown values instead of shared tokens. */
+.hpay{--hpay-ink:var(--ink);--hpay-accent:var(--tiff);--hpay-line:var(--line);background:var(--paper)}
+.faqx-contact,.ipanel,.vc-gallery,.vc-panel,.st-thumb,.st-stage,.pi{background:var(--paper)}
+.account-body{--acct-muted:var(--slate);--acct-placeholder:var(--stone);--acct-accent:var(--tiff)}
+.rx-cta,.rx-scene a,.mprice,.pick-name,.pick-empty{color:var(--slate)}
+.pick-search,.pick-search input::placeholder{color:var(--stone)}
+.pick-search input,.pick-code,.pick-row.on .pick-name{color:var(--ink)}
+.iinfo{color:var(--slate);border-color:var(--mist)}
+.hmarq,.lj-payments,.gal-arr{background:rgba(253,253,251,.9)}
+.gal-arr{border-color:var(--line)}
+.gal-dot{background:rgba(253,253,251,.5)}
+.product-film-copy span,.product-film-copy small{color:var(--tiff-soft)}
+.product-film-copy h1,.product-masthead a{color:var(--paper)}
+.product-condition-panel h2::after,.product-characteristics__header h2::after{background:var(--tiff-soft)}
+.condition-step:not(:last-child)::after{background:var(--mist)}
+.condition-step.past:not(:last-child)::after,.condition-step.past .condition-dot{background:var(--tiff-soft)}
+.condition-dot{border-color:var(--mist);background:var(--paper)}
+.condition-step.on .condition-dot{background:var(--tiff);border-color:var(--tiff)}
