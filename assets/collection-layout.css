@@ -1,0 +1,62 @@
+/* Collection only: original photography, compact controls, equal product hierarchy. */
+body:has(#prodotti){background:#fdfdfb}
+main:has(#prodotti){--paper:#fdfdfb;--cream:#eef8f7;--ink:#242929;--slate:#555e5d;--stone:#697573;--line-soft:rgba(36,65,62,.12);background:var(--paper)}
+body:has(#prodotti) #nav{background:rgba(253,253,251,.96)}
+#prodotti{--collection-accent:#81d8d0}
+#prodotti .catpill.on{border-bottom-color:var(--collection-accent)!important}
+#prodotti .filtoggle.open{color:#176c67;background:#edf9f7}
+#prodotti .fpill.on{background:#edf9f7;color:#176c67;border-color:#81d8d0}
+#prodotti .ph .sec-title::after{content:'';display:block;width:2.5rem;height:2px;background:var(--collection-accent);margin-top:1rem}
+#prodotti .pc:not(.sold):hover .pname{color:#176c67}
+#prodotti .pi{transition:box-shadow .2s ease}
+@media(hover:hover){#prodotti .pc:not(.sold):hover .pi{box-shadow:0 3px 0 var(--collection-accent)}}
+.collection-breadcrumb{padding-top:6rem;font-size:.58rem}
+#prodotti{padding:1.75rem 0 4rem}
+#prodotti>.container{max-width:1680px;width:92%;margin-inline:auto;padding-inline:0}
+#prodotti .ph{max-width:none;text-align:start;margin:0 0 1.75rem;opacity:1;transform:none}
+#prodotti .ph .sec-title{font-size:clamp(1.8rem,3.2vw,3.25rem);letter-spacing:.16em;text-indent:0;margin:0;line-height:1.2}
+#prodotti .shopbar{margin:0 0 1.5rem;opacity:1;transform:none}
+#prodotti .catrow{justify-content:flex-start;gap:1.75rem;flex-wrap:nowrap;overflow-x:auto;margin:0;padding:0;border:0;scrollbar-width:thin}
+#prodotti .catpill{flex:0 0 auto;min-height:44px;padding:.65rem 0;font-size:.65rem;letter-spacing:.12em;color:var(--slate)}
+#prodotti .catpill.on{color:var(--ink);border-bottom:2px solid var(--tiff-deep)}
+#prodotti .shopbar2{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;margin:0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+#prodotti .filtoggle{min-height:44px;padding:0 .5rem 0 0}
+#prodotti .shopcount{position:static;transform:none;margin:0 auto 0 0;font-size:.85rem;color:var(--slate)}
+#prodotti .sortwrap{margin:0;gap:.6rem;min-width:0}
+#prodotti .sortlbl{font-size:.7rem}
+#prodotti .sortsel{border:0;border-radius:0;background:transparent;min-height:44px;padding:.5rem 1.25rem .5rem .5rem;font-size:.65rem;max-width:100%}
+#prodotti .pgrid{max-width:none;border:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem 1.5rem}
+#prodotti .pc{min-width:0;padding:0;border:0;opacity:1;transform:none}
+#prodotti .pi{width:100%;max-width:none;aspect-ratio:3/4;margin:0;background:#242421}
+#prodotti .pi img{object-fit:cover;object-position:center;filter:none;transform:none}
+#prodotti .pc:hover .pi img{transform:none}
+#prodotti .pdots{display:none}
+#prodotti .pinfo{align-items:flex-start;text-align:start;padding:.9rem 0 0;gap:.3rem}
+#prodotti .pname{display:block;min-height:0;margin:0;font-size:clamp(.95rem,1.2vw,1.2rem);line-height:1.4;overflow-wrap:anywhere}
+#prodotti .psub{margin:0;font-size:.62rem;letter-spacing:.09em;color:var(--slate)}
+#prodotti .pfooter{justify-content:flex-start;margin:.2rem 0 0;gap:.6rem}
+#prodotti .pprice{margin:0;font-size:1rem}
+#prodotti .porig{color:var(--stone)}
+#prodotti .ptag{top:.75rem;left:.75rem;transform:none;background:var(--paper);padding:.4rem .65rem;color:var(--ink);font-size:.55rem}
+#prodotti .shopadv{padding:1rem 0;margin:0;border-bottom:1px solid var(--line-soft)}
+#prodotti :is(button,select,input,a):focus-visible{outline:2px solid var(--tiff-deep);outline-offset:4px}
+@media(max-width:900px){
+ #prodotti .pgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem 1rem}
+ #prodotti .catrow{gap:1.25rem}
+}
+@media(max-width:560px){
+ .collection-breadcrumb{padding-top:5.5rem}
+ #prodotti{padding-top:1.25rem}
+ #prodotti .ph{margin-bottom:1.25rem}
+ #prodotti .ph .sec-title{font-size:1.6rem;letter-spacing:.08em}
+ #prodotti .shopbar{margin-bottom:1rem}
+ #prodotti .sortlbl{display:none}
+ #prodotti .shopbar2{gap:.5rem}
+ #prodotti .shopcount{font-size:.7rem}
+ #prodotti .sortsel{font-size:.55rem;padding-inline:.25rem;max-width:125px}
+ #prodotti .pgrid{gap:1.75rem .75rem}
+ #prodotti .pname{font-size:.9rem}
+ #prodotti .psub{font-size:.55rem;letter-spacing:.035em}
+ #prodotti .pfooter{flex-wrap:wrap;gap:.3rem}
+ #prodotti .pprice{font-size:.9rem}
+}

@@ -664,6 +664,7 @@ function wireShop(){
   const ss=document.getElementById('sortSel');if(ss)ss.addEventListener('change',e=>{curSort=e.target.value;render();});
   const av=document.getElementById('availOnly');if(av)av.addEventListener('change',e=>{availOnly=e.target.checked;render();});
 }
+window.collectionCatalog={products:prods,get brands(){return BRAND_NAME;},pack:()=>pack(T),lang:()=>curLang,state:()=>({curCat,curFilter,curSize,curQ,availOnly,curSort}),reset:()=>{curCat='all';curFilter='all';curSize='all';curQ='';availOnly=false;curSort='feat';}};
 function render(){
   const l=pack(T);
   const g=document.getElementById('grid');
@@ -686,6 +687,7 @@ function render(){
     if(curFilter!=='all' && !(p.brand===curFilter||p.brand.startsWith(curFilter)))return false;
     if(curSize!=='all' && p.sz!==curSize)return false;
     if(availOnly && p.sold)return false;
+    if(window.collectionAccept && !window.collectionAccept(p))return false;
     if(curQ){
       const q=curQ.toLowerCase();
       const conditionKey={'Ottima':'cond_great','Molto buono':'cond_vgood','Molto Buona':'cond_vgood','Buona':'cond_good','Buono':'cond_good','Eccellente':'cond_mint','Nuovo':'cond_new'}[p.cond];
@@ -723,6 +725,7 @@ function render(){
     if(!p.sold){d.addEventListener('click',function(){openM(p.id);});}
     g.appendChild(d);
   });
+  if(window.collectionDecorate)window.collectionDecorate();
 }
 
 function setFilter(b){curFilter=b;render();}
